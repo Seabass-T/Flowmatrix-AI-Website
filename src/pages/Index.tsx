@@ -2,9 +2,47 @@
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, CheckCircle, Zap, Bot, Settings } from "lucide-react";
+import { ArrowRight, CheckCircle, Zap, Bot, Settings, Mail, Users, UserCheck, MessageCircle, FileBarChart } from "lucide-react";
 
 const Index = () => {
+  const useCases = [
+    {
+      icon: Mail,
+      name: "AI Inbox Organizer",
+      description: "Sorts emails by category, flags urgent items, and sends a daily summary.",
+      helps: "Consultants, solopreneurs, admin-heavy teams",
+      gradient: "from-blue-500 to-cyan-500"
+    },
+    {
+      icon: UserCheck,
+      name: "Lead Qualifier & Notifier",
+      description: "Scores incoming leads from forms or emails, sends alerts for high-quality ones.",
+      helps: "Agencies, coaches, service providers",
+      gradient: "from-green-500 to-emerald-500"
+    },
+    {
+      icon: Users,
+      name: "Client Onboarding Flow",
+      description: "Automates onboarding steps like scheduling, CRM entry, and contract setup.",
+      helps: "Freelancers, consultants, small agencies",
+      gradient: "from-purple-500 to-pink-500"
+    },
+    {
+      icon: MessageCircle,
+      name: "Custom Company Chatbot",
+      description: "Builds a personalized AI chatbot trained on your business to handle inquiries 24/7 on your website or internal platforms.",
+      helps: "Any business looking to save time and convert more customers",
+      gradient: "from-orange-500 to-red-500"
+    },
+    {
+      icon: FileBarChart,
+      name: "AI Report Generator",
+      description: "Gathers data and generates branded reports for clients or internal teams.",
+      helps: "Marketing teams, agencies, operations leads",
+      gradient: "from-indigo-500 to-blue-500"
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <Navigation />
@@ -88,62 +126,46 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Solution Boxes */}
+      {/* Automation Use Cases */}
       <section className="py-16 bg-gradient-to-br from-slate-50 to-blue-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Automation Use Cases
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Real-world examples of how our AI systems transform business operations
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
+              These are just a few examples. Every business is different. BrightPath AI customizes automation to fit your exact needs.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle className="text-lg">AI Inbox Organizer</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Automatically categorize, prioritize, and route emails using intelligent AI classification
-                </CardDescription>
-              </CardContent>
-            </Card>
-            
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle className="text-lg">Sales Lead Qualifier</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Score and route leads automatically based on engagement and qualification criteria
-                </CardDescription>
-              </CardContent>
-            </Card>
-            
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle className="text-lg">Notion CRM Automator</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Sync customer data, automate follow-ups, and maintain perfect CRM hygiene
-                </CardDescription>
-              </CardContent>
-            </Card>
-            
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle className="text-lg">Document Processor</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Extract, analyze, and organize data from documents with AI-powered processing
-                </CardDescription>
-              </CardContent>
-            </Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {useCases.map((useCase, index) => (
+              <Card key={index} className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-white">
+                <CardHeader className="pb-4">
+                  <div className={`w-14 h-14 bg-gradient-to-r ${useCase.gradient} rounded-xl flex items-center justify-center mb-4`}>
+                    <useCase.icon className="h-7 w-7 text-white" />
+                  </div>
+                  <CardTitle className="text-xl font-bold text-gray-900 mb-2">
+                    {useCase.name}
+                  </CardTitle>
+                  <CardDescription className="text-gray-600 text-base leading-relaxed">
+                    {useCase.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="mb-4">
+                    <p className="text-sm text-gray-500 font-medium">
+                      Helps: <span className="text-gray-700">{useCase.helps}</span>
+                    </p>
+                  </div>
+                  <Button 
+                    className={`w-full bg-gradient-to-r ${useCase.gradient} hover:opacity-90 text-white font-semibold`}
+                  >
+                    Book a Demo
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
