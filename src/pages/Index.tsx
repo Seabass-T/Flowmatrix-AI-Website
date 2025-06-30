@@ -1,8 +1,7 @@
-
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, CheckCircle, Zap, Bot, Settings, Mail, Users, UserCheck, MessageCircle, FileBarChart } from "lucide-react";
+import { ArrowRight, CheckCircle, Zap, Bot, Settings, Mail, Users, UserCheck, MessageCircle, FileBarChart, CreditCard } from "lucide-react";
 
 const Index = () => {
   const useCases = [
@@ -40,6 +39,13 @@ const Index = () => {
       description: "Gathers data and generates branded reports for clients or internal teams.",
       helps: "Marketing teams, agencies, operations leads",
       gradient: "from-indigo-500 to-blue-500"
+    },
+    {
+      icon: CreditCard,
+      name: "Invoice Manager & Payment System",
+      description: "Automates client invoicing, tracks payments, and integrates with payment platforms to ensure nothing slips through the cracks.",
+      helps: "Freelancers, service providers, client-based businesses",
+      gradient: "from-teal-500 to-green-500"
     }
   ];
 
