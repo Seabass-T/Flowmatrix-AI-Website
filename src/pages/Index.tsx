@@ -1,3 +1,4 @@
+
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -29,7 +30,7 @@ const Index = () => {
     {
       icon: MessageCircle,
       name: "Custom Company Chatbot",
-      description: "Builds a personalized AI chatbot trained on your business to handle inquiries 24/7 on your website or internal platforms.",
+      description: "Builds a personalized AI chatbot trained on your business to handle inquiries 24/7.",
       helps: "Any business looking to save time and convert more customers",
       gradient: "from-orange-500 to-red-500"
     },
@@ -43,7 +44,7 @@ const Index = () => {
     {
       icon: CreditCard,
       name: "Invoice Manager & Payment System",
-      description: "Automates client invoicing, tracks payments, and integrates with payment platforms to ensure nothing slips through the cracks.",
+      description: "Automates client invoicing, tracks payments, and integrates with payment platforms.",
       helps: "Freelancers, service providers, client-based businesses",
       gradient: "from-teal-500 to-green-500"
     }
