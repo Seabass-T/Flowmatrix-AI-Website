@@ -1,8 +1,7 @@
-
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, Users, Database, FileText, ShoppingCart, ArrowRight, Bot, Zap } from "lucide-react";
+import { Mail, Users, Database, FileText, ShoppingCart, CreditCard, ArrowRight, Bot, Zap } from "lucide-react";
 
 const UseCases = () => {
   const useCases = [
@@ -70,6 +69,19 @@ const UseCases = () => {
         "Return and refund automation"
       ],
       gradient: "from-indigo-500 to-blue-500"
+    },
+    {
+      icon: CreditCard,
+      title: "Invoice Manager & Payment System",
+      description: "Automates client invoicing, tracks payments, and integrates with payment platforms for seamless financial management.",
+      features: [
+        "Automated invoice generation and delivery",
+        "Payment tracking and reconciliation",
+        "Recurring billing automation",
+        "Payment reminder sequences",
+        "Integration with accounting software"
+      ],
+      gradient: "from-teal-500 to-green-500"
     }
   ];
 
