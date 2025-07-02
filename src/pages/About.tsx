@@ -1,8 +1,7 @@
-
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Target, Users, Zap, Heart } from "lucide-react";
+import { ArrowRight, Target, Users, Zap, Heart, Globe, Building, TrendingUp } from "lucide-react";
 
 const About = () => {
   return (
@@ -15,7 +14,7 @@ const About = () => {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             About{" "}
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              BrightPath AI
+              FlowMatrix AI
             </span>
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -30,6 +29,64 @@ const About = () => {
             <p className="text-xl leading-relaxed max-w-4xl mx-auto">
               "To help modern businesses unlock their next chapter through intelligent automation and AI systems that enhance operational efficiency, reduce manual work, and create new possibilities for growth and innovation."
             </p>
+          </div>
+        </div>
+
+        {/* Small Business Success Section */}
+        <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg mb-16">
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
+            Empowering Small Businesses Worldwide
+          </h2>
+          <p className="text-lg text-gray-600 text-center max-w-4xl mx-auto mb-12">
+            We've had the privilege of working with small businesses across diverse industries and continents, 
+            helping them streamline operations, reduce costs, and scale efficiently through intelligent automation.
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Globe className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-xl">Global Reach</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  From local retailers in North America to service providers in Europe and manufacturers in Asia, 
+                  we've helped businesses worldwide optimize their workflows.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Building className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-xl">Diverse Industries</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  Our solutions have transformed operations across healthcare, e-commerce, professional services, 
+                  manufacturing, hospitality, and many other sectors.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <TrendingUp className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-xl">Measurable Impact</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  Our clients typically see 40-60% time savings on repetitive tasks, improved customer satisfaction, 
+                  and significant cost reductions within the first quarter of implementation.
+                </CardDescription>
+              </CardContent>
+            </Card>
           </div>
         </div>
 
@@ -95,7 +152,7 @@ const About = () => {
         {/* Why Choose Us Section */}
         <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg mb-16">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            Why Choose BrightPath AI?
+            Why Choose FlowMatrix AI?
           </h2>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -154,7 +211,7 @@ const About = () => {
           <div className="text-center">
             <h2 className="text-3xl font-bold mb-6">Founder-Led Excellence</h2>
             <p className="text-lg text-gray-200 max-w-3xl mx-auto mb-8">
-              BrightPath AI was founded with a simple but powerful vision: to make advanced automation and AI accessible to businesses of all sizes. Our founder-led approach means you get direct access to the decision-makers who are invested in your success.
+              FlowMatrix AI was founded with a simple but powerful vision: to make advanced automation and AI accessible to businesses of all sizes. Our founder-led approach means you get direct access to the decision-makers who are invested in your success.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="text-center">
@@ -212,7 +269,7 @@ const About = () => {
             Ready to Transform Your Business?
           </h2>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            Let's discuss how BrightPath AI can help your business unlock its next chapter through intelligent automation and AI systems.
+            Let's discuss how FlowMatrix AI can help your business unlock its next chapter through intelligent automation and AI systems.
           </p>
           <Button 
             size="lg" 
