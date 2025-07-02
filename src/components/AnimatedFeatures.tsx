@@ -17,7 +17,7 @@ const AnimatedFeatures = () => {
     {
       icon: Shield,
       title: "Proven Track Record",
-      description: "Successfully automated 500+ small businesses worldwide with 99.9% client satisfaction rate.",
+      description: "Successfully automated 150+ small businesses worldwide with 99.9% client satisfaction rate.",
       color: "from-green-400 to-emerald-500",
       bgColor: "bg-green-50"
     },

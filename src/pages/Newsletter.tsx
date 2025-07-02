@@ -106,7 +106,7 @@ const Newsletter = () => {
                           Get the complete newsletter with in-depth analysis, case studies, and actionable insights.
                         </p>
                         <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                          Subscribe for $2/month
+                          Subscribe for $3.99/month
                         </Button>
                       </CardContent>
                     </Card>
@@ -126,7 +126,7 @@ const Newsletter = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="text-3xl font-bold">$2<span className="text-lg font-normal">/month</span></div>
+                <div className="text-3xl font-bold">$3.99<span className="text-lg font-normal">/month</span></div>
                 <div className="space-y-3">
                   <div className="flex items-center space-x-2">
                     <div className="w-2 h-2 bg-white rounded-full"></div>

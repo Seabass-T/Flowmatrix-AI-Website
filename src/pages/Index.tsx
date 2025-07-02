@@ -1,3 +1,4 @@
+
 import Navigation from "@/components/Navigation";
 import AnimatedFeatures from "@/components/AnimatedFeatures";
 import { Button } from "@/components/ui/button";
@@ -39,24 +40,24 @@ const Index = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white/50 backdrop-blur-sm">
+      <section className="py-16 bg-gradient-to-r from-gray-900 to-blue-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-blue-600">500+</div>
-              <div className="text-gray-600">Businesses Automated</div>
+              <div className="text-4xl font-bold text-blue-300">150+</div>
+              <div className="text-gray-200">Businesses Automated</div>
             </div>
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-green-600">20+</div>
-              <div className="text-gray-600">Hours Saved Weekly</div>
+              <div className="text-4xl font-bold text-green-300">20+</div>
+              <div className="text-gray-200">Hours Saved Weekly</div>
             </div>
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-purple-600">40%</div>
-              <div className="text-gray-600">Cost Reduction</div>
+              <div className="text-4xl font-bold text-purple-300">40%</div>
+              <div className="text-gray-200">Cost Reduction</div>
             </div>
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-orange-600">99.9%</div>
-              <div className="text-gray-600">Client Satisfaction</div>
+              <div className="text-4xl font-bold text-orange-300">99.9%</div>
+              <div className="text-gray-200">Client Satisfaction</div>
             </div>
           </div>
         </div>
@@ -198,15 +199,15 @@ const Index = () => {
                   ))}
                 </div>
                 <p className="text-gray-700 mb-6 italic">
-                  "FlowMatrix AI transformed our customer service. We went from spending 15 hours a week on support tickets to just 2 hours. Our customers are happier, and we can focus on growing the business."
+                  "Our small coffee shop was drowning in customer inquiries on social media. FlowMatrix AI set up an automated system that handles 80% of our questions about hours, menu items, and orders. Now I actually have time to focus on making great coffee instead of being glued to my phone all day."
                 </p>
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full flex items-center justify-center text-white font-bold">
                     SM
                   </div>
                   <div className="ml-4">
-                    <div className="font-semibold text-gray-900">Sarah Mitchell</div>
-                    <div className="text-sm text-gray-600">Owner, Mitchell's Boutique</div>
+                    <div className="font-semibold text-gray-900">Sarah M.</div>
+                    <div className="text-sm text-gray-600">Local Coffee Shop Owner</div>
                   </div>
                 </div>
               </CardContent>
@@ -220,15 +221,15 @@ const Index = () => {
                   ))}
                 </div>
                 <p className="text-gray-700 mb-6 italic">
-                  "The ROI was incredible. Within 3 months, we saved enough on operational costs to pay for the automation system twice over. Plus, our team is so much more productive now."
+                  "As a freelance graphic designer, I was spending more time on invoicing and follow-ups than actual design work. Their invoice automation system sends payment reminders, tracks overdue amounts, and even follows up with clients automatically. I got my life back and my cash flow improved dramatically."
                 </p>
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full flex items-center justify-center text-white font-bold">
                     JR
                   </div>
                   <div className="ml-4">
-                    <div className="font-semibold text-gray-900">James Rodriguez</div>
-                    <div className="text-sm text-gray-600">CEO, Rodriguez Consulting</div>
+                    <div className="font-semibold text-gray-900">Jake R.</div>
+                    <div className="text-sm text-gray-600">Freelance Designer</div>
                   </div>
                 </div>
               </CardContent>
@@ -242,15 +243,15 @@ const Index = () => {
                   ))}
                 </div>
                 <p className="text-gray-700 mb-6 italic">
-                  "I was skeptical about AI automation, but the FlowMatrix team made it so simple. Now our inventory management runs itself, and we never run out of stock anymore."
+                  "Running a small plumbing business means juggling appointments, emergency calls, and paperwork. The workflow automation they built sends appointment confirmations, follows up after service calls, and even handles basic scheduling questions from customers. It's like having a personal assistant that never sleeps."
                 </p>
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-white font-bold">
                     LC
                   </div>
                   <div className="ml-4">
-                    <div className="font-semibold text-gray-900">Lisa Chen</div>
-                    <div className="text-sm text-gray-600">Owner, Chen's Electronics</div>
+                    <div className="font-semibold text-gray-900">Lisa C.</div>
+                    <div className="text-sm text-gray-600">Plumbing Services</div>
                   </div>
                 </div>
               </CardContent>
