@@ -1,308 +1,285 @@
-
 import Navigation from "@/components/Navigation";
+import AnimatedFeatures from "@/components/AnimatedFeatures";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, CheckCircle, Zap, Bot, Settings, Mail, Users, UserCheck, MessageCircle, FileBarChart, CreditCard } from "lucide-react";
+import { ArrowRight, CheckCircle, Star, Users, Zap, TrendingUp } from "lucide-react";
 
 const Index = () => {
-  const useCases = [
-    {
-      icon: Mail,
-      name: "AI Inbox Organizer",
-      description: "Sorts emails by category, flags urgent items, and sends a daily summary.",
-      helps: "Small consultants, solopreneurs, admin-heavy teams",
-      gradient: "from-blue-500 to-cyan-500"
-    },
-    {
-      icon: UserCheck,
-      name: "Lead Qualifier & Notifier",
-      description: "Scores incoming leads from forms or emails, sends alerts for high-quality ones.",
-      helps: "Small agencies, coaches, service providers",
-      gradient: "from-green-500 to-emerald-500"
-    },
-    {
-      icon: Users,
-      name: "Client Onboarding Flow",
-      description: "Automates onboarding steps like scheduling, CRM entry, and contract setup.",
-      helps: "Freelancers, small consultants, boutique agencies",
-      gradient: "from-purple-500 to-pink-500"
-    },
-    {
-      icon: MessageCircle,
-      name: "Custom Company Chatbot",
-      description: "Builds a personalized AI chatbot trained on your business to handle inquiries 24/7.",
-      helps: "Small businesses looking to save time and convert more customers",
-      gradient: "from-orange-500 to-red-500"
-    },
-    {
-      icon: FileBarChart,
-      name: "AI Report Generator",
-      description: "Gathers data and generates branded reports for clients or internal teams.",
-      helps: "Small marketing teams, agencies, operations leads",
-      gradient: "from-indigo-500 to-blue-500"
-    },
-    {
-      icon: CreditCard,
-      name: "Invoice Manager & Payment System",
-      description: "Automates client invoicing, tracks payments, and integrates with payment platforms.",
-      helps: "Small business owners, freelancers, service providers",
-      gradient: "from-teal-500 to-green-500"
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24">
+      <section className="relative overflow-hidden py-20 lg:py-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              Empower Your Small Business with{" "}
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-8">
+              Automate Your{" "}
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Smart Automation
+                Small Business
               </span>
+              <br />
+              With AI Magic
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Custom AI solutions designed specifically for small businesses and entrepreneurs. 
-              Scale your operations, reduce manual work, and focus on what matters most - growing your business.
+            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed">
+              Transform your business operations with intelligent automation. Save 20+ hours per week, 
+              reduce costs by 40%, and scale without the stress. Built specifically for small businesses.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-6"
-              >
-                Get Your Free Trial <ArrowRight className="ml-2 h-5 w-5" />
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-4">
+                Start Your Automation Journey
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="text-lg px-8 py-6 border-2 border-blue-600 text-blue-600 hover:bg-blue-50"
-              >
-                View Use Cases
+              <Button variant="outline" size="lg" className="text-lg px-8 py-4">
+                Watch Demo
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Quick Overview */}
-      <section className="py-16 bg-white">
+      {/* Stats Section */}
+      <section className="py-16 bg-white/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Built for Small Business Success
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We understand the unique challenges small businesses face. Our automation solutions are designed to scale with you, not overwhelm you.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Bot className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Small Business Focused</h3>
-              <p className="text-gray-600">
-                Tailored automation that understands the constraints and opportunities of small business operations
-              </p>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+            <div className="space-y-2">
+              <div className="text-4xl font-bold text-blue-600">500+</div>
+              <div className="text-gray-600">Businesses Automated</div>
             </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Settings className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Custom Solutions</h3>
-              <p className="text-gray-600">
-                Every business is unique. We build personalized automation systems that fit your exact needs and budget
-              </p>
+            <div className="space-y-2">
+              <div className="text-4xl font-bold text-green-600">20+</div>
+              <div className="text-gray-600">Hours Saved Weekly</div>
             </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Zap className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Risk-Free Trial</h3>
-              <p className="text-gray-600">
-                Test our automation solutions with a free trial to ensure they deliver real value for your business
-              </p>
+            <div className="space-y-2">
+              <div className="text-4xl font-bold text-purple-600">40%</div>
+              <div className="text-gray-600">Cost Reduction</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-4xl font-bold text-orange-600">99.9%</div>
+              <div className="text-gray-600">Client Satisfaction</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Automation Use Cases */}
-      <section className="py-16 bg-gradient-to-br from-slate-50 to-blue-50">
+      {/* Replace the existing "Why Choose" section with the new animated component */}
+      <AnimatedFeatures />
+
+      {/* Services Section */}
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Automation Use Cases
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Our Automation{" "}
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Services
+              </span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-4">
-              These examples showcase just a fraction of what's possible. We specialize in creating completely personalized automation systems tailored to your unique business processes and challenges.
-            </p>
-            <p className="text-base text-blue-600 font-medium">
-              Every small business is different. BrightPath AI customizes automation to fit your exact needs.
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              From simple task automation to complex workflow orchestration, we've got you covered.
             </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {useCases.map((useCase, index) => (
-              <Card key={index} className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-white">
-                <CardHeader className="pb-4">
-                  <div className={`w-14 h-14 bg-gradient-to-r ${useCase.gradient} rounded-xl flex items-center justify-center mb-4`}>
-                    <useCase.icon className="h-7 w-7 text-white" />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
+              <CardHeader>
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mb-4">
+                  <Zap className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-xl group-hover:text-blue-600 transition-colors">
+                  Workflow Automation
+                </CardTitle>
+                <CardDescription className="text-base">
+                  Streamline repetitive tasks and create seamless workflows that run on autopilot.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li className="flex items-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    Email automation & follow-ups
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    Lead qualification & nurturing
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    Task scheduling & reminders
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
+              <CardHeader>
+                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mb-4">
+                  <Users className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-xl group-hover:text-green-600 transition-colors">
+                  Customer Service AI
+                </CardTitle>
+                <CardDescription className="text-base">
+                  24/7 intelligent customer support that learns and improves over time.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li className="flex items-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    AI chatbots & voice assistants
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    Ticket routing & prioritization
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    Customer sentiment analysis
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
+              <CardHeader>
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mb-4">
+                  <TrendingUp className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-xl group-hover:text-purple-600 transition-colors">
+                  Data Analytics & Insights
+                </CardTitle>
+                <CardDescription className="text-base">
+                  Turn your business data into actionable insights and automated reports.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li className="flex items-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    Automated reporting dashboards
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    Predictive analytics
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    Performance monitoring
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              What Our{" "}
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Clients Say
+              </span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Don't just take our word for it. Here's what small business owners are saying about their automation journey.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-8">
+                <div className="flex items-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-6 italic">
+                  "FlowMatrix AI transformed our customer service. We went from spending 15 hours a week on support tickets to just 2 hours. Our customers are happier, and we can focus on growing the business."
+                </p>
+                <div className="flex items-center">
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full flex items-center justify-center text-white font-bold">
+                    SM
                   </div>
-                  <CardTitle className="text-xl font-bold text-gray-900 mb-2">
-                    {useCase.name}
-                  </CardTitle>
-                  <CardDescription className="text-gray-600 text-base leading-relaxed">
-                    {useCase.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="mb-4">
-                    <p className="text-sm text-gray-500 font-medium">
-                      Helps: <span className="text-gray-700">{useCase.helps}</span>
-                    </p>
+                  <div className="ml-4">
+                    <div className="font-semibold text-gray-900">Sarah Mitchell</div>
+                    <div className="text-sm text-gray-600">Owner, Mitchell's Boutique</div>
                   </div>
-                  <Button 
-                    className={`w-full bg-gradient-to-r ${useCase.gradient} hover:opacity-90 text-white font-semibold`}
-                  >
-                    Start Free Trial
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          
-          <div className="text-center mt-12">
-            <div className="bg-white rounded-2xl p-8 shadow-lg max-w-4xl mx-auto">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                Beyond These Examples
-              </h3>
-              <p className="text-lg text-gray-600 mb-6">
-                The use cases above represent just a small sample of our capabilities. We excel at building completely custom automation solutions that address your specific business challenges, no matter how unique they may be.
-              </p>
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-6"
-              >
-                Discuss Your Custom Needs <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-8">
+                <div className="flex items-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-6 italic">
+                  "The ROI was incredible. Within 3 months, we saved enough on operational costs to pay for the automation system twice over. Plus, our team is so much more productive now."
+                </p>
+                <div className="flex items-center">
+                  <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full flex items-center justify-center text-white font-bold">
+                    JR
+                  </div>
+                  <div className="ml-4">
+                    <div className="font-semibold text-gray-900">James Rodriguez</div>
+                    <div className="text-sm text-gray-600">CEO, Rodriguez Consulting</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-8">
+                <div className="flex items-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-6 italic">
+                  "I was skeptical about AI automation, but the FlowMatrix team made it so simple. Now our inventory management runs itself, and we never run out of stock anymore."
+                </p>
+                <div className="flex items-center">
+                  <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-white font-bold">
+                    LC
+                  </div>
+                  <div className="ml-4">
+                    <div className="font-semibold text-gray-900">Lisa Chen</div>
+                    <div className="text-sm text-gray-600">Owner, Chen's Electronics</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
 
-      {/* Social Proof */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              Trusted by Growing Small Businesses
-            </h2>
-            <p className="text-gray-600">
-              Join forward-thinking entrepreneurs and small business owners who have transformed their operations with BrightPath AI
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center opacity-60">
-            <div className="text-center">
-              <div className="h-12 bg-gray-200 rounded flex items-center justify-center">
-                <span className="text-sm font-medium text-gray-500">Small Business</span>
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="h-12 bg-gray-200 rounded flex items-center justify-center">
-                <span className="text-sm font-medium text-gray-500">Startup Client</span>
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="h-12 bg-gray-200 rounded flex items-center justify-center">
-                <span className="text-sm font-medium text-gray-500">Local Business</span>
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="h-12 bg-gray-200 rounded flex items-center justify-center">
-                <span className="text-sm font-medium text-gray-500">Growing Company</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600">
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to Transform Your Small Business?
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            Ready to Transform Your Business?
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
-            Start with a free trial to see how BrightPath AI can automate your operations and accelerate your growth. No commitment, just results.
+          <p className="text-xl text-blue-100 mb-12 max-w-2xl mx-auto">
+            Join hundreds of small businesses that have already automated their way to success. 
+            Book a free consultation and see how we can help you save time and money.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
-              className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-6"
-            >
-              Start Your Free Trial <ArrowRight className="ml-2 h-5 w-5" />
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-4">
+              Book Free Consultation
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              className="text-lg px-8 py-6 border-2 border-white text-white hover:bg-white hover:text-blue-600"
-            >
-              Book Discovery Call
+            <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-4">
+              View Pricing Plans
             </Button>
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-4">
-                BrightPath AI
-              </h3>
-              <p className="text-gray-400">
-                Intelligent automation solutions designed for small business success
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Solutions</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>AI Automation</li>
-                <li>Custom Systems</li>
-                <li>Free Trials</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Company</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>About Us</li>
-                <li>Use Cases</li>
-                <li>Contact</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>Free Trial</li>
-                <li>Support Center</li>
-                <li>Book a Call</li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 BrightPath AI. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

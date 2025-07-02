@@ -28,6 +28,9 @@ const Navigation = () => {
               <Link to="/use-cases" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
                 Use Cases
               </Link>
+              <Link to="/newsletter" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
+                Newsletter
+              </Link>
               <Link to="/about" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
                 About
               </Link>
@@ -65,6 +68,9 @@ const Navigation = () => {
             </Link>
             <Link to="/use-cases" className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
               Use Cases
+            </Link>
+            <Link to="/newsletter" className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
+              Newsletter
             </Link>
             <Link to="/about" className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
               About

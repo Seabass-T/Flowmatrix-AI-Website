@@ -169,7 +169,7 @@ const Contact = () => {
               <CardContent className="space-y-4">
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-1">How quickly can you implement automation?</h4>
-                  <p className="text-sm text-gray-600">Most projects are completed within 2-4 weeks, depending on complexity.</p>
+                  <p className="text-sm text-gray-600">Most projects are completed within 1-2 weeks, depending on complexity.</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-1">Do you offer ongoing support?</h4>

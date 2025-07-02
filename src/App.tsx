@@ -8,6 +8,7 @@ import VoiceAgentBubble from "@/components/VoiceAgentBubble";
 import Index from "./pages/Index";
 import Pricing from "./pages/Pricing";
 import UseCases from "./pages/UseCases";
+import Newsletter from "./pages/Newsletter";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/use-cases" element={<UseCases />} />
+          <Route path="/newsletter" element={<Newsletter />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
