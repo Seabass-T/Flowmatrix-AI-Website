@@ -179,38 +179,6 @@ const UseCases = () => {
           </CardContent>
         </Card>
 
-        {/* Industries Section */}
-        <div className="bg-white rounded-2xl p-8 shadow-lg mb-16">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-            Industries We Serve
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🏢</span>
-              </div>
-              <h3 className="font-semibold text-gray-900">SaaS</h3>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🛒</span>
-              </div>
-              <h3 className="font-semibold text-gray-900">E-commerce</h3>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">⚕️</span>
-              </div>
-              <h3 className="font-semibold text-gray-900">Healthcare</h3>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🏦</span>
-              </div>
-              <h3 className="font-semibold text-gray-900">Finance</h3>
-            </div>
-          </div>
-        </div>
 
         {/* CTA Section */}
         <div className="text-center">

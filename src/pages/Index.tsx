@@ -31,9 +31,6 @@ const Index = () => {
                 Start Your Automation Journey
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8 py-4">
-                Watch Demo
-              </Button>
             </div>
           </div>
         </div>

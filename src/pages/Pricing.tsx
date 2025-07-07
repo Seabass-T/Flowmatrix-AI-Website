@@ -39,7 +39,7 @@ const Pricing = () => {
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>Complete n8n automation system</span>
+                  <span>Complete automation system</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-3" />
