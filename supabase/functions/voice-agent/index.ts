@@ -25,25 +25,36 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { action } = await req.json();
     
+    console.log("Voice agent function called with action:", action);
+    
     if (action === "get_signed_url") {
       // Get signed URL for voice conversation
       const agentId = "agent_01jzncajj5ek6rfkmntj8rhtwm"; // Your ElevenLabs agent ID
+      const apiKey = Deno.env.get("ELEVENLABS_API_KEY");
+      
+      console.log("Agent ID:", agentId);
+      console.log("Has API key:", !!apiKey);
       
       const response = await fetch(
         `https://api.elevenlabs.io/v1/convai/conversation/get_signed_url?agent_id=${agentId}`,
         {
           method: "GET",
           headers: {
-            "xi-api-key": Deno.env.get("ELEVENLABS_API_KEY")!,
+            "xi-api-key": apiKey!,
           },
         }
       );
 
+      console.log("ElevenLabs API response status:", response.status);
+
       if (!response.ok) {
-        throw new Error("Failed to get signed URL from ElevenLabs");
+        const errorText = await response.text();
+        console.error("ElevenLabs API error:", errorText);
+        throw new Error(`Failed to get signed URL from ElevenLabs: ${response.status} - ${errorText}`);
       }
 
       const data = await response.json();
+      console.log("Got signed URL successfully");
       
       return new Response(
         JSON.stringify({ signed_url: data.signed_url }),
