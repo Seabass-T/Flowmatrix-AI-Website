@@ -114,17 +114,11 @@ const VoiceAgentBubble = () => {
       }
 
       try {
-        // Use the signed URL directly for the conversation
         const url = signedUrl || await getSignedUrl();
         if (!url) return;
         setSignedUrl(url);
         
-        console.log("Starting voice session with signed URL:", url);
-        console.log("URL type:", typeof url);
-        console.log("URL content:", url);
-        console.log("Attempting to start session...");
-        
-        // Use the signed URL as agentId - this appears to be the correct parameter
+        // FINAL FIX: Use the signed URL directly as agentId parameter
         await conversation.startSession({ agentId: url });
       } catch (error) {
         console.error("Failed to start conversation:", error);
