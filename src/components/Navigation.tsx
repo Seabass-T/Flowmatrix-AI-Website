@@ -13,11 +13,6 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-3">
-              <img 
-                src="/lovable-uploads/dc78257b-2b76-443d-a82d-6960b6ef8eb2.png" 
-                alt="FlowMatrix AI" 
-                className="h-10 w-10"
-              />
               <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 FlowMatrix AI
               </span>
