@@ -27,7 +27,7 @@ const handler = async (req: Request): Promise<Response> => {
     
     if (action === "get_signed_url") {
       // Get signed URL for voice conversation
-      const agentId = "your-agent-id"; // This will be configured based on your ElevenLabs agent
+      const agentId = "agent_01jzncajj5ek6rfkmntj8rhtwm"; // Your ElevenLabs agent ID
       
       const response = await fetch(
         `https://api.elevenlabs.io/v1/convai/conversation/get_signed_url?agent_id=${agentId}`,
