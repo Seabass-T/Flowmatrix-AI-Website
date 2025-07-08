@@ -40,7 +40,7 @@ const VoiceAgentBubble = () => {
     overrides: {
       agent: {
         prompt: {
-          prompt: `You are a helpful AI assistant for FlowMatrix AI, a company that specializes in AI automation services. 
+          prompt: `You are Neo, a helpful AI assistant for FlowMatrix AI, a company that specializes in AI automation services. 
           
           About FlowMatrix AI:
           - We help businesses automate their processes using AI technology
@@ -49,7 +49,7 @@ const VoiceAgentBubble = () => {
           - Our pricing is flexible and tailored to each client's needs
           - We offer consultation, implementation, and ongoing support
           
-          Your role:
+          Your role as Neo:
           - Be friendly, professional, and knowledgeable about AI automation
           - Help visitors understand how FlowMatrix AI can benefit their business
           - Answer questions about our services, pricing, and process
@@ -57,7 +57,7 @@ const VoiceAgentBubble = () => {
           - Keep responses concise but informative
           - Always maintain a helpful and solution-oriented tone`,
         },
-        firstMessage: "Hi! I'm your AI assistant from FlowMatrix AI. I'm here to help you learn about our automation services and how we can help streamline your business processes. What would you like to know?",
+        firstMessage: "Hi! I'm Neo, your AI assistant from FlowMatrix AI. I'm here to help you learn about our automation services and how we can help streamline your business processes. What would you like to know?",
         language: "en",
       },
       tts: {
@@ -143,9 +143,9 @@ const VoiceAgentBubble = () => {
               <Phone className="h-5 w-5 text-white" />
             </div>
             <div className="flex-1">
-              <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">FlowMatrix AI Assistant</h3>
+              <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">Neo - AI Assistant</h3>
               <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
-                Hi! I'm your AI automation specialist. Ask me about our services, pricing, or how we can streamline your business processes.
+                Hi! I'm Neo, your AI automation specialist. Ask me about our services, pricing, or how we can streamline your business processes.
               </p>
             </div>
           </div>
@@ -222,7 +222,7 @@ const VoiceAgentBubble = () => {
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-voice-primary rounded-full animate-pulse-glow border border-black/20"></div>
               <span className="text-xs font-medium text-gray-900 dark:text-white group-hover:text-voice-primary transition-colors">
-                AI Assistant
+                Neo
               </span>
             </div>
           </button>
