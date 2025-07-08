@@ -1,11 +1,14 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  
+  const isActiveRoute = (path: string) => location.pathname === path;
 
   return (
     <nav className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
@@ -26,19 +29,39 @@ const Navigation = () => {
 
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
-              <Link to="/" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
+              <Link to="/" className={`px-3 py-2 text-sm font-medium transition-colors ${
+                isActiveRoute('/') 
+                  ? 'text-blue-600 bg-blue-50 rounded-md' 
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}>
                 Home
               </Link>
-              <Link to="/pricing" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
+              <Link to="/pricing" className={`px-3 py-2 text-sm font-medium transition-colors ${
+                isActiveRoute('/pricing') 
+                  ? 'text-blue-600 bg-blue-50 rounded-md' 
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}>
                 Pricing
               </Link>
-              <Link to="/use-cases" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
+              <Link to="/use-cases" className={`px-3 py-2 text-sm font-medium transition-colors ${
+                isActiveRoute('/use-cases') 
+                  ? 'text-blue-600 bg-blue-50 rounded-md' 
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}>
                 Use Cases
               </Link>
-              <Link to="/about" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
+              <Link to="/about" className={`px-3 py-2 text-sm font-medium transition-colors ${
+                isActiveRoute('/about') 
+                  ? 'text-blue-600 bg-blue-50 rounded-md' 
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}>
                 About
               </Link>
-              <Link to="/contact" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
+              <Link to="/contact" className={`px-3 py-2 text-sm font-medium transition-colors ${
+                isActiveRoute('/contact') 
+                  ? 'text-blue-600 bg-blue-50 rounded-md' 
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}>
                 Contact
               </Link>
             </div>
@@ -64,19 +87,39 @@ const Navigation = () => {
       {isMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
-            <Link to="/" className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
+            <Link to="/" className={`block px-3 py-2 text-base font-medium ${
+              isActiveRoute('/') 
+                ? 'text-blue-600 bg-blue-50 rounded-md' 
+                : 'text-gray-700 hover:text-blue-600'
+            }`}>
               Home
             </Link>
-            <Link to="/pricing" className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
+            <Link to="/pricing" className={`block px-3 py-2 text-base font-medium ${
+              isActiveRoute('/pricing') 
+                ? 'text-blue-600 bg-blue-50 rounded-md' 
+                : 'text-gray-700 hover:text-blue-600'
+            }`}>
               Pricing
             </Link>
-            <Link to="/use-cases" className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
+            <Link to="/use-cases" className={`block px-3 py-2 text-base font-medium ${
+              isActiveRoute('/use-cases') 
+                ? 'text-blue-600 bg-blue-50 rounded-md' 
+                : 'text-gray-700 hover:text-blue-600'
+            }`}>
               Use Cases
             </Link>
-            <Link to="/about" className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
+            <Link to="/about" className={`block px-3 py-2 text-base font-medium ${
+              isActiveRoute('/about') 
+                ? 'text-blue-600 bg-blue-50 rounded-md' 
+                : 'text-gray-700 hover:text-blue-600'
+            }`}>
               About
             </Link>
-            <Link to="/contact" className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
+            <Link to="/contact" className={`block px-3 py-2 text-base font-medium ${
+              isActiveRoute('/contact') 
+                ? 'text-blue-600 bg-blue-50 rounded-md' 
+                : 'text-gray-700 hover:text-blue-600'
+            }`}>
               Contact
             </Link>
             <div className="px-3 py-2">

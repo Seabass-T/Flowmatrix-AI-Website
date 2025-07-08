@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, Users, Database, FileText, ShoppingCart, CreditCard, ArrowRight, Bot, Zap } from "lucide-react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 declare global {
   interface Window {
@@ -11,6 +12,11 @@ declare global {
 }
 
 const UseCases = () => {
+  const navigate = useNavigate();
+  
+  const goToPricing = () => {
+    navigate('/pricing');
+  };
   useEffect(() => {
     // Load Calendly widget script
     const script = document.createElement('script');
@@ -185,6 +191,7 @@ const UseCases = () => {
               </div>
               <div className="mt-6 lg:mt-0">
                 <Button 
+                  onClick={goToPricing}
                   size="lg" 
                   className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-gray-900 font-semibold"
                 >
