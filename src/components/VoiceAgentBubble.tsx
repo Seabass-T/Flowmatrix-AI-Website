@@ -135,64 +135,96 @@ const VoiceAgentBubble = () => {
   }, [conversation]);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-6 left-6 z-50">
       {isExpanded && (
-        <div className="mb-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4 max-w-xs animate-fade-in transform transition-all duration-300 scale-100 border border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-            Hi! I'm your AI assistant for FlowMatrix AI. Click the microphone to ask me anything about our automation services.
-          </p>
+        <div className="mb-6 bg-voice-surface dark:bg-voice-surface backdrop-blur-lg rounded-2xl shadow-2xl p-6 max-w-sm animate-fade-in transform transition-all duration-500 scale-100 border border-voice-border/30">
+          <div className="flex items-start gap-3 mb-4">
+            <div className="w-10 h-10 bg-voice-gradient rounded-full flex items-center justify-center shadow-lg">
+              <Phone className="h-5 w-5 text-white" />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-foreground text-sm mb-1">FlowMatrix AI Assistant</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Hi! I'm your AI automation specialist. Ask me about our services, pricing, or how we can streamline your business processes.
+              </p>
+            </div>
+          </div>
+          
           {conversation.status === "connected" && (
-            <div className="mb-3 flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-xs text-green-600 dark:text-green-400">Connected</span>
+            <div className="mb-4 flex items-center gap-2 bg-voice-success/10 rounded-lg p-3">
+              <div className="w-2 h-2 bg-voice-success rounded-full animate-pulse"></div>
+              <span className="text-xs text-voice-success font-medium">Connected & Listening</span>
             </div>
           )}
+          
           <Button
             variant="outline"
             size="sm"
             onClick={() => setIsExpanded(false)}
-            className="text-xs hover:scale-105 transition-transform duration-200"
+            className="text-xs hover:scale-105 transition-all duration-200 border-voice-border hover:border-voice-primary bg-white/50 dark:bg-white/5"
           >
             Minimize
           </Button>
         </div>
       )}
       
-      <div className="flex flex-col items-center space-y-2">
-        <Button
-          onClick={toggleConversation}
-          disabled={conversation.status === "connecting"}
-          className={`w-16 h-16 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110 ${
-            conversation.status === "connected"
-              ? "bg-red-500 hover:bg-red-600 animate-pulse shadow-red-500/50" 
-              : conversation.status === "connecting"
-              ? "bg-yellow-500 hover:bg-yellow-600 shadow-yellow-500/50"
-              : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-blue-500/30"
-          }`}
-        >
-          {conversation.status === "connected" ? (
-            <PhoneOff className="h-6 w-6 text-white animate-bounce" />
-          ) : conversation.status === "connecting" ? (
-            <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-          ) : (
-            <Phone className="h-6 w-6 text-white transition-transform duration-200 hover:scale-110" />
-          )}
-        </Button>
+      <div className="flex flex-col items-center space-y-3">
+        <div className="relative group">
+          <Button
+            onClick={toggleConversation}
+            disabled={conversation.status === "connecting"}
+            className={`relative w-16 h-16 rounded-full shadow-2xl transition-all duration-500 transform hover:scale-110 border-0 overflow-hidden ${
+              conversation.status === "connected"
+                ? "bg-destructive hover:bg-destructive/90 shadow-destructive/50" 
+                : conversation.status === "connecting"
+                ? "bg-voice-warning shadow-voice-warning/50"
+                : "bg-voice-gradient hover:bg-voice-gradient-hover shadow-voice-primary/50"
+            }`}
+          >
+            {/* Gradient overlay for extra shine */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-50"></div>
+            
+            {/* Pulsing ring when active */}
+            {conversation.status === "connected" && (
+              <div className="absolute -inset-2 rounded-full border-2 border-destructive/50 animate-ping"></div>
+            )}
+            
+            {/* Icon */}
+            <div className="relative z-10">
+              {conversation.status === "connected" ? (
+                <PhoneOff className="h-6 w-6 text-white animate-bounce" />
+              ) : conversation.status === "connecting" ? (
+                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                <Phone className="h-6 w-6 text-white transition-transform duration-200 group-hover:scale-110" />
+              )}
+            </div>
+          </Button>
+        </div>
         
+        {/* Voice visualization */}
         {conversation.isSpeaking && (
-          <div className="flex space-x-1">
-            <div className="w-1 h-4 bg-blue-500 rounded-full animate-pulse"></div>
-            <div className="w-1 h-6 bg-blue-500 rounded-full animate-pulse delay-75"></div>
-            <div className="w-1 h-4 bg-blue-500 rounded-full animate-pulse delay-150"></div>
+          <div className="flex space-x-1 animate-float">
+            <div className="w-1 h-3 bg-voice-primary rounded-full animate-pulse"></div>
+            <div className="w-1 h-5 bg-voice-secondary rounded-full animate-pulse delay-75"></div>
+            <div className="w-1 h-4 bg-voice-accent rounded-full animate-pulse delay-150"></div>
+            <div className="w-1 h-6 bg-voice-primary rounded-full animate-pulse delay-300"></div>
+            <div className="w-1 h-3 bg-voice-secondary rounded-full animate-pulse delay-150"></div>
           </div>
         )}
         
+        {/* Status text */}
         {!isExpanded && (
           <button
             onClick={() => setIsExpanded(true)}
-            className="text-xs text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-all duration-200 hover:scale-105 font-medium"
+            className="group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm px-4 py-2 rounded-full border border-voice-border/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
-            Voice Assistant
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-voice-primary rounded-full animate-pulse-glow"></div>
+              <span className="text-xs font-medium text-foreground group-hover:text-voice-primary transition-colors">
+                AI Assistant
+              </span>
+            </div>
           </button>
         )}
       </div>

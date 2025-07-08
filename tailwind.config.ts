@@ -52,6 +52,16 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				voice: {
+					primary: 'hsl(var(--voice-primary))',
+					'primary-glow': 'hsl(var(--voice-primary-glow))',
+					secondary: 'hsl(var(--voice-secondary))',
+					accent: 'hsl(var(--voice-accent))',
+					surface: 'hsl(var(--voice-surface))',
+					border: 'hsl(var(--voice-border))',
+					success: 'hsl(var(--voice-success))',
+					warning: 'hsl(var(--voice-warning))',
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -84,12 +94,22 @@ export default {
 					to: {
 						height: '0'
 					}
-				}
+				},
+				float: {
+					'0%, 100%': { transform: 'translateY(0px)' },
+					'50%': { transform: 'translateY(-8px)' },
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
-			}
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-glow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+				'float': 'float 3s ease-in-out infinite',
+			},
+			backgroundImage: {
+				'voice-gradient': 'linear-gradient(135deg, hsl(var(--voice-primary)), hsl(var(--voice-secondary)))',
+				'voice-gradient-hover': 'linear-gradient(135deg, hsl(var(--voice-primary-glow)), hsl(var(--voice-accent)))',
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
