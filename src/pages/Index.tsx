@@ -4,8 +4,50 @@ import AnimatedFeatures from "@/components/AnimatedFeatures";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, CheckCircle, Star, Users, Zap, TrendingUp } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
+declare global {
+  interface Window {
+    Calendly: any;
+  }
+}
 
 const Index = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Load Calendly widget script
+    const script = document.createElement('script');
+    script.src = 'https://assets.calendly.com/assets/external/widget.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    const link = document.createElement('link');
+    link.href = 'https://assets.calendly.com/assets/external/widget.css';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+
+    return () => {
+      document.body.removeChild(script);
+      document.head.removeChild(link);
+    };
+  }, []);
+
+  const openCalendly = () => {
+    if (window.Calendly) {
+      window.Calendly.initPopupWidget({
+        url: 'https://calendly.com/flowmatrixai-info/consultation-call',
+        prefill: {},
+        utm: {}
+      });
+    }
+  };
+
+  const goToPricing = () => {
+    navigate('/pricing');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <Navigation />
@@ -268,11 +310,11 @@ const Index = () => {
             Book a free consultation and see how we can help you save time and money.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-4">
+            <Button onClick={openCalendly} size="lg" className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-4">
               Book Free Consultation
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-4">
+            <Button onClick={goToPricing} variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-4">
               View Pricing Plans
             </Button>
           </div>

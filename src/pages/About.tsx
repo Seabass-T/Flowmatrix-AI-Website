@@ -3,8 +3,43 @@ import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Target, Users, Zap, Heart, Globe, Building, TrendingUp } from "lucide-react";
+import { useEffect } from "react";
+
+declare global {
+  interface Window {
+    Calendly: any;
+  }
+}
 
 const About = () => {
+  useEffect(() => {
+    // Load Calendly widget script
+    const script = document.createElement('script');
+    script.src = 'https://assets.calendly.com/assets/external/widget.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    const link = document.createElement('link');
+    link.href = 'https://assets.calendly.com/assets/external/widget.css';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+
+    return () => {
+      document.body.removeChild(script);
+      document.head.removeChild(link);
+    };
+  }, []);
+
+  const openCalendly = () => {
+    if (window.Calendly) {
+      window.Calendly.initPopupWidget({
+        url: 'https://calendly.com/flowmatrixai-info/consultation-call',
+        prefill: {},
+        utm: {}
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <Navigation />
@@ -300,6 +335,7 @@ const About = () => {
               Let's discuss how FlowMatrix AI can partner with your business to unlock its next chapter through intelligent automation and AI systems that drive operational excellence.
             </p>
           <Button 
+            onClick={openCalendly}
             size="lg" 
             className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-6"
           >

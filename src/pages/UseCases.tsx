@@ -2,8 +2,43 @@ import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, Users, Database, FileText, ShoppingCart, CreditCard, ArrowRight, Bot, Zap } from "lucide-react";
+import { useEffect } from "react";
+
+declare global {
+  interface Window {
+    Calendly: any;
+  }
+}
 
 const UseCases = () => {
+  useEffect(() => {
+    // Load Calendly widget script
+    const script = document.createElement('script');
+    script.src = 'https://assets.calendly.com/assets/external/widget.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    const link = document.createElement('link');
+    link.href = 'https://assets.calendly.com/assets/external/widget.css';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+
+    return () => {
+      document.body.removeChild(script);
+      document.head.removeChild(link);
+    };
+  }, []);
+
+  const openCalendly = () => {
+    if (window.Calendly) {
+      window.Calendly.initPopupWidget({
+        url: 'https://calendly.com/flowmatrixai-info/consultation-call',
+        prefill: {},
+        utm: {}
+      });
+    }
+  };
+
   const useCases = [
     {
       icon: Mail,
@@ -189,6 +224,7 @@ const UseCases = () => {
             Let's discuss how these automation solutions can transform your specific business processes and challenges.
           </p>
           <Button 
+            onClick={openCalendly}
             size="lg" 
             className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-6"
           >

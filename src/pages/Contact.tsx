@@ -5,9 +5,74 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { useEffect, useState } from "react";
+
+declare global {
+  interface Window {
+    Calendly: any;
+  }
+}
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    company: '',
+    phone: '',
+    subject: '',
+    message: ''
+  });
+
+  useEffect(() => {
+    // Load Calendly widget script
+    const script = document.createElement('script');
+    script.src = 'https://assets.calendly.com/assets/external/widget.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    const link = document.createElement('link');
+    link.href = 'https://assets.calendly.com/assets/external/widget.css';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+
+    return () => {
+      document.body.removeChild(script);
+      document.head.removeChild(link);
+    };
+  }, []);
+
+  const openCalendly = () => {
+    if (window.Calendly) {
+      window.Calendly.initPopupWidget({
+        url: 'https://calendly.com/flowmatrixai-info/consultation-call',
+        prefill: {},
+        utm: {}
+      });
+    }
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = () => {
+    const subject = encodeURIComponent(formData.subject || 'General Inquiry');
+    const body = encodeURIComponent(`
+Name: ${formData.firstName} ${formData.lastName}
+Company: ${formData.company}
+Phone: ${formData.phone}
+Email: ${formData.email}
+
+Message:
+${formData.message}
+    `);
+    
+    window.location.href = `mailto:info@flowmatrixai.com?subject=${subject}&body=${body}`;
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <Navigation />
@@ -38,32 +103,71 @@ const Contact = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">First Name</Label>
-                  <Input id="firstName" placeholder="John" />
+                  <Input 
+                    id="firstName" 
+                    placeholder="John" 
+                    value={formData.firstName}
+                    onChange={(e) => handleInputChange('firstName', e.target.value)}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" placeholder="Doe" />
+                  <Input 
+                    id="lastName" 
+                    placeholder="Doe" 
+                    value={formData.lastName}
+                    onChange={(e) => handleInputChange('lastName', e.target.value)}
+                  />
                 </div>
               </div>
               
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="john@company.com" />
+                <Input 
+                  id="email" 
+                  type="email" 
+                  placeholder="john@company.com" 
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                />
               </div>
               
               <div className="space-y-2">
                 <Label htmlFor="company">Company</Label>
-                <Input id="company" placeholder="Your Company Name" />
+                <Input 
+                  id="company" 
+                  placeholder="Your Company Name" 
+                  value={formData.company}
+                  onChange={(e) => handleInputChange('company', e.target.value)}
+                />
               </div>
               
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone (Optional)</Label>
-                <Input id="phone" type="tel" placeholder="+1 (555) 123-4567" />
+                <Input 
+                  id="phone" 
+                  type="tel" 
+                  placeholder="+1 (647) 282-3908" 
+                  value={formData.phone}
+                  onChange={(e) => handleInputChange('phone', e.target.value)}
+                />
               </div>
               
               <div className="space-y-2">
                 <Label htmlFor="subject">Subject</Label>
-                <Input id="subject" placeholder="How can we help you?" />
+                <Select value={formData.subject} onValueChange={(value) => handleInputChange('subject', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a subject" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="automation-inquiry">Automation Inquiry</SelectItem>
+                    <SelectItem value="consultation-request">Consultation Request</SelectItem>
+                    <SelectItem value="pricing-information">Pricing Information</SelectItem>
+                    <SelectItem value="technical-support">Technical Support</SelectItem>
+                    <SelectItem value="partnership-opportunities">Partnership Opportunities</SelectItem>
+                    <SelectItem value="general-inquiry">General Inquiry</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               
               <div className="space-y-2">
@@ -72,10 +176,15 @@ const Contact = () => {
                   id="message" 
                   placeholder="Tell us about your automation needs, current challenges, and what you're looking to achieve..."
                   className="min-h-[120px]"
+                  value={formData.message}
+                  onChange={(e) => handleInputChange('message', e.target.value)}
                 />
               </div>
               
-              <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg py-6">
+              <Button 
+                onClick={handleSubmit}
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg py-6"
+              >
                 Send Message
               </Button>
             </CardContent>
@@ -154,6 +263,7 @@ const Contact = () => {
                   </div>
                 </div>
                 <Button 
+                  onClick={openCalendly}
                   className="w-full mt-6 bg-white text-blue-600 hover:bg-gray-100 font-semibold py-3"
                 >
                   Schedule Your Call

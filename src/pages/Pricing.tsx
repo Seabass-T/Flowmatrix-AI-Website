@@ -3,8 +3,43 @@ import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, ArrowRight } from "lucide-react";
+import { useEffect } from "react";
+
+declare global {
+  interface Window {
+    Calendly: any;
+  }
+}
 
 const Pricing = () => {
+  useEffect(() => {
+    // Load Calendly widget script
+    const script = document.createElement('script');
+    script.src = 'https://assets.calendly.com/assets/external/widget.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    const link = document.createElement('link');
+    link.href = 'https://assets.calendly.com/assets/external/widget.css';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+
+    return () => {
+      document.body.removeChild(script);
+      document.head.removeChild(link);
+    };
+  }, []);
+
+  const openCalendly = () => {
+    if (window.Calendly) {
+      window.Calendly.initPopupWidget({
+        url: 'https://calendly.com/flowmatrixai-info/consultation-call',
+        prefill: {},
+        utm: {}
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <Navigation />
@@ -62,7 +97,7 @@ const Pricing = () => {
                   <span>Full source code access</span>
                 </li>
               </ul>
-              <Button className="w-full bg-blue-600 hover:bg-blue-700">
+              <Button onClick={openCalendly} className="w-full bg-blue-600 hover:bg-blue-700">
                 Let's Talk <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </CardContent>
@@ -118,7 +153,7 @@ const Pricing = () => {
                   <span>Dedicated success manager</span>
                 </li>
               </ul>
-              <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+              <Button onClick={openCalendly} className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
                 Let's Talk <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </CardContent>
@@ -167,7 +202,7 @@ const Pricing = () => {
                   <span>White-label options</span>
                 </li>
               </ul>
-              <Button className="w-full bg-gray-900 hover:bg-gray-800">
+              <Button onClick={openCalendly} className="w-full bg-gray-900 hover:bg-gray-800">
                 Let's Talk <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </CardContent>
@@ -220,6 +255,7 @@ const Pricing = () => {
             Schedule a discovery call to discuss your automation needs and find the perfect plan for your business.
           </p>
           <Button 
+            onClick={openCalendly}
             size="lg" 
             className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-6"
           >
