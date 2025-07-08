@@ -69,7 +69,7 @@ const Index = () => {
               reduce costs by 40%, and scale without the stress. Built specifically for small businesses.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-4">
+              <Button onClick={() => navigate('/use-cases')} size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-4">
                 Start Your Automation Journey
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
