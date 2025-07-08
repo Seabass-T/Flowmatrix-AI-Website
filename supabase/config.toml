@@ -57,3 +57,6 @@ enable_phone_change_confirmations = false
 
 [functions.send-contact-email]
 verify_jwt = false
+
+[functions.voice-agent]
+verify_jwt = false
