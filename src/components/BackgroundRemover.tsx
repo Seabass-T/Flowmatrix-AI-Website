@@ -11,8 +11,7 @@ const BackgroundRemover = () => {
   const { toast } = useToast();
 
   const logoUrls = [
-    "/lovable-uploads/09fdf2f6-6157-42df-8e44-d98575f96494.png",
-    "/lovable-uploads/34eac24a-9df2-45e4-b126-124c3db9ccbb.png"
+    "/lovable-uploads/dc78257b-2b76-443d-a82d-6960b6ef8eb2.png"
   ];
 
   const processLogos = async () => {

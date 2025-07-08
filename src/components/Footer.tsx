@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <Link to="/" className="flex items-center space-x-3">
               <img 
-                src="/lovable-uploads/09fdf2f6-6157-42df-8e44-d98575f96494.png" 
+                src="/lovable-uploads/dc78257b-2b76-443d-a82d-6960b6ef8eb2.png" 
                 alt="FlowMatrix AI" 
                 className="h-8 w-8"
               />
