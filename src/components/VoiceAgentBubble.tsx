@@ -119,12 +119,26 @@ const VoiceAgentBubble = () => {
         if (!url) return;
         setSignedUrl(url);
         
+        // Fix: Use the signed URL as agentId parameter
         await conversation.startSession({ agentId: url });
       } catch (error) {
         console.error("Failed to start conversation:", error);
+        
+        // Better error handling with more specific messages
+        let errorMessage = "Could not start voice conversation";
+        if (error instanceof Error) {
+          if (error.message.includes("WebSocket")) {
+            errorMessage = "WebSocket connection failed. This might be a preview environment issue.";
+          } else if (error.message.includes("microphone") || error.message.includes("media")) {
+            errorMessage = "Microphone access required. Please allow microphone permissions.";
+          } else if (error.message.includes("network") || error.message.includes("fetch")) {
+            errorMessage = "Network error. Please check your connection.";
+          }
+        }
+        
         toast({
           title: "Connection Failed",
-          description: "Could not start voice conversation",
+          description: errorMessage,
           variant: "destructive",
         });
       }
@@ -151,6 +165,11 @@ const VoiceAgentBubble = () => {
               <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">Neo - AI Assistant</h3>
               <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
                 Hi! I'm Neo, your AI automation specialist. Ask me about our services, pricing, or how we can streamline your business processes.
+                {window.location.hostname.includes('lovable') && (
+                  <span className="block mt-1 text-amber-600 dark:text-amber-400">
+                    Note: Voice may work better in deployed version.
+                  </span>
+                )}
               </p>
             </div>
           </div>
