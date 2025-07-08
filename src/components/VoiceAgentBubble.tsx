@@ -114,7 +114,12 @@ const VoiceAgentBubble = () => {
       }
 
       try {
-        await conversation.startSession({ agentId: signedUrl });
+        // Use the signed URL directly for the conversation
+        const url = signedUrl || await getSignedUrl();
+        if (!url) return;
+        setSignedUrl(url);
+        
+        await conversation.startSession({ agentId: url });
       } catch (error) {
         console.error("Failed to start conversation:", error);
         toast({
