@@ -135,25 +135,25 @@ const VoiceAgentBubble = () => {
   }, [conversation]);
 
   return (
-    <div className="fixed bottom-6 left-6 z-50">
+    <div className="fixed bottom-6 right-6 z-50">
       {isExpanded && (
-        <div className="mb-6 bg-voice-surface dark:bg-voice-surface backdrop-blur-lg rounded-2xl shadow-2xl p-6 max-w-sm animate-fade-in transform transition-all duration-500 scale-100 border border-voice-border/30">
+        <div className="mb-6 bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg rounded-2xl shadow-2xl p-6 max-w-sm animate-fade-in transform transition-all duration-500 scale-100 border-2 border-gray-900/20 dark:border-white/20 ring-1 ring-black/5">
           <div className="flex items-start gap-3 mb-4">
-            <div className="w-10 h-10 bg-voice-gradient rounded-full flex items-center justify-center shadow-lg">
+            <div className="w-10 h-10 bg-voice-gradient rounded-full flex items-center justify-center shadow-lg border-2 border-white/50">
               <Phone className="h-5 w-5 text-white" />
             </div>
             <div className="flex-1">
-              <h3 className="font-semibold text-foreground text-sm mb-1">FlowMatrix AI Assistant</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
+              <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">FlowMatrix AI Assistant</h3>
+              <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
                 Hi! I'm your AI automation specialist. Ask me about our services, pricing, or how we can streamline your business processes.
               </p>
             </div>
           </div>
           
           {conversation.status === "connected" && (
-            <div className="mb-4 flex items-center gap-2 bg-voice-success/10 rounded-lg p-3">
-              <div className="w-2 h-2 bg-voice-success rounded-full animate-pulse"></div>
-              <span className="text-xs text-voice-success font-medium">Connected & Listening</span>
+            <div className="mb-4 flex items-center gap-2 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg p-3 border border-emerald-200 dark:border-emerald-800">
+              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+              <span className="text-xs text-emerald-700 dark:text-emerald-300 font-medium">Connected & Listening</span>
             </div>
           )}
           
@@ -161,7 +161,7 @@ const VoiceAgentBubble = () => {
             variant="outline"
             size="sm"
             onClick={() => setIsExpanded(false)}
-            className="text-xs hover:scale-105 transition-all duration-200 border-voice-border hover:border-voice-primary bg-white/50 dark:bg-white/5"
+            className="text-xs hover:scale-105 transition-all duration-200 border-2 border-gray-300 dark:border-gray-600 hover:border-voice-primary bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
           >
             Minimize
           </Button>
@@ -173,20 +173,20 @@ const VoiceAgentBubble = () => {
           <Button
             onClick={toggleConversation}
             disabled={conversation.status === "connecting"}
-            className={`relative w-16 h-16 rounded-full shadow-2xl transition-all duration-500 transform hover:scale-110 border-0 overflow-hidden ${
+            className={`relative w-16 h-16 rounded-full shadow-2xl transition-all duration-500 transform hover:scale-110 border-2 border-white/80 dark:border-gray-900/80 overflow-hidden ring-2 ring-black/20 dark:ring-white/20 ${
               conversation.status === "connected"
-                ? "bg-destructive hover:bg-destructive/90 shadow-destructive/50" 
+                ? "bg-red-500 hover:bg-red-600 shadow-red-500/50" 
                 : conversation.status === "connecting"
-                ? "bg-voice-warning shadow-voice-warning/50"
+                ? "bg-amber-500 hover:bg-amber-600 shadow-amber-500/50"
                 : "bg-voice-gradient hover:bg-voice-gradient-hover shadow-voice-primary/50"
             }`}
           >
-            {/* Gradient overlay for extra shine */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-50"></div>
+            {/* Strong contrast overlay */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-white/30 to-transparent opacity-70"></div>
             
-            {/* Pulsing ring when active */}
+            {/* Strong pulsing ring when active */}
             {conversation.status === "connected" && (
-              <div className="absolute -inset-2 rounded-full border-2 border-destructive/50 animate-ping"></div>
+              <div className="absolute -inset-3 rounded-full border-2 border-red-400/60 animate-ping"></div>
             )}
             
             {/* Icon */}
@@ -202,14 +202,14 @@ const VoiceAgentBubble = () => {
           </Button>
         </div>
         
-        {/* Voice visualization */}
+        {/* Enhanced voice visualization with better contrast */}
         {conversation.isSpeaking && (
           <div className="flex space-x-1 animate-float">
-            <div className="w-1 h-3 bg-voice-primary rounded-full animate-pulse"></div>
-            <div className="w-1 h-5 bg-voice-secondary rounded-full animate-pulse delay-75"></div>
-            <div className="w-1 h-4 bg-voice-accent rounded-full animate-pulse delay-150"></div>
-            <div className="w-1 h-6 bg-voice-primary rounded-full animate-pulse delay-300"></div>
-            <div className="w-1 h-3 bg-voice-secondary rounded-full animate-pulse delay-150"></div>
+            <div className="w-1 h-3 bg-voice-primary rounded-full animate-pulse border border-black/20"></div>
+            <div className="w-1 h-5 bg-voice-secondary rounded-full animate-pulse delay-75 border border-black/20"></div>
+            <div className="w-1 h-4 bg-voice-accent rounded-full animate-pulse delay-150 border border-black/20"></div>
+            <div className="w-1 h-6 bg-voice-primary rounded-full animate-pulse delay-300 border border-black/20"></div>
+            <div className="w-1 h-3 bg-voice-secondary rounded-full animate-pulse delay-150 border border-black/20"></div>
           </div>
         )}
         
@@ -217,11 +217,11 @@ const VoiceAgentBubble = () => {
         {!isExpanded && (
           <button
             onClick={() => setIsExpanded(true)}
-            className="group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm px-4 py-2 rounded-full border border-voice-border/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+            className="group relative bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm px-4 py-2 rounded-full border-2 border-gray-900/30 dark:border-white/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 ring-1 ring-black/10"
           >
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-voice-primary rounded-full animate-pulse-glow"></div>
-              <span className="text-xs font-medium text-foreground group-hover:text-voice-primary transition-colors">
+              <div className="w-2 h-2 bg-voice-primary rounded-full animate-pulse-glow border border-black/20"></div>
+              <span className="text-xs font-medium text-gray-900 dark:text-white group-hover:text-voice-primary transition-colors">
                 AI Assistant
               </span>
             </div>
