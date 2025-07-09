@@ -64,10 +64,19 @@ const Index = () => {
               <br />
               With AI Magic
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed">
               Transform your business operations with intelligent automation. Save 20+ hours per week, 
               reduce costs by 40%, and scale without the stress. Built specifically for small businesses.
             </p>
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl p-6 mb-12 max-w-3xl mx-auto">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">🎯 Free 30-Minute Automation Audit</h3>
+              <p className="text-gray-700 mb-2">
+                Get a comprehensive analysis of your business operations to identify automation opportunities that could save you time and money.
+              </p>
+              <p className="text-sm text-gray-600">
+                <span className="font-medium">Bonus:</span> Single-use automation systems include a free week trial period.
+              </p>
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button onClick={() => navigate('/use-cases')} size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-4">
                 Start Your Automation Journey
@@ -311,7 +320,7 @@ const Index = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button onClick={openCalendly} size="lg" className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-4">
-              Book Free Consultation
+              Get Your Free Automation Audit
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button onClick={goToPricing} variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-4">

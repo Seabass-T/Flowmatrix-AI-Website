@@ -69,7 +69,7 @@ const Navigation = () => {
 
           <div className="hidden md:block">
             <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-              Book Discovery Call
+              Get Your Free Automation Audit
             </Button>
           </div>
 
@@ -124,7 +124,7 @@ const Navigation = () => {
             </Link>
             <div className="px-3 py-2">
               <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                Book Discovery Call
+                Get Your Free Automation Audit
               </Button>
             </div>
           </div>
