@@ -1,74 +1,58 @@
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Mic, MicOff, Phone, PhoneOff } from "lucide-react";
-import { useConversation } from "@11labs/react";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 const VoiceAgentBubble = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [signedUrl, setSignedUrl] = useState<string | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  
+  const wsRef = useRef<WebSocket | null>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const synthRef = useRef<SpeechSynthesis | null>(null);
+  
   const { toast } = useToast();
 
-  const conversation = useConversation({
-    onConnect: () => {
-      console.log("Connected to voice agent");
-      toast({
-        title: "Voice Agent Connected",
-        description: "You can now speak with our AI assistant",
-      });
-    },
-    onDisconnect: () => {
-      console.log("Disconnected from voice agent");
-      toast({
-        title: "Voice Agent Disconnected",
-        description: "Conversation ended",
-      });
-    },
-    onError: (error) => {
-      console.error("Voice agent error:", error);
-      toast({
-        title: "Voice Agent Error",
-        description: "There was an issue with the voice connection",
-        variant: "destructive",
-      });
-    },
-    onMessage: (message) => {
-      console.log("Voice message:", message);
-    },
-    overrides: {
-      agent: {
-        prompt: {
-          prompt: `You are Neo, a helpful AI assistant for FlowMatrix AI, a company that specializes in AI automation services. 
-          
-          About FlowMatrix AI:
-          - We help businesses automate their processes using AI technology
-          - Our services include workflow automation, AI chatbots, data processing, and custom AI solutions
-          - We work with small to medium businesses looking to streamline their operations
-          - Our pricing is flexible and tailored to each client's needs
-          - We offer consultation, implementation, and ongoing support
-          
-          Your role as Neo:
-          - Be friendly, professional, and knowledgeable about AI automation
-          - Help visitors understand how FlowMatrix AI can benefit their business
-          - Answer questions about our services, pricing, and process
-          - If someone wants to get started, direct them to contact us through the website
-          - Keep responses concise but informative
-          - Always maintain a helpful and solution-oriented tone`,
-        },
-        firstMessage: "Hi! I'm Neo, your AI assistant from FlowMatrix AI. I'm here to help you learn about our automation services and how we can help streamline your business processes. What would you like to know?",
-        language: "en",
-      },
-      tts: {
-        voiceId: "9BWtsMINqrJLrRacOk9x", // Aria voice
-      },
-    },
-  });
+  useEffect(() => {
+    synthRef.current = window.speechSynthesis;
+    return () => {
+      cleanup();
+    };
+  }, []);
+
+  const cleanup = () => {
+    if (wsRef.current) {
+      wsRef.current.close();
+      wsRef.current = null;
+    }
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
+      mediaRecorderRef.current = null;
+    }
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
+    }
+    setIsConnected(false);
+    setIsConnecting(false);
+    setIsListening(false);
+  };
 
   const requestMicrophonePermission = async () => {
     try {
-      await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        audio: {
+          sampleRate: 16000,
+          channelCount: 1,
+          echoCancellation: true,
+          noiseSuppression: true,
+        }
+      });
+      streamRef.current = stream;
       return true;
     } catch (error) {
       console.error("Microphone permission denied:", error);
@@ -81,76 +65,176 @@ const VoiceAgentBubble = () => {
     }
   };
 
-  const getSignedUrl = async () => {
-    try {
-      const { data, error } = await supabase.functions.invoke('voice-agent', {
-        body: { action: 'get_signed_url' }
-      });
+  const startRecording = () => {
+    if (!streamRef.current) return;
 
-      if (error) throw error;
-      return data.signed_url;
-    } catch (error) {
-      console.error("Failed to get signed URL:", error);
-      toast({
-        title: "Connection Error",
-        description: "Failed to connect to voice agent",
-        variant: "destructive",
-      });
-      return null;
-    }
-  };
+    const mediaRecorder = new MediaRecorder(streamRef.current, {
+      mimeType: 'audio/webm;codecs=opus'
+    });
+    
+    mediaRecorderRef.current = mediaRecorder;
 
-  const toggleConversation = async () => {
-    if (conversation.status === "connected") {
-      await conversation.endSession();
-    } else {
-      const hasPermission = await requestMicrophonePermission();
-      if (!hasPermission) return;
-
-      if (!signedUrl) {
-        const url = await getSignedUrl();
-        if (!url) return;
-        setSignedUrl(url);
-      }
-
-      try {
-        const url = signedUrl || await getSignedUrl();
-        if (!url) return;
-        setSignedUrl(url);
-        
-        // FINAL FIX: Use the signed URL directly as agentId parameter
-        await conversation.startSession({ agentId: url });
-      } catch (error) {
-        console.error("Failed to start conversation:", error);
-        
-        // Better error handling with more specific messages
-        let errorMessage = "Could not start voice conversation";
-        if (error instanceof Error) {
-          if (error.message.includes("WebSocket")) {
-            errorMessage = "WebSocket connection failed. This might be a preview environment issue.";
-          } else if (error.message.includes("microphone") || error.message.includes("media")) {
-            errorMessage = "Microphone access required. Please allow microphone permissions.";
-          } else if (error.message.includes("network") || error.message.includes("fetch")) {
-            errorMessage = "Network error. Please check your connection.";
+    mediaRecorder.ondataavailable = (event) => {
+      if (event.data.size > 0 && wsRef.current?.readyState === WebSocket.OPEN) {
+        // Convert audio blob to base64 and send
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64 = reader.result?.toString().split(',')[1];
+          if (base64) {
+            wsRef.current?.send(JSON.stringify({
+              type: 'audio_input',
+              data: base64
+            }));
           }
-        }
-        
-        toast({
-          title: "Connection Failed",
-          description: errorMessage,
-          variant: "destructive",
-        });
-      }
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (conversation.status === "connected") {
-        conversation.endSession();
+        };
+        reader.readAsDataURL(event.data);
       }
     };
-  }, [conversation]);
+
+    mediaRecorder.start(100); // Send chunks every 100ms
+    setIsListening(true);
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+      mediaRecorderRef.current.stop();
+      setIsListening(false);
+    }
+  };
+
+  const speakText = (text: string) => {
+    if (!synthRef.current) return;
+
+    // Cancel any ongoing speech
+    synthRef.current.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.9;
+    utterance.pitch = 1.0;
+    utterance.volume = 0.8;
+
+    // Try to use a good voice
+    const voices = synthRef.current.getVoices();
+    const preferredVoice = voices.find(voice => 
+      voice.name.includes('Natural') || 
+      voice.name.includes('Enhanced') ||
+      voice.lang.startsWith('en')
+    );
+    if (preferredVoice) {
+      utterance.voice = preferredVoice;
+    }
+
+    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+
+    synthRef.current.speak(utterance);
+  };
+
+  const connectToVoiceAgent = async () => {
+    if (isConnected || isConnecting) return;
+
+    setIsConnecting(true);
+
+    try {
+      // Request microphone permission first
+      const hasPermission = await requestMicrophonePermission();
+      if (!hasPermission) {
+        setIsConnecting(false);
+        return;
+      }
+
+      // Connect to WebSocket
+      const ws = new WebSocket('wss://njmzznceiykpybpuabgs.supabase.co/functions/v1/bright-processor');
+      wsRef.current = ws;
+
+      ws.onopen = () => {
+        console.log("Connected to voice agent");
+        setIsConnected(true);
+        setIsConnecting(false);
+        
+        // Send initial message to start conversation
+        ws.send(JSON.stringify({
+          type: 'start_conversation',
+          message: 'Hello, I would like to start a voice conversation.'
+        }));
+
+        toast({
+          title: "Voice Agent Connected",
+          description: "You can now speak with our AI assistant",
+        });
+
+        // Start recording
+        startRecording();
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          console.log("Received message:", data);
+
+          if (data.type === 'text_response' && data.text) {
+            // Stop recording while speaking
+            stopRecording();
+            speakText(data.text);
+            
+            // Resume recording after speech ends
+            setTimeout(() => {
+              if (isConnected) {
+                startRecording();
+              }
+            }, 1000);
+          }
+        } catch (error) {
+          console.error("Error parsing WebSocket message:", error);
+        }
+      };
+
+      ws.onclose = () => {
+        console.log("Disconnected from voice agent");
+        cleanup();
+        toast({
+          title: "Voice Agent Disconnected",
+          description: "Conversation ended",
+        });
+      };
+
+      ws.onerror = (error) => {
+        console.error("WebSocket error:", error);
+        cleanup();
+        toast({
+          title: "Connection Error",
+          description: "Failed to connect to voice agent",
+          variant: "destructive",
+        });
+      };
+
+    } catch (error) {
+      console.error("Failed to connect:", error);
+      setIsConnecting(false);
+      toast({
+        title: "Connection Failed",
+        description: "Could not connect to voice agent",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const disconnectFromVoiceAgent = () => {
+    cleanup();
+    toast({
+      title: "Voice Agent Disconnected",
+      description: "Conversation ended",
+    });
+  };
+
+  const toggleConversation = () => {
+    if (isConnected) {
+      disconnectFromVoiceAgent();
+    } else {
+      connectToVoiceAgent();
+    }
+  };
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
@@ -164,19 +248,16 @@ const VoiceAgentBubble = () => {
               <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">Neo - AI Assistant</h3>
               <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
                 Hi! I'm Neo, your AI automation specialist. Ask me about our services, pricing, or how we can streamline your business processes.
-                {window.location.hostname.includes('lovable') && (
-                  <span className="block mt-1 text-amber-600 dark:text-amber-400">
-                    Note: Voice may work better in deployed version.
-                  </span>
-                )}
               </p>
             </div>
           </div>
           
-          {conversation.status === "connected" && (
+          {isConnected && (
             <div className="mb-4 flex items-center gap-2 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg p-3 border border-emerald-200 dark:border-emerald-800">
               <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-              <span className="text-xs text-emerald-700 dark:text-emerald-300 font-medium">Connected & Listening</span>
+              <span className="text-xs text-emerald-700 dark:text-emerald-300 font-medium">
+                {isListening ? "Listening..." : isSpeaking ? "Speaking..." : "Connected"}
+              </span>
             </div>
           )}
           
@@ -195,11 +276,11 @@ const VoiceAgentBubble = () => {
         <div className="relative group">
           <Button
             onClick={toggleConversation}
-            disabled={conversation.status === "connecting"}
+            disabled={isConnecting}
             className={`relative w-16 h-16 rounded-full shadow-2xl transition-all duration-500 transform hover:scale-110 border-2 border-white/80 dark:border-gray-900/80 overflow-hidden ring-2 ring-black/20 dark:ring-white/20 ${
-              conversation.status === "connected"
+              isConnected
                 ? "bg-red-500 hover:bg-red-600 shadow-red-500/50" 
-                : conversation.status === "connecting"
+                : isConnecting
                 ? "bg-amber-500 hover:bg-amber-600 shadow-amber-500/50"
                 : "bg-voice-gradient hover:bg-voice-gradient-hover shadow-voice-primary/50"
             }`}
@@ -208,15 +289,15 @@ const VoiceAgentBubble = () => {
             <div className="absolute inset-0 bg-gradient-to-tr from-white/30 to-transparent opacity-70"></div>
             
             {/* Strong pulsing ring when active */}
-            {conversation.status === "connected" && (
+            {isConnected && (
               <div className="absolute -inset-3 rounded-full border-2 border-red-400/60 animate-ping"></div>
             )}
             
             {/* Icon */}
             <div className="relative z-10">
-              {conversation.status === "connected" ? (
+              {isConnected ? (
                 <PhoneOff className="h-6 w-6 text-white animate-bounce" />
-              ) : conversation.status === "connecting" ? (
+              ) : isConnecting ? (
                 <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               ) : (
                 <Phone className="h-6 w-6 text-white transition-transform duration-200 group-hover:scale-110" />
@@ -226,7 +307,7 @@ const VoiceAgentBubble = () => {
         </div>
         
         {/* Enhanced voice visualization with better contrast */}
-        {conversation.isSpeaking && (
+        {(isSpeaking || isListening) && (
           <div className="flex space-x-1 animate-float">
             <div className="w-1 h-3 bg-voice-primary rounded-full animate-pulse border border-black/20"></div>
             <div className="w-1 h-5 bg-voice-secondary rounded-full animate-pulse delay-75 border border-black/20"></div>
