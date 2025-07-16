@@ -102,9 +102,11 @@ const Navigation = () => {
           </div>
 
           <div className="hidden md:block">
-            <Button onClick={openCalendly} className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-              Get Your Free Automation Audit
-            </Button>
+            <Link to="/contact">
+              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                Get Your Free Automation Audit
+              </Button>
+            </Link>
           </div>
 
           <div className="md:hidden">
@@ -157,9 +159,11 @@ const Navigation = () => {
               Contact
             </Link>
             <div className="px-3 py-2">
-              <Button onClick={openCalendly} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                Get Your Free Automation Audit
-              </Button>
+              <Link to="/contact">
+                <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                  Get Your Free Automation Audit
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

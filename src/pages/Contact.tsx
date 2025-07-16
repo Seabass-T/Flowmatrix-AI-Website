@@ -312,6 +312,10 @@ const Contact = () => {
                     <div className="w-2 h-2 bg-white rounded-full"></div>
                     <span>No commitment required</span>
                   </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                    <span>Includes free automation audit</span>
+                  </div>
                 </div>
                 <Button 
                   onClick={openCalendly}
