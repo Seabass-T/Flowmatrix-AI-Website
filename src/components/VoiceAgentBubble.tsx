@@ -154,10 +154,13 @@ const VoiceAgentBubble = () => {
         setIsConnecting(false);
         
         // Send initial message to start conversation
-        ws.send(JSON.stringify({
-          type: 'start_conversation',
-          message: 'Hello, I would like to start a voice conversation.'
-        }));
+      ws.send(JSON.stringify({
+        type: 'user_message',
+        message: {
+          role: 'user',
+          content: 'Hello, I would like to start a voice conversation.'
+        }
+      }));
 
         toast({
           title: "Voice Agent Connected",
