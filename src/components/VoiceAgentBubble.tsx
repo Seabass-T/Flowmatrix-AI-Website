@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Mic, MicOff, Phone, PhoneOff } from "lucide-react";
@@ -9,11 +10,13 @@ const VoiceAgentBubble = () => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState<string>('');
   
   const wsRef = useRef<WebSocket | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const synthRef = useRef<SpeechSynthesis | null>(null);
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   const { toast } = useToast();
 
@@ -37,9 +40,14 @@ const VoiceAgentBubble = () => {
       streamRef.current.getTracks().forEach(track => track.stop());
       streamRef.current = null;
     }
+    if (reconnectTimeoutRef.current) {
+      clearTimeout(reconnectTimeoutRef.current);
+      reconnectTimeoutRef.current = null;
+    }
     setIsConnected(false);
     setIsConnecting(false);
     setIsListening(false);
+    setConnectionStatus('');
   };
 
   const requestMicrophonePermission = async () => {
@@ -125,7 +133,15 @@ const VoiceAgentBubble = () => {
     }
 
     utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
+    utterance.onend = () => {
+      setIsSpeaking(false);
+      // Resume recording after speech ends
+      if (isConnected && !isListening) {
+        setTimeout(() => {
+          startRecording();
+        }, 500);
+      }
+    };
     utterance.onerror = () => setIsSpeaking(false);
 
     synthRef.current.speak(utterance);
@@ -135,40 +151,65 @@ const VoiceAgentBubble = () => {
     if (isConnected || isConnecting) return;
 
     setIsConnecting(true);
+    setConnectionStatus('Requesting microphone access...');
 
     try {
       // Request microphone permission first
       const hasPermission = await requestMicrophonePermission();
       if (!hasPermission) {
         setIsConnecting(false);
+        setConnectionStatus('');
         return;
       }
+
+      setConnectionStatus('Connecting to AI assistant...');
 
       // Connect to WebSocket
       const ws = new WebSocket('wss://njmzznceiykpybpuabgs.supabase.co/functions/v1/bright-processor');
       wsRef.current = ws;
 
+      // Set connection timeout
+      const connectionTimeout = setTimeout(() => {
+        if (!isConnected) {
+          console.log('Connection timeout');
+          ws.close();
+          setIsConnecting(false);
+          setConnectionStatus('');
+          toast({
+            title: "Connection Timeout",
+            description: "Failed to connect to voice agent. Please try again.",
+            variant: "destructive",
+          });
+        }
+      }, 10000); // 10 second timeout
+
       ws.onopen = () => {
         console.log("Connected to voice agent");
+        clearTimeout(connectionTimeout);
         setIsConnected(true);
         setIsConnecting(false);
+        setConnectionStatus('Connected');
         
         // Send initial message to start conversation
-      ws.send(JSON.stringify({
-        type: 'user_message',
-        message: {
-          role: 'user',
-          content: 'Hello, I would like to start a voice conversation.'
-        }
-      }));
+        ws.send(JSON.stringify({
+          type: 'user_message',
+          message: {
+            role: 'user',
+            content: 'Hello, I would like to start a voice conversation.'
+          }
+        }));
 
         toast({
           title: "Voice Agent Connected",
-          description: "You can now speak with our AI assistant",
+          description: "Neo is ready to assist you!",
         });
 
-        // Start recording
-        startRecording();
+        // Start recording after a brief delay
+        setTimeout(() => {
+          if (isConnected) {
+            startRecording();
+          }
+        }, 1000);
       };
 
       ws.onmessage = (event) => {
@@ -180,34 +221,43 @@ const VoiceAgentBubble = () => {
             // Stop recording while speaking
             stopRecording();
             speakText(data.text);
-            
-            // Resume recording after speech ends
-            setTimeout(() => {
-              if (isConnected) {
-                startRecording();
-              }
-            }, 1000);
+          } else if (data.type === 'ping') {
+            // Respond to ping with pong
+            ws.send(JSON.stringify({ type: 'pong' }));
+          } else if (data.type === 'error') {
+            console.error('Server error:', data.message);
+            toast({
+              title: "Assistant Error",
+              description: data.message || "The assistant encountered an error",
+              variant: "destructive",
+            });
           }
         } catch (error) {
           console.error("Error parsing WebSocket message:", error);
         }
       };
 
-      ws.onclose = () => {
-        console.log("Disconnected from voice agent");
+      ws.onclose = (event) => {
+        console.log("Disconnected from voice agent", event.code, event.reason);
+        clearTimeout(connectionTimeout);
         cleanup();
-        toast({
-          title: "Voice Agent Disconnected",
-          description: "Conversation ended",
-        });
+        
+        // Don't show disconnect message if user initiated the disconnect
+        if (event.code !== 1000) {
+          toast({
+            title: "Voice Agent Disconnected",
+            description: "Connection lost. You can reconnect anytime.",
+          });
+        }
       };
 
       ws.onerror = (error) => {
         console.error("WebSocket error:", error);
+        clearTimeout(connectionTimeout);
         cleanup();
         toast({
           title: "Connection Error",
-          description: "Failed to connect to voice agent",
+          description: "Failed to connect to voice agent. Please check your internet connection.",
           variant: "destructive",
         });
       };
@@ -215,6 +265,7 @@ const VoiceAgentBubble = () => {
     } catch (error) {
       console.error("Failed to connect:", error);
       setIsConnecting(false);
+      setConnectionStatus('');
       toast({
         title: "Connection Failed",
         description: "Could not connect to voice agent",
@@ -227,7 +278,7 @@ const VoiceAgentBubble = () => {
     cleanup();
     toast({
       title: "Voice Agent Disconnected",
-      description: "Conversation ended",
+      description: "Conversation ended successfully",
     });
   };
 
@@ -255,11 +306,21 @@ const VoiceAgentBubble = () => {
             </div>
           </div>
           
-          {isConnected && (
-            <div className="mb-4 flex items-center gap-2 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg p-3 border border-emerald-200 dark:border-emerald-800">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-              <span className="text-xs text-emerald-700 dark:text-emerald-300 font-medium">
-                {isListening ? "Listening..." : isSpeaking ? "Speaking..." : "Connected"}
+          {(isConnected || isConnecting) && (
+            <div className={`mb-4 flex items-center gap-2 rounded-lg p-3 border ${
+              isConnected 
+                ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800'
+                : 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800'
+            }`}>
+              <div className={`w-2 h-2 rounded-full animate-pulse ${
+                isConnected ? 'bg-emerald-500' : 'bg-amber-500'
+              }`}></div>
+              <span className={`text-xs font-medium ${
+                isConnected 
+                  ? 'text-emerald-700 dark:text-emerald-300'
+                  : 'text-amber-700 dark:text-amber-300'
+              }`}>
+                {connectionStatus || (isListening ? "Listening..." : isSpeaking ? "Speaking..." : "Connected")}
               </span>
             </div>
           )}
@@ -288,15 +349,12 @@ const VoiceAgentBubble = () => {
                 : "bg-voice-gradient hover:bg-voice-gradient-hover shadow-voice-primary/50"
             }`}
           >
-            {/* Strong contrast overlay */}
             <div className="absolute inset-0 bg-gradient-to-tr from-white/30 to-transparent opacity-70"></div>
             
-            {/* Strong pulsing ring when active */}
             {isConnected && (
               <div className="absolute -inset-3 rounded-full border-2 border-red-400/60 animate-ping"></div>
             )}
             
-            {/* Icon */}
             <div className="relative z-10">
               {isConnected ? (
                 <PhoneOff className="h-6 w-6 text-white animate-bounce" />
@@ -309,7 +367,6 @@ const VoiceAgentBubble = () => {
           </Button>
         </div>
         
-        {/* Enhanced voice visualization with better contrast */}
         {(isSpeaking || isListening) && (
           <div className="flex space-x-1 animate-float">
             <div className="w-1 h-3 bg-voice-primary rounded-full animate-pulse border border-black/20"></div>
@@ -320,7 +377,6 @@ const VoiceAgentBubble = () => {
           </div>
         )}
         
-        {/* Status text */}
         {!isExpanded && (
           <button
             onClick={() => setIsExpanded(true)}
