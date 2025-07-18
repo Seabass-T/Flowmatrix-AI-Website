@@ -11,6 +11,7 @@ const VoiceAgentBubble = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<string>('');
+  const [lastTranscription, setLastTranscription] = useState<string>('');
   
   const wsRef = useRef<WebSocket | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -18,6 +19,7 @@ const VoiceAgentBubble = () => {
   const synthRef = useRef<SpeechSynthesis | null>(null);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const connectionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const recordingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   const { toast } = useToast();
 
@@ -51,11 +53,17 @@ const VoiceAgentBubble = () => {
       clearTimeout(connectionTimeoutRef.current);
       connectionTimeoutRef.current = null;
     }
+    if (recordingTimeoutRef.current) {
+      clearTimeout(recordingTimeoutRef.current);
+      recordingTimeoutRef.current = null;
+    }
     
     setIsConnected(false);
     setIsConnecting(false);
     setIsListening(false);
+    setIsSpeaking(false);
     setConnectionStatus('');
+    setLastTranscription('');
   };
 
   const requestMicrophonePermission = async () => {
@@ -82,7 +90,7 @@ const VoiceAgentBubble = () => {
   };
 
   const startRecording = () => {
-    if (!streamRef.current) return;
+    if (!streamRef.current || isSpeaking) return;
 
     try {
       const mediaRecorder = new MediaRecorder(streamRef.current, {
@@ -90,36 +98,63 @@ const VoiceAgentBubble = () => {
       });
       
       mediaRecorderRef.current = mediaRecorder;
+      const audioChunks: BlobPart[] = [];
 
       mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0 && wsRef.current?.readyState === WebSocket.OPEN) {
-          // Convert audio blob to base64 and send
+        if (event.data.size > 0) {
+          audioChunks.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = () => {
+        if (audioChunks.length > 0) {
+          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          
+          // Convert to base64 and send
           const reader = new FileReader();
           reader.onloadend = () => {
             const base64 = reader.result?.toString().split(',')[1];
-            if (base64) {
-              wsRef.current?.send(JSON.stringify({
+            if (base64 && wsRef.current?.readyState === WebSocket.OPEN) {
+              console.log("VoiceAgentBubble: Sending audio data");
+              wsRef.current.send(JSON.stringify({
                 type: 'audio_input',
                 data: base64
               }));
             }
           };
-          reader.readAsDataURL(event.data);
+          reader.readAsDataURL(audioBlob);
         }
       };
 
-      mediaRecorder.start(100); // Send chunks every 100ms
+      mediaRecorder.start();
       setIsListening(true);
+      setConnectionStatus('Listening...');
       console.log("VoiceAgentBubble: Recording started");
+
+      // Auto-stop recording after 5 seconds to send chunks
+      recordingTimeoutRef.current = setTimeout(() => {
+        if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+          mediaRecorderRef.current.stop();
+          setIsListening(false);
+          setConnectionStatus('Processing...');
+        }
+      }, 5000);
+
     } catch (error) {
       console.error("VoiceAgentBubble: Error starting recording:", error);
     }
   };
 
   const stopRecording = () => {
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+    if (recordingTimeoutRef.current) {
+      clearTimeout(recordingTimeoutRef.current);
+      recordingTimeoutRef.current = null;
+    }
+    
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
       mediaRecorderRef.current.stop();
       setIsListening(false);
+      setConnectionStatus('Processing...');
       console.log("VoiceAgentBubble: Recording stopped");
     }
   };
@@ -146,17 +181,26 @@ const VoiceAgentBubble = () => {
       utterance.voice = preferredVoice;
     }
 
-    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onstart = () => {
+      setIsSpeaking(true);
+      setConnectionStatus('Speaking...');
+    };
+    
     utterance.onend = () => {
       setIsSpeaking(false);
-      // Resume recording after speech ends
-      if (isConnected && !isListening) {
+      setConnectionStatus('Ready');
+      // Resume recording after speech ends if still connected
+      if (isConnected) {
         setTimeout(() => {
           startRecording();
-        }, 500);
+        }, 1000);
       }
     };
-    utterance.onerror = () => setIsSpeaking(false);
+    
+    utterance.onerror = () => {
+      setIsSpeaking(false);
+      setConnectionStatus('Ready');
+    };
 
     synthRef.current.speak(utterance);
   };
@@ -216,13 +260,6 @@ const VoiceAgentBubble = () => {
           title: "Voice Agent Connected",
           description: "Neo is ready to assist you!",
         });
-
-        // Start recording after a brief delay
-        setTimeout(() => {
-          if (isConnected) {
-            startRecording();
-          }
-        }, 1000);
       };
 
       ws.onmessage = (event) => {
@@ -234,6 +271,10 @@ const VoiceAgentBubble = () => {
             // Stop recording while speaking
             stopRecording();
             speakText(data.text);
+          } else if (data.type === 'transcription' && data.text) {
+            // Show what was transcribed
+            setLastTranscription(data.text);
+            console.log("VoiceAgentBubble: Audio transcribed:", data.text);
           } else if (data.type === 'ping') {
             // Respond to ping with pong
             ws.send(JSON.stringify({ type: 'pong' }));
@@ -314,6 +355,16 @@ const VoiceAgentBubble = () => {
     }
   };
 
+  const handleManualRecording = () => {
+    if (!isConnected) return;
+    
+    if (isListening) {
+      stopRecording();
+    } else if (!isSpeaking) {
+      startRecording();
+    }
+  };
+
   return (
     <div className="fixed bottom-6 right-6 z-50">
       {isExpanded && (
@@ -344,19 +395,45 @@ const VoiceAgentBubble = () => {
                   ? 'text-emerald-700 dark:text-emerald-300'
                   : 'text-amber-700 dark:text-amber-300'
               }`}>
-                {connectionStatus || (isListening ? "Listening..." : isSpeaking ? "Speaking..." : "Connected")}
+                {connectionStatus || "Connected"}
               </span>
             </div>
           )}
-          
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setIsExpanded(false)}
-            className="text-xs hover:scale-105 transition-all duration-200 border-2 border-gray-300 dark:border-gray-600 hover:border-voice-primary bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-          >
-            Minimize
-          </Button>
+
+          {lastTranscription && (
+            <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+              <p className="text-xs text-blue-700 dark:text-blue-300 font-medium mb-1">You said:</p>
+              <p className="text-xs text-blue-800 dark:text-blue-200">"{lastTranscription}"</p>
+            </div>
+          )}
+
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsExpanded(false)}
+              className="text-xs hover:scale-105 transition-all duration-200 border-2 border-gray-300 dark:border-gray-600 hover:border-voice-primary bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+            >
+              Minimize
+            </Button>
+            
+            {isConnected && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleManualRecording}
+                disabled={isSpeaking}
+                className={`text-xs flex items-center gap-1 ${
+                  isListening 
+                    ? 'bg-red-50 border-red-300 text-red-700 hover:bg-red-100' 
+                    : 'bg-blue-50 border-blue-300 text-blue-700 hover:bg-blue-100'
+                }`}
+              >
+                {isListening ? <MicOff className="w-3 h-3" /> : <Mic className="w-3 h-3" />}
+                {isListening ? 'Stop' : 'Talk'}
+              </Button>
+            )}
+          </div>
         </div>
       )}
       
