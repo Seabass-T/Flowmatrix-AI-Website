@@ -17,6 +17,7 @@ const VoiceAgentBubble = () => {
   const streamRef = useRef<MediaStream | null>(null);
   const synthRef = useRef<SpeechSynthesis | null>(null);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const connectionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   const { toast } = useToast();
 
@@ -28,8 +29,10 @@ const VoiceAgentBubble = () => {
   }, []);
 
   const cleanup = () => {
+    console.log("VoiceAgentBubble: Cleaning up connections");
+    
     if (wsRef.current) {
-      wsRef.current.close();
+      wsRef.current.close(1000, "User initiated disconnect");
       wsRef.current = null;
     }
     if (mediaRecorderRef.current) {
@@ -44,6 +47,11 @@ const VoiceAgentBubble = () => {
       clearTimeout(reconnectTimeoutRef.current);
       reconnectTimeoutRef.current = null;
     }
+    if (connectionTimeoutRef.current) {
+      clearTimeout(connectionTimeoutRef.current);
+      connectionTimeoutRef.current = null;
+    }
+    
     setIsConnected(false);
     setIsConnecting(false);
     setIsListening(false);
@@ -63,7 +71,7 @@ const VoiceAgentBubble = () => {
       streamRef.current = stream;
       return true;
     } catch (error) {
-      console.error("Microphone permission denied:", error);
+      console.error("VoiceAgentBubble: Microphone permission denied:", error);
       toast({
         title: "Microphone Access Required",
         description: "Please allow microphone access to use the voice agent",
@@ -76,37 +84,43 @@ const VoiceAgentBubble = () => {
   const startRecording = () => {
     if (!streamRef.current) return;
 
-    const mediaRecorder = new MediaRecorder(streamRef.current, {
-      mimeType: 'audio/webm;codecs=opus'
-    });
-    
-    mediaRecorderRef.current = mediaRecorder;
+    try {
+      const mediaRecorder = new MediaRecorder(streamRef.current, {
+        mimeType: 'audio/webm;codecs=opus'
+      });
+      
+      mediaRecorderRef.current = mediaRecorder;
 
-    mediaRecorder.ondataavailable = (event) => {
-      if (event.data.size > 0 && wsRef.current?.readyState === WebSocket.OPEN) {
-        // Convert audio blob to base64 and send
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const base64 = reader.result?.toString().split(',')[1];
-          if (base64) {
-            wsRef.current?.send(JSON.stringify({
-              type: 'audio_input',
-              data: base64
-            }));
-          }
-        };
-        reader.readAsDataURL(event.data);
-      }
-    };
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0 && wsRef.current?.readyState === WebSocket.OPEN) {
+          // Convert audio blob to base64 and send
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const base64 = reader.result?.toString().split(',')[1];
+            if (base64) {
+              wsRef.current?.send(JSON.stringify({
+                type: 'audio_input',
+                data: base64
+              }));
+            }
+          };
+          reader.readAsDataURL(event.data);
+        }
+      };
 
-    mediaRecorder.start(100); // Send chunks every 100ms
-    setIsListening(true);
+      mediaRecorder.start(100); // Send chunks every 100ms
+      setIsListening(true);
+      console.log("VoiceAgentBubble: Recording started");
+    } catch (error) {
+      console.error("VoiceAgentBubble: Error starting recording:", error);
+    }
   };
 
   const stopRecording = () => {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
       mediaRecorderRef.current.stop();
       setIsListening(false);
+      console.log("VoiceAgentBubble: Recording stopped");
     }
   };
 
@@ -150,6 +164,7 @@ const VoiceAgentBubble = () => {
   const connectToVoiceAgent = async () => {
     if (isConnected || isConnecting) return;
 
+    console.log("VoiceAgentBubble: Starting connection process");
     setIsConnecting(true);
     setConnectionStatus('Requesting microphone access...');
 
@@ -164,14 +179,17 @@ const VoiceAgentBubble = () => {
 
       setConnectionStatus('Connecting to AI assistant...');
 
-      // Connect to WebSocket
-      const ws = new WebSocket('wss://njmzznceiykpybpuabgs.supabase.co/functions/v1/bright-processor');
+      // Use the correct WebSocket URL for the bright-processor function
+      const wsUrl = 'wss://njmzznceiykpybpuabgs.supabase.co/functions/v1/bright-processor';
+      console.log("VoiceAgentBubble: Connecting to:", wsUrl);
+      
+      const ws = new WebSocket(wsUrl);
       wsRef.current = ws;
 
       // Set connection timeout
-      const connectionTimeout = setTimeout(() => {
+      connectionTimeoutRef.current = setTimeout(() => {
         if (!isConnected) {
-          console.log('Connection timeout');
+          console.log("VoiceAgentBubble: Connection timeout");
           ws.close();
           setIsConnecting(false);
           setConnectionStatus('');
@@ -181,24 +199,19 @@ const VoiceAgentBubble = () => {
             variant: "destructive",
           });
         }
-      }, 10000); // 10 second timeout
+      }, 15000); // 15 second timeout
 
       ws.onopen = () => {
-        console.log("Connected to voice agent");
-        clearTimeout(connectionTimeout);
+        console.log("VoiceAgentBubble: Connected to voice agent");
+        if (connectionTimeoutRef.current) {
+          clearTimeout(connectionTimeoutRef.current);
+          connectionTimeoutRef.current = null;
+        }
+        
         setIsConnected(true);
         setIsConnecting(false);
         setConnectionStatus('Connected');
         
-        // Send initial message to start conversation
-        ws.send(JSON.stringify({
-          type: 'user_message',
-          message: {
-            role: 'user',
-            content: 'Hello, I would like to start a voice conversation.'
-          }
-        }));
-
         toast({
           title: "Voice Agent Connected",
           description: "Neo is ready to assist you!",
@@ -215,7 +228,7 @@ const VoiceAgentBubble = () => {
       ws.onmessage = (event) => {
         try {
           const data = JSON.parse(event.data);
-          console.log("Received message:", data);
+          console.log("VoiceAgentBubble: Received message:", data);
 
           if (data.type === 'text_response' && data.text) {
             // Stop recording while speaking
@@ -225,7 +238,7 @@ const VoiceAgentBubble = () => {
             // Respond to ping with pong
             ws.send(JSON.stringify({ type: 'pong' }));
           } else if (data.type === 'error') {
-            console.error('Server error:', data.message);
+            console.error('VoiceAgentBubble: Server error:', data.message);
             toast({
               title: "Assistant Error",
               description: data.message || "The assistant encountered an error",
@@ -233,16 +246,21 @@ const VoiceAgentBubble = () => {
             });
           }
         } catch (error) {
-          console.error("Error parsing WebSocket message:", error);
+          console.error("VoiceAgentBubble: Error parsing WebSocket message:", error);
         }
       };
 
       ws.onclose = (event) => {
-        console.log("Disconnected from voice agent", event.code, event.reason);
-        clearTimeout(connectionTimeout);
+        console.log("VoiceAgentBubble: Disconnected from voice agent", event.code, event.reason);
+        
+        if (connectionTimeoutRef.current) {
+          clearTimeout(connectionTimeoutRef.current);
+          connectionTimeoutRef.current = null;
+        }
+        
         cleanup();
         
-        // Don't show disconnect message if user initiated the disconnect
+        // Only show disconnect message if it wasn't a user-initiated disconnect
         if (event.code !== 1000) {
           toast({
             title: "Voice Agent Disconnected",
@@ -252,29 +270,35 @@ const VoiceAgentBubble = () => {
       };
 
       ws.onerror = (error) => {
-        console.error("WebSocket error:", error);
-        clearTimeout(connectionTimeout);
+        console.error("VoiceAgentBubble: WebSocket error:", error);
+        
+        if (connectionTimeoutRef.current) {
+          clearTimeout(connectionTimeoutRef.current);
+          connectionTimeoutRef.current = null;
+        }
+        
         cleanup();
         toast({
           title: "Connection Error",
-          description: "Failed to connect to voice agent. Please check your internet connection.",
+          description: "Failed to connect to voice agent. Please check your internet connection and try again.",
           variant: "destructive",
         });
       };
 
     } catch (error) {
-      console.error("Failed to connect:", error);
+      console.error("VoiceAgentBubble: Failed to connect:", error);
       setIsConnecting(false);
       setConnectionStatus('');
       toast({
         title: "Connection Failed",
-        description: "Could not connect to voice agent",
+        description: "Could not connect to voice agent. Please try again.",
         variant: "destructive",
       });
     }
   };
 
   const disconnectFromVoiceAgent = () => {
+    console.log("VoiceAgentBubble: User initiated disconnect");
     cleanup();
     toast({
       title: "Voice Agent Disconnected",
