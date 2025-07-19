@@ -46,6 +46,7 @@ const Index = () => {
 
   const goToPricing = () => {
     navigate('/pricing');
+    window.scrollTo(0, 0);
   };
 
   return (
