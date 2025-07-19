@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,10 +18,23 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@flowmatrix_ai" />
     <meta name="twitter:image" content="/lovable-uploads/be2df81d-7799-4867-a793-77b85560b836.png" />
+    
+    <!-- Vapi Voice Assistant Widget -->
+    <script
+      src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
+      async
+      type="text/javascript"
+    ></script>
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Vapi Voice Assistant Widget -->
+    <vapi-widget 
+      assistant-id="a10c3748-397d-4d16-b217-19faf4192046" 
+      public-key="100ff321-ef4d-444e-ac64-82980354d406"
+    ></vapi-widget>
   </body>
 </html>

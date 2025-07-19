@@ -4,7 +4,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import VoiceAgentBubble from "@/components/VoiceAgentBubble";
 import Footer from "@/components/Footer";
 import Index from "./pages/Index";
 import Pricing from "./pages/Pricing";
@@ -14,7 +13,6 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
-
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,7 +40,6 @@ const App = () => (
             </Routes>
           </div>
           <Footer />
-          <VoiceAgentBubble />
         </div>
       </BrowserRouter>
     </TooltipProvider>
