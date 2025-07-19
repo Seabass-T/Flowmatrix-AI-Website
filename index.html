@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -21,8 +22,8 @@
     
     <!-- Vapi Voice Assistant Widget -->
     <script
-      src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
-      async
+      src="https://unpkg.com/@vapi-ai/web@latest/dist/index.umd.js"
+      defer
       type="text/javascript"
     ></script>
   </head>
@@ -35,6 +36,36 @@
     <vapi-widget 
       assistant-id="a10c3748-397d-4d16-b217-19faf4192046" 
       public-key="100ff321-ef4d-444e-ac64-82980354d406"
+      mode="voice"
+      auto-start="false"
+      show-public-key-invalid-message="false"
+      button-color="#3b82f6"
+      position="bottom-right"
     ></vapi-widget>
+    
+    <script>
+      // Initialize Vapi voice functionality when DOM is loaded
+      document.addEventListener('DOMContentLoaded', function() {
+        const vapiWidget = document.querySelector('vapi-widget');
+        if (vapiWidget) {
+          // Enable voice mode explicitly
+          vapiWidget.setAttribute('mode', 'voice');
+          
+          // Add event listeners for voice interactions
+          vapiWidget.addEventListener('call-start', function() {
+            console.log('Voice call started');
+          });
+          
+          vapiWidget.addEventListener('call-end', function() {
+            console.log('Voice call ended');
+          });
+          
+          vapiWidget.addEventListener('error', function(event) {
+            console.error('Vapi widget error:', event.detail);
+          });
+        }
+      });
+    </script>
   </body>
 </html>
+
