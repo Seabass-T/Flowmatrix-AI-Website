@@ -202,7 +202,7 @@ const Pricing = () => {
                   <span className="text-white">White-label options</span>
                 </li>
               </ul>
-              <Button onClick={openCalendly} className="w-full bg-gray-900 hover:bg-gray-800">
+              <Button onClick={openCalendly} className="w-full bg-white text-gray-900 hover:bg-gray-100">
                 Let's Talk <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </CardContent>
