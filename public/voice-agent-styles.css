@@ -1,0 +1,17 @@
+/* Custom styles for VoiceGlow widget */
+#VG_OVERLAY_CONTAINER .vg-message-bubble,
+#VG_OVERLAY_CONTAINER .vg-chat-bubble,
+#VG_OVERLAY_CONTAINER .message-bubble {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  color: white !important;
+}
+
+#VG_OVERLAY_CONTAINER .vg-message-text,
+#VG_OVERLAY_CONTAINER .message-text {
+  color: white !important;
+}
+
+/* Ensure good contrast for the voice widget */
+#VG_OVERLAY_CONTAINER .vg-widget {
+  background-color: rgba(0, 0, 0, 0.9) !important;
+}
