@@ -256,9 +256,9 @@ const Contact = () => {
                     <Mail className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">Email Us</h3>
-                    <p className="text-gray-600">info@flowmatrixai.com</p>
-                    <p className="text-sm text-gray-500">We respond within 24 hours</p>
+                    <h3 className="font-semibold text-gray-900 text-lg">Email Us</h3>
+                    <p className="text-blue-600 font-medium text-base">info@flowmatrixai.com</p>
+                    <p className="text-gray-700 text-sm mt-1">We respond within 24 hours</p>
                   </div>
                 </div>
                 
@@ -267,9 +267,9 @@ const Contact = () => {
                     <Phone className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">Call Us</h3>
-                    <p className="text-gray-600">+1 (647) 282-3908</p>
-                    <p className="text-sm text-gray-500">Monday - Friday, 9 AM - 6 PM EST</p>
+                    <h3 className="font-semibold text-gray-900 text-lg">Call Us</h3>
+                    <p className="text-green-600 font-medium text-base">+1 (647) 282-3908</p>
+                    <p className="text-gray-700 text-sm mt-1">Monday - Friday, 9 AM - 6 PM EST</p>
                   </div>
                 </div>
                 
@@ -278,9 +278,9 @@ const Contact = () => {
                     <Clock className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">Business Hours</h3>
-                    <p className="text-gray-600">Monday - Friday: 9 AM - 6 PM EST</p>
-                    <p className="text-gray-600">Saturday - Sunday: Closed</p>
+                    <h3 className="font-semibold text-gray-900 text-lg">Business Hours</h3>
+                    <p className="text-purple-600 font-medium text-base">Monday - Friday: 9 AM - 6 PM EST</p>
+                    <p className="text-purple-600 font-medium text-base">Saturday - Sunday: Closed</p>
                   </div>
                 </div>
               </CardContent>
