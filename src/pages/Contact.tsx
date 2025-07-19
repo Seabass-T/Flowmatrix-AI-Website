@@ -327,22 +327,22 @@ const Contact = () => {
             </Card>
 
             {/* FAQ */}
-            <Card className="shadow-lg border-0">
+            <Card className="shadow-lg border-0 bg-gradient-to-br from-gray-800 to-gray-900">
               <CardHeader>
-                <CardTitle className="text-xl font-bold">Quick Questions?</CardTitle>
+                <CardTitle className="text-xl font-bold text-white">Quick Questions?</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">How quickly can you implement automation?</h4>
-                  <p className="text-sm text-gray-600">Most projects are completed within 1-2 weeks, depending on complexity.</p>
+                  <h4 className="font-semibold text-white mb-1">How quickly can you implement automation?</h4>
+                  <p className="text-sm text-gray-300">Most projects are completed within 1-2 weeks, depending on complexity.</p>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">Do you offer ongoing support?</h4>
-                  <p className="text-sm text-gray-600">Yes, all our plans include ongoing support and maintenance.</p>
+                  <h4 className="font-semibold text-white mb-1">Do you offer ongoing support?</h4>
+                  <p className="text-sm text-gray-300">Yes, all our plans include ongoing support and maintenance.</p>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">Can you integrate with our existing tools?</h4>
-                  <p className="text-sm text-gray-600">Absolutely! We specialize in integrating with popular business tools and platforms.</p>
+                  <h4 className="font-semibold text-white mb-1">Can you integrate with our existing tools?</h4>
+                  <p className="text-sm text-gray-300">Absolutely! We specialize in integrating with popular business tools and platforms.</p>
                 </div>
               </CardContent>
             </Card>

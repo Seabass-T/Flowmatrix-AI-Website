@@ -111,8 +111,8 @@ const Pricing = () => {
               </span>
             </div>
             <CardHeader className="text-center pb-8">
-              <CardTitle className="text-2xl font-bold">BrightPath Partnership</CardTitle>
-              <CardDescription className="text-lg">
+              <CardTitle className="text-2xl font-bold text-gray-900">BrightPath Partnership</CardTitle>
+              <CardDescription className="text-lg text-gray-700">
                 Ongoing partnership with dedicated support
               </CardDescription>
               <div className="mt-4">
@@ -126,31 +126,31 @@ const Pricing = () => {
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>Everything in Self-Hosted</span>
+                  <span className="text-gray-800">Everything in Self-Hosted</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>Ongoing automation development</span>
+                  <span className="text-gray-800">Ongoing automation development</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>24/7 priority support</span>
+                  <span className="text-gray-800">24/7 priority support</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>Monthly strategy calls</span>
+                  <span className="text-gray-800">Monthly strategy calls</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>Continuous optimization</span>
+                  <span className="text-gray-800">Continuous optimization</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>New feature development</span>
+                  <span className="text-gray-800">New feature development</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>Dedicated success manager</span>
+                  <span className="text-gray-800">Dedicated success manager</span>
                 </li>
               </ul>
               <Button onClick={openCalendly} className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
@@ -160,46 +160,46 @@ const Pricing = () => {
           </Card>
 
           {/* Tier 3: Custom Plan */}
-          <Card className="relative hover:shadow-xl transition-shadow border-2 border-gray-200">
+          <Card className="relative hover:shadow-xl transition-shadow border-2 border-gray-200 bg-gradient-to-br from-gray-800 to-gray-900">
             <CardHeader className="text-center pb-8">
-              <CardTitle className="text-2xl font-bold">Enterprise Custom</CardTitle>
-              <CardDescription className="text-lg">
+              <CardTitle className="text-2xl font-bold text-white">Enterprise Custom</CardTitle>
+              <CardDescription className="text-lg text-gray-200">
                 Tailored solutions for large organizations
               </CardDescription>
               <div className="mt-4">
-                <span className="text-4xl font-bold text-gray-900">Custom</span>
-                <p className="text-gray-500 mt-2">Volume Pricing Available</p>
+                <span className="text-4xl font-bold text-white">Custom</span>
+                <p className="text-gray-300 mt-2">Volume Pricing Available</p>
               </div>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>Everything in Partnership</span>
+                  <span className="text-white">Everything in Partnership</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>Multi-department automation</span>
+                  <span className="text-white">Multi-department automation</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>Enterprise-grade security</span>
+                  <span className="text-white">Enterprise-grade security</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>Dedicated development team</span>
+                  <span className="text-white">Dedicated development team</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>SLA guarantees</span>
+                  <span className="text-white">SLA guarantees</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>Custom integrations</span>
+                  <span className="text-white">Custom integrations</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>White-label options</span>
+                  <span className="text-white">White-label options</span>
                 </li>
               </ul>
               <Button onClick={openCalendly} className="w-full bg-gray-900 hover:bg-gray-800">

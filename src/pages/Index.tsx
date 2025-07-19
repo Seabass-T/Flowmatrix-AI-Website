@@ -238,14 +238,14 @@ const Index = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-800 to-gray-900">
               <CardContent className="p-8">
                 <div className="flex items-center mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                <p className="text-gray-700 mb-6 italic">
+                <p className="text-white mb-6 italic">
                   "Our small coffee shop was drowning in customer inquiries on social media. FlowMatrix AI set up an automated system that handles 80% of our questions about hours, menu items, and orders. Now I actually have time to focus on making great coffee instead of being glued to my phone all day."
                 </p>
                 <div className="flex items-center">
@@ -253,21 +253,21 @@ const Index = () => {
                     SM
                   </div>
                   <div className="ml-4">
-                    <div className="font-semibold text-gray-900">Sarah M.</div>
-                    <div className="text-sm text-gray-600">Local Coffee Shop Owner</div>
+                    <div className="font-semibold text-white">Sarah M.</div>
+                    <div className="text-sm text-gray-200">Local Coffee Shop Owner</div>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-800 to-gray-900">
               <CardContent className="p-8">
                 <div className="flex items-center mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                <p className="text-gray-700 mb-6 italic">
+                <p className="text-white mb-6 italic">
                   "As a freelance graphic designer, I was spending more time on invoicing and follow-ups than actual design work. Their invoice automation system sends payment reminders, tracks overdue amounts, and even follows up with clients automatically. I got my life back and my cash flow improved dramatically."
                 </p>
                 <div className="flex items-center">
@@ -275,21 +275,21 @@ const Index = () => {
                     JR
                   </div>
                   <div className="ml-4">
-                    <div className="font-semibold text-gray-900">Jake R.</div>
-                    <div className="text-sm text-gray-600">Freelance Designer</div>
+                    <div className="font-semibold text-white">Jake R.</div>
+                    <div className="text-sm text-gray-200">Freelance Designer</div>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-800 to-gray-900">
               <CardContent className="p-8">
                 <div className="flex items-center mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                <p className="text-gray-700 mb-6 italic">
+                <p className="text-white mb-6 italic">
                   "Running a small plumbing business means juggling appointments, emergency calls, and paperwork. The workflow automation they built sends appointment confirmations, follows up after service calls, and even handles basic scheduling questions from customers. It's like having a personal assistant that never sleeps."
                 </p>
                 <div className="flex items-center">
@@ -297,8 +297,8 @@ const Index = () => {
                     LC
                   </div>
                   <div className="ml-4">
-                    <div className="font-semibold text-gray-900">Lisa C.</div>
-                    <div className="text-sm text-gray-600">Plumbing Services</div>
+                    <div className="font-semibold text-white">Lisa C.</div>
+                    <div className="text-sm text-gray-200">Plumbing Services</div>
                   </div>
                 </div>
               </CardContent>
