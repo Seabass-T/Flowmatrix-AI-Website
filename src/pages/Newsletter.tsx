@@ -152,29 +152,27 @@ const Newsletter = () => {
       <Navigation />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* Previous Newsletters Dropdown */}
+        <div className="flex justify-end mb-8">
+          <select className="px-6 py-3 bg-white border-2 border-gray-200 rounded-xl shadow-lg text-base font-semibold text-gray-800 hover:border-blue-300 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
+            <option value="">Previous Issues</option>
+            <option value="last-week">Last Week - Issue #1</option>
+          </select>
+        </div>
+
         <div className="text-center mb-16">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center">
-              <img 
-                src="/lovable-uploads/9b28d13a-dbf3-4c52-a9c5-6f2e7e9cab7f.png" 
-                alt="FlowMatrix AI" 
-                className="h-16 w-16 object-contain mr-4"
-              />
-              <h1 className="text-4xl md:text-5xl font-bold">
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  The Matrix
-                </span>{" "}
-                <span className="text-gray-900">AI Newsletter</span>
-              </h1>
-            </div>
-            
-            {/* Previous Newsletters Dropdown */}
-            <div className="relative">
-              <select className="px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="">Previous Issues</option>
-                <option value="last-week">Last Week - Issue #1</option>
-              </select>
-            </div>
+          <div className="flex items-center justify-center mb-6">
+            <img 
+              src="/lovable-uploads/9b28d13a-dbf3-4c52-a9c5-6f2e7e9cab7f.png" 
+              alt="FlowMatrix AI" 
+              className="h-16 w-16 object-contain mr-4"
+            />
+            <h1 className="text-4xl md:text-5xl font-bold">
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                The Matrix
+              </span>{" "}
+              <span className="text-gray-900">- Weekly AI Newsletter</span>
+            </h1>
           </div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Stay ahead of the curve with the latest AI developments, automation trends, and industry insights.
@@ -201,92 +199,80 @@ const Newsletter = () => {
             </CardContent>
           </Card>
         ) : newsletters.length === 0 ? (
-          <>
-            {/* Single Filler Newsletter */}
-            <Card className="shadow-lg border-0 max-w-2xl mx-auto mb-16">
-              <CardHeader>
-                <div className="flex items-center justify-between mb-2">
-                  <Badge variant="secondary">Issue #1</Badge>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <Calendar className="h-4 w-4 mr-1" />
-                    <span>Last Week</span>
-                  </div>
-                </div>
-                <CardTitle className="text-xl">The Matrix AI Newsletter - Weekly Digest</CardTitle>
-                <CardDescription>
-                  Latest AI insights and automation trends
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-4">
+          <div className="max-w-4xl mx-auto mb-16">
+            <div className="text-center mb-8">
+              <Badge variant="secondary" className="mb-4">Issue #1</Badge>
+              <div className="flex items-center justify-center text-sm text-gray-500 mb-6">
+                <Calendar className="h-4 w-4 mr-1" />
+                <span>Last Week</span>
+              </div>
+            </div>
+            <div className="prose prose-lg max-w-none bg-white p-8 rounded-xl shadow-lg">
+              <div className="text-gray-700 leading-relaxed">
+                <h2 className="text-2xl font-bold mb-6 text-gray-900">Welcome to The Matrix - Weekly AI Newsletter</h2>
+                <p className="mb-4">
                   Your weekly dose of AI innovation, automation trends, and industry insights. 
                   Once your n8n workflow is activated, new issues will appear here automatically.
                 </p>
-                <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                  Read Newsletter
-                  <ChevronRight className="h-4 w-4 ml-2" />
-                </Button>
-              </CardContent>
-            </Card>
-          </>
+                <p className="mb-4">
+                  This week in AI: Revolutionary developments in machine learning, breakthrough automation tools, 
+                  and the latest trends shaping the future of artificial intelligence.
+                </p>
+                <p className="text-sm text-gray-500 italic">
+                  This is placeholder content. Your actual newsletter content will replace this once the n8n workflow is triggered.
+                </p>
+              </div>
+            </div>
+          </div>
         ) : (
-          <div className="max-w-2xl mx-auto mb-16">
+          <div className="max-w-4xl mx-auto mb-16">
             {newsletters.slice(0, 1).map((newsletter) => {
-              const { title } = parseNewsletterContent(newsletter.message);
+              const { content, title } = parseNewsletterContent(newsletter.message);
               return (
-                <Card key={newsletter.id} className="shadow-lg border-0 hover:shadow-xl transition-shadow">
-                  <CardHeader>
-                    <div className="flex items-center justify-between mb-2">
-                      <Badge variant="secondary">Issue #{newsletter.id}</Badge>
-                      <div className="flex items-center text-sm text-gray-500">
-                        <Calendar className="h-4 w-4 mr-1" />
-                        <span>Session: {newsletter.session_id.slice(0, 8)}...</span>
-                      </div>
+                <div key={newsletter.id}>
+                  <div className="text-center mb-8">
+                    <Badge variant="secondary" className="mb-4">Issue #{newsletter.id}</Badge>
+                    <div className="flex items-center justify-center text-sm text-gray-500 mb-6">
+                      <Calendar className="h-4 w-4 mr-1" />
+                      <span>Session: {newsletter.session_id.slice(0, 8)}...</span>
                     </div>
-                    <CardTitle className="text-xl line-clamp-2">{title}</CardTitle>
-                    <CardDescription>
-                      Latest AI insights and automation trends
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Link to={`/newsletter/${newsletter.session_id}`}>
-                      <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                        Read Newsletter
-                        <ChevronRight className="h-4 w-4 ml-2" />
-                      </Button>
-                    </Link>
-                  </CardContent>
-                </Card>
+                  </div>
+                  <div className="prose prose-lg max-w-none bg-white p-8 rounded-xl shadow-lg">
+                    <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
+                      {content}
+                    </div>
+                  </div>
+                </div>
               );
             })}
           </div>
         )}
 
         {/* Join The Matrix Section */}
-        <div className="max-w-4xl mx-auto mt-24">
-          <Card className="shadow-xl border-0 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-            <CardContent className="p-12 text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">Join The Matrix</h2>
-              <p className="text-xl mb-8 text-blue-100">
-                Get weekly AI insights delivered to your inbox plus access to exclusive content and early features.
-              </p>
-              <div className="max-w-md mx-auto">
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <input
-                    type="email"
-                    placeholder="Enter your email address"
-                    className="flex-1 px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 border-0 focus:outline-none focus:ring-2 focus:ring-white"
-                  />
-                  <Button className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-3">
-                    Subscribe
-                  </Button>
-                </div>
-                <p className="text-sm text-blue-200 mt-4">
-                  Join 1,000+ AI enthusiasts staying ahead of the curve
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="max-w-4xl mx-auto mt-24 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Join The Matrix
+            </span>
+          </h2>
+          <p className="text-xl mb-8 text-gray-700 font-medium">
+            Get our weekly newsletter delivered to your inbox plus access to exclusive content and more AI news.
+          </p>
+          <div className="max-w-md mx-auto">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                className="flex-1 px-6 py-4 rounded-xl text-gray-900 placeholder-gray-500 border-2 border-gray-200 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 font-medium"
+              />
+              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold px-8 py-4 rounded-xl">
+                Subscribe
+              </Button>
+            </div>
+            <p className="text-base text-gray-600 mt-6 font-medium">
+              Join 1,000+ AI enthusiasts staying ahead of the curve
+            </p>
+          </div>
         </div>
       </div>
     </div>
