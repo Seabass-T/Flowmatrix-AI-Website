@@ -224,13 +224,6 @@ const Newsletter = () => {
           </Card>
         ) : newsletters.length === 0 ? (
           <div className="max-w-4xl mx-auto mb-16">
-            <div className="text-center mb-8">
-              <Badge variant="secondary" className="mb-4">Issue #1</Badge>
-              <div className="flex items-center justify-center text-sm text-gray-500 mb-6">
-                <Calendar className="h-4 w-4 mr-1" />
-                <span>Last Week</span>
-              </div>
-            </div>
             <div className="prose prose-lg max-w-none bg-white p-8 rounded-xl shadow-lg">
               <div className="text-gray-700 leading-relaxed">
                 <h2 className="text-2xl font-bold mb-6 text-gray-900">Welcome to The Matrix - Weekly AI Newsletter</h2>
@@ -247,6 +240,13 @@ const Newsletter = () => {
                 </p>
               </div>
             </div>
+            <div className="text-center mb-8 mt-8">
+              <Badge variant="secondary" className="mb-4">Issue #1</Badge>
+              <div className="flex items-center justify-center text-sm text-gray-500 mb-6">
+                <Calendar className="h-4 w-4 mr-1" />
+                <span>Last Week</span>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="max-w-4xl mx-auto mb-16">
@@ -261,16 +261,16 @@ const Newsletter = () => {
               const { content, title } = parseNewsletterContent(displayNewsletter.message);
               return (
                 <div key={displayNewsletter.id}>
-                  <div className="text-center mb-8">
+                  <div className="prose prose-lg max-w-none bg-white p-8 rounded-xl shadow-lg">
+                    <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
+                      {content}
+                    </div>
+                  </div>
+                  <div className="text-center mb-8 mt-8">
                     <Badge variant="secondary" className="mb-4">Issue #{displayNewsletter.id}</Badge>
                     <div className="flex items-center justify-center text-sm text-gray-500 mb-6">
                       <Calendar className="h-4 w-4 mr-1" />
                       <span>Session: {displayNewsletter.session_id.slice(0, 8)}...</span>
-                    </div>
-                  </div>
-                  <div className="prose prose-lg max-w-none bg-white p-8 rounded-xl shadow-lg">
-                    <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
-                      {content}
                     </div>
                   </div>
                 </div>
