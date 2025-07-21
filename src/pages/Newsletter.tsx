@@ -153,18 +153,28 @@ const Newsletter = () => {
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16">
-          <div className="flex items-center justify-center mb-6">
-            <img 
-              src="/lovable-uploads/9b28d13a-dbf3-4c52-a9c5-6f2e7e9cab7f.png" 
-              alt="FlowMatrix AI" 
-              className="h-16 w-16 object-contain mr-4"
-            />
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
-              AI{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Newsletter
-              </span>
-            </h1>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center">
+              <img 
+                src="/lovable-uploads/9b28d13a-dbf3-4c52-a9c5-6f2e7e9cab7f.png" 
+                alt="FlowMatrix AI" 
+                className="h-16 w-16 object-contain mr-4"
+              />
+              <h1 className="text-4xl md:text-5xl font-bold">
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  The Matrix
+                </span>{" "}
+                <span className="text-gray-900">AI Newsletter</span>
+              </h1>
+            </div>
+            
+            {/* Previous Newsletters Dropdown */}
+            <div className="relative">
+              <select className="px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">Previous Issues</option>
+                <option value="last-week">Last Week - Issue #1</option>
+              </select>
+            </div>
           </div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Stay ahead of the curve with the latest AI developments, automation trends, and industry insights.
@@ -172,19 +182,13 @@ const Newsletter = () => {
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <Card key={i} className="shadow-lg border-0 animate-pulse">
-                <CardContent className="p-6">
-                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
-                  <div className="h-3 bg-gray-200 rounded w-full mb-2"></div>
-                  <div className="h-3 bg-gray-200 rounded w-2/3"></div>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="animate-pulse max-w-2xl mx-auto">
+            <div className="h-8 bg-gray-200 rounded w-1/2 mb-4"></div>
+            <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+            <div className="h-4 bg-gray-200 rounded w-3/4"></div>
           </div>
         ) : error ? (
-          <Card className="shadow-lg border-0">
+          <Card className="shadow-lg border-0 max-w-2xl mx-auto">
             <CardContent className="p-8 text-center">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Ready for Newsletter Content</h2>
               <p className="text-gray-600 mb-6">{error}</p>
@@ -197,23 +201,37 @@ const Newsletter = () => {
             </CardContent>
           </Card>
         ) : newsletters.length === 0 ? (
-          <Card className="shadow-lg border-0">
-            <CardContent className="p-8 text-center">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">No Newsletters Available</h2>
-              <p className="text-gray-600 mb-6">
-                Your n8n workflow will populate this page with newsletter content.
-              </p>
-              <p className="text-sm text-gray-500 mb-6">
-                Test your webhook to see newsletters appear here automatically.
-              </p>
-              <Button onClick={fetchNewsletters} className="bg-gradient-to-r from-blue-600 to-purple-600">
-                Refresh
-              </Button>
-            </CardContent>
-          </Card>
+          <>
+            {/* Single Filler Newsletter */}
+            <Card className="shadow-lg border-0 max-w-2xl mx-auto mb-16">
+              <CardHeader>
+                <div className="flex items-center justify-between mb-2">
+                  <Badge variant="secondary">Issue #1</Badge>
+                  <div className="flex items-center text-sm text-gray-500">
+                    <Calendar className="h-4 w-4 mr-1" />
+                    <span>Last Week</span>
+                  </div>
+                </div>
+                <CardTitle className="text-xl">The Matrix AI Newsletter - Weekly Digest</CardTitle>
+                <CardDescription>
+                  Latest AI insights and automation trends
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-4">
+                  Your weekly dose of AI innovation, automation trends, and industry insights. 
+                  Once your n8n workflow is activated, new issues will appear here automatically.
+                </p>
+                <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                  Read Newsletter
+                  <ChevronRight className="h-4 w-4 ml-2" />
+                </Button>
+              </CardContent>
+            </Card>
+          </>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {newsletters.map((newsletter) => {
+          <div className="max-w-2xl mx-auto mb-16">
+            {newsletters.slice(0, 1).map((newsletter) => {
               const { title } = parseNewsletterContent(newsletter.message);
               return (
                 <Card key={newsletter.id} className="shadow-lg border-0 hover:shadow-xl transition-shadow">
@@ -243,6 +261,33 @@ const Newsletter = () => {
             })}
           </div>
         )}
+
+        {/* Join The Matrix Section */}
+        <div className="max-w-4xl mx-auto mt-24">
+          <Card className="shadow-xl border-0 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+            <CardContent className="p-12 text-center">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">Join The Matrix</h2>
+              <p className="text-xl mb-8 text-blue-100">
+                Get weekly AI insights delivered to your inbox plus access to exclusive content and early features.
+              </p>
+              <div className="max-w-md mx-auto">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <input
+                    type="email"
+                    placeholder="Enter your email address"
+                    className="flex-1 px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 border-0 focus:outline-none focus:ring-2 focus:ring-white"
+                  />
+                  <Button className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-3">
+                    Subscribe
+                  </Button>
+                </div>
+                <p className="text-sm text-blue-200 mt-4">
+                  Join 1,000+ AI enthusiasts staying ahead of the curve
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
