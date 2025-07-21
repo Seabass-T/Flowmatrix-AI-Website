@@ -17,6 +17,7 @@ const Newsletter = () => {
   const { issueId } = useParams();
   const [newsletters, setNewsletters] = useState<NewsletterIssue[]>([]);
   const [currentNewsletter, setCurrentNewsletter] = useState<NewsletterIssue | null>(null);
+  const [selectedNewsletterId, setSelectedNewsletterId] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,6 +31,21 @@ const Newsletter = () => {
       setCurrentNewsletter(newsletter || null);
     }
   }, [issueId, newsletters]);
+
+  const handleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const sessionId = event.target.value;
+    setSelectedNewsletterId(sessionId);
+    
+    if (sessionId && newsletters.length > 0) {
+      const selectedNewsletter = newsletters.find(n => n.session_id === sessionId);
+      if (selectedNewsletter) {
+        setCurrentNewsletter(selectedNewsletter);
+      }
+    } else {
+      // Reset to latest newsletter
+      setCurrentNewsletter(newsletters.length > 0 ? newsletters[0] : null);
+    }
+  };
 
   const fetchNewsletters = async () => {
     try {
@@ -154,9 +170,17 @@ const Newsletter = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Previous Newsletters Dropdown */}
         <div className="flex justify-end mb-8">
-          <select className="px-6 py-3 bg-white border-2 border-gray-200 rounded-xl shadow-lg text-base font-semibold text-gray-800 hover:border-blue-300 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
-            <option value="">Previous Issues</option>
-            <option value="last-week">Last Week - Issue #1</option>
+          <select 
+            value={selectedNewsletterId}
+            onChange={handleDropdownChange}
+            className="px-6 py-3 bg-white border-2 border-gray-200 rounded-xl shadow-lg text-base font-semibold text-gray-800 hover:border-blue-300 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+          >
+            <option value="">Latest Issue</option>
+            {newsletters.slice(1).map((newsletter) => (
+              <option key={newsletter.id} value={newsletter.session_id}>
+                Issue #{newsletter.id} - {newsletter.session_id.slice(0, 8)}...
+              </option>
+            ))}
           </select>
         </div>
 
@@ -226,15 +250,22 @@ const Newsletter = () => {
           </div>
         ) : (
           <div className="max-w-4xl mx-auto mb-16">
-            {newsletters.slice(0, 1).map((newsletter) => {
-              const { content, title } = parseNewsletterContent(newsletter.message);
+            {/* Display selected newsletter or latest if none selected */}
+            {(() => {
+              const displayNewsletter = selectedNewsletterId 
+                ? newsletters.find(n => n.session_id === selectedNewsletterId) 
+                : newsletters[0];
+              
+              if (!displayNewsletter) return null;
+              
+              const { content, title } = parseNewsletterContent(displayNewsletter.message);
               return (
-                <div key={newsletter.id}>
+                <div key={displayNewsletter.id}>
                   <div className="text-center mb-8">
-                    <Badge variant="secondary" className="mb-4">Issue #{newsletter.id}</Badge>
+                    <Badge variant="secondary" className="mb-4">Issue #{displayNewsletter.id}</Badge>
                     <div className="flex items-center justify-center text-sm text-gray-500 mb-6">
                       <Calendar className="h-4 w-4 mr-1" />
-                      <span>Session: {newsletter.session_id.slice(0, 8)}...</span>
+                      <span>Session: {displayNewsletter.session_id.slice(0, 8)}...</span>
                     </div>
                   </div>
                   <div className="prose prose-lg max-w-none bg-white p-8 rounded-xl shadow-lg">
@@ -244,7 +275,7 @@ const Newsletter = () => {
                   </div>
                 </div>
               );
-            })}
+            })()}
           </div>
         )}
 
