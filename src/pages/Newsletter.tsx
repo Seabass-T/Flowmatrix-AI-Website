@@ -1,226 +1,248 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Clock, Mail, Star, Zap, TrendingUp, Brain } from "lucide-react";
+import { ArrowLeft, Calendar, ChevronRight } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+
+interface NewsletterIssue {
+  id: number;
+  session_id: string;
+  message: any;
+}
 
 const Newsletter = () => {
-  const [email, setEmail] = useState("");
-  const [isSubscribed, setIsSubscribed] = useState(false);
+  const { issueId } = useParams();
+  const [newsletters, setNewsletters] = useState<NewsletterIssue[]>([]);
+  const [currentNewsletter, setCurrentNewsletter] = useState<NewsletterIssue | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubscribe = () => {
-    // Here you would integrate with your email service
-    console.log("Subscribing email:", email);
-    setIsSubscribed(true);
+  useEffect(() => {
+    fetchNewsletters();
+  }, []);
+
+  useEffect(() => {
+    if (issueId && newsletters.length > 0) {
+      const newsletter = newsletters.find(n => n.session_id === issueId);
+      setCurrentNewsletter(newsletter || null);
+    }
+  }, [issueId, newsletters]);
+
+  const fetchNewsletters = async () => {
+    try {
+      setLoading(true);
+      // Direct query using any type to bypass TypeScript restrictions
+      const { data, error } = await (supabase as any)
+        .from('newsletter_db')
+        .select('*')
+        .order('id', { ascending: false });
+
+      if (error) throw error;
+      setNewsletters((data || []) as NewsletterIssue[]);
+    } catch (err) {
+      console.error('Error fetching newsletters:', err);
+      setError('Failed to load newsletters. Table may not exist yet.');
+    } finally {
+      setLoading(false);
+    }
   };
 
+  const parseNewsletterContent = (message: any) => {
+    try {
+      // Handle the message format from your n8n workflow
+      if (typeof message === 'string') {
+        return { content: message, title: 'FlowMatrix AI Newsletter' };
+      }
+      if (message && typeof message === 'object') {
+        return {
+          content: message.content || message.text || JSON.stringify(message, null, 2),
+          title: message.title || 'FlowMatrix AI Newsletter'
+        };
+      }
+      return { content: 'No content available', title: 'FlowMatrix AI Newsletter' };
+    } catch {
+      return { content: 'Failed to parse content', title: 'FlowMatrix AI Newsletter' };
+    }
+  };
+
+  // If viewing a specific newsletter issue
+  if (issueId) {
+    if (loading) {
+      return (
+        <div className="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+          <Navigation />
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div className="animate-pulse">
+              <div className="h-8 bg-gray-200 rounded w-1/4 mb-4"></div>
+              <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (!currentNewsletter) {
+      return (
+        <div className="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+          <Navigation />
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <Link to="/newsletter" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Newsletter Archive
+            </Link>
+            <Card className="shadow-lg border-0">
+              <CardContent className="p-8 text-center">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">Newsletter Issue Not Found</h2>
+                <p className="text-gray-600">The newsletter issue you're looking for doesn't exist.</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      );
+    }
+
+    const { content, title } = parseNewsletterContent(currentNewsletter.message);
+
+    return (
+      <div className="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+        <Navigation />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <Link to="/newsletter" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Newsletter Archive
+          </Link>
+          
+          <Card className="shadow-lg border-0">
+            <CardHeader className="text-center border-b">
+              <div className="flex items-center justify-center mb-4">
+                <img 
+                  src="/lovable-uploads/9b28d13a-dbf3-4c52-a9c5-6f2e7e9cab7f.png" 
+                  alt="FlowMatrix AI" 
+                  className="h-12 w-12 object-contain mr-3"
+                />
+                <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  FlowMatrix AI
+                </span>
+              </div>
+              <CardTitle className="text-3xl">{title}</CardTitle>
+              <CardDescription className="text-lg">
+                Issue #{currentNewsletter.id} • Session: {currentNewsletter.session_id}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-8">
+              <div className="prose prose-lg max-w-none">
+                <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
+                  {content}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  // Newsletter archive view
   return (
-    <div className="bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
       <Navigation />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            AI{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Newsletter
-            </span>
-          </h1>
+          <div className="flex items-center justify-center mb-6">
+            <img 
+              src="/lovable-uploads/9b28d13a-dbf3-4c52-a9c5-6f2e7e9cab7f.png" 
+              alt="FlowMatrix AI" 
+              className="h-16 w-16 object-contain mr-4"
+            />
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
+              AI{" "}
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Newsletter
+              </span>
+            </h1>
+          </div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Stay ahead of the curve with the latest AI developments, automation trends, and industry insights delivered to your inbox.
+            Stay ahead of the curve with the latest AI developments, automation trends, and industry insights.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-          {/* Free Preview */}
-          <div className="lg:col-span-2">
-            <Card className="shadow-lg border-0 h-full">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <Badge variant="secondary" className="w-fit">Free Preview</Badge>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <Clock className="h-4 w-4 mr-1" />
-                    2-3 min read
-                  </div>
-                </div>
-                <CardTitle className="text-2xl">This Week in AI: Revolutionary Automation Trends</CardTitle>
-                <CardDescription className="text-lg">
-                  December 2024 Edition - Discover the latest breakthroughs shaping the future of business automation
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-3">
-                    <Zap className="h-5 w-5 text-blue-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-semibold text-gray-900">AI-Powered Workflow Automation</h3>
-                      <p className="text-gray-600">
-                        New advances in machine learning are enabling businesses to automate complex decision-making processes, 
-                        reducing manual work by up to 80% across various industries.
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-3">
-                    <TrendingUp className="h-5 w-5 text-green-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-semibold text-gray-900">Small Business AI Adoption Surge</h3>
-                      <p className="text-gray-600">
-                        Small businesses are increasingly adopting AI tools, with a 300% increase in automation implementations 
-                        this quarter alone. The key drivers include cost reduction and improved efficiency.
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-3">
-                    <Brain className="h-5 w-5 text-purple-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-semibold text-gray-900">Voice AI Integration Breakthroughs</h3>
-                      <p className="text-gray-600">
-                        Advanced voice AI systems are now capable of handling complex customer service scenarios...
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Blurred Premium Content */}
-                <div className="relative mt-8">
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/70 to-white z-10 rounded-lg"></div>
-                  <div className="blur-sm space-y-4 text-gray-400">
-                    <h3 className="font-semibold">🔒 Premium Content</h3>
-                    <p>Detailed analysis of 15+ new AI tools and platforms that could revolutionize your business operations...</p>
-                    <p>Case studies from 3 small businesses that achieved 500% ROI through strategic automation...</p>
-                    <p>Exclusive interview with leading AI researchers about upcoming technologies...</p>
-                    <p>Step-by-step implementation guides for the most effective automation strategies...</p>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center z-20">
-                    <Card className="bg-white/95 backdrop-blur-sm border shadow-lg">
-                      <CardContent className="p-6 text-center">
-                        <Star className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
-                        <h3 className="font-bold text-gray-900 mb-2">Unlock Full Access</h3>
-                        <p className="text-sm text-gray-600 mb-4">
-                          Get the complete newsletter with in-depth analysis, case studies, and actionable insights.
-                        </p>
-                        <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                          Subscribe for $3.99/month
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="shadow-lg border-0 animate-pulse">
+                <CardContent className="p-6">
+                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+                  <div className="h-3 bg-gray-200 rounded w-full mb-2"></div>
+                  <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-
-          {/* Subscription Panel */}
-          <div className="space-y-6">
-            <Card className="shadow-lg border-0 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
-              <CardHeader>
-                <CardTitle className="text-2xl">Premium Newsletter</CardTitle>
-                <CardDescription className="text-blue-100">
-                  Comprehensive AI insights for serious business owners
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="text-3xl font-bold">$3.99<span className="text-lg font-normal">/month</span></div>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-white rounded-full"></div>
-                    <span className="text-sm">Weekly in-depth analysis</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-white rounded-full"></div>
-                    <span className="text-sm">Exclusive case studies</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-white rounded-full"></div>
-                    <span className="text-sm">Implementation guides</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-white rounded-full"></div>
-                    <span className="text-sm">Early access to trends</span>
-                  </div>
-                </div>
-                <Button className="w-full bg-white text-blue-600 hover:bg-gray-100 font-semibold">
-                  Start Premium Subscription
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="shadow-lg border-0">
-              <CardHeader>
-                <div className="flex items-center space-x-2">
-                  <Mail className="h-5 w-5 text-gray-600" />
-                  <CardTitle className="text-lg">Email Delivery</CardTitle>
-                </div>
-                <CardDescription>
-                  Get the newsletter delivered directly to your inbox
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="your@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <Button
-                  onClick={handleSubscribe}
-                  disabled={!email || isSubscribed}
-                  className="w-full"
-                >
-                  {isSubscribed ? "Subscribed!" : "Subscribe to Free Preview"}
-                </Button>
-                {isSubscribed && (
-                  <p className="text-sm text-green-600 text-center">
-                    ✓ You'll receive our free preview in your inbox!
-                  </p>
-                )}
-              </CardContent>
-            </Card>
+        ) : error ? (
+          <Card className="shadow-lg border-0">
+            <CardContent className="p-8 text-center">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Ready for Newsletter Content</h2>
+              <p className="text-gray-600 mb-6">{error}</p>
+              <p className="text-sm text-gray-500 mb-6">
+                Once your n8n workflow adds content to the newsletter_db table, it will appear here.
+              </p>
+              <Button onClick={fetchNewsletters} className="bg-gradient-to-r from-blue-600 to-purple-600">
+                Check for Updates
+              </Button>
+            </CardContent>
+          </Card>
+        ) : newsletters.length === 0 ? (
+          <Card className="shadow-lg border-0">
+            <CardContent className="p-8 text-center">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">No Newsletters Available</h2>
+              <p className="text-gray-600 mb-6">
+                Your n8n workflow will populate this page with newsletter content.
+              </p>
+              <p className="text-sm text-gray-500 mb-6">
+                Test your webhook to see newsletters appear here automatically.
+              </p>
+              <Button onClick={fetchNewsletters} className="bg-gradient-to-r from-blue-600 to-purple-600">
+                Refresh
+              </Button>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {newsletters.map((newsletter) => {
+              const { title } = parseNewsletterContent(newsletter.message);
+              return (
+                <Card key={newsletter.id} className="shadow-lg border-0 hover:shadow-xl transition-shadow">
+                  <CardHeader>
+                    <div className="flex items-center justify-between mb-2">
+                      <Badge variant="secondary">Issue #{newsletter.id}</Badge>
+                      <div className="flex items-center text-sm text-gray-500">
+                        <Calendar className="h-4 w-4 mr-1" />
+                        <span>Session: {newsletter.session_id.slice(0, 8)}...</span>
+                      </div>
+                    </div>
+                    <CardTitle className="text-xl line-clamp-2">{title}</CardTitle>
+                    <CardDescription>
+                      Latest AI insights and automation trends
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Link to={`/newsletter/${newsletter.session_id}`}>
+                      <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                        Read Newsletter
+                        <ChevronRight className="h-4 w-4 ml-2" />
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
-        </div>
-
-        {/* Features */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="text-center shadow-lg border-0">
-            <CardContent className="p-6">
-              <Zap className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-              <h3 className="font-semibold text-gray-900 mb-2">Latest Trends</h3>
-              <p className="text-sm text-gray-600">
-                Stay updated with cutting-edge AI developments and automation breakthroughs
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="text-center shadow-lg border-0">
-            <CardContent className="p-6">
-              <TrendingUp className="h-12 w-12 text-green-600 mx-auto mb-4" />
-              <h3 className="font-semibold text-gray-900 mb-2">Business Impact</h3>
-              <p className="text-sm text-gray-600">
-                Real case studies showing how AI transforms small businesses across industries
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="text-center shadow-lg border-0">
-            <CardContent className="p-6">
-              <Brain className="h-12 w-12 text-purple-600 mx-auto mb-4" />
-              <h3 className="font-semibold text-gray-900 mb-2">Actionable Insights</h3>
-              <p className="text-sm text-gray-600">
-                Step-by-step guides and practical advice you can implement immediately
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+        )}
       </div>
     </div>
   );

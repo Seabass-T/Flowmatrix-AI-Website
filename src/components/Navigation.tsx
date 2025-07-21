@@ -84,6 +84,13 @@ const Navigation = () => {
               }`}>
                 Use Cases
               </Link>
+              <Link to="/newsletter" className={`px-3 py-2 text-sm font-medium transition-colors ${
+                isActiveRoute('/newsletter') 
+                  ? 'text-blue-600 bg-blue-50 rounded-md' 
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}>
+                Newsletter
+              </Link>
               <Link to="/about" className={`px-3 py-2 text-sm font-medium transition-colors ${
                 isActiveRoute('/about') 
                   ? 'text-blue-600 bg-blue-50 rounded-md' 
@@ -143,6 +150,13 @@ const Navigation = () => {
                 : 'text-gray-700 hover:text-blue-600'
             }`}>
               Use Cases
+            </Link>
+            <Link to="/newsletter" className={`block px-3 py-2 text-base font-medium ${
+              isActiveRoute('/newsletter') 
+                ? 'text-blue-600 bg-blue-50 rounded-md' 
+                : 'text-gray-700 hover:text-blue-600'
+            }`}>
+              Newsletter
             </Link>
             <Link to="/about" className={`block px-3 py-2 text-base font-medium ${
               isActiveRoute('/about') 
