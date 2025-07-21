@@ -296,7 +296,7 @@ const Newsletter = () => {
                 placeholder="Enter your email address"
                 className="flex-1 px-6 py-4 rounded-xl text-gray-900 placeholder-gray-500 border-2 border-gray-200 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 font-medium"
               />
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold px-8 py-4 rounded-xl">
+              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold px-8 py-4 rounded-xl h-auto">
                 Subscribe
               </Button>
             </div>
