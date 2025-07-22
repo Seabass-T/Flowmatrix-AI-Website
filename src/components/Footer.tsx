@@ -3,7 +3,7 @@ import { Separator } from "@/components/ui/separator";
 
 const Footer = () => {
   return (
-    <footer className="bg-muted/30 border-t border-border mt-auto">
+    <footer className="bg-gradient-to-br from-slate-50 to-blue-50 border-t border-border mt-auto">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
