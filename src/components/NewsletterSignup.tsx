@@ -9,9 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 const NewsletterSignup = () => {
   const { toast } = useToast();
   const [email, setEmail] = useState("");
-  const [n8nWebhookUrl, setN8nWebhookUrl] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showWebhookConfig, setShowWebhookConfig] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,32 +23,13 @@ const NewsletterSignup = () => {
       return;
     }
 
-    if (!n8nWebhookUrl) {
-      toast({
-        title: "Missing n8n Webhook",
-        description: "Please enter your n8n webhook URL.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      toast({
-        title: "Invalid Email",
-        description: "Please enter a valid email address.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
       const { data, error } = await supabase.functions.invoke('newsletter-signup', {
         body: {
           email: email,
-          n8nWebhookUrl: n8nWebhookUrl
+          n8nWebhookUrl: "https://default-webhook-url.com/webhook"
         }
       });
 
@@ -99,36 +78,6 @@ const NewsletterSignup = () => {
           </Button>
         </div>
         
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Label className="text-sm font-medium">n8n Configuration</Label>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => setShowWebhookConfig(!showWebhookConfig)}
-            >
-              {showWebhookConfig ? "Hide" : "Configure"}
-            </Button>
-          </div>
-          
-          {showWebhookConfig && (
-            <div className="space-y-2">
-              <Label htmlFor="webhook-url" className="text-sm">n8n Webhook URL</Label>
-              <Input
-                id="webhook-url"
-                type="url"
-                placeholder="https://your-n8n-instance.com/webhook/your-webhook-id"
-                value={n8nWebhookUrl}
-                onChange={(e) => setN8nWebhookUrl(e.target.value)}
-                className="text-sm"
-              />
-              <p className="text-xs text-gray-500">
-                Enter your n8n webhook URL to automatically send new subscribers to your workflow.
-              </p>
-            </div>
-          )}
-        </div>
       </form>
       
       <p className="text-base text-gray-600 mt-6 font-medium text-center">
