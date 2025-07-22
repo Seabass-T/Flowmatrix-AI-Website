@@ -259,13 +259,6 @@ const Newsletter = () => {
                       dangerouslySetInnerHTML={{ __html: displayNewsletter.content_markdown }}
                     />
                   </div>
-                  <div className="text-center mb-8 mt-8">
-                    <Badge variant="secondary" className="mb-4">Issue #{displayNewsletter.id}</Badge>
-                    <div className="flex items-center justify-center text-sm text-gray-500 mb-6">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      <span>{formatDate(displayNewsletter.publish_date)}</span>
-                    </div>
-                  </div>
                 </div>
               );
             })()}
