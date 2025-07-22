@@ -84,12 +84,16 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify(submissionData),
     });
 
+    console.log("n8n response status:", n8nResponse.status);
+    console.log("n8n response headers:", Object.fromEntries(n8nResponse.headers.entries()));
+
     if (!n8nResponse.ok) {
       console.error("n8n webhook failed:", n8nResponse.status, n8nResponse.statusText);
       return new Response(
         JSON.stringify({ 
           error: "Failed to process subscription",
-          details: `n8n webhook returned ${n8nResponse.status}`
+          details: `n8n webhook returned ${n8nResponse.status}`,
+          success: false
         }),
         {
           status: 500,
@@ -98,19 +102,35 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Parse n8n response to get the message
-    const n8nResult = await n8nResponse.json();
-    console.log("n8n webhook response:", n8nResult);
+    // Get response text first
+    const responseText = await n8nResponse.text();
+    console.log("n8n raw response:", responseText);
 
-    // Check if n8n sent back a specific message (e.g., for duplicate email)
+    let n8nResult;
+    try {
+      // Try to parse as JSON
+      n8nResult = JSON.parse(responseText);
+      console.log("n8n parsed JSON response:", n8nResult);
+    } catch (parseError) {
+      console.log("n8n response is not JSON, treating as plain text success");
+      // If it's not JSON but the request was successful (200), treat as success
+      n8nResult = {
+        success: true,
+        message: "Successfully subscribed to newsletter!",
+        duplicate: false
+      };
+    }
+
+    // Check if n8n sent back specific status indicators
     const responseMessage = n8nResult.message || "Successfully subscribed to newsletter!";
-    const isError = n8nResult.error || false;
-    const isDuplicate = n8nResult.duplicate || false;
+    const isError = n8nResult.error === true;
+    const isDuplicate = n8nResult.duplicate === true;
+    const isSuccess = n8nResult.success !== false && !isError; // Default to success unless explicitly marked as error
 
     // Return appropriate response based on n8n feedback
     return new Response(
       JSON.stringify({ 
-        success: !isError,
+        success: isSuccess,
         message: responseMessage,
         duplicate: isDuplicate,
         data: submissionData
@@ -126,7 +146,8 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(
       JSON.stringify({ 
         error: "Failed to process subscription. Please try again later.",
-        details: error.message 
+        details: error.message,
+        success: false
       }),
       {
         status: 500,

@@ -33,57 +33,56 @@ const NewsletterSignup = () => {
         }
       });
 
+      console.log("Edge function response:", { data, error });
+
       if (error) {
-        throw error;
+        console.error('Edge function error:', error);
+        toast({
+          title: "Subscription Failed",
+          description: "There was an issue processing your subscription. Please try again.",
+          variant: "destructive",
+        });
+        return;
       }
 
-      // Handle different response types from n8n
-      if (data.duplicate) {
-        toast({
-          title: "Already Subscribed",
-          description: data.message || "This email is already subscribed to our newsletter.",
-          variant: "destructive",
-        });
-      } else if (data.success) {
+      // Handle the response from the edge function
+      if (data) {
+        if (data.success) {
+          if (data.duplicate) {
+            toast({
+              title: "Already Subscribed",
+              description: data.message || "This email is already subscribed to our newsletter.",
+            });
+          } else {
+            toast({
+              title: "Successfully Subscribed!",
+              description: data.message || "Thank you for subscribing to our newsletter.",
+            });
+            // Reset form only on new successful subscription
+            setEmail("");
+          }
+        } else {
+          // Only show error if explicitly marked as error
+          toast({
+            title: "Subscription Issue",
+            description: data.message || "There was an issue with your subscription.",
+            variant: "destructive",
+          });
+        }
+      } else {
+        // If no data returned, assume success (for backwards compatibility)
         toast({
           title: "Successfully Subscribed!",
-          description: data.message || "Thank you for subscribing to our newsletter.",
+          description: "Thank you for subscribing to our newsletter.",
         });
-        // Reset form only on successful subscription
         setEmail("");
-      } else {
-        toast({
-          title: "Subscription Issue",
-          description: data.message || "There was an issue with your subscription.",
-          variant: "destructive",
-        });
       }
 
     } catch (error: any) {
-      console.error('Error submitting newsletter signup:', error);
-      
-      // Handle different error scenarios
-      let errorMessage = "Please try again later.";
-      let errorTitle = "Subscription Failed";
-      
-      // Check if we have specific error details from the edge function
-      if (error.context?.body) {
-        const errorBody = error.context.body;
-        if (errorBody.error) {
-          errorMessage = errorBody.details || errorBody.error;
-        }
-        if (errorBody.duplicate || errorMessage.includes("duplicate") || errorMessage.includes("already")) {
-          errorTitle = "Already Subscribed";
-          errorMessage = "This email is already subscribed to our newsletter.";
-        }
-      } else if (error.message?.includes("duplicate") || error.message?.includes("already")) {
-        errorTitle = "Already Subscribed";
-        errorMessage = "This email is already subscribed to our newsletter.";
-      }
-      
+      console.error('Unexpected error submitting newsletter signup:', error);
       toast({
-        title: errorTitle,
-        description: errorMessage,
+        title: "Subscription Failed",
+        description: "An unexpected error occurred. Please try again later.",
         variant: "destructive",
       });
     } finally {
