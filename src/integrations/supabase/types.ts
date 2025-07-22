@@ -19,6 +19,102 @@ export type Database = {
           id: number
           message: Json
           session_id: string
+          user_id: string | null
+        }
+        Insert: {
+          id?: number
+          message: Json
+          session_id: string
+          user_id?: string | null
+        }
+        Update: {
+          id?: number
+          message?: Json
+          session_id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      documents: {
+        Row: {
+          content: string | null
+          embedding: string | null
+          id: number
+          metadata: Json | null
+          user_id: string | null
+        }
+        Insert: {
+          content?: string | null
+          embedding?: string | null
+          id?: number
+          metadata?: Json | null
+          user_id?: string | null
+        }
+        Update: {
+          content?: string | null
+          embedding?: string | null
+          id?: number
+          metadata?: Json | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      final_newsletters: {
+        Row: {
+          content_markdown: string
+          id: number
+          publish_date: string
+          title: string
+        }
+        Insert: {
+          content_markdown: string
+          id?: number
+          publish_date: string
+          title: string
+        }
+        Update: {
+          content_markdown?: string
+          id?: number
+          publish_date?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      flowmatrix_updates: {
+        Row: {
+          content: string
+          date_uploaded: string | null
+          id: string
+          tags: string[] | null
+          title: string
+          type: string
+          uploaded_by: string | null
+        }
+        Insert: {
+          content: string
+          date_uploaded?: string | null
+          id?: string
+          tags?: string[] | null
+          title: string
+          type: string
+          uploaded_by?: string | null
+        }
+        Update: {
+          content?: string
+          date_uploaded?: string | null
+          id?: string
+          tags?: string[] | null
+          title?: string
+          type?: string
+          uploaded_by?: string | null
+        }
+        Relationships: []
+      }
+      newsletter_db: {
+        Row: {
+          id: number
+          message: Json
+          session_id: string
         }
         Insert: {
           id?: number
@@ -29,27 +125,6 @@ export type Database = {
           id?: number
           message?: Json
           session_id?: string
-        }
-        Relationships: []
-      }
-      documents: {
-        Row: {
-          content: string | null
-          embedding: string | null
-          id: number
-          metadata: Json | null
-        }
-        Insert: {
-          content?: string | null
-          embedding?: string | null
-          id?: number
-          metadata?: Json | null
-        }
-        Update: {
-          content?: string | null
-          embedding?: string | null
-          id?: number
-          metadata?: Json | null
         }
         Relationships: []
       }
