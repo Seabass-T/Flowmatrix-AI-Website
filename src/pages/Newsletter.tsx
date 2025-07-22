@@ -290,7 +290,7 @@ const Newsletter = () => {
             Get our weekly newsletter delivered to your inbox plus access to exclusive content and more AI news.
           </p>
           <div className="max-w-md mx-auto">
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div id="join" className="flex flex-col sm:flex-row gap-4">
               <input
                 type="email"
                 placeholder="Enter your email address"
