@@ -87,7 +87,7 @@ const NewsletterSignup = () => {
             placeholder="Enter your email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="flex-1 px-6 py-4 rounded-xl text-gray-900 placeholder-gray-500 border-2 border-gray-200 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 font-medium"
+            className="flex-1"
             disabled={isSubmitting}
           />
           <Button
