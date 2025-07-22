@@ -163,7 +163,7 @@ const Newsletter = () => {
         {/* Previous Newsletters Dropdown */}
         <div className="flex justify-end mb-8">
           <select 
-            value={selectedNewsletterId}
+            value={selectedNewsletterId || ""}
             onChange={handleDropdownChange}
             className="px-6 py-3 bg-white border-2 border-gray-200 rounded-xl shadow-lg text-base font-semibold text-gray-800 hover:border-blue-300 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           >
