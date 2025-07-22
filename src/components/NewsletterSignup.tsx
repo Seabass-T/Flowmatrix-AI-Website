@@ -37,19 +37,43 @@ const NewsletterSignup = () => {
         throw error;
       }
 
-      toast({
-        title: "Successfully Subscribed!",
-        description: "Thank you for subscribing to our newsletter. Your email has been sent to n8n for processing.",
-      });
-
-      // Reset form
-      setEmail("");
+      // Handle different response types from n8n
+      if (data.duplicate) {
+        toast({
+          title: "Already Subscribed",
+          description: data.message || "This email is already subscribed to our newsletter.",
+          variant: "destructive",
+        });
+      } else if (data.success) {
+        toast({
+          title: "Successfully Subscribed!",
+          description: data.message || "Thank you for subscribing to our newsletter.",
+        });
+        // Reset form only on successful subscription
+        setEmail("");
+      } else {
+        toast({
+          title: "Subscription Issue",
+          description: data.message || "There was an issue with your subscription.",
+          variant: "destructive",
+        });
+      }
 
     } catch (error: any) {
       console.error('Error submitting newsletter signup:', error);
+      
+      // Handle different error scenarios
+      let errorMessage = "Please try again later.";
+      let errorTitle = "Subscription Failed";
+      
+      if (error.message?.includes("duplicate") || error.message?.includes("already")) {
+        errorTitle = "Already Subscribed";
+        errorMessage = "This email is already subscribed to our newsletter.";
+      }
+      
       toast({
-        title: "Subscription Failed",
-        description: error.message || "Please try again later.",
+        title: errorTitle,
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {

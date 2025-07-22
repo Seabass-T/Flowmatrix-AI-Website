@@ -98,17 +98,25 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    // Parse n8n response to get the message
     const n8nResult = await n8nResponse.json();
-    console.log("n8n webhook success:", n8nResult);
+    console.log("n8n webhook response:", n8nResult);
 
+    // Check if n8n sent back a specific message (e.g., for duplicate email)
+    const responseMessage = n8nResult.message || "Successfully subscribed to newsletter!";
+    const isError = n8nResult.error || false;
+    const isDuplicate = n8nResult.duplicate || false;
+
+    // Return appropriate response based on n8n feedback
     return new Response(
       JSON.stringify({ 
-        success: true, 
-        message: "Successfully subscribed to newsletter!",
+        success: !isError,
+        message: responseMessage,
+        duplicate: isDuplicate,
         data: submissionData
       }),
       {
-        status: 200,
+        status: isError ? 400 : 200,
         headers: { "Content-Type": "application/json", ...corsHeaders },
       }
     );
