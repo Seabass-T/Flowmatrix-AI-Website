@@ -93,7 +93,7 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
             <div className="space-y-2">
               <div className="text-4xl font-bold text-blue-300">150+</div>
-              <div className="text-gray-200">Businesses Automated</div>
+              <div className="text-gray-200">Automations Installed</div>
             </div>
             <div className="space-y-2">
               <div className="text-4xl font-bold text-green-300">20+</div>
