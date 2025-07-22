@@ -117,7 +117,7 @@ const Pricing = () => {
               </CardDescription>
               <div className="mt-4">
                 <span className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                  $2K-$5K
+                  $4k+
                 </span>
                 <p className="text-gray-500 mt-2">Monthly Retainer</p>
               </div>
