@@ -220,6 +220,66 @@ const Index = () => {
               </CardContent>
             </Card>
           </div>
+
+          {/* Personalized AI Agent Box */}
+          <div className="mt-16 flex justify-center">
+            <Card className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg max-w-4xl w-full bg-gradient-to-r from-blue-50 to-purple-50">
+              <CardHeader className="text-center pb-6">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mb-6 mx-auto">
+                  <Users className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-2xl md:text-3xl group-hover:text-blue-600 transition-colors mb-4">
+                  Personalized AI Agent for Your Business
+                </CardTitle>
+                <CardDescription className="text-lg text-gray-600 max-w-2xl mx-auto">
+                  Get a custom AI agent tailored specifically to your industry and business needs. 
+                  From healthcare to finance, e-commerce to manufacturing - we build AI solutions that understand your unique challenges.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-gray-900 mb-3">Industry-Specific Solutions:</h4>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      Healthcare patient management
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      E-commerce inventory optimization
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      Financial risk assessment
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-gray-900 mb-3">Custom Features:</h4>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      Industry-specific knowledge base
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      Custom workflow integrations
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                      Branded interface & voice
+                    </div>
+                  </div>
+                </div>
+                <div className="text-center">
+                  <Button 
+                    onClick={openCalendly}
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                  >
+                    Discuss Your Custom AI Agent
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </section>
 
