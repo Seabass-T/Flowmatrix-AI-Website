@@ -29,7 +29,7 @@ const NewsletterSignup = () => {
       const { data, error } = await supabase.functions.invoke('newsletter-signup', {
         body: {
           email: email,
-          n8nWebhookUrl: "https://seabass34.app.n8n.cloud/webhook-test/9245414e-3af7-40f8-98ab-cd50d44750b5"
+          n8nWebhookUrl: "https://seabass34.app.n8n.cloud/webhook/9245414e-3af7-40f8-98ab-cd50d44750b5"
         }
       });
 
