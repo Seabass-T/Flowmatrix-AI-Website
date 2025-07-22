@@ -66,7 +66,17 @@ const NewsletterSignup = () => {
       let errorMessage = "Please try again later.";
       let errorTitle = "Subscription Failed";
       
-      if (error.message?.includes("duplicate") || error.message?.includes("already")) {
+      // Check if we have specific error details from the edge function
+      if (error.context?.body) {
+        const errorBody = error.context.body;
+        if (errorBody.error) {
+          errorMessage = errorBody.details || errorBody.error;
+        }
+        if (errorBody.duplicate || errorMessage.includes("duplicate") || errorMessage.includes("already")) {
+          errorTitle = "Already Subscribed";
+          errorMessage = "This email is already subscribed to our newsletter.";
+        }
+      } else if (error.message?.includes("duplicate") || error.message?.includes("already")) {
         errorTitle = "Already Subscribed";
         errorMessage = "This email is already subscribed to our newsletter.";
       }
