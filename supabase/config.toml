@@ -64,3 +64,6 @@ verify_jwt = false
 
 [functions.bright-processor]
 verify_jwt = false
+
+[functions.newsletter-signup]
+verify_jwt = false

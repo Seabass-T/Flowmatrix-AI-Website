@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
+import NewsletterSignup from "@/components/NewsletterSignup";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -281,21 +282,7 @@ const Newsletter = () => {
           <p className="text-xl mb-8 text-gray-700 font-medium">
             Get our weekly newsletter delivered to your inbox plus access to exclusive content and more AI news.
           </p>
-          <div className="max-w-md mx-auto">
-            <div id="join" className="flex flex-col sm:flex-row gap-4">
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                className="flex-1 px-6 py-4 rounded-xl text-gray-900 placeholder-gray-500 border-2 border-gray-200 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 font-medium"
-              />
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold px-8 py-4 rounded-xl h-auto">
-                Subscribe
-              </Button>
-            </div>
-            <p className="text-base text-gray-600 mt-6 font-medium">
-              Join 1,000+ AI enthusiasts staying ahead of the curve
-            </p>
-          </div>
+          <NewsletterSignup />
         </div>
       </div>
     </div>
