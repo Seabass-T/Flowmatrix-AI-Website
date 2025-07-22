@@ -9,15 +9,16 @@ import { supabase } from "@/integrations/supabase/client";
 
 interface NewsletterIssue {
   id: number;
-  session_id: string;
-  message: any;
+  title: string;
+  publish_date: string;
+  content_markdown: string;
 }
 
 const Newsletter = () => {
   const { issueId } = useParams();
   const [newsletters, setNewsletters] = useState<NewsletterIssue[]>([]);
   const [currentNewsletter, setCurrentNewsletter] = useState<NewsletterIssue | null>(null);
-  const [selectedNewsletterId, setSelectedNewsletterId] = useState<string>("");
+  const [selectedNewsletterId, setSelectedNewsletterId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,17 +28,17 @@ const Newsletter = () => {
 
   useEffect(() => {
     if (issueId && newsletters.length > 0) {
-      const newsletter = newsletters.find(n => n.session_id === issueId);
+      const newsletter = newsletters.find(n => n.id.toString() === issueId);
       setCurrentNewsletter(newsletter || null);
     }
   }, [issueId, newsletters]);
 
   const handleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const sessionId = event.target.value;
-    setSelectedNewsletterId(sessionId);
+    const id = event.target.value ? parseInt(event.target.value) : null;
+    setSelectedNewsletterId(id);
     
-    if (sessionId && newsletters.length > 0) {
-      const selectedNewsletter = newsletters.find(n => n.session_id === sessionId);
+    if (id && newsletters.length > 0) {
+      const selectedNewsletter = newsletters.find(n => n.id === id);
       if (selectedNewsletter) {
         setCurrentNewsletter(selectedNewsletter);
       }
@@ -50,9 +51,9 @@ const Newsletter = () => {
   const fetchNewsletters = async () => {
     try {
       setLoading(true);
-      // Direct query using any type to bypass TypeScript restrictions
+      // Use any type to bypass TypeScript restrictions for new table
       const { data, error } = await (supabase as any)
-        .from('newsletter_db')
+        .from('final_newsletters')
         .select('*')
         .order('id', { ascending: false });
 
@@ -66,22 +67,13 @@ const Newsletter = () => {
     }
   };
 
-  const parseNewsletterContent = (message: any) => {
-    try {
-      // Handle the message format from your n8n workflow
-      if (typeof message === 'string') {
-        return { content: message, title: 'FlowMatrix AI Newsletter' };
-      }
-      if (message && typeof message === 'object') {
-        return {
-          content: message.content || message.text || JSON.stringify(message, null, 2),
-          title: message.title || 'FlowMatrix AI Newsletter'
-        };
-      }
-      return { content: 'No content available', title: 'FlowMatrix AI Newsletter' };
-    } catch {
-      return { content: 'Failed to parse content', title: 'FlowMatrix AI Newsletter' };
-    }
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
   };
 
   // If viewing a specific newsletter issue
@@ -121,7 +113,7 @@ const Newsletter = () => {
       );
     }
 
-    const { content, title } = parseNewsletterContent(currentNewsletter.message);
+    const { content_markdown: content, title } = currentNewsletter;
 
     return (
       <div className="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
@@ -146,7 +138,7 @@ const Newsletter = () => {
               </div>
               <CardTitle className="text-3xl">{title}</CardTitle>
               <CardDescription className="text-lg">
-                Issue #{currentNewsletter.id} • Session: {currentNewsletter.session_id}
+                Issue #{currentNewsletter.id} • {formatDate(currentNewsletter.publish_date)}
               </CardDescription>
             </CardHeader>
             <CardContent className="p-8">
@@ -177,8 +169,8 @@ const Newsletter = () => {
           >
             <option value="">Latest Issue</option>
             {newsletters.slice(1).map((newsletter) => (
-              <option key={newsletter.id} value={newsletter.session_id}>
-                Issue #{newsletter.id} - {newsletter.session_id.slice(0, 8)}...
+              <option key={newsletter.id} value={newsletter.id}>
+                Issue #{newsletter.id} - {formatDate(newsletter.publish_date)}
               </option>
             ))}
           </select>
@@ -215,7 +207,7 @@ const Newsletter = () => {
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Ready for Newsletter Content</h2>
               <p className="text-gray-600 mb-6">{error}</p>
               <p className="text-sm text-gray-500 mb-6">
-                Once your n8n workflow adds content to the newsletter_db table, it will appear here.
+                Once your n8n workflow adds content to the final_newsletters table, it will appear here.
               </p>
               <Button onClick={fetchNewsletters} className="bg-gradient-to-r from-blue-600 to-purple-600">
                 Check for Updates
@@ -253,24 +245,24 @@ const Newsletter = () => {
             {/* Display selected newsletter or latest if none selected */}
             {(() => {
               const displayNewsletter = selectedNewsletterId 
-                ? newsletters.find(n => n.session_id === selectedNewsletterId) 
+                ? newsletters.find(n => n.id === selectedNewsletterId) 
                 : newsletters[0];
               
               if (!displayNewsletter) return null;
               
-              const { content, title } = parseNewsletterContent(displayNewsletter.message);
               return (
                 <div key={displayNewsletter.id}>
                   <div className="prose prose-lg max-w-none bg-white p-8 rounded-xl shadow-lg">
-                    <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
-                      {content}
-                    </div>
+                    <div 
+                      className="text-gray-700 leading-relaxed"
+                      dangerouslySetInnerHTML={{ __html: displayNewsletter.content_markdown }}
+                    />
                   </div>
                   <div className="text-center mb-8 mt-8">
                     <Badge variant="secondary" className="mb-4">Issue #{displayNewsletter.id}</Badge>
                     <div className="flex items-center justify-center text-sm text-gray-500 mb-6">
                       <Calendar className="h-4 w-4 mr-1" />
-                      <span>Session: {displayNewsletter.session_id.slice(0, 8)}...</span>
+                      <span>{formatDate(displayNewsletter.publish_date)}</span>
                     </div>
                   </div>
                 </div>
