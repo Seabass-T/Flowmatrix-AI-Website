@@ -77,6 +77,12 @@ const Newsletter = () => {
     });
   };
 
+  // Helper function to get issue number (1-based index from newest to oldest)
+  const getIssueNumber = (newsletter: NewsletterIssue) => {
+    const sortedNewsletters = [...newsletters].sort((a, b) => b.id - a.id);
+    return sortedNewsletters.findIndex(n => n.id === newsletter.id) + 1;
+  };
+
   // If viewing a specific newsletter issue
   if (issueId) {
     if (loading) {
@@ -139,7 +145,7 @@ const Newsletter = () => {
               </div>
               <CardTitle className="text-3xl">{title}</CardTitle>
               <CardDescription className="text-lg">
-                Issue #{currentNewsletter.id} • {formatDate(currentNewsletter.publish_date)}
+                Issue #{getIssueNumber(currentNewsletter)} • {formatDate(currentNewsletter.publish_date)}
               </CardDescription>
             </CardHeader>
             <CardContent className="p-8">
@@ -169,9 +175,9 @@ const Newsletter = () => {
             className="px-6 py-3 bg-white border-2 border-gray-200 rounded-xl shadow-lg text-base font-semibold text-gray-800 hover:border-blue-300 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           >
             <option value="">Latest Issue</option>
-            {newsletters.slice(1).map((newsletter) => (
+            {newsletters.slice(1).map((newsletter, index) => (
               <option key={newsletter.id} value={newsletter.id}>
-                Issue #{newsletter.id} - {formatDate(newsletter.publish_date)}
+                Issue #{index + 2} - {formatDate(newsletter.publish_date)}
               </option>
             ))}
           </select>
