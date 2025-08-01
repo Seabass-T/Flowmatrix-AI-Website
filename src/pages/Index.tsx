@@ -93,7 +93,7 @@ const Index = () => {
             
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 animate-slide-up">
               <span className="text-gray-900">Toronto AI Automation for</span>{" "}
-              <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent animate-glow">
+              <span className="text-interactive-primary animate-glow">
                 Trade, Real Estate & Home Improvement
               </span>
             </h1>
