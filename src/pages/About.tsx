@@ -47,9 +47,9 @@ const About = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 animate-slide-up">
             About{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
               FlowMatrix AI
             </span>
           </h1>
@@ -59,7 +59,7 @@ const About = () => {
         </div>
 
         {/* Mission Statement */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 lg:p-12 text-white mb-16">
+        <div className="bg-gradient-to-r from-interactive-primary to-interactive-accent rounded-2xl p-8 lg:p-12 text-white mb-16">
           <div className="text-center">
             <h2 className="text-3xl font-bold mb-6">Our Partnership-First Mission</h2>
             <p className="text-xl leading-relaxed max-w-4xl mx-auto mb-6">

@@ -139,7 +139,7 @@ const Newsletter = () => {
                   alt="FlowMatrix AI" 
                   className="h-12 w-12 object-contain mr-3"
                 />
-                <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                <span className="text-2xl font-bold bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
                   FlowMatrix AI
                 </span>
               </div>
@@ -190,8 +190,8 @@ const Newsletter = () => {
               alt="FlowMatrix AI" 
               className="h-16 w-16 object-contain mr-4"
             />
-            <h1 className="text-4xl md:text-5xl font-bold">
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl font-bold animate-slide-up">
+              <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
                 The Matrix
               </span>{" "}
               <span className="text-gray-900">- Weekly AI Newsletter</span>
@@ -216,7 +216,7 @@ const Newsletter = () => {
               <p className="text-sm text-gray-500 mb-6">
                 Once your n8n workflow adds content to the final_newsletters table, it will appear here.
               </p>
-              <Button onClick={fetchNewsletters} className="bg-gradient-to-r from-blue-600 to-purple-600">
+              <Button onClick={fetchNewsletters} className="bg-gradient-to-r from-interactive-primary to-interactive-accent">
                 Check for Updates
               </Button>
             </CardContent>
@@ -273,8 +273,8 @@ const Newsletter = () => {
 
         {/* Join The Matrix Section */}
         <div className="max-w-4xl mx-auto mt-24 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
+            <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
               Join The Matrix
             </span>
           </h2>

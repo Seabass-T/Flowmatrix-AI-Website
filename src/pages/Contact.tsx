@@ -129,9 +129,9 @@ const Contact = () => {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 animate-slide-up">
             Get In{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
               Touch
             </span>
           </h1>
@@ -234,7 +234,7 @@ const Contact = () => {
               <Button 
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg py-6 disabled:opacity-50"
+                className="w-full bg-gradient-to-r from-interactive-primary to-interactive-accent hover:from-interactive-primary-hover hover:to-interactive-accent-hover text-lg py-6 disabled:opacity-50"
               >
                 {isSubmitting ? "Sending..." : "Send Message"}
               </Button>
@@ -287,7 +287,7 @@ const Contact = () => {
             </Card>
 
             {/* Calendar Booking */}
-            <Card className="shadow-lg border-0 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+            <Card className="shadow-lg border-0 bg-gradient-to-r from-interactive-primary to-interactive-accent text-white">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold">Book a Discovery Call</CardTitle>
                 <CardDescription className="text-blue-100">

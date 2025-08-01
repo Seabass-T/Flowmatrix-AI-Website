@@ -46,9 +46,9 @@ const Pricing = () => {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 animate-slide-up">
             Choose Your{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
               Automation Journey
             </span>
           </h1>
@@ -66,7 +66,7 @@ const Pricing = () => {
                 One-time license with professional installation
               </CardDescription>
               <div className="mt-4">
-                <span className="text-4xl font-bold text-blue-600">Custom Quote</span>
+                <span className="text-4xl font-bold text-interactive-primary">Custom Quote</span>
                 <p className="text-gray-500 mt-2">License + Installation Fee</p>
               </div>
             </CardHeader>
@@ -97,7 +97,7 @@ const Pricing = () => {
                   <span>Full source code access</span>
                 </li>
               </ul>
-              <Button onClick={openCalendly} className="w-full bg-blue-600 hover:bg-blue-700">
+              <Button onClick={openCalendly} className="w-full bg-interactive-primary hover:bg-interactive-primary-hover">
                 Let's Talk <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </CardContent>
@@ -106,7 +106,7 @@ const Pricing = () => {
           {/* Tier 2: BrightPath Partnership */}
           <Card className="relative hover:shadow-xl transition-shadow border-2 border-purple-500 bg-gradient-to-br from-purple-50 to-blue-50">
             <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-              <span className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm font-bold px-4 py-2 rounded-full">
+              <span className="bg-gradient-to-r from-interactive-accent to-interactive-primary text-white text-sm font-bold px-4 py-2 rounded-full">
                 MOST POPULAR
               </span>
             </div>
@@ -116,7 +116,7 @@ const Pricing = () => {
                 Ongoing partnership with dedicated support
               </CardDescription>
               <div className="mt-4">
-                <span className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                <span className="text-4xl font-bold bg-gradient-to-r from-interactive-accent to-interactive-primary bg-clip-text text-transparent">
                   $4k+
                 </span>
                 <p className="text-gray-500 mt-2">Monthly Retainer</p>
@@ -153,7 +153,7 @@ const Pricing = () => {
                   <span className="text-gray-800">Dedicated success manager</span>
                 </li>
               </ul>
-              <Button onClick={openCalendly} className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+              <Button onClick={openCalendly} className="w-full bg-gradient-to-r from-interactive-accent to-interactive-primary hover:from-interactive-accent-hover hover:to-interactive-primary-hover">
                 Let's Talk <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </CardContent>
@@ -257,7 +257,7 @@ const Pricing = () => {
           <Button 
             onClick={openCalendly}
             size="lg" 
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-6"
+            className="bg-gradient-to-r from-interactive-primary to-interactive-accent hover:from-interactive-primary-hover hover:to-interactive-accent-hover text-lg px-8 py-6 animate-fade-in"
           >
             Book Discovery Call <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
