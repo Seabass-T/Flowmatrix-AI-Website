@@ -439,7 +439,7 @@ const Index = () => {
 
           {/* Industry Affiliations */}
           <div className="text-center animate-fade-in">
-            <h3 className="text-2xl font-bold text-foreground mb-8">Industry Partnerships & Certifications</h3>
+            <h3 className="text-2xl font-bold text-white mb-8">Industry Partnerships & Certifications</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
               <div className="flex flex-col items-center group hover:scale-110 transition-transform duration-300">
                 <Building className="h-12 w-12 text-interactive-primary mb-2 group-hover:text-interactive-primary-hover transition-colors" />
