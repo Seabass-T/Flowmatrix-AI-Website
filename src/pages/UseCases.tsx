@@ -61,7 +61,8 @@ const UseCases = () => {
     }
   };
 
-  const faqSchema = {
+  // Use-Cases — Consolidated FAQPage JSON-LD
+  const consolidatedFaqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
@@ -92,38 +93,6 @@ const UseCases = () => {
     ]
   };
 
-  // Use-Cases FAQPage JSON-LD
-  const useCasesFaqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How can AI automation help trade businesses in Toronto?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "It optimizes job dispatch, automates missed‑call follow‑ups, streamlines invoicing and inventory—tailored to HVAC, plumbing, electrical and construction firms."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What automation solutions are available for real estate businesses in the GTA?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Automated lead nurturing, property maintenance workflows, market report sequences, and document automation for brokerages and property managers."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How does automation benefit home improvement businesses in Toronto?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "It streamlines quoting, scheduling, client follow‑ups and material tracking to reduce workload and speed up project completion."
-        }
-      }
-    ]
-  };
-
   // Breadcrumb JSON-LD
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -140,10 +109,7 @@ const UseCases = () => {
         <title>AI Automation Use Cases for Trade, Real Estate & Home Improvement | Toronto & GTA</title>
         <meta name="description" content="Discover AI automation solutions for trades, real estate, and home improvement businesses in Toronto & GTA. Free consultation and pay-what-you-think audit available." />
         <script type="application/ld+json">
-          {JSON.stringify(faqSchema)}
-        </script>
-        <script type="application/ld+json">
-          {JSON.stringify(useCasesFaqSchema)}
+          {JSON.stringify(consolidatedFaqSchema)}
         </script>
         <script type="application/ld+json">
           {JSON.stringify(breadcrumbSchema)}
