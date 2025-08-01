@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import Footer from "@/components/Footer";
 import Index from "./pages/Index";
 import Pricing from "./pages/Pricing";
@@ -17,9 +18,26 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// WebSite + SearchAction JSON-LD
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.flowmatrixai.com",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.flowmatrixai.com/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(websiteSchema)}
+        </script>
+      </Helmet>
       <Toaster />
       <Sonner />
       <BrowserRouter>
