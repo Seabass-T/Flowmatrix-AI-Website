@@ -2,7 +2,7 @@
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, Users, Zap, TrendingUp, Award, Phone, DollarSign } from "lucide-react";
 import { useEffect } from "react";
 
 declare global {
@@ -41,226 +41,268 @@ const Pricing = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="bg-gradient-to-br from-background via-secondary/20 to-background">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 animate-slide-up">
-            Choose Your{" "}
+          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 animate-slide-up">
+            Start with a{" "}
             <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
-              Automation Journey
+              Free Consultation
             </span>
+            {" "}→ Audit You Value → One Partnership for Automation & Scaling
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Flexible pricing options designed to scale with your business needs, from self-hosted solutions to full partnership programs.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-          {/* Tier 1: Self-Hosted System */}
-          <Card className="relative hover:shadow-xl transition-shadow border-2 border-gray-200">
-            <CardHeader className="text-center pb-8">
-              <CardTitle className="text-2xl font-bold">Self-Hosted System</CardTitle>
-              <CardDescription className="text-lg">
-                One-time license with professional installation
-              </CardDescription>
-              <div className="mt-4">
-                <span className="text-4xl font-bold text-interactive-primary">Custom Quote</span>
-                <p className="text-gray-500 mt-2">License + Installation Fee</p>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>Complete automation system</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>Custom workflow design</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>Professional installation & setup</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>3 months support included</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>Self-hosted on your infrastructure</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span>Full source code access</span>
-                </li>
-              </ul>
-              <Button onClick={openCalendly} className="w-full bg-interactive-primary hover:bg-interactive-primary-hover">
-                Let's Talk <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Tier 2: BrightPath Partnership */}
-          <Card className="relative hover:shadow-xl transition-shadow border-2 border-purple-500 bg-gradient-to-br from-purple-50 to-blue-50">
-            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-              <span className="bg-gradient-to-r from-interactive-accent to-interactive-primary text-white text-sm font-bold px-4 py-2 rounded-full">
-                MOST POPULAR
-              </span>
-            </div>
-            <CardHeader className="text-center pb-8">
-              <CardTitle className="text-2xl font-bold text-gray-900">BrightPath Partnership</CardTitle>
-              <CardDescription className="text-lg text-gray-700">
-                Ongoing partnership with dedicated support
-              </CardDescription>
-              <div className="mt-4">
-                <span className="text-4xl font-bold bg-gradient-to-r from-interactive-accent to-interactive-primary bg-clip-text text-transparent">
-                  $4k+
-                </span>
-                <p className="text-gray-500 mt-2">Monthly Retainer</p>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span className="text-gray-800">Everything in Self-Hosted</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span className="text-gray-800">Ongoing automation development</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span className="text-gray-800">24/7 priority support</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span className="text-gray-800">Monthly strategy calls</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span className="text-gray-800">Continuous optimization</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span className="text-gray-800">New feature development</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span className="text-gray-800">Dedicated success manager</span>
-                </li>
-              </ul>
-              <Button onClick={openCalendly} className="w-full bg-gradient-to-r from-interactive-accent to-interactive-primary hover:from-interactive-accent-hover hover:to-interactive-primary-hover">
-                Let's Talk <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Tier 3: Custom Plan */}
-          <Card className="relative hover:shadow-xl transition-shadow border-2 border-gray-200 bg-gradient-to-br from-gray-800 to-gray-900">
-            <CardHeader className="text-center pb-8">
-              <CardTitle className="text-2xl font-bold text-white">Enterprise Custom</CardTitle>
-              <CardDescription className="text-lg text-gray-200">
-                Tailored solutions for large organizations
-              </CardDescription>
-              <div className="mt-4">
-                <span className="text-4xl font-bold text-white">Custom</span>
-                <p className="text-gray-300 mt-2">Volume Pricing Available</p>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span className="text-white">Everything in Partnership</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span className="text-white">Multi-department automation</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span className="text-white">Enterprise-grade security</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span className="text-white">Dedicated development team</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span className="text-white">SLA guarantees</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span className="text-white">Custom integrations</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  <span className="text-white">White-label options</span>
-                </li>
-              </ul>
-              <Button onClick={openCalendly} className="w-full bg-white text-gray-900 hover:bg-gray-100">
-                Let's Talk <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* What's Included Section */}
-        <div className="bg-white rounded-2xl p-8 shadow-lg">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-            What's Included in Every Plan
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Check className="h-6 w-6 text-blue-600" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Custom Design</h3>
-              <p className="text-gray-600 text-sm">Workflows designed specifically for your business processes</p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Check className="h-6 w-6 text-purple-600" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Automation Setup</h3>
-              <p className="text-gray-600 text-sm">Complete implementation and configuration of your automation systems</p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Check className="h-6 w-6 text-green-600" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Team Onboarding</h3>
-              <p className="text-gray-600 text-sm">Training and onboarding for your team to maximize adoption</p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Check className="h-6 w-6 text-orange-600" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Ongoing Support</h3>
-              <p className="text-gray-600 text-sm">Dedicated support to ensure your systems run smoothly</p>
-            </div>
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="text-center mt-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Ready to Get Started?
-          </h2>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            Schedule a discovery call to discuss your automation needs and find the perfect plan for your business.
+          <p className="text-xl text-muted-foreground max-w-4xl mx-auto mb-8">
+            Trade automation consultation Toronto • Commercial automation audit GTA • Home improvement AI solutions
           </p>
           <Button 
             onClick={openCalendly}
             size="lg" 
             className="bg-gradient-to-r from-interactive-primary to-interactive-accent hover:from-interactive-primary-hover hover:to-interactive-accent-hover text-lg px-8 py-6 animate-fade-in"
           >
-            Book Discovery Call <ArrowRight className="ml-2 h-5 w-5" />
+            Book Your Free Consultation <Phone className="ml-2 h-5 w-5" />
           </Button>
+        </div>
+
+        {/* Process Flow */}
+        <div className="mb-20">
+          <h2 className="text-3xl font-bold text-center text-foreground mb-12 animate-slide-up">
+            Our Simple 5-Step Process
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+            {[
+              { step: "01", title: "Free Consultation", description: "30-minute discovery call to understand your business needs", icon: Phone },
+              { step: "02", title: "Trade Automation Audit", description: "Pay-what-you-think-it's-worth comprehensive audit", icon: Zap },
+              { step: "03", title: "Assessment", description: "Custom implementation scope based on audit findings", icon: TrendingUp },
+              { step: "04", title: "Implementation", description: "Custom automation development and integration", icon: Users },
+              { step: "05", title: "Scale", description: "Ongoing optimization and expansion", icon: Award }
+            ].map((item, index) => (
+              <div key={index} className="text-center animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                <div className="w-16 h-16 bg-gradient-to-r from-interactive-primary to-interactive-accent rounded-full flex items-center justify-center mx-auto mb-4">
+                  <item.icon className="h-8 w-8 text-white" />
+                </div>
+                <div className="text-2xl font-bold text-interactive-primary mb-2">{item.step}</div>
+                <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
+                <p className="text-sm text-muted-foreground">{item.description}</p>
+                {index < 4 && (
+                  <div className="hidden md:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-interactive-primary to-interactive-accent opacity-30 transform -translate-y-1/2"></div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Pricing Section */}
+        <div className="mb-20">
+          <h2 className="text-3xl font-bold text-center text-foreground mb-12">
+            Transparent Pricing Structure
+          </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Free Consultation */}
+            <Card className="relative hover:shadow-xl transition-shadow border-2 border-interactive-secondary/30 animate-fade-in">
+              <CardHeader className="text-center pb-8">
+                <CardTitle className="text-2xl font-bold text-foreground">Free Consultation</CardTitle>
+                <CardDescription className="text-lg text-muted-foreground">
+                  Your entry point to automation
+                </CardDescription>
+                <div className="mt-4">
+                  <span className="text-4xl font-bold text-interactive-primary">$0</span>
+                  <p className="text-muted-foreground mt-2">30-minute discovery call</p>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Business process assessment</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Automation opportunity identification</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-3" />
+                    <span>ROI potential discussion</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Audit scope definition</span>
+                  </li>
+                </ul>
+                <Button onClick={openCalendly} className="w-full bg-interactive-primary hover:bg-interactive-primary-hover">
+                  Book Free Consultation <Phone className="ml-2 h-4 w-4" />
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Audit */}
+            <Card className="relative hover:shadow-xl transition-shadow border-2 border-interactive-accent/50 bg-gradient-to-br from-interactive-accent/5 to-interactive-primary/5 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-gradient-to-r from-interactive-accent to-interactive-primary text-white text-sm font-bold px-4 py-2 rounded-full">
+                  MOST VALUABLE
+                </span>
+              </div>
+              <CardHeader className="text-center pb-8">
+                <CardTitle className="text-2xl font-bold text-foreground">Trade Automation Audit</CardTitle>
+                <CardDescription className="text-lg text-muted-foreground">
+                  Pay what you think it's worth
+                </CardDescription>
+                <div className="mt-4">
+                  <span className="text-4xl font-bold bg-gradient-to-r from-interactive-accent to-interactive-primary bg-clip-text text-transparent">
+                    You Decide
+                  </span>
+                  <p className="text-muted-foreground mt-2">Value-based pricing</p>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Complete workflow analysis</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-3" />
+                    <span>ROI snapshot & projections</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Visual automation roadmap</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Competitor benchmark analysis</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Industry-specific recommendations</span>
+                  </li>
+                </ul>
+                <Button onClick={openCalendly} className="w-full bg-gradient-to-r from-interactive-accent to-interactive-primary hover:from-interactive-accent-hover hover:to-interactive-primary-hover">
+                  Request Audit Today <Zap className="ml-2 h-4 w-4" />
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Partnership */}
+            <Card className="relative hover:shadow-xl transition-shadow border-2 border-interactive-secondary animate-fade-in" style={{ animationDelay: '0.2s' }}>
+              <CardHeader className="text-center pb-8">
+                <CardTitle className="text-2xl font-bold text-foreground">Automation Partnership</CardTitle>
+                <CardDescription className="text-lg text-muted-foreground">
+                  Implementation & scaling support
+                </CardDescription>
+                <div className="mt-4">
+                  <span className="text-4xl font-bold text-interactive-primary">Custom Quote</span>
+                  <p className="text-muted-foreground mt-2">Based on assessment</p>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Custom automation implementation</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-3" />
+                    <span>System integrations</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Team training & onboarding</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Ongoing optimization</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Priority support</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Scaling roadmap execution</span>
+                  </li>
+                </ul>
+                <Button onClick={openCalendly} className="w-full bg-interactive-secondary hover:bg-interactive-secondary-hover">
+                  Start Partnership <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Trust Signals */}
+        <div className="bg-card rounded-2xl p-8 shadow-lg mb-16 animate-fade-in">
+          <h2 className="text-3xl font-bold text-center text-foreground mb-8">
+            Proven Results Across GTA
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div>
+              <div className="text-4xl font-bold text-interactive-primary mb-2">120+</div>
+              <p className="text-muted-foreground">Hours saved per month on average</p>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-interactive-accent mb-2">50+</div>
+              <p className="text-muted-foreground">Trade & real estate businesses automated</p>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-interactive-secondary mb-2">GTA</div>
+              <p className="text-muted-foreground">Local automation authority</p>
+            </div>
+          </div>
+        </div>
+
+        {/* FAQ Section */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-center text-foreground mb-12">
+            Frequently Asked Questions
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <Card className="p-6 animate-fade-in">
+              <h3 className="font-semibold text-foreground mb-3">How much does your audit cost?</h3>
+              <p className="text-muted-foreground">Our Trade Automation Audit uses pay-what-you-think-it's-worth pricing. After delivery, you decide the value and pay accordingly. This ensures you're completely satisfied with the insights provided.</p>
+            </Card>
+            <Card className="p-6 animate-fade-in">
+              <h3 className="font-semibold text-foreground mb-3">What happens after the consultation?</h3>
+              <p className="text-muted-foreground">After your free consultation, we'll define the scope for your audit. Once the audit is complete and you've paid what you think it's worth, we'll present partnership options based on the findings.</p>
+            </Card>
+            <Card className="p-6 animate-fade-in">
+              <h3 className="font-semibold text-foreground mb-3">Why only one partnership package?</h3>
+              <p className="text-muted-foreground">Every business is unique. Rather than forcing you into preset tiers, we create a custom partnership based on your specific audit results and assessment needs. This ensures optimal value and fit.</p>
+            </Card>
+            <Card className="p-6 animate-fade-in">
+              <h3 className="font-semibold text-foreground mb-3">Do you work with businesses outside the GTA?</h3>
+              <p className="text-muted-foreground">While we specialize in serving the Greater Toronto Area trade, real estate, and home improvement sectors, we do work with qualified businesses across Canada. Contact us to discuss your specific needs.</p>
+            </Card>
+          </div>
+        </div>
+
+        {/* Final CTA */}
+        <div className="text-center bg-gradient-to-r from-interactive-primary/10 to-interactive-accent/10 rounded-2xl p-12 animate-fade-in">
+          <h2 className="text-4xl font-bold text-foreground mb-4">
+            Ready to Transform Your Business?
+          </h2>
+          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+            Join 50+ GTA businesses already saving 120+ hours per month through intelligent automation. Start with a free consultation today.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button 
+              onClick={openCalendly}
+              size="lg" 
+              className="bg-gradient-to-r from-interactive-primary to-interactive-accent hover:from-interactive-primary-hover hover:to-interactive-accent-hover text-lg px-8 py-6"
+            >
+              Book Your Free Consultation <Phone className="ml-2 h-5 w-5" />
+            </Button>
+            <Button 
+              onClick={openCalendly}
+              size="lg" 
+              variant="outline"
+              className="border-interactive-primary text-interactive-primary hover:bg-interactive-primary hover:text-white text-lg px-8 py-6"
+            >
+              Request Audit Today <DollarSign className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>
