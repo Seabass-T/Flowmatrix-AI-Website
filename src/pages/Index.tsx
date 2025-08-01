@@ -92,7 +92,7 @@ const Index = () => {
             </div>
             
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 animate-slide-up">
-              <span className="text-black dark:text-white">Toronto AI Automation for</span>{" "}
+              <span className="text-gray-900">Toronto AI Automation for</span>{" "}
               <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent animate-glow">
                 Trade, Real Estate & Home Improvement
               </span>
@@ -232,7 +232,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
-              <span className="text-black dark:text-white">What You'll</span>{" "}
+              <span className="text-gray-900">What You'll</span>{" "}
               <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
                 Receive
               </span>
@@ -362,7 +362,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
-              <span className="text-black dark:text-white">Trusted by</span>{" "}
+              <span className="text-gray-900">Trusted by</span>{" "}
               <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
                 Toronto Businesses
               </span>
