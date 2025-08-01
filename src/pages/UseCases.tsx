@@ -202,8 +202,8 @@ const UseCases = () => {
                           <Calendar className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <CardTitle className="text-lg font-bold text-gray-900">Smart Job Dispatch</CardTitle>
-                          <p className="text-sm text-gray-600">Auto-assign by location & skills</p>
+                          <CardTitle className="text-lg font-bold text-white">Smart Job Dispatch</CardTitle>
+                          <p className="text-sm text-gray-200">Auto-assign by location & skills</p>
                         </div>
                       </div>
                     </CardHeader>
@@ -216,8 +216,8 @@ const UseCases = () => {
                           <Phone className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <CardTitle className="text-lg font-bold text-gray-900">Missed Call Recovery</CardTitle>
-                          <p className="text-sm text-gray-600">Instant SMS & email follow-up</p>
+                          <CardTitle className="text-lg font-bold text-white">Missed Call Recovery</CardTitle>
+                          <p className="text-sm text-gray-200">Instant SMS & email follow-up</p>
                         </div>
                       </div>
                     </CardHeader>
@@ -230,8 +230,8 @@ const UseCases = () => {
                           <FileText className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <CardTitle className="text-lg font-bold text-gray-900">Automated Invoicing</CardTitle>
-                          <p className="text-sm text-gray-600">Generate & send post-service</p>
+                          <CardTitle className="text-lg font-bold text-white">Automated Invoicing</CardTitle>
+                          <p className="text-sm text-gray-200">Generate & send post-service</p>
                         </div>
                       </div>
                     </CardHeader>
@@ -244,8 +244,8 @@ const UseCases = () => {
                           <DollarSign className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <CardTitle className="text-lg font-bold text-gray-900">Inventory Tracking</CardTitle>
-                          <p className="text-sm text-gray-600">Parts & materials management</p>
+                          <CardTitle className="text-lg font-bold text-white">Inventory Tracking</CardTitle>
+                          <p className="text-sm text-gray-200">Parts & materials management</p>
                         </div>
                       </div>
                     </CardHeader>
@@ -291,8 +291,8 @@ const UseCases = () => {
                           <Users className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <CardTitle className="text-lg font-bold text-gray-900">Lead Nurturing Sequences</CardTitle>
-                          <p className="text-sm text-gray-600">Automated email & SMS campaigns</p>
+                          <CardTitle className="text-lg font-bold text-white">Lead Nurturing Sequences</CardTitle>
+                          <p className="text-sm text-gray-200">Automated email & SMS campaigns</p>
                         </div>
                       </div>
                     </CardHeader>
@@ -305,8 +305,8 @@ const UseCases = () => {
                           <Wrench className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <CardTitle className="text-lg font-bold text-gray-900">Maintenance Requests</CardTitle>
-                          <p className="text-sm text-gray-600">Tenant work order automation</p>
+                          <CardTitle className="text-lg font-bold text-white">Maintenance Requests</CardTitle>
+                          <p className="text-sm text-gray-200">Tenant work order automation</p>
                         </div>
                       </div>
                     </CardHeader>
@@ -319,8 +319,8 @@ const UseCases = () => {
                           <TrendingUp className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <CardTitle className="text-lg font-bold text-gray-900">Market Reports</CardTitle>
-                          <p className="text-sm text-gray-600">AI-generated client updates</p>
+                          <CardTitle className="text-lg font-bold text-white">Market Reports</CardTitle>
+                          <p className="text-sm text-gray-200">AI-generated client updates</p>
                         </div>
                       </div>
                     </CardHeader>
@@ -333,8 +333,8 @@ const UseCases = () => {
                           <FileText className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <CardTitle className="text-lg font-bold text-gray-900">Document Prep</CardTitle>
-                          <p className="text-sm text-gray-600">Contracts & compliance forms</p>
+                          <CardTitle className="text-lg font-bold text-white">Document Prep</CardTitle>
+                          <p className="text-sm text-gray-200">Contracts & compliance forms</p>
                         </div>
                       </div>
                     </CardHeader>
@@ -380,8 +380,8 @@ const UseCases = () => {
                           <Clock className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <CardTitle className="text-lg font-bold text-gray-900">Project Scheduling</CardTitle>
-                          <p className="text-sm text-gray-600">AI-driven timeline management</p>
+                          <CardTitle className="text-lg font-bold text-white">Project Scheduling</CardTitle>
+                          <p className="text-sm text-gray-200">AI-driven timeline management</p>
                         </div>
                       </div>
                     </CardHeader>
@@ -394,8 +394,8 @@ const UseCases = () => {
                           <DollarSign className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <CardTitle className="text-lg font-bold text-gray-900">AI-Powered Quoting</CardTitle>
-                          <p className="text-sm text-gray-600">Instant accurate proposals</p>
+                          <CardTitle className="text-lg font-bold text-white">AI-Powered Quoting</CardTitle>
+                          <p className="text-sm text-gray-200">Instant accurate proposals</p>
                         </div>
                       </div>
                     </CardHeader>
@@ -408,8 +408,8 @@ const UseCases = () => {
                           <Phone className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <CardTitle className="text-lg font-bold text-gray-900">Follow-Up Campaigns</CardTitle>
-                          <p className="text-sm text-gray-600">Payment & approval reminders</p>
+                          <CardTitle className="text-lg font-bold text-white">Follow-Up Campaigns</CardTitle>
+                          <p className="text-sm text-gray-200">Payment & approval reminders</p>
                         </div>
                       </div>
                     </CardHeader>
@@ -422,8 +422,8 @@ const UseCases = () => {
                           <Clipboard className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <CardTitle className="text-lg font-bold text-gray-900">Material Procurement</CardTitle>
-                          <p className="text-sm text-gray-600">Supply chain automation</p>
+                          <CardTitle className="text-lg font-bold text-white">Material Procurement</CardTitle>
+                          <p className="text-sm text-gray-200">Supply chain automation</p>
                         </div>
                       </div>
                     </CardHeader>
