@@ -61,37 +61,6 @@ const UseCases = () => {
     }
   };
 
-  // Use-Cases — Consolidated FAQPage JSON-LD
-  const consolidatedFaqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How can automation help trades in Toronto?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Trade automation helps Toronto businesses by streamlining job scheduling, automating missed-call follow-ups, simplifying invoicing, and managing inventory - reducing admin time and improving customer response."
-        }
-      },
-      {
-        "@type": "Question", 
-        "name": "What automation works for real estate agents in the GTA?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Real estate automation includes lead nurturing sequences, property maintenance management, automated market reports, and document preparation - helping GTA agents focus on closing deals instead of paperwork."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How does automation benefit home improvement contractors?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Home improvement automation covers project scheduling, AI-powered quoting, customer follow-up campaigns, and material procurement tracking - allowing contractors to focus on exceptional service delivery."
-        }
-      }
-    ]
-  };
 
   // Breadcrumb JSON-LD
   const breadcrumbSchema = {
@@ -108,9 +77,6 @@ const UseCases = () => {
       <Helmet>
         <title>AI Automation Use Cases for Trade, Real Estate & Home Improvement | Toronto & GTA</title>
         <meta name="description" content="Discover AI automation solutions for trades, real estate, and home improvement businesses in Toronto & GTA. Free consultation and pay-what-you-think audit available." />
-        <script type="application/ld+json">
-          {JSON.stringify(consolidatedFaqSchema)}
-        </script>
         <script type="application/ld+json">
           {JSON.stringify(breadcrumbSchema)}
         </script>
@@ -464,6 +430,40 @@ const UseCases = () => {
               Book Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
+          
+          {/* Use‑Cases Consolidated FAQPage JSON-LD */}
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "How can automation help trade businesses in Toronto?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Trade automation helps Toronto businesses by streamlining job scheduling, automating missed-call follow-ups, simplifying invoicing, and managing inventory - reducing admin time and improving customer response."
+                  }
+                },
+                {
+                  "@type": "Question", 
+                  "name": "What automation works for real estate agents in the GTA?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Real estate automation includes lead nurturing sequences, property maintenance management, automated market reports, and document preparation - helping GTA agents focus on closing deals instead of paperwork."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How does automation benefit home improvement contractors?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Home improvement automation covers project scheduling, AI-powered quoting, customer follow-up campaigns, and material procurement tracking - allowing contractors to focus on exceptional service delivery."
+                  }
+                }
+              ]
+            })}
+          </script>
         </div>
       </div>
     </>
