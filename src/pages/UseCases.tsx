@@ -1,7 +1,7 @@
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Wrench, Home, Building2 } from "lucide-react";
+import { ArrowRight, Wrench, Home, Building2, Calendar, Phone, FileText, DollarSign, Users, TrendingUp, Clipboard, Clock } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 
@@ -67,26 +67,26 @@ const UseCases = () => {
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "How can AI help my HVAC business in Toronto?",
+        "name": "How can automation help trades in Toronto?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "AI automation can optimize job scheduling, automate missed-call follow-ups, and streamline invoicing for trade businesses in Toronto and the GTA. FlowMatrix AI helps HVAC companies reduce administrative overhead and improve customer response times."
+          "text": "Trade automation helps Toronto businesses by streamlining job scheduling, automating missed-call follow-ups, simplifying invoicing, and managing inventory - reducing admin time and improving customer response."
         }
       },
       {
         "@type": "Question", 
-        "name": "What automation solutions work for real estate agents in the GTA?",
+        "name": "What automation works for real estate agents in the GTA?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Real estate automation includes lead nurturing sequences, property maintenance request management, automated market reports, and document preparation. FlowMatrix AI helps GTA real estate professionals focus on closing deals instead of paperwork."
+          "text": "Real estate automation includes lead nurturing sequences, property maintenance management, automated market reports, and document preparation - helping GTA agents focus on closing deals instead of paperwork."
         }
       },
       {
         "@type": "Question",
-        "name": "How does AI automation benefit home improvement contractors?",
+        "name": "How does automation benefit home improvement contractors?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Home improvement automation includes project scheduling, AI-powered quoting, customer follow-up campaigns, and material procurement tracking. FlowMatrix AI helps contractors in Toronto and the GTA streamline operations and improve project delivery."
+          "text": "Home improvement automation covers project scheduling, AI-powered quoting, customer follow-up campaigns, and material procurement tracking - allowing contractors to focus on exceptional service delivery."
         }
       }
     ]
@@ -107,44 +107,36 @@ const UseCases = () => {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           {/* Hero Section */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 animate-slide-up">
-              AI Automation Solutions for{" "}
-              <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
-                Trade | Real Estate | Home Improvement
-              </span>
+              AI Automation Use Cases for Trade, Real Estate & Home Improvement in Toronto & GTA
             </h1>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto mb-8">
-              Residential & Commercial Services – Toronto & GTA
+              Discover how FlowMatrix AI transforms business operations with custom automation solutions designed for your specific industry challenges.
             </p>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Discover how FlowMatrix AI transforms your business operations with custom automation solutions. Start with a free consultation and see real results.
-            </p>
-          </div>
-
-          {/* CTA Above Fold */}
-          <div className="text-center mb-16">
+            
+            {/* Persistent CTA Above Tabs */}
             <Button 
               onClick={openCalendly}
               size="lg" 
-              className="bg-gradient-to-r from-interactive-primary to-interactive-accent hover:from-interactive-primary-hover hover:to-interactive-accent-hover text-lg px-8 py-6 animate-fade-in"
+              className="bg-gradient-to-r from-interactive-primary to-interactive-accent hover:from-interactive-primary-hover hover:to-interactive-accent-hover text-lg px-8 py-6 animate-fade-in shadow-xl"
             >
               Book Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
 
           {/* Tab Navigation */}
-          <div className="bg-white rounded-2xl shadow-lg p-8 mb-16">
-            <div role="tablist" className="flex flex-wrap justify-center gap-4 mb-8 border-b pb-4">
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-16">
+            <div role="tablist" className="flex border-b bg-gray-50">
               <button
                 id="tab-trades"
                 role="tab"
                 aria-selected={activeTab === "trades"}
                 aria-controls="panel-trades"
-                className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center gap-2 ${
+                className={`flex-1 px-6 py-4 font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${
                   activeTab === "trades"
-                    ? "bg-interactive-primary text-white shadow-lg"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    ? "bg-interactive-primary text-white border-b-2 border-interactive-primary"
+                    : "text-gray-700 hover:bg-gray-100"
                 }`}
                 onClick={() => setActiveTab("trades")}
                 onKeyDown={(e) => handleKeyDown(e, "trades")}
@@ -157,10 +149,10 @@ const UseCases = () => {
                 role="tab"
                 aria-selected={activeTab === "real-estate"}
                 aria-controls="panel-real-estate"
-                className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center gap-2 ${
+                className={`flex-1 px-6 py-4 font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${
                   activeTab === "real-estate"
-                    ? "bg-interactive-primary text-white shadow-lg"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    ? "bg-interactive-primary text-white border-b-2 border-interactive-primary"
+                    : "text-gray-700 hover:bg-gray-100"
                 }`}
                 onClick={() => setActiveTab("real-estate")}
                 onKeyDown={(e) => handleKeyDown(e, "real-estate")}
@@ -173,10 +165,10 @@ const UseCases = () => {
                 role="tab"
                 aria-selected={activeTab === "home-improvement"}
                 aria-controls="panel-home-improvement"
-                className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center gap-2 ${
+                className={`flex-1 px-6 py-4 font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${
                   activeTab === "home-improvement"
-                    ? "bg-interactive-primary text-white shadow-lg"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    ? "bg-interactive-primary text-white border-b-2 border-interactive-primary"
+                    : "text-gray-700 hover:bg-gray-100"
                 }`}
                 onClick={() => setActiveTab("home-improvement")}
                 onKeyDown={(e) => handleKeyDown(e, "home-improvement")}
@@ -187,181 +179,288 @@ const UseCases = () => {
             </div>
 
             {/* Tab Content - All panels exist in DOM for SEO */}
-            <div
-              id="panel-trades"
-              role="tabpanel"
-              aria-labelledby="tab-trades"
-              className={`prose max-w-none ${activeTab === "trades" ? "block" : "hidden"}`}
-            >
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">AI Automation Use Cases for Trade Businesses in Toronto & GTA</h2>
-              
-              <p className="text-lg text-gray-700 mb-6">
-                Trade businesses like HVAC, plumbing, electrical, and construction companies face unique operational challenges: managing crews, handling customer calls, preparing invoices, and staying on top of schedules. FlowMatrix AI specializes in solving these problems with tailored automation that saves time, reduces errors, and boosts profitability.
-              </p>
+            <div className="p-8">
+              {/* TRADES PANEL */}
+              <div
+                id="panel-trades"
+                role="tabpanel"
+                aria-labelledby="tab-trades"
+                className={activeTab === "trades" ? "block" : "hidden"}
+              >
+                <h2 className="text-3xl font-bold text-gray-900 mb-6">Trade Business Automation in Toronto & GTA</h2>
+                
+                <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+                  HVAC, plumbing, electrical and construction businesses lose valuable admin time due to manual dispatch coordination, repetitive invoicing processes, and fragmented communications. FlowMatrix AI eliminates these bottlenecks with intelligent automation designed specifically for trade operations across Toronto and the Greater Toronto Area.
+                </p>
 
-              <p className="text-lg text-gray-700 mb-6">
-                Here are some real-world automation use cases for trades:
-              </p>
+                {/* Micro Use Cases - Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                          <Calendar className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg font-bold text-gray-900">Smart Job Dispatch</CardTitle>
+                          <p className="text-sm text-gray-600">Auto-assign by location & skills</p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                  </Card>
 
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-interactive-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                  <div>
-                    <strong className="text-gray-900">Job Scheduling & Dispatch Automation:</strong> Automatically assign jobs to technicians based on location, availability, and skill set, reducing administrative overhead and improving response times.
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-interactive-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                  <div>
-                    <strong className="text-gray-900">Missed-Call AI Follow-Up:</strong> Never lose a lead again. Our AI agents can respond instantly to missed calls with automated SMS and email follow-ups, securing more booked jobs.
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-interactive-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                  <div>
-                    <strong className="text-gray-900">Invoicing & Payment Processing:</strong> Generate invoices automatically after service completion and integrate with payment gateways to reduce manual data entry.
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-interactive-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                  <div>
-                    <strong className="text-gray-900">Inventory Tracking:</strong> Automate inventory management for parts and materials, ensuring your teams always have what they need.
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-interactive-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                  <div>
-                    <strong className="text-gray-900">Customer Feedback & Review Requests:</strong> Automatically collect and organize customer reviews to build your reputation in the GTA trade market.
-                  </div>
-                </li>
-              </ul>
+                  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                          <Phone className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg font-bold text-gray-900">Missed Call Recovery</CardTitle>
+                          <p className="text-sm text-gray-600">Instant SMS & email follow-up</p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                  </Card>
 
-              <p className="text-lg text-gray-700">
-                Every trade automation audit begins with a <strong>Free Consultation</strong> and ends with a pay-what-you-think-it's-worth audit. From there, we build a 90-day roadmap to implement your custom solutions and help your business scale.
-              </p>
-            </div>
+                  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                          <FileText className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg font-bold text-gray-900">Automated Invoicing</CardTitle>
+                          <p className="text-sm text-gray-600">Generate & send post-service</p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                  </Card>
 
-            <div
-              id="panel-real-estate"
-              role="tabpanel"
-              aria-labelledby="tab-real-estate"
-              className={`prose max-w-none ${activeTab === "real-estate" ? "block" : "hidden"}`}
-            >
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">AI Automation Use Cases for Real Estate in Toronto & GTA</h2>
-              
-              <p className="text-lg text-gray-700 mb-6">
-                Real estate professionals juggle property listings, client communications, lead nurturing, and transaction management—often manually. FlowMatrix AI streamlines these workflows, empowering agents, brokerages, and property managers to focus on closing deals instead of chasing paperwork.
-              </p>
+                  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
+                          <DollarSign className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg font-bold text-gray-900">Inventory Tracking</CardTitle>
+                          <p className="text-sm text-gray-600">Parts & materials management</p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                  </Card>
+                </div>
 
-              <p className="text-lg text-gray-700 mb-6">
-                Key automation use cases for real estate include:
-              </p>
+                {/* Visual Snippet Placeholder */}
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-dashed border-blue-300 rounded-lg p-6 mb-6">
+                  <h4 className="font-semibold text-gray-900 mb-2">📊 Sample ROI Snapshot</h4>
+                  <p className="text-gray-600 text-sm">[Visual placeholder: ROI calculator showing 120+ hours saved monthly for trade businesses]</p>
+                </div>
 
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-interactive-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                  <div>
-                    <strong className="text-gray-900">Lead Nurturing Sequences:</strong> Automatically follow up with new leads via email or SMS, providing property details, scheduling tours, and keeping prospects engaged.
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-interactive-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                  <div>
-                    <strong className="text-gray-900">Property Maintenance Requests:</strong> For property managers, automate tenant maintenance requests and work orders to save hours every week.
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-interactive-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                  <div>
-                    <strong className="text-gray-900">AI-Powered Market Reports:</strong> Automatically generate and send market updates to clients, establishing authority and keeping your name top of mind.
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-interactive-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                  <div>
-                    <strong className="text-gray-900">Document Preparation:</strong> Automate repetitive paperwork like listing agreements, rental forms, and compliance documentation.
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-interactive-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                  <div>
-                    <strong className="text-gray-900">Client Feedback & Closing Surveys:</strong> Automatically collect client feedback to improve service quality and build referrals.
-                  </div>
-                </li>
-              </ul>
+                {/* Mini FAQ */}
+                <div className="bg-gray-50 rounded-lg p-6 mb-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">How can automation help trades in Toronto?</h3>
+                  <p className="text-gray-700">Trade automation helps Toronto businesses by streamlining job scheduling, automating missed-call follow-ups, simplifying invoicing, and managing inventory - reducing admin time and improving customer response.</p>
+                </div>
 
-              <p className="text-lg text-gray-700">
-                Start with a <strong>Free Consultation</strong> to uncover your bottlenecks. Our pay-what-you-think-it's-worth audit will provide a clear, visual roadmap, including ROI calculations, competitor benchmarks, and quick-win automations customized for real estate businesses in Toronto and the GTA.
-              </p>
-            </div>
+                <p className="text-lg text-gray-700 font-medium">
+                  <strong>Starting point:</strong> Free Consultation → pay-what-you-think-it's-worth audit → 90-day automation roadmap.
+                </p>
+              </div>
 
-            <div
-              id="panel-home-improvement"
-              role="tabpanel"
-              aria-labelledby="tab-home-improvement"
-              className={`prose max-w-none ${activeTab === "home-improvement" ? "block" : "hidden"}`}
-            >
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">AI Automation Use Cases for Home Improvement Businesses in Toronto & GTA</h2>
-              
-              <p className="text-lg text-gray-700 mb-6">
-                Home improvement companies—from renovation contractors to remodeling specialists—spend too much time on scheduling, quoting, and client follow-ups. FlowMatrix AI helps automate these manual tasks so you can focus on delivering exceptional service.
-              </p>
+              {/* REAL ESTATE PANEL */}
+              <div
+                id="panel-real-estate"
+                role="tabpanel"
+                aria-labelledby="tab-real-estate"
+                className={activeTab === "real-estate" ? "block" : "hidden"}
+              >
+                <h2 className="text-3xl font-bold text-gray-900 mb-6">Real Estate Automation in Toronto & GTA</h2>
+                
+                <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+                  Real estate agents and property managers face constant challenges with lead nurturing, property listings management, and tenant operations coordination. Instead of chasing paperwork and manual follow-ups, FlowMatrix AI helps Toronto and GTA real estate professionals focus on what matters most - closing deals and building relationships.
+                </p>
 
-              <p className="text-lg text-gray-700 mb-6">
-                Here are a few automation use cases tailored to home improvement:
-              </p>
+                {/* Micro Use Cases - Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-teal-500 to-teal-600 rounded-xl flex items-center justify-center">
+                          <Users className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg font-bold text-gray-900">Lead Nurturing Sequences</CardTitle>
+                          <p className="text-sm text-gray-600">Automated email & SMS campaigns</p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                  </Card>
 
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-interactive-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                  <div>
-                    <strong className="text-gray-900">Project Scheduling Automation:</strong> Automatically manage project timelines, assign crews, and track progress with AI-driven scheduling tools.
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-interactive-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                  <div>
-                    <strong className="text-gray-900">AI-Powered Quoting:</strong> Generate accurate quotes in minutes, integrate pricing calculators, and send polished proposals directly to clients.
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-interactive-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                  <div>
-                    <strong className="text-gray-900">Customer Follow-Up Campaigns:</strong> Automatically follow up with clients for approvals, payments, and reviews—without adding to your workload.
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-interactive-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                  <div>
-                    <strong className="text-gray-900">Material Procurement Tracking:</strong> Streamline ordering and delivery of building materials with automated workflows to prevent costly delays.
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-interactive-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                  <div>
-                    <strong className="text-gray-900">Team Communication Automation:</strong> Centralize updates and notifications for your crew, ensuring everyone stays aligned and informed.
-                  </div>
-                </li>
-              </ul>
+                  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center">
+                          <Wrench className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg font-bold text-gray-900">Maintenance Requests</CardTitle>
+                          <p className="text-sm text-gray-600">Tenant work order automation</p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                  </Card>
 
-              <p className="text-lg text-gray-700">
-                We start every relationship with a <strong>Free Consultation</strong> to assess your workflows. Our pay-what-you-think-it's-worth audit provides a 90-day automation roadmap that turns inefficiencies into scalable systems for your home improvement business.
-              </p>
+                  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                          <TrendingUp className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg font-bold text-gray-900">Market Reports</CardTitle>
+                          <p className="text-sm text-gray-600">AI-generated client updates</p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                  </Card>
+
+                  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center">
+                          <FileText className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg font-bold text-gray-900">Document Prep</CardTitle>
+                          <p className="text-sm text-gray-600">Contracts & compliance forms</p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                  </Card>
+                </div>
+
+                {/* Visual Snippet Placeholder */}
+                <div className="bg-gradient-to-r from-teal-50 to-cyan-50 border-2 border-dashed border-teal-300 rounded-lg p-6 mb-6">
+                  <h4 className="font-semibold text-gray-900 mb-2">📈 Market Report Sample</h4>
+                  <p className="text-gray-600 text-sm">[Visual placeholder: Automated market analysis report with GTA neighbourhood insights and client communication workflow]</p>
+                </div>
+
+                {/* Mini FAQ */}
+                <div className="bg-gray-50 rounded-lg p-6 mb-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">What automation works for real estate agents in the GTA?</h3>
+                  <p className="text-gray-700">Real estate automation includes lead nurturing sequences, property maintenance management, automated market reports, and document preparation - helping GTA agents focus on closing deals instead of paperwork.</p>
+                </div>
+
+                <p className="text-lg text-gray-700 font-medium">
+                  <strong>Starting point:</strong> Free Consultation → pay-what-you-think-it's-worth audit → 90-day automation roadmap.
+                </p>
+              </div>
+
+              {/* HOME IMPROVEMENT PANEL */}
+              <div
+                id="panel-home-improvement"
+                role="tabpanel"
+                aria-labelledby="tab-home-improvement"
+                className={activeTab === "home-improvement" ? "block" : "hidden"}
+              >
+                <h2 className="text-3xl font-bold text-gray-900 mb-6">Home Improvement Automation in Toronto & GTA</h2>
+                
+                <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+                  Home improvement contractors and renovation specialists spend countless hours on project scheduling complexities, detailed client follow-ups, and accurate quote preparations. FlowMatrix AI streamlines these time-consuming processes, allowing Toronto and GTA contractors to focus on delivering exceptional craftsmanship and customer service.
+                </p>
+
+                {/* Micro Use Cases - Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                          <Clock className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg font-bold text-gray-900">Project Scheduling</CardTitle>
+                          <p className="text-sm text-gray-600">AI-driven timeline management</p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                  </Card>
+
+                  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                          <DollarSign className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg font-bold text-gray-900">AI-Powered Quoting</CardTitle>
+                          <p className="text-sm text-gray-600">Instant accurate proposals</p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                  </Card>
+
+                  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-rose-500 to-rose-600 rounded-xl flex items-center justify-center">
+                          <Phone className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg font-bold text-gray-900">Follow-Up Campaigns</CardTitle>
+                          <p className="text-sm text-gray-600">Payment & approval reminders</p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                  </Card>
+
+                  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-violet-600 rounded-xl flex items-center justify-center">
+                          <Clipboard className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg font-bold text-gray-900">Material Procurement</CardTitle>
+                          <p className="text-sm text-gray-600">Supply chain automation</p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                  </Card>
+                </div>
+
+                {/* Visual Snippet Placeholder */}
+                <div className="bg-gradient-to-r from-emerald-50 to-green-50 border-2 border-dashed border-emerald-300 rounded-lg p-6 mb-6">
+                  <h4 className="font-semibold text-gray-900 mb-2">🏗️ Workflow Diagram</h4>
+                  <p className="text-gray-600 text-sm">[Visual placeholder: Project timeline automation showing quote → approval → scheduling → material ordering → completion workflow]</p>
+                </div>
+
+                {/* Mini FAQ */}
+                <div className="bg-gray-50 rounded-lg p-6 mb-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">How does automation benefit home improvement contractors?</h3>
+                  <p className="text-gray-700">Home improvement automation covers project scheduling, AI-powered quoting, customer follow-up campaigns, and material procurement tracking - allowing contractors to focus on exceptional service delivery.</p>
+                </div>
+
+                <p className="text-lg text-gray-700 font-medium">
+                  <strong>Starting point:</strong> Free Consultation → pay-what-you-think-it's-worth audit → 90-day automation roadmap.
+                </p>
+              </div>
             </div>
           </div>
 
-          {/* CTA Section */}
-          <div className="text-center bg-gradient-to-r from-interactive-primary to-interactive-accent rounded-2xl p-12 text-white">
-            <h2 className="text-3xl font-bold mb-4">
-              Start Automating Your Business Today
+          {/* Bottom CTA Section */}
+          <div className="text-center bg-gradient-to-r from-interactive-primary to-interactive-accent rounded-2xl p-12 text-white shadow-2xl">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Ready to Automate? Book Your Free Consultation
             </h2>
             <p className="text-lg mb-8 max-w-2xl mx-auto opacity-90">
-              Join hundreds of Toronto and GTA businesses that have transformed their operations with AI automation.
+              Join hundreds of Toronto and GTA businesses transforming their operations with custom AI automation solutions.
             </p>
             <Button 
               onClick={openCalendly}
               size="lg" 
-              className="bg-white text-interactive-primary hover:bg-gray-100 text-lg px-8 py-6"
+              className="bg-white text-interactive-primary hover:bg-gray-100 text-lg px-8 py-6 shadow-lg"
             >
               Book Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
