@@ -1,6 +1,7 @@
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Helmet } from "react-helmet";
 import { 
   ArrowRight, 
   Clock, 
@@ -37,18 +38,29 @@ const About = () => {
     link.rel = 'stylesheet';
     document.head.appendChild(link);
 
-    // SEO meta tags
-    document.title = "About FlowMatrix AI - Trade & Real Estate Automation in Toronto & GTA";
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'FlowMatrix AI provides AI automation for trade, real estate & home improvement businesses in Toronto & GTA. Free consultation, audit-first approach, 120+ hours saved monthly.');
-    }
-
     return () => {
       if (document.body.contains(script)) document.body.removeChild(script);
       if (document.head.contains(link)) document.head.removeChild(link);
     };
   }, []);
+
+  // About Page Organization JSON-LD
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "FlowMatrix AI",
+    "url": "https://www.flowmatrixai.com",
+    "logo": "https://www.flowmatrixai.com/logo.png",
+    "description": "FlowMatrix AI helps trade, real estate and home improvement businesses in Toronto & GTA automate workflows, reduce admin overhead, and scale effectively.",
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+1‑647‑555‑1234",
+        "contactType": "Customer Service"
+      }
+    ],
+    "sameAs": ["https://www.linkedin.com/company/flowmatrix-ai"]
+  };
 
   const openCalendly = () => {
     if (window.Calendly) {
@@ -61,7 +73,16 @@ const About = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+    <>
+      <Helmet>
+        <title>About FlowMatrix AI - Trade & Real Estate Automation in Toronto & GTA</title>
+        <meta name="description" content="FlowMatrix AI provides AI automation for trade, real estate & home improvement businesses in Toronto & GTA. Free consultation, audit-first approach, 120+ hours saved monthly." />
+        <script type="application/ld+json">
+          {JSON.stringify(organizationSchema)}
+        </script>
+      </Helmet>
+      
+      <div className="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -364,7 +385,8 @@ const About = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 
