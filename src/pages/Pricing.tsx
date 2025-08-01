@@ -48,14 +48,16 @@ const Pricing = () => {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 animate-slide-up">
-            Start with a{" "}
+            AI Automation Solutions for{" "}
             <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
-              Free Consultation
+              Trade | Real Estate | Home Improvement
             </span>
-            {" "}→ Audit You Value → One Partnership for Automation & Scaling
           </h1>
-          <p className="text-xl text-muted-foreground max-w-4xl mx-auto mb-8">
-            Trade automation consultation Toronto • Commercial automation audit GTA • Home improvement AI solutions
+          <p className="text-xl text-muted-foreground max-w-4xl mx-auto mb-4">
+            Residential & Commercial Services – Toronto & GTA
+          </p>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
+            Start with a Free Consultation → Get a Pay-What-You-Think Audit → One Partnership for Implementation & Scaling
           </p>
           <Button 
             onClick={openCalendly}
@@ -139,15 +141,10 @@ const Pricing = () => {
 
             {/* Audit */}
             <Card className="relative hover:shadow-xl transition-shadow border-2 border-interactive-accent/50 bg-gradient-to-br from-interactive-accent/5 to-interactive-primary/5 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <span className="bg-gradient-to-r from-interactive-accent to-interactive-primary text-white text-sm font-bold px-4 py-2 rounded-full">
-                  MOST VALUABLE
-                </span>
-              </div>
               <CardHeader className="text-center pb-8">
-                <CardTitle className="text-2xl font-bold text-foreground">Trade Automation Audit</CardTitle>
+                <CardTitle className="text-2xl font-bold text-foreground">Pay-What-You-Think-It's-Worth Trade Automation Audit</CardTitle>
                 <CardDescription className="text-lg text-muted-foreground">
-                  Pay what you think it's worth
+                  You decide the value after delivery
                 </CardDescription>
                 <div className="mt-4">
                   <span className="text-4xl font-bold bg-gradient-to-r from-interactive-accent to-interactive-primary bg-clip-text text-transparent">
@@ -235,20 +232,24 @@ const Pricing = () => {
         {/* Trust Signals */}
         <div className="bg-card rounded-2xl p-8 shadow-lg mb-16 animate-fade-in">
           <h2 className="text-3xl font-bold text-center text-foreground mb-8">
-            Proven Results Across GTA
+            Serving Trade, Residential, Commercial & Real Estate Clients
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold text-interactive-primary mb-2">120+</div>
-              <p className="text-muted-foreground">Hours saved per month on average</p>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
+            <div className="p-4">
+              <div className="text-2xl font-bold text-interactive-primary mb-2">Trade Services</div>
+              <p className="text-muted-foreground">Contractors, plumbers, electricians, HVAC</p>
             </div>
-            <div>
-              <div className="text-4xl font-bold text-interactive-accent mb-2">50+</div>
-              <p className="text-muted-foreground">Trade & real estate businesses automated</p>
+            <div className="p-4">
+              <div className="text-2xl font-bold text-interactive-accent mb-2">Real Estate</div>
+              <p className="text-muted-foreground">Agents, brokers, property management</p>
             </div>
-            <div>
-              <div className="text-4xl font-bold text-interactive-secondary mb-2">GTA</div>
-              <p className="text-muted-foreground">Local automation authority</p>
+            <div className="p-4">
+              <div className="text-2xl font-bold text-interactive-secondary mb-2">Home Improvement</div>
+              <p className="text-muted-foreground">Renovations, landscaping, design</p>
+            </div>
+            <div className="p-4">
+              <div className="text-2xl font-bold text-interactive-primary mb-2">Commercial</div>
+              <p className="text-muted-foreground">Office buildings, retail, industrial</p>
             </div>
           </div>
         </div>
@@ -260,8 +261,8 @@ const Pricing = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card className="p-6 animate-fade-in">
-              <h3 className="font-semibold text-foreground mb-3">How much does your audit cost?</h3>
-              <p className="text-muted-foreground">Our Trade Automation Audit uses pay-what-you-think-it's-worth pricing. After delivery, you decide the value and pay accordingly. This ensures you're completely satisfied with the insights provided.</p>
+              <h3 className="font-semibold text-foreground mb-3">Why pay-what-you-think-it's-worth for the audit?</h3>
+              <p className="text-muted-foreground">This low-risk model ensures you're completely satisfied with the value delivered. We're confident in our audit quality and want you to experience the insights before determining fair compensation. It eliminates upfront barriers and builds trust.</p>
             </Card>
             <Card className="p-6 animate-fade-in">
               <h3 className="font-semibold text-foreground mb-3">What happens after the consultation?</h3>
