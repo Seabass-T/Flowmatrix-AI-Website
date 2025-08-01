@@ -41,6 +41,7 @@ const Pricing = () => {
       "@type": "LocalBusiness",
       "name": "FlowMatrix AI",
       "url": "https://www.flowmatrixai.com",
+      "telephone": "+1-647-282-3908",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "14 Warlock Crescent",
