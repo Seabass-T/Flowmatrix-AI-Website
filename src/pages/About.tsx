@@ -1,9 +1,22 @@
-
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Target, Users, Zap, Heart, Globe, Building, TrendingUp } from "lucide-react";
+import { 
+  ArrowRight, 
+  Clock, 
+  BarChart3, 
+  FileText, 
+  MessageSquare, 
+  CheckCircle, 
+  Target, 
+  Settings,
+  TrendingUp,
+  Users,
+  MapPin,
+  Award
+} from "lucide-react";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 declare global {
   interface Window {
@@ -24,9 +37,16 @@ const About = () => {
     link.rel = 'stylesheet';
     document.head.appendChild(link);
 
+    // SEO meta tags
+    document.title = "About FlowMatrix AI - Trade & Real Estate Automation in Toronto & GTA";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'FlowMatrix AI provides AI automation for trade, real estate & home improvement businesses in Toronto & GTA. Free consultation, audit-first approach, 120+ hours saved monthly.');
+    }
+
     return () => {
-      document.body.removeChild(script);
-      document.head.removeChild(link);
+      if (document.body.contains(script)) document.body.removeChild(script);
+      if (document.head.contains(link)) document.head.removeChild(link);
     };
   }, []);
 
@@ -41,306 +61,307 @@ const About = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 animate-slide-up">
-            About{" "}
             <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
               FlowMatrix AI
-            </span>
+            </span> – Automation for Trade, Real Estate & Home Improvement Businesses in Toronto & the GTA
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We are dedicated to helping modern businesses unlock their next chapter through intelligent automation and AI systems that transform operations and drive sustainable growth. Our mission is to become your trusted technology partner, working closely with you to understand your unique challenges and deliver solutions that truly make a difference.
+          <p className="text-xl text-gray-600 max-w-4xl mx-auto mb-8">
+            We save trade & property firms 120+ hours/month via an audit-first system—starting with a Free Consultation.
           </p>
-        </div>
-
-        {/* Mission Statement */}
-        <div className="bg-gradient-to-r from-interactive-primary to-interactive-accent rounded-2xl p-8 lg:p-12 text-white mb-16">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold mb-6">Our Partnership-First Mission</h2>
-            <p className="text-xl leading-relaxed max-w-4xl mx-auto mb-6">
-              "To partner with modern businesses in unlocking their next chapter through intelligent automation and AI systems that enhance operational efficiency, reduce manual work, and create new possibilities for growth and innovation."
-            </p>
-            <p className="text-lg text-blue-100 max-w-3xl mx-auto">
-              We believe true success comes from understanding your business from the ground up. Our approach starts with your challenges, your goals, and your vision, then builds upward to create automation solutions that grow with you as a trusted partner.
-            </p>
-          </div>
-        </div>
-
-        {/* Small Business Success Section */}
-        <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg mb-16">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-            Empowering Small Businesses Worldwide
-          </h2>
-            <p className="text-lg text-gray-600 text-center max-w-4xl mx-auto mb-6">
-              We've had the privilege of partnering with 150+ small businesses across diverse industries and continents, 
-              helping them streamline operations, reduce costs, and scale efficiently through intelligent automation. Our partnership approach ensures we understand each business's unique needs before implementing solutions.
-            </p>
-            <p className="text-base text-gray-500 text-center max-w-3xl mx-auto mb-12">
-              From restaurant owners managing complex inventory systems to consultants optimizing their client workflows, we partner with businesses to understand their challenges first, then build automation solutions that truly fit their operational needs.
-            </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Globe className="h-8 w-8 text-white" />
-                </div>
-                <CardTitle className="text-xl">Global Reach</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  From local retailers in North America to service providers in Europe and manufacturers in Asia, 
-                  we partner with businesses worldwide to understand their unique workflows and implement optimization solutions that fit their specific operational requirements.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Building className="h-8 w-8 text-white" />
-                </div>
-                <CardTitle className="text-xl">Diverse Industries</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Our partnership approach has transformed operations across healthcare, e-commerce, professional services, 
-                  manufacturing, hospitality, and many other sectors. We work closely with each client to understand their industry-specific challenges and develop tailored automation solutions.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <TrendingUp className="h-8 w-8 text-white" />
-                </div>
-                <CardTitle className="text-xl">Measurable Impact</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Our partnership approach delivers measurable results: clients typically see 40-60% time savings on repetitive tasks, improved customer satisfaction, 
-                  and significant cost reductions within the first quarter of implementation, enabling them to focus on strategic growth initiatives.
-                </CardDescription>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Values Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          <Card className="text-center hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Target className="h-8 w-8 text-white" />
-              </div>
-              <CardTitle className="text-xl">Professional Excellence</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                We deliver enterprise-grade solutions with meticulous attention to detail and professional standards. Our commitment to excellence ensures reliable, scalable automation systems that perform consistently.
-              </CardDescription>
-            </CardContent>
-          </Card>
-
-          <Card className="text-center hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Zap className="h-8 w-8 text-white" />
-              </div>
-              <CardTitle className="text-xl">Scalability</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                Our solutions are designed to grow with your business, from startup to enterprise scale. We build sustainable automation systems that evolve alongside your changing business needs.
-              </CardDescription>
-            </CardContent>
-          </Card>
-
-          <Card className="text-center hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Heart className="h-8 w-8 text-white" />
-              </div>
-              <CardTitle className="text-xl">Founder-Led Care</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                Every client receives personal attention and dedicated support from our founding team, ensuring your success through direct partnership and ongoing collaboration.
-              </CardDescription>
-            </CardContent>
-          </Card>
-
-          <Card className="text-center hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="h-8 w-8 text-white" />
-              </div>
-              <CardTitle className="text-xl">Partnership Approach</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                We don't just deliver solutions – we become your trusted partner in digital transformation, working alongside you to achieve long-term operational excellence and business growth.
-              </CardDescription>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Why Choose Us Section */}
-        <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg mb-16">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            Why Choose FlowMatrix AI?
-          </h2>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-6">Our Technical Expertise</h3>
-              <div className="space-y-6">
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Advanced Automation Systems</h4>
-                  <p className="text-gray-600">
-                    We specialize in building sophisticated automation workflows that handle complex business logic and integrate seamlessly with your existing tools, eliminating manual data transfer between systems.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">AI Integration</h4>
-                  <p className="text-gray-600">
-                    Our team expertly integrates AI capabilities into automation workflows, creating intelligent systems that learn and adapt to your business needs, providing decision-making support and process optimization.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Custom Development</h4>
-                  <p className="text-gray-600">
-                    Every solution is tailored to your specific industry, business model, and operational requirements, ensuring optimal performance and seamless integration with your existing processes.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-6">Our Partnership Approach</h3>
-              <div className="space-y-6">
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Discovery & Analysis</h4>
-                  <p className="text-gray-600">
-                    We begin by thoroughly understanding your business operations, challenges, and objectives through comprehensive analysis and stakeholder interviews to identify optimization opportunities.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Custom Solution Design</h4>
-                  <p className="text-gray-600">
-                    Our team collaborates with you to design automation workflows specifically tailored to your business processes, ensuring maximum efficiency and measurable return on investment.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Long-term Partnership</h4>
-                  <p className="text-gray-600">
-                    We provide continuous support, system optimization, and strategic evolution of your automation infrastructure as your business scales and requirements change.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Founder Story Section */}
-        <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-8 lg:p-12 text-white mb-16">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold mb-6">Founder-Led Excellence</h2>
-            <p className="text-lg text-gray-200 max-w-3xl mx-auto mb-6">
-              FlowMatrix AI was founded with a clear vision: to make advanced automation and AI accessible to businesses of all sizes through genuine partnership. Our founder-led approach ensures you receive direct access to decision-makers who are personally invested in your success.
-            </p>
-            <p className="text-base text-gray-300 max-w-2xl mx-auto mb-8">
-              We established this company because we recognized the immense potential for technology to transform business operations, allowing owners to focus on strategic growth rather than repetitive administrative tasks.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-blue-400 mb-2">150+</div>
-                <div className="text-gray-300">Successful Implementations</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-purple-400 mb-2">100%</div>
-                <div className="text-gray-300">Client Satisfaction Rate</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-green-400 mb-2">24/7</div>
-                <div className="text-gray-300">Support Availability</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Our Process */}
-        <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg mb-16">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-            Our Partnership Process
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-lg">1</span>
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-3">Understand Your Business</h3>
-              <p className="text-gray-600 text-sm">We start by deeply understanding your operations, challenges, and goals through comprehensive business analysis.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-lg">2</span>
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-3">Identify Opportunities</h3>
-              <p className="text-gray-600 text-sm">We work with you to identify automation opportunities and prioritize solutions based on impact and feasibility.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-lg">3</span>
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-3">Collaborate on Solutions</h3>
-              <p className="text-gray-600 text-sm">Together, we design and develop automation solutions that align perfectly with your business processes and objectives.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-lg">4</span>
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-3">Implement & Test</h3>
-              <p className="text-gray-600 text-sm">We carefully implement automation systems with rigorous testing to ensure accuracy, reliability, and seamless integration.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-lg">5</span>
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-3">Monitor & Optimize</h3>
-              <p className="text-gray-600 text-sm">We continuously monitor system performance and optimize processes to maintain peak efficiency and prevent issues.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-teal-500 to-green-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-lg">6</span>
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-3">Scale Together</h3>
-              <p className="text-gray-600 text-sm">As your business grows, we evolve your automation systems, ensuring they scale with your expanding operations and changing needs.</p>
-            </div>
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Ready to Transform Your Business?
-          </h2>
-            <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              Let's discuss how FlowMatrix AI can partner with your business to unlock its next chapter through intelligent automation and AI systems that drive operational excellence.
-            </p>
           <Button 
             onClick={openCalendly}
             size="lg" 
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-6"
+            className="bg-gradient-to-r from-interactive-primary to-interactive-accent hover:from-interactive-primary-hover hover:to-interactive-accent-hover text-lg px-8 py-6 animate-fade-in shadow-xl"
           >
-            Book Discovery Call <ArrowRight className="ml-2 h-5 w-5" />
+            Book Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
+        </div>
+
+        {/* Our Why Section */}
+        <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg mb-16">
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
+            Why FlowMatrix Exists
+          </h2>
+          <div className="max-w-4xl mx-auto text-center mb-12">
+            <p className="text-lg text-gray-600 mb-6">
+              Trade and real estate businesses get caught in admin overload—from dispatching crews to chasing reviews. 
+              Audits that quantify inefficiencies first, then build automation based on real data, not guesswork.
+            </p>
+            <p className="text-lg text-gray-600 mb-8">
+              We built FlowMatrix to make <strong>AI automation accessible to local trades, renovation firms, and property services</strong> 
+              throughout Toronto and the GTA.
+            </p>
+            <p className="text-base text-gray-500">
+              We start with a <strong>Free Consultation</strong>—then deliver a <em>pay-what-you-think-it's-worth Trade Automation Audit</em> customized to your business.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Clock className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-2">Time Back in Your Week</h3>
+              <p className="text-gray-600 text-sm">
+                Save 120+ hours monthly on administrative tasks and focus on what you do best.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <BarChart3 className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-2">ROI You Can Measure</h3>
+              <p className="text-gray-600 text-sm">
+                Data-driven audits that show exactly where automation will impact your bottom line.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FileText className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-2">Audit You Value</h3>
+              <p className="text-gray-600 text-sm">
+                Pay what you think it's worth after seeing the comprehensive automation roadmap.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* How It Works - Audit Process */}
+        <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-8 lg:p-12 text-white mb-16">
+          <h2 className="text-3xl font-bold text-center mb-12">Our Audit Process</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <Card className="bg-white/10 border-white/20 text-white">
+              <CardHeader className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <MessageSquare className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-xl text-white">Free Consultation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-200">
+                  No obligation call to map your pain points across Toronto and GTA service areas. We identify automation opportunities specific to your trade or real estate business.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white/10 border-white/20 text-white">
+              <CardHeader className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <FileText className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-xl text-white">Audit Delivery</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-200">
+                  Pay-what-you-think-it's-worth audit with charts, benchmarks, and a custom 90-day roadmap tailored for Toronto & GTA market conditions.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white/10 border-white/20 text-white">
+              <CardHeader className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Settings className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-xl text-white">Automation Partnership</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-200">
+                  Post-assessment, we build and implement automation solutions designed for Toronto's trade and real estate landscape.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white/10 border-white/20 text-white">
+              <CardHeader className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <TrendingUp className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-xl text-white">Scale & Support</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-200">
+                  Ongoing training, system maintenance, and expansion into other verticals as your GTA business grows.
+                </CardDescription>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Team Section */}
+        <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg mb-16">
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
+            Meet Your Local Automation Partners
+          </h2>
+          
+          <div className="max-w-4xl mx-auto text-center mb-8">
+            <div className="w-32 h-32 bg-gradient-to-r from-interactive-primary to-interactive-accent rounded-full flex items-center justify-center mx-auto mb-6">
+              <Users className="h-16 w-16 text-white" />
+            </div>
+            <h3 className="text-2xl font-semibold text-gray-900 mb-6">FlowMatrix AI Founding Team</h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <Award className="h-6 w-6 text-blue-600" />
+              </div>
+              <p className="text-gray-600">
+                Decade of experience automating HVAC and real estate workflows in Toronto.
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <CheckCircle className="h-6 w-6 text-green-600" />
+              </div>
+              <p className="text-gray-600">
+                Certified member of Ontario Property Management & Construction networks.
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <MapPin className="h-6 w-6 text-purple-600" />
+              </div>
+              <p className="text-gray-600">
+                We live in Toronto and serve only Toronto–GTA clients.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Micro-Case Snapshots */}
+        <div className="bg-gradient-to-br from-slate-100 to-blue-100 rounded-2xl p-8 lg:p-12 mb-16">
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+            Real Results for Toronto & GTA Businesses
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <CardTitle className="text-xl text-gray-900">Trade Business Success</CardTitle>
+                <div className="text-3xl font-bold text-blue-600">15+ hrs/week saved</div>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-600">
+                  Saved 15+ hours/week for a GTA plumbing firm via automated invoice pipeline. Eliminated manual data entry and streamlined billing processes across multiple job sites.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <CardTitle className="text-xl text-gray-900">Real Estate Automation</CardTitle>
+                <div className="text-3xl font-bold text-green-600">60-agent efficiency</div>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-600">
+                  Automated a 60-agent brokerage's lead nurture cycle with email/SMS sequences in their local system. Improved response times and conversion rates significantly.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <CardTitle className="text-xl text-gray-900">Home Improvement ROI</CardTitle>
+                <div className="text-3xl font-bold text-purple-600">80% time reduction</div>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-600">
+                  Cut quoting time by 80% with an AI-based estimate builder for a Brampton renovation business. Faster quotes led to higher close rates and customer satisfaction.
+                </CardDescription>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* FAQ Section */}
+        <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg mb-16">
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+            Frequently Asked Questions
+          </h2>
+          
+          <div className="max-w-4xl mx-auto space-y-8">
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                How does AI automation help my trade business in Toronto?
+              </h3>
+              <p className="text-gray-600">
+                AI automation helps Toronto trade businesses by eliminating repetitive administrative tasks like scheduling, invoicing, and customer follow-ups. 
+                For HVAC, plumbing, electrical, and construction companies across the GTA, this typically saves 120+ hours monthly, allowing you to focus on 
+                actual trade work and business growth. Our audit process identifies the highest-impact automation opportunities specific to your trade and service area.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                What can I expect from the audit process for real estate firms?
+              </h3>
+              <p className="text-gray-600">
+                Our real estate audit process analyzes your current workflows from lead generation to closing, identifying automation opportunities in client communication, 
+                document management, and market analysis. Toronto and GTA real estate professionals receive a comprehensive 90-day roadmap showing exactly how 
+                automation can streamline property management, client nurturing, and administrative tasks. The pay-what-you-think-it's-worth model ensures you only 
+                pay after seeing the value we deliver.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                Why choose FlowMatrix over generic marketing or automation firms in GTA?
+              </h3>
+              <p className="text-gray-600">
+                Unlike generic firms, FlowMatrix specializes exclusively in trade, real estate, and home improvement businesses in Toronto and the GTA. 
+                We understand local market conditions, regulatory requirements, and industry-specific challenges. Our audit-first approach means we quantify 
+                improvements before implementation, and our local presence ensures ongoing support and partnership. We're not just vendors—we're your Toronto-based 
+                automation partners invested in your long-term success.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Final CTA Section */}
+        <div className="bg-gradient-to-r from-interactive-primary to-interactive-accent rounded-2xl p-8 lg:p-12 text-white text-center">
+          <h2 className="text-3xl font-bold mb-6">Ready to Automate Your Business?</h2>
+          <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-8">
+            Schedule your Free Consultation today and discover how AI automation can transform your Toronto or GTA trade, real estate, or home improvement business.
+          </p>
+          
+          <div className="space-y-4">
+            <Button 
+              onClick={openCalendly}
+              size="lg" 
+              variant="secondary"
+              className="bg-white text-interactive-primary hover:bg-gray-100 text-lg px-8 py-6 font-semibold"
+            >
+              Book Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+            
+            <div className="flex flex-wrap justify-center gap-4 text-sm text-blue-100">
+              <Link to="/use-cases" className="hover:text-white underline">View Use Cases</Link>
+              <Link to="/pricing" className="hover:text-white underline">Audit Pricing</Link>
+              <a 
+                href="https://business.google.com/dashboard/l/03209622293129830584" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-white underline"
+              >
+                Google Business Profile
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
