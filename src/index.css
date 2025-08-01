@@ -38,6 +38,26 @@ All colors MUST be HSL.
 
     --radius: 0.5rem;
 
+    /* Enhanced Color Palette */
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(267 84% 65%));
+    --gradient-secondary: linear-gradient(135deg, hsl(142 76% 46%), hsl(158 64% 52%));
+    --gradient-accent: linear-gradient(135deg, hsl(285 85% 70%), hsl(267 84% 65%));
+    --gradient-surface: linear-gradient(135deg, hsl(220 20% 98%), hsl(220 15% 95%));
+    
+    /* Interactive Colors */
+    --interactive-primary: 217 91% 60%;
+    --interactive-primary-hover: 217 91% 55%;
+    --interactive-secondary: 142 76% 46%;
+    --interactive-secondary-hover: 142 76% 41%;
+    --interactive-accent: 285 85% 70%;
+    --interactive-accent-hover: 285 85% 65%;
+    
+    /* Surface Colors */
+    --surface-light: 220 20% 98%;
+    --surface-medium: 220 15% 95%;
+    --surface-dark: 222 47% 11%;
+    --surface-darker: 222 84% 4.9%;
+
     /* Voice Assistant Theme */
     --voice-primary: 224 71% 50%;
     --voice-primary-glow: 224 71% 65%;
