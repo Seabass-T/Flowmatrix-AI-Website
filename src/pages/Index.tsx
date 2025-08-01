@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, Clock, Target, TrendingUp, Zap, Users, Bot, ArrowRight, MapPin, Building, Home, Wrench, Calendar, DollarSign, BarChart3, Shield, Star } from "lucide-react";
@@ -14,14 +15,6 @@ declare global {
 
 const Index = () => {
   useEffect(() => {
-    // Add SEO metadata
-    document.title = "Toronto AI Automation for Trade, Real Estate & Home Improvement | FlowMatrix AI";
-    
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'FlowMatrix AI helps trade, residential, commercial and real estate businesses in Toronto & GTA save 120+ hours/month with AI automation. Book your free consultation today.');
-    }
-
     // Load Calendly widget script
     const script = document.createElement('script');
     script.src = 'https://assets.calendly.com/assets/external/widget.js';
@@ -34,39 +27,61 @@ const Index = () => {
     link.rel = 'stylesheet';
     document.head.appendChild(link);
 
-    // JSON-LD Schema for LocalBusiness
-    const schemaScript = document.createElement('script');
-    schemaScript.type = 'application/ld+json';
-    schemaScript.textContent = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "FlowMatrix AI",
-      "description": "AI automation services for trade, real estate, and home improvement businesses in Toronto and GTA",
-      "url": "https://flowmatrixai.com",
-      "areaServed": [
-        {
-          "@type": "City",
-          "name": "Toronto",
-          "addressRegion": "ON",
-          "addressCountry": "CA"
-        },
-        {
-          "@type": "Place",
-          "name": "Greater Toronto Area (GTA)"
-        }
-      ],
-      "serviceType": ["AI Automation", "Trade Automation", "Real Estate Automation", "Home Improvement Automation", "Residential Services Automation", "Commercial Services Automation"],
-      "priceRange": "Consultation-based"
-    });
-    document.head.appendChild(schemaScript);
-
     // Cleanup function
     return () => {
       if (document.body.contains(script)) document.body.removeChild(script);
       if (document.head.contains(link)) document.head.removeChild(link);
-      if (document.head.contains(schemaScript)) document.head.removeChild(schemaScript);
     };
   }, []);
+
+  // Homepage JSON-LD – LocalBusiness + Services
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "FlowMatrix AI",
+    "image": "https://www.flowmatrixai.com/logo.png",
+    "@id": "https://www.flowmatrixai.com",
+    "url": "https://www.flowmatrixai.com",
+    "telephone": "+1‑647‑555‑1234",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "123 Example Street",
+      "addressLocality": "Toronto",
+      "addressRegion": "ON",
+      "postalCode": "M5H2N2",
+      "addressCountry": "CA"
+    },
+    "areaServed": [
+      { "@type": "City", "name": "Toronto" },
+      { "@type": "AdministrativeArea", "name": "Greater Toronto Area" }
+    ],
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      }
+    ],
+    "serviceOffered": [
+      {
+        "@type": "Service",
+        "name": "Trade Automation Consultation",
+        "description": "Free line-by-line workflow consultation for trade businesses in Toronto & GTA."
+      },
+      {
+        "@type": "Service",
+        "name": "Trade Automation Audit",
+        "description": "Pay‑What‑You‑Think‑it's‑Worth 1‑month audit for trade companies (HVAC, plumbing, electrical, construction)."
+      },
+      {
+        "@type": "Service",
+        "name": "Automation Partnership (Implementation & Scale)",
+        "description": "Post‑audit implementation & scaling services for trades, real estate & home improvement firms."
+      }
+    ],
+    "sameAs": ["https://www.linkedin.com/company/flowmatrix-ai"]
+  };
 
   const navigate = useNavigate();
 
@@ -79,7 +94,16 @@ const Index = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-surface-light to-surface-medium min-h-screen">
+    <>
+      <Helmet>
+        <title>Toronto AI Automation for Trade, Real Estate & Home Improvement | FlowMatrix AI</title>
+        <meta name="description" content="FlowMatrix AI helps trade, residential, commercial and real estate businesses in Toronto & GTA save 120+ hours/month with AI automation. Book your free consultation today." />
+        <script type="application/ld+json">
+          {JSON.stringify(localBusinessSchema)}
+        </script>
+      </Helmet>
+      
+      <div className="bg-gradient-to-br from-surface-light to-surface-medium min-h-screen">
       <Navigation />
       
       {/* Hero Section */}
@@ -488,6 +512,7 @@ const Index = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 
