@@ -40,7 +40,15 @@ const Pricing = () => {
     "provider": {
       "@type": "LocalBusiness",
       "name": "FlowMatrix AI",
-      "url": "https://www.flowmatrixai.com"
+      "url": "https://www.flowmatrixai.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "14 Warlock Crescent",
+        "addressLocality": "Toronto",
+        "addressRegion": "ON",
+        "postalCode": "M2K 2H9",
+        "addressCountry": "CA"
+      }
     },
     "areaServed": {
       "@type": "AdministrativeArea",
