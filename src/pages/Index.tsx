@@ -84,7 +84,6 @@ const Index = () => {
       
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20 lg:py-32">
-        <div className="absolute inset-0 bg-gradient-to-br from-interactive-primary/5 to-interactive-accent/5"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center">
             <div className="flex items-center justify-center mb-6 animate-fade-in">
@@ -93,7 +92,7 @@ const Index = () => {
             </div>
             
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 animate-slide-up">
-              <span className="text-foreground">Toronto AI Automation for</span>{" "}
+              <span className="text-slate-800 dark:text-slate-200">Toronto AI Automation for</span>{" "}
               <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent animate-glow">
                 Trade, Real Estate & Home Improvement
               </span>
@@ -233,7 +232,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
-              <span className="text-foreground">What You'll</span>{" "}
+              <span className="text-slate-800 dark:text-slate-200">What You'll</span>{" "}
               <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
                 Receive
               </span>
@@ -363,7 +362,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
-              <span className="text-foreground">Trusted by</span>{" "}
+              <span className="text-slate-800 dark:text-slate-200">Trusted by</span>{" "}
               <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
                 Toronto Businesses
               </span>
