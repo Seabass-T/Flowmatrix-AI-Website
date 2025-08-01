@@ -2,6 +2,7 @@
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Helmet } from "react-helmet";
 import { Check, ArrowRight, Users, Zap, TrendingUp, Award, Phone, DollarSign } from "lucide-react";
 import { useEffect } from "react";
 
@@ -30,6 +31,23 @@ const Pricing = () => {
     };
   }, []);
 
+  // Pricing Service JSON-LD
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Automation Partnership (Implementation & Scaling)",
+    "description": "Custom automation service for trade, real estate, and home improvement businesses in Toronto & GTA, delivered after assessment from the pay‑what‑you‑think Trade Automation Audit.",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "FlowMatrix AI",
+      "url": "https://www.flowmatrixai.com"
+    },
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "Greater Toronto Area"
+    }
+  };
+
   const openCalendly = () => {
     if (window.Calendly) {
       window.Calendly.initPopupWidget({
@@ -41,7 +59,16 @@ const Pricing = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-background via-secondary/20 to-background">
+    <>
+      <Helmet>
+        <title>AI Automation Pricing for Trade, Real Estate & Home Improvement | FlowMatrix AI</title>
+        <meta name="description" content="Transparent pricing for AI automation services in Toronto & GTA. Free consultation, pay-what-you-think audit, custom implementation partnerships." />
+        <script type="application/ld+json">
+          {JSON.stringify(serviceSchema)}
+        </script>
+      </Helmet>
+      
+      <div className="bg-gradient-to-br from-background via-secondary/20 to-background">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -306,7 +333,8 @@ const Pricing = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 
