@@ -252,11 +252,11 @@ const About = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader>
-                <CardTitle className="text-xl text-gray-900">Trade Business Success</CardTitle>
+                <CardTitle className="text-xl text-white">Trade Business Success</CardTitle>
                 <div className="text-3xl font-bold text-blue-600">15+ hrs/week saved</div>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-600">
+                <CardDescription className="text-gray-200">
                   Saved 15+ hours/week for a GTA plumbing firm via automated invoice pipeline. Eliminated manual data entry and streamlined billing processes across multiple job sites.
                 </CardDescription>
               </CardContent>
@@ -264,11 +264,11 @@ const About = () => {
 
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader>
-                <CardTitle className="text-xl text-gray-900">Real Estate Automation</CardTitle>
+                <CardTitle className="text-xl text-white">Real Estate Automation</CardTitle>
                 <div className="text-3xl font-bold text-green-600">60-agent efficiency</div>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-600">
+                <CardDescription className="text-gray-200">
                   Automated a 60-agent brokerage's lead nurture cycle with email/SMS sequences in their local system. Improved response times and conversion rates significantly.
                 </CardDescription>
               </CardContent>
@@ -276,11 +276,11 @@ const About = () => {
 
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader>
-                <CardTitle className="text-xl text-gray-900">Home Improvement ROI</CardTitle>
+                <CardTitle className="text-xl text-white">Home Improvement ROI</CardTitle>
                 <div className="text-3xl font-bold text-purple-600">80% time reduction</div>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-600">
+                <CardDescription className="text-gray-200">
                   Cut quoting time by 80% with an AI-based estimate builder for a Brampton renovation business. Faster quotes led to higher close rates and customer satisfaction.
                 </CardDescription>
               </CardContent>
