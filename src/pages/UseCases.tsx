@@ -252,11 +252,6 @@ const UseCases = () => {
                   </Card>
                 </div>
 
-                {/* Visual Snippet Placeholder */}
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-dashed border-blue-300 rounded-lg p-6 mb-6">
-                  <h4 className="font-semibold text-gray-900 mb-2">📊 Sample ROI Snapshot</h4>
-                  <p className="text-gray-600 text-sm">[Visual placeholder: ROI calculator showing 120+ hours saved monthly for trade businesses]</p>
-                </div>
 
                 {/* Mini FAQ */}
                 <div className="bg-gray-50 rounded-lg p-6 mb-6">
@@ -341,11 +336,6 @@ const UseCases = () => {
                   </Card>
                 </div>
 
-                {/* Visual Snippet Placeholder */}
-                <div className="bg-gradient-to-r from-teal-50 to-cyan-50 border-2 border-dashed border-teal-300 rounded-lg p-6 mb-6">
-                  <h4 className="font-semibold text-gray-900 mb-2">📈 Market Report Sample</h4>
-                  <p className="text-gray-600 text-sm">[Visual placeholder: Automated market analysis report with GTA neighbourhood insights and client communication workflow]</p>
-                </div>
 
                 {/* Mini FAQ */}
                 <div className="bg-gray-50 rounded-lg p-6 mb-6">
@@ -430,11 +420,6 @@ const UseCases = () => {
                   </Card>
                 </div>
 
-                {/* Visual Snippet Placeholder */}
-                <div className="bg-gradient-to-r from-emerald-50 to-green-50 border-2 border-dashed border-emerald-300 rounded-lg p-6 mb-6">
-                  <h4 className="font-semibold text-gray-900 mb-2">🏗️ Workflow Diagram</h4>
-                  <p className="text-gray-600 text-sm">[Visual placeholder: Project timeline automation showing quote → approval → scheduling → material ordering → completion workflow]</p>
-                </div>
 
                 {/* Mini FAQ */}
                 <div className="bg-gray-50 rounded-lg p-6 mb-6">
