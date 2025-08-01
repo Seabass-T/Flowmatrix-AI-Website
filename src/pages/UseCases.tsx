@@ -109,7 +109,7 @@ const UseCases = () => {
           {/* Hero Section */}
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 animate-slide-up">
-              AI Automation Use Cases for Trade, Real Estate & Home Improvement in Toronto & GTA
+              AI Automation Use Cases for <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">Trade, Real Estate & Home Improvement</span> in Toronto & GTA
             </h1>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto mb-8">
               Discover how FlowMatrix AI transforms business operations with custom automation solutions designed for your specific industry challenges.
