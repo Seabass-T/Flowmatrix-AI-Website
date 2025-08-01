@@ -92,15 +92,15 @@ const Index = () => {
               <span className="text-lg font-semibold text-interactive-primary">Serving Toronto & GTA</span>
             </div>
             
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-8 animate-slide-up">
-              Toronto AI Automation for{" "}
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 animate-slide-up">
+              <span className="text-foreground">Toronto AI Automation for</span>{" "}
               <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent animate-glow">
                 Trade, Real Estate & Home Improvement
               </span>
             </h1>
             
             <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed animate-fade-in">
-              We help trade, residential, commercial and real estate businesses in Toronto & GTA save 120+ hours/month with AI automation.
+              We help trade, residential, commercial and real estate businesses in Toronto & GTA save hundreds of hours/month with AI automation.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 animate-scale-in">
@@ -232,8 +232,8 @@ const Index = () => {
       <section className="py-20 bg-gradient-to-br from-surface-light to-surface-medium">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 animate-fade-in">
-              What You'll{" "}
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
+              <span className="text-foreground">What You'll</span>{" "}
               <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
                 Receive
               </span>
@@ -350,7 +350,7 @@ const Index = () => {
                   We streamline project coordination, supplier management, customer communication, and quality control processes. Ideal for renovation companies, landscapers, and home service providers.
                 </p>
                 <p className="text-muted-foreground">
-                  <strong className="text-interactive-accent">Fair pricing model:</strong> We believe in earning your business through value delivery, not sales pressure. See the value first, then decide what it's worth to you.
+                  <strong className="text-interactive-accent">Fair audit pricing:</strong> Our consultation is free, and you pay what you think the audit is worth after receiving it. Implementation and systems development are separately estimated based on your specific requirements.
                 </p>
               </CardContent>
             </Card>
@@ -362,8 +362,8 @@ const Index = () => {
       <section className="py-20 bg-gradient-to-br from-surface-light to-surface-medium">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 animate-fade-in">
-              Trusted by{" "}
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
+              <span className="text-foreground">Trusted by</span>{" "}
               <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
                 Toronto Businesses
               </span>
