@@ -114,7 +114,7 @@ const UseCases = () => {
                 role="tab"
                 aria-selected={activeTab === "trades"}
                 aria-controls="panel-trades"
-                className={`flex-1 px-3 sm:px-6 py-4 font-semibold transition-all duration-200 flex items-center justify-center gap-1 sm:gap-2 text-sm sm:text-base ${
+                className={`flex-1 px-2 sm:px-6 py-4 font-semibold transition-all duration-200 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-xs sm:text-base ${
                   activeTab === "trades"
                     ? "bg-interactive-primary text-white border-b-2 border-interactive-primary"
                     : "text-gray-700 hover:bg-gray-100"
@@ -122,7 +122,7 @@ const UseCases = () => {
                 onClick={() => setActiveTab("trades")}
                 onKeyDown={(e) => handleKeyDown(e, "trades")}
               >
-                <Wrench className="h-4 w-4 sm:h-5 sm:w-5" />
+                <Wrench className="h-3 w-3 sm:h-5 sm:w-5" />
                 <span className="whitespace-nowrap">Trades</span>
               </button>
               <button
@@ -130,7 +130,7 @@ const UseCases = () => {
                 role="tab"
                 aria-selected={activeTab === "real-estate"}
                 aria-controls="panel-real-estate"
-                className={`flex-1 px-3 sm:px-6 py-4 font-semibold transition-all duration-200 flex items-center justify-center gap-1 sm:gap-2 text-sm sm:text-base ${
+                className={`flex-1 px-2 sm:px-6 py-4 font-semibold transition-all duration-200 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-xs sm:text-base ${
                   activeTab === "real-estate"
                     ? "bg-interactive-primary text-white border-b-2 border-interactive-primary"
                     : "text-gray-700 hover:bg-gray-100"
@@ -138,7 +138,7 @@ const UseCases = () => {
                 onClick={() => setActiveTab("real-estate")}
                 onKeyDown={(e) => handleKeyDown(e, "real-estate")}
               >
-                <Building2 className="h-4 w-4 sm:h-5 sm:w-5" />
+                <Building2 className="h-3 w-3 sm:h-5 sm:w-5" />
                 <span className="whitespace-nowrap">Real Estate</span>
               </button>
               <button
@@ -146,7 +146,7 @@ const UseCases = () => {
                 role="tab"
                 aria-selected={activeTab === "home-improvement"}
                 aria-controls="panel-home-improvement"
-                className={`flex-1 px-3 sm:px-6 py-4 font-semibold transition-all duration-200 flex items-center justify-center gap-1 sm:gap-2 text-sm sm:text-base ${
+                className={`flex-1 px-2 sm:px-6 py-4 font-semibold transition-all duration-200 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-xs sm:text-base ${
                   activeTab === "home-improvement"
                     ? "bg-interactive-primary text-white border-b-2 border-interactive-primary"
                     : "text-gray-700 hover:bg-gray-100"
@@ -154,7 +154,7 @@ const UseCases = () => {
                 onClick={() => setActiveTab("home-improvement")}
                 onKeyDown={(e) => handleKeyDown(e, "home-improvement")}
               >
-                <Home className="h-4 w-4 sm:h-5 sm:w-5" />
+                <Home className="h-3 w-3 sm:h-5 sm:w-5" />
                 <span className="whitespace-nowrap">Home Improvement</span>
               </button>
             </div>
