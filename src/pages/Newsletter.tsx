@@ -194,12 +194,84 @@ const Newsletter = () => {
               <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
                 The Matrix
               </span>{" "}
-              <span className="text-gray-900">- Weekly AI Newsletter</span>
+              <span className="text-gray-900">- Weekly AI Newsletter for Toronto Businesses</span>
             </h1>
           </div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Stay ahead of the curve with the latest AI developments, automation trends, and industry insights.
+          <p className="text-xl text-gray-600 max-w-4xl mx-auto mb-8">
+            Your weekly source for AI automation insights, industry trends, and actionable strategies specifically tailored for trade, real estate, and home improvement businesses across Toronto and the Greater Toronto Area.
           </p>
+          
+          {/* Expanded Description Section */}
+          <div className="max-w-4xl mx-auto mb-12 bg-white rounded-xl shadow-lg p-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Why Subscribe to The Matrix?</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">Industry-Specific Insights</h3>
+                <p className="text-gray-600 mb-4">
+                  Get curated AI and automation content specifically focused on trade businesses, real estate professionals, 
+                  and home improvement companies operating in Toronto and the GTA. Our newsletter cuts through the noise 
+                  to deliver actionable insights that directly impact your business operations.
+                </p>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">Local Market Focus</h3>
+                <p className="text-gray-600">
+                  Stay informed about automation trends affecting the Toronto market, regulatory changes in Ontario, 
+                  and opportunities specific to GTA businesses. We understand the unique challenges facing local 
+                  trade and real estate professionals.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">Practical Implementation</h3>
+                <p className="text-gray-600 mb-4">
+                  Every issue includes real-world case studies, implementation guides, and cost-benefit analyses 
+                  from actual Toronto businesses that have successfully adopted AI automation. Learn from proven 
+                  strategies that deliver measurable results.
+                </p>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">Expert Analysis</h3>
+                <p className="text-gray-600">
+                  Our team analyzes the latest AI developments through the lens of practical business application. 
+                  Discover which tools and technologies are worth your investment and which ones to avoid, 
+                  backed by our experience helping 50+ local businesses implement automation solutions.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* What You'll Learn Section */}
+          <div className="max-w-4xl mx-auto mb-12 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">What You'll Learn Each Week</h2>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-white font-bold">AI</span>
+                </div>
+                <h4 className="font-semibold text-gray-800 mb-2">AI Tool Reviews</h4>
+                <p className="text-gray-600 text-sm">
+                  In-depth analysis of new AI tools, their practical applications for your industry, 
+                  and honest assessments of ROI potential.
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-white font-bold">📊</span>
+                </div>
+                <h4 className="font-semibold text-gray-800 mb-2">Success Stories</h4>
+                <p className="text-gray-600 text-sm">
+                  Real case studies from Toronto businesses showing measurable results from automation 
+                  implementations, including time saved and revenue generated.
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-white font-bold">⚡</span>
+                </div>
+                <h4 className="font-semibold text-gray-800 mb-2">Quick Wins</h4>
+                <p className="text-gray-600 text-sm">
+                  Simple automation strategies you can implement immediately to start saving time 
+                  and reducing manual work in your daily operations.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {loading ? (

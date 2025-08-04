@@ -21,10 +21,25 @@ const Privacy = () => {
             Back
           </Button>
           
-          <h1 className="text-4xl font-bold text-foreground mb-4">Privacy Policy</h1>
-          <p className="text-muted-foreground text-lg">
+          <h1 className="text-4xl font-bold text-foreground mb-4">Privacy Policy - FlowMatrix AI Toronto</h1>
+          <p className="text-muted-foreground text-lg mb-6">
             Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
+          
+          {/* Introduction Section */}
+          <div className="bg-muted p-6 rounded-lg mb-8">
+            <h2 className="text-xl font-semibold text-foreground mb-3">Your Privacy Matters to Us</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              At FlowMatrix AI, we understand that privacy is fundamental to building trust with our Toronto and GTA business clients. 
+              As a provider of custom automation and AI solutions for trade, real estate, and home improvement businesses, 
+              we handle sensitive business data and are committed to maintaining the highest standards of data protection.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              This comprehensive privacy policy explains how we collect, use, protect, and manage your information when you use 
+              our automation services, consultation offerings, and AI implementation solutions. We are committed to transparency 
+              and compliance with Canadian privacy laws, including PIPEDA (Personal Information Protection and Electronic Documents Act).
+            </p>
+          </div>
         </div>
 
         <div className="prose prose-slate max-w-none dark:prose-invert">

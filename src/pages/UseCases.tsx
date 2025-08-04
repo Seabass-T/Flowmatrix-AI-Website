@@ -1,4 +1,5 @@
 import Navigation from "@/components/Navigation";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Wrench, Home, Building2, Calendar, Phone, FileText, DollarSign, Users, TrendingUp, Clipboard, Clock } from "lucide-react";
@@ -422,13 +423,25 @@ const UseCases = () => {
             <p className="text-lg mb-8 max-w-2xl mx-auto opacity-90">
               Join hundreds of Toronto and GTA businesses transforming their operations with custom AI automation solutions.
             </p>
-            <Button 
-              onClick={openCalendly}
-              size="lg" 
-              className="bg-white text-interactive-primary hover:bg-gray-100 text-lg px-8 py-6 shadow-lg"
-            >
-              Book Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-4">
+              <Button 
+                onClick={openCalendly}
+                size="lg" 
+                className="bg-white text-interactive-primary hover:bg-gray-100 text-lg px-8 py-6 shadow-lg"
+              >
+                Book Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Link 
+                to="/newsletter" 
+                className="inline-flex items-center px-6 py-3 bg-white/20 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/30 transition-colors"
+              >
+                Subscribe to Newsletter
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </div>
+            <p className="text-sm text-white/80 max-w-md mx-auto">
+              Stay updated with weekly insights on automation trends and success stories from Toronto businesses.
+            </p>
           </div>
           
           {/* Use‑Cases Consolidated FAQPage JSON-LD */}

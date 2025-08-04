@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -321,8 +321,11 @@ const Index = () => {
               <p className="text-lg text-card-foreground mb-2">
                 <span className="font-semibold text-interactive-primary">Pay-What-You-Think-It's-Worth Model:</span>
               </p>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground mb-4">
                 After receiving your comprehensive audit, you decide what it's worth to you. No upfront fees, no pressure - just results-driven value.
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Want to stay updated on the latest automation trends? <Link to="/newsletter" className="text-interactive-primary hover:text-interactive-primary-hover underline">Subscribe to our weekly AI newsletter</Link> for Toronto businesses.
               </p>
             </div>
           </div>

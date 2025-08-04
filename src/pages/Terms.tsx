@@ -21,10 +21,25 @@ const Terms = () => {
             Back
           </Button>
           
-          <h1 className="text-4xl font-bold text-foreground mb-4">Terms and Conditions</h1>
-          <p className="text-muted-foreground text-lg">
+          <h1 className="text-4xl font-bold text-foreground mb-4">Terms and Conditions - FlowMatrix AI Toronto Services</h1>
+          <p className="text-muted-foreground text-lg mb-6">
             Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
+          
+          {/* Introduction Section */}
+          <div className="bg-muted p-6 rounded-lg mb-8">
+            <h2 className="text-xl font-semibold text-foreground mb-3">Welcome to FlowMatrix AI</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              FlowMatrix AI provides specialized automation and AI implementation services for trade, real estate, and home improvement 
+              businesses across Toronto and the Greater Toronto Area. Our services help local businesses streamline operations, 
+              reduce manual work, and increase efficiency through custom automation solutions.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              These Terms and Conditions govern your use of our services, including our Pay-What-You-Think-It's-Worth audit process, 
+              automation implementation, and ongoing support services. By engaging with FlowMatrix AI, you acknowledge that you have 
+              read, understood, and agree to be bound by these terms.
+            </p>
+          </div>
         </div>
 
         <div className="prose prose-slate max-w-none dark:prose-invert">

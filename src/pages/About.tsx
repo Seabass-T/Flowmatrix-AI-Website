@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Helmet } from "react-helmet";
 import { 
@@ -17,7 +18,6 @@ import {
   Award
 } from "lucide-react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 
 declare global {
   interface Window {
@@ -220,6 +220,20 @@ const About = () => {
             </Card>
           </div>
         </div>
+
+        {/* Newsletter CTA Section */}
+        <section className="py-16 bg-gradient-to-r from-blue-50 to-indigo-50 mb-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Stay Informed</h2>
+            <p className="text-xl text-gray-600 mb-6">
+              Get weekly insights on AI automation trends, case studies, and implementation strategies specifically for Toronto businesses.
+            </p>
+            <Link to="/newsletter" className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+              Read Our Weekly Newsletter
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </div>
+        </section>
 
         {/* Team Section */}
         <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg mb-16">
