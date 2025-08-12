@@ -371,20 +371,23 @@ const Newsletter = () => {
               </div>
             </div>
           </div>
+
+          {/* Join The Matrix Section */}
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
+              <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
+                Join The Matrix
+              </span>
+            </h2>
+            <p className="text-xl mb-8 text-gray-700 font-medium">
+              Get our weekly newsletter delivered to your inbox plus access to exclusive content and more AI news.
+            </p>
+            <NewsletterSignup />
+          </div>
+
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto mt-24 text-center">
-        <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
-          <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
-            Join The Matrix
-          </span>
-        </h2>
-        <p className="text-xl mb-8 text-gray-700 font-medium">
-          Get our weekly newsletter delivered to your inbox plus access to exclusive content and more AI news.
-        </p>
-        <NewsletterSignup />
-      </div>
     </div>
   );
 };
