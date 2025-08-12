@@ -84,7 +84,6 @@ const Newsletter = () => {
     return sortedNewsletters.findIndex(n => n.id === newsletter.id) + 1;
   };
 
-  
   // Renderable HTML helper: extracts <body> content if present
   const getRenderableHtml = (raw: string) => {
     try {
@@ -229,7 +228,78 @@ const Newsletter = () => {
           <p className="text-xl text-gray-600 max-w-4xl mx-auto mb-8">
             Your weekly source for AI automation insights, industry trends, and actionable strategies specifically tailored for trade, real estate, and home improvement businesses across Toronto and the Greater Toronto Area.
           </p>
-          
+
+          <div className="text-left">
+            {loading ? (
+              <div className="animate-pulse max-w-2xl mx-auto">
+                <div className="h-8 bg-gray-200 rounded w-1/2 mb-4"></div>
+                <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+              </div>
+            ) : error ? (
+              <Card className="shadow-lg border-0 max-w-2xl mx-auto">
+                <CardContent className="p-8 text-center">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Ready for Newsletter Content</h2>
+                  <p className="text-gray-600 mb-6">{error}</p>
+                  <p className="text-sm text-gray-500 mb-6">
+                    Once your n8n workflow adds content to the final_newsletters table, it will appear here.
+                  </p>
+                  <Button onClick={fetchNewsletters} className="bg-gradient-to-r from-interactive-primary to-interactive-accent">
+                    Check for Updates
+                  </Button>
+                </CardContent>
+              </Card>
+            ) : newsletters.length === 0 ? (
+              <div className="max-w-4xl mx-auto mb-16">
+                <div className="prose prose-lg max-w-none bg-white p-8 rounded-xl shadow-lg">
+                  <div className="text-gray-700 leading-relaxed">
+                    <h2 className="text-2xl font-bold mb-6 text-gray-900">Welcome to The Matrix - Weekly AI Newsletter</h2>
+                    <p className="mb-4">
+                      Your weekly dose of AI innovation, automation trends, and industry insights. 
+                      Once your n8n workflow is activated, new issues will appear here automatically.
+                    </p>
+                    <p className="mb-4">
+                      This week in AI: Revolutionary developments in machine learning, breakthrough automation tools, 
+                      and the latest trends shaping the future of artificial intelligence.
+                    </p>
+                    <p className="text-sm text-gray-500 italic">
+                      This is placeholder content. Your actual newsletter content will replace this once the n8n workflow is triggered.
+                    </p>
+                  </div>
+                </div>
+                <div className="text-center mb-8 mt-8">
+                  <Badge variant="secondary" className="mb-4">Issue #1</Badge>
+                  <div className="flex items-center justify-center text-sm text-gray-500 mb-6">
+                    <Calendar className="h-4 w-4 mr-1" />
+                    <span>Last Week</span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="max-w-4xl mx-auto mb-16">
+                {/* Display selected newsletter or latest if none selected */}
+                {(() => {
+                  const displayNewsletter = selectedNewsletterId 
+                    ? newsletters.find(n => n.id === selectedNewsletterId) 
+                    : newsletters[0];
+                  
+                  if (!displayNewsletter) return null;
+                  
+                  return (
+                    <div key={displayNewsletter.id}>
+                      <div className="prose prose-lg max-w-none bg-white p-8 rounded-xl shadow-lg">
+                        <div 
+                          className="text-gray-700 leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: getRenderableHtml(displayNewsletter.content_markdown) }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+            )}
+          </div>
+
           {/* Expanded Description Section */}
           <div className="max-w-4xl mx-auto mb-12 bg-white rounded-xl shadow-lg p-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Why Subscribe to The Matrix?</h2>
@@ -302,88 +372,18 @@ const Newsletter = () => {
             </div>
           </div>
         </div>
+      </div>
 
-        {loading ? (
-          <div className="animate-pulse max-w-2xl mx-auto">
-            <div className="h-8 bg-gray-200 rounded w-1/2 mb-4"></div>
-            <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
-            <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-          </div>
-        ) : error ? (
-          <Card className="shadow-lg border-0 max-w-2xl mx-auto">
-            <CardContent className="p-8 text-center">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Ready for Newsletter Content</h2>
-              <p className="text-gray-600 mb-6">{error}</p>
-              <p className="text-sm text-gray-500 mb-6">
-                Once your n8n workflow adds content to the final_newsletters table, it will appear here.
-              </p>
-              <Button onClick={fetchNewsletters} className="bg-gradient-to-r from-interactive-primary to-interactive-accent">
-                Check for Updates
-              </Button>
-            </CardContent>
-          </Card>
-        ) : newsletters.length === 0 ? (
-          <div className="max-w-4xl mx-auto mb-16">
-            <div className="prose prose-lg max-w-none bg-white p-8 rounded-xl shadow-lg">
-              <div className="text-gray-700 leading-relaxed">
-                <h2 className="text-2xl font-bold mb-6 text-gray-900">Welcome to The Matrix - Weekly AI Newsletter</h2>
-                <p className="mb-4">
-                  Your weekly dose of AI innovation, automation trends, and industry insights. 
-                  Once your n8n workflow is activated, new issues will appear here automatically.
-                </p>
-                <p className="mb-4">
-                  This week in AI: Revolutionary developments in machine learning, breakthrough automation tools, 
-                  and the latest trends shaping the future of artificial intelligence.
-                </p>
-                <p className="text-sm text-gray-500 italic">
-                  This is placeholder content. Your actual newsletter content will replace this once the n8n workflow is triggered.
-                </p>
-              </div>
-            </div>
-            <div className="text-center mb-8 mt-8">
-              <Badge variant="secondary" className="mb-4">Issue #1</Badge>
-              <div className="flex items-center justify-center text-sm text-gray-500 mb-6">
-                <Calendar className="h-4 w-4 mr-1" />
-                <span>Last Week</span>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="max-w-4xl mx-auto mb-16">
-            {/* Display selected newsletter or latest if none selected */}
-            {(() => {
-              const displayNewsletter = selectedNewsletterId 
-                ? newsletters.find(n => n.id === selectedNewsletterId) 
-                : newsletters[0];
-              
-              if (!displayNewsletter) return null;
-              
-              return (
-                <div key={displayNewsletter.id}>
-                  <div className="prose prose-lg max-w-none bg-white p-8 rounded-xl shadow-lg">
-                    <div 
-                      className="text-gray-700 leading-relaxed"
-                      dangerouslySetInnerHTML={{ __html: getRenderableHtml(displayNewsletter.content_markdown) }}
-                    />
-                  </div>
-                </div>
-              );
-            })()}
-          </div>
-        )}
-
-        {/* Join The Matrix Section */}
-        <div className="max-w-4xl mx-auto mt-24 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
-            <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
-              Join The Matrix
-            </span>
-          </h2>
-          <p className="text-xl mb-8 text-gray-700 font-medium">
-            Get our weekly newsletter delivered to your inbox plus access to exclusive content and more AI news.
-          </p>
-          <NewsletterSignup />
-        </div>
+      <div className="max-w-4xl mx-auto mt-24 text-center">
+        <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
+          <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
+            Join The Matrix
+          </span>
+        </h2>
+        <p className="text-xl mb-8 text-gray-700 font-medium">
+          Get our weekly newsletter delivered to your inbox plus access to exclusive content and more AI news.
+        </p>
+        <NewsletterSignup />
       </div>
     </div>
   );
