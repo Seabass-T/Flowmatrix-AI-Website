@@ -60,6 +60,7 @@ const Newsletter = () => {
 
       if (error) throw error;
       setNewsletters((data || []) as NewsletterIssue[]);
+      console.log('Newsletter: fetched issues', { count: data?.length, sample: data?.[0]?.content_markdown?.slice?.(0, 120) });
     } catch (err) {
       console.error('Error fetching newsletters:', err);
       setError('Failed to load newsletters. Table may not exist yet.');
@@ -81,6 +82,33 @@ const Newsletter = () => {
   const getIssueNumber = (newsletter: NewsletterIssue) => {
     const sortedNewsletters = [...newsletters].sort((a, b) => b.id - a.id);
     return sortedNewsletters.findIndex(n => n.id === newsletter.id) + 1;
+  };
+
+  
+  // Renderable HTML helper: extracts <body> content if present
+  const getRenderableHtml = (raw: string) => {
+    try {
+      if (!raw) return '';
+      const lower = raw.toLowerCase();
+      if (lower.includes('<body')) {
+        const match = raw.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+        if (match && match[1]) return match[1].trim();
+      }
+      // If full HTML document without body match, try removing <html> and <head> sections
+      if (lower.includes('<html') || lower.includes('<head')) {
+        // Remove head section if present
+        const withoutHead = raw.replace(/<head[\s\S]*?<\/head>/i, '');
+        // Remove html/body tags if present
+        return withoutHead
+          .replace(/<\/?html[^>]*>/gi, '')
+          .replace(/<\/?body[^>]*>/gi, '')
+          .trim();
+      }
+      return raw;
+    } catch (e) {
+      console.warn('Newsletter: getRenderableHtml failed, returning raw content', e);
+      return raw;
+    }
   };
 
   // If viewing a specific newsletter issue
@@ -150,9 +178,10 @@ const Newsletter = () => {
             </CardHeader>
             <CardContent className="p-8">
               <div className="prose prose-lg max-w-none">
-                <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
-                  {content}
-                </div>
+                <div
+                  className="text-gray-700 leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: getRenderableHtml(content) }}
+                />
               </div>
             </CardContent>
           </Card>
@@ -334,7 +363,7 @@ const Newsletter = () => {
                   <div className="prose prose-lg max-w-none bg-white p-8 rounded-xl shadow-lg">
                     <div 
                       className="text-gray-700 leading-relaxed"
-                      dangerouslySetInnerHTML={{ __html: displayNewsletter.content_markdown }}
+                      dangerouslySetInnerHTML={{ __html: getRenderableHtml(displayNewsletter.content_markdown) }}
                     />
                   </div>
                 </div>
