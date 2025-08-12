@@ -84,6 +84,7 @@ const Index = () => {
   };
 
   const navigate = useNavigate();
+  const SHOW_SOCIAL_PROOF = false;
 
   const openCalendly = () => {
     if (window.Calendly) {
@@ -385,6 +386,7 @@ const Index = () => {
       </section>
 
       {/* Trust Signals & Social Proof */}
+      {SHOW_SOCIAL_PROOF && (
       <section className="py-20 bg-gradient-to-br from-surface-light to-surface-medium">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -488,6 +490,7 @@ const Index = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* Final CTA Section */}
       <section className="py-20 bg-gradient-to-r from-interactive-primary to-interactive-accent relative overflow-hidden">
