@@ -107,8 +107,8 @@ const UseCases = () => {
         </div>
 
         {/* Interactive Directory Section */}
-        <div className="text-center mb-12 relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 via-purple-600/5 to-pink-600/5 rounded-3xl -z-10"></div>
+        <div className="text-center mb-12 relative border border-gray-200 rounded-2xl p-8 bg-white/50 backdrop-blur-sm shadow-sm">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 via-purple-600/5 to-pink-600/5 rounded-2xl -z-10"></div>
           <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-pink-600 bg-clip-text text-transparent mb-4 animate-fade-in">
             Want to automate it?
           </h2>
