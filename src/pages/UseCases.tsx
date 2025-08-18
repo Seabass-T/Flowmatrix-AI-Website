@@ -107,11 +107,12 @@ const UseCases = () => {
         </div>
 
         {/* Interactive Directory Section */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        <div className="text-center mb-12 relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 via-purple-600/5 to-pink-600/5 rounded-3xl -z-10"></div>
+          <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-pink-600 bg-clip-text text-transparent mb-4 animate-fade-in">
             Want to automate it?
           </h2>
-          <p className="text-lg text-gray-600 mb-8">
+          <p className="text-lg text-gray-600 mb-8 font-medium">
             Check out the list of categories below
           </p>
           
