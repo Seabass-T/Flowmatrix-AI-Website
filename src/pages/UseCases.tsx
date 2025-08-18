@@ -170,12 +170,13 @@ const UseCases = () => {
               </div>
             </Link>
 
-            <Link to="/use-cases/specialized-agents" className="block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+            <Link to="/use-cases/specialized-agents" className="col-span-2 md:col-span-3 lg:col-span-4 block p-8 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-2 border-indigo-200">
               <div className="text-center">
-                <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-3">
-                  <Building2 className="h-6 w-6 text-white" />
+                <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
+                  <Building2 className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="font-semibold text-gray-900">Specialized AI Agents</h3>
+                <h3 className="text-xl font-bold text-white mb-2">Specialized AI Agents</h3>
+                <p className="text-indigo-100 text-sm">Custom AI solutions tailored to your specific business needs</p>
               </div>
             </Link>
 
