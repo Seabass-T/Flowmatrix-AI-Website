@@ -96,17 +96,101 @@ const UseCases = () => {
               Discover how FlowMatrix AI transforms business operations with custom automation solutions designed for your specific industry challenges.
             </p>
             
-            {/* Persistent CTA Above Tabs */}
-            <Button 
-              onClick={openCalendly}
-              size="lg" 
-              className="bg-gradient-to-r from-interactive-primary to-interactive-accent hover:from-interactive-primary-hover hover:to-interactive-accent-hover text-lg px-8 py-6 animate-fade-in shadow-xl"
-            >
-              Book Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </div>
+          {/* Persistent CTA Above Tabs */}
+          <Button 
+            onClick={openCalendly}
+            size="lg" 
+            className="bg-gradient-to-r from-interactive-primary to-interactive-accent hover:from-interactive-primary-hover hover:to-interactive-accent-hover text-lg px-8 py-6 animate-fade-in shadow-xl"
+          >
+            Book Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
+        </div>
 
-          {/* Tab Navigation */}
+        {/* Interactive Directory Section */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Want to automate it?
+          </h2>
+          <p className="text-lg text-gray-600 mb-8">
+            Check out the list of categories below
+          </p>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+            <Link to="/use-cases/leads" className="block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <Users className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="font-semibold text-gray-900">Leads</h3>
+              </div>
+            </Link>
+
+            <Link to="/use-cases/content-creation" className="block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <FileText className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="font-semibold text-gray-900">Content Creation</h3>
+              </div>
+            </Link>
+
+            <Link to="/use-cases/social-media" className="block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <TrendingUp className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="font-semibold text-gray-900">Social Media</h3>
+              </div>
+            </Link>
+
+            <Link to="/use-cases/email-management" className="block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <Phone className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="font-semibold text-gray-900">Email Management</h3>
+              </div>
+            </Link>
+
+            <Link to="/use-cases/client-management" className="block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-teal-500 to-teal-600 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <Clipboard className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="font-semibold text-gray-900">Client Management</h3>
+              </div>
+            </Link>
+
+            <Link to="/use-cases/personal-assistants" className="block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <Clock className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="font-semibold text-gray-900">Personal Assistants</h3>
+              </div>
+            </Link>
+
+            <Link to="/use-cases/specialized-agents" className="block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <Building2 className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="font-semibold text-gray-900">Specialized AI Agents</h3>
+              </div>
+            </Link>
+
+            <Link to="/use-cases/business-operations" className="block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <DollarSign className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="font-semibold text-gray-900">Business Operations</h3>
+              </div>
+            </Link>
+          </div>
+        </div>
+
+        {/* Tab Navigation */}
           <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-16">
             <div role="tablist" className="flex border-b bg-gray-50">
               <button

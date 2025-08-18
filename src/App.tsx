@@ -15,6 +15,14 @@ import Contact from "./pages/Contact";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
+import Leads from "./pages/use-cases/Leads";
+import ContentCreation from "./pages/use-cases/ContentCreation";
+import SocialMedia from "./pages/use-cases/SocialMedia";
+import EmailManagement from "./pages/use-cases/EmailManagement";
+import ClientManagement from "./pages/use-cases/ClientManagement";
+import PersonalAssistants from "./pages/use-cases/PersonalAssistants";
+import SpecializedAgents from "./pages/use-cases/SpecializedAgents";
+import BusinessOperations from "./pages/use-cases/BusinessOperations";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +61,16 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
+              
+              {/* Use Case Category Routes */}
+              <Route path="/use-cases/leads" element={<Leads />} />
+              <Route path="/use-cases/content-creation" element={<ContentCreation />} />
+              <Route path="/use-cases/social-media" element={<SocialMedia />} />
+              <Route path="/use-cases/email-management" element={<EmailManagement />} />
+              <Route path="/use-cases/client-management" element={<ClientManagement />} />
+              <Route path="/use-cases/personal-assistants" element={<PersonalAssistants />} />
+              <Route path="/use-cases/specialized-agents" element={<SpecializedAgents />} />
+              <Route path="/use-cases/business-operations" element={<BusinessOperations />} />
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
