@@ -110,7 +110,7 @@ const UseCases = () => {
         <div className="text-center mb-12 relative border border-gray-200 rounded-2xl p-8 bg-white/50 backdrop-blur-sm shadow-sm">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 via-purple-600/5 to-pink-600/5 rounded-2xl -z-10"></div>
           <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-pink-600 bg-clip-text text-transparent mb-4 animate-fade-in">
-            Want to automate it?
+            What can you automate?
           </h2>
           <p className="text-lg text-gray-600 mb-8 font-medium">
             Check out the list of categories below
