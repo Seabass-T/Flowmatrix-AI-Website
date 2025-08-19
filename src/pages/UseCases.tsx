@@ -113,7 +113,7 @@ const UseCases = () => {
             What can you automate?
           </h2>
           <p className="text-lg text-gray-600 mb-8 font-medium">
-            Check out the list of categories below
+            Discover the challenges we eliminate for clients and the impact automation can have in your field.
           </p>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
