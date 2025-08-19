@@ -162,6 +162,9 @@ const UseCases = () => {
               </div>
             </Link>
 
+            {/* Empty space to push Business Operations to column 3 on lg screens */}
+            <div className="hidden lg:block"></div>
+
             <Link to="/use-cases/business-operations" className="block p-4 bg-black rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-800">
               <div className="text-center">
                 <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center mx-auto mb-3">
