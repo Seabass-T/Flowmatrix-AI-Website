@@ -11,204 +11,226 @@ const ClientManagement = () => {
         <meta name="keywords" content="client management automation, customer support automation, dispute resolution AI, client satisfaction automation" />
       </Helmet>
       
-      <div className="bg-background min-h-screen">
+      <div className="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
         <Navigation />
         
-        {/* Hero Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 animate-slide-up">
-              Client Management: <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Building Stronger Relationships with Automation</span>
+        <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          {/* Hero Section */}
+          <header className="text-center mb-16">
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 animate-slide-up">
+              Client Management: <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">Building Stronger Relationships with Automation</span>
             </h1>
-            <p className="text-xl text-muted-foreground max-w-4xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
               Nurture relationships, handle concerns proactively, and ensure long-term satisfaction with automated client management systems.
             </p>
-          </div>
+          </header>
 
-          {/* Why Client Management Matters Section */}
-          <div className="bg-card rounded-2xl shadow-sm border p-8 mb-12">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="p-3 bg-primary/10 rounded-lg">
-                <UserCheck className="h-8 w-8 text-primary" />
+          <div className="space-y-16">
+            {/* Why Client Management Matters Section */}
+            <section className="bg-white rounded-2xl shadow-lg p-8 lg:p-12">
+              <div className="flex items-center mb-8">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mr-4">
+                  <UserCheck className="h-6 w-6 text-white" />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900">Why Client Management Matters to Every Business</h2>
               </div>
-              <h2 className="text-3xl font-bold text-foreground">Why Client Management Matters to Every Business</h2>
-            </div>
-            <div className="space-y-4 text-lg text-muted-foreground">
-              <p>
-                Clients are the lifeblood of your company. Effective client management means more than just closing a deal — it's about <strong className="text-foreground">nurturing relationships, handling concerns proactively, and ensuring long-term satisfaction</strong>.
-              </p>
-              <p>
-                The problem? As businesses scale, requests and concerns multiply. Without the right systems, client communication becomes disorganized, disputes escalate, and service quality drops.
-              </p>
-            </div>
-          </div>
-
-          {/* Challenge Section */}
-          <div className="bg-card rounded-2xl shadow-sm border p-8 mb-12">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="p-3 bg-destructive/10 rounded-lg">
-                <MessageCircle className="h-8 w-8 text-destructive" />
-              </div>
-              <h2 className="text-3xl font-bold text-foreground">The Challenge of Manual Client Management</h2>
-            </div>
-            <ul className="space-y-3 text-lg text-muted-foreground">
-              <li className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-destructive rounded-full mt-3 flex-shrink-0"></div>
-                <span>Client requests and concerns are lost in messy inboxes or spreadsheets.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-destructive rounded-full mt-3 flex-shrink-0"></div>
-                <span>Delayed responses create frustration and erode trust.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-destructive rounded-full mt-3 flex-shrink-0"></div>
-                <span>Disputes escalate when issues aren't tracked or resolved quickly.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-destructive rounded-full mt-3 flex-shrink-0"></div>
-                <span>Businesses struggle to provide consistent service across multiple touchpoints.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-destructive rounded-full mt-3 flex-shrink-0"></div>
-                <span>Teams spend more time reacting to problems than preventing them.</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Automation Power Section */}
-          <div className="bg-card rounded-2xl shadow-sm border p-8 mb-12">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="p-3 bg-primary/10 rounded-lg">
-                <Headphones className="h-8 w-8 text-primary" />
-              </div>
-              <h2 className="text-3xl font-bold text-foreground">The Power of Automating Client Management</h2>
-            </div>
-            <div className="space-y-4 text-lg text-muted-foreground mb-6">
-              <p>
-                Automation empowers businesses to provide faster, more consistent, and proactive client support. With AI-driven workflows, companies can:
-              </p>
-            </div>
-            <ul className="space-y-3 text-lg text-muted-foreground">
-              <li className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                <span>Capture, track, and prioritize client requests automatically.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                <span>Route concerns to the right person or department instantly.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                <span>Send automated updates so clients never feel ignored.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                <span>Flag potential disputes early for proactive resolution.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                <span>Maintain a full history of interactions for context and accountability.</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* ROI Section */}
-          <div className="bg-card rounded-2xl shadow-sm border p-8 mb-12">
-            <div className="flex items-center gap-4 mb-8">
-              <div className="p-3 bg-primary/10 rounded-lg">
-                <TrendingUp className="h-8 w-8 text-primary" />
-              </div>
-              <h2 className="text-3xl font-bold text-foreground">ROI Potential of Client Management Automation</h2>
-            </div>
-            <p className="text-lg text-muted-foreground mb-8">
-              Organizations that automate client management typically see:
-            </p>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-primary/5 rounded-xl p-6 text-center">
-                <Clock className="h-8 w-8 text-primary mx-auto mb-3" />
-                <div className="text-2xl font-bold text-primary mb-2">40-60%</div>
-                <div className="text-sm text-muted-foreground">faster response times to client requests</div>
-              </div>
-              <div className="bg-secondary/5 rounded-xl p-6 text-center">
-                <Shield className="h-8 w-8 text-secondary mx-auto mb-3" />
-                <div className="text-2xl font-bold text-secondary mb-2">50%</div>
-                <div className="text-sm text-muted-foreground">fewer disputes with better tracking</div>
-              </div>
-              <div className="bg-primary/5 rounded-xl p-6 text-center">
-                <Star className="h-8 w-8 text-primary mx-auto mb-3" />
-                <div className="text-2xl font-bold text-primary mb-2">30%</div>
-                <div className="text-sm text-muted-foreground">higher client satisfaction scores</div>
-              </div>
-              <div className="bg-secondary/5 rounded-xl p-6 text-center">
-                <Users className="h-8 w-8 text-secondary mx-auto mb-3" />
-                <div className="text-2xl font-bold text-secondary mb-2">Higher</div>
-                <div className="text-sm text-muted-foreground">retention rates and lifetime value</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Real-World Example */}
-          <div className="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl border p-8 mb-12">
-            <h2 className="text-2xl font-bold text-foreground mb-6">A Real-World Example</h2>
-            <div className="space-y-4 text-lg text-muted-foreground">
-              <p>
-                A professional services firm adopted client management automation to route incoming concerns, track resolution status, and keep clients updated automatically.
-              </p>
-              <div className="bg-card rounded-lg p-6 border-l-4 border-primary">
-                <p className="font-semibold text-foreground">
-                  <strong>Result:</strong> Average response time dropped by 55%, disputes decreased by nearly half, and client satisfaction scores rose to their highest levels.
+              
+              <div className="prose prose-lg max-w-none text-gray-600">
+                <p className="mb-6">
+                  Clients are the lifeblood of your company. Effective client management means more than just closing a deal — it's about <strong>nurturing relationships, handling concerns proactively, and ensuring long-term satisfaction</strong>.
+                </p>
+                <p>
+                  The problem? As businesses scale, requests and concerns multiply. Without the right systems, client communication becomes disorganized, disputes escalate, and service quality drops.
                 </p>
               </div>
-            </div>
-          </div>
+            </section>
 
-          {/* Deep Dive Section */}
-          <div className="bg-card rounded-2xl shadow-sm border p-8 mb-12">
-            <h2 className="text-2xl font-bold text-foreground mb-6">Deep Dive: The Future of Client Management</h2>
-            <div className="space-y-4 text-lg text-muted-foreground">
-              <p>
-                Client expectations are higher than ever. They want <strong className="text-foreground">fast, transparent, and proactive communication</strong>. Businesses that automate client management will:
-              </p>
-              <ul className="space-y-3 ml-6">
-                <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                  <span>Prevent disputes before they start.</span>
+            {/* Challenge Section */}
+            <section className="bg-white rounded-2xl shadow-lg p-8 lg:p-12">
+              <div className="flex items-center mb-8">
+                <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center mr-4">
+                  <MessageCircle className="h-6 w-6 text-white" />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900">The Challenge of Manual Client Management</h2>
+              </div>
+              
+              <ul className="space-y-4 text-lg text-gray-600">
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                  Client requests and concerns are lost in messy inboxes or spreadsheets.
                 </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                  <span>Ensure every request is acknowledged and tracked.</span>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                  Delayed responses create frustration and erode trust.
                 </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                  <span>Build trust through reliable, consistent service.</span>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                  Disputes escalate when issues aren't tracked or resolved quickly.
                 </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                  <span>Increase client loyalty and lifetime value.</span>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                  Businesses struggle to provide consistent service across multiple touchpoints.
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-red-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                  Teams spend more time reacting to problems than preventing them.
                 </li>
               </ul>
-              <p className="pt-4">
-                The future of growth lies in <strong className="text-foreground">automating client success, not just client acquisition</strong>.
-              </p>
-            </div>
-          </div>
+            </section>
 
-          {/* CTA Section */}
-          <div className="bg-gradient-to-r from-primary to-secondary rounded-2xl p-8 text-center text-white">
-            <h2 className="text-3xl font-bold mb-4">Ready to Strengthen Client Relationships?</h2>
-            <p className="text-xl mb-8 opacity-90">
-              Stop letting requests and concerns fall through the cracks. See how client management automation can protect your reputation and keep your customers satisfied.
-            </p>
-            <a 
-              href="https://calendly.com/flowmatrix-ai/consultation"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-8 py-4 text-lg font-semibold bg-white text-primary rounded-lg hover:bg-gray-50 transition-all duration-200 hover:scale-105"
-            >
-              Book a Free Audit
-            </a>
+            {/* Automation Power Section */}
+            <section className="bg-white rounded-2xl shadow-lg p-8 lg:p-12">
+              <div className="flex items-center mb-8">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mr-4">
+                  <Headphones className="h-6 w-6 text-white" />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900">The Power of Automating Client Management</h2>
+              </div>
+              
+              <div className="prose prose-lg max-w-none text-gray-600 mb-6">
+                <p>
+                  Automation empowers businesses to provide faster, more consistent, and proactive client support. With AI-driven workflows, companies can:
+                </p>
+              </div>
+              
+              <ul className="space-y-4 text-lg text-gray-600">
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-purple-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                  Capture, track, and prioritize client requests automatically.
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-purple-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                  Route concerns to the right person or department instantly.
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-purple-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                  Send automated updates so clients never feel ignored.
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-purple-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                  Flag potential disputes early for proactive resolution.
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-purple-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                  Maintain a full history of interactions for context and accountability.
+                </li>
+              </ul>
+            </section>
+
+            {/* ROI Section */}
+            <section className="bg-white rounded-2xl shadow-lg p-8 lg:p-12">
+              <div className="flex items-center mb-8">
+                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center mr-4">
+                  <TrendingUp className="h-6 w-6 text-white" />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900">ROI Potential of Client Management Automation</h2>
+              </div>
+              
+              <p className="text-lg text-gray-600 mb-8">
+                Organizations that automate client management typically see:
+              </p>
+
+              <div className="grid md:grid-cols-2 gap-6 mb-8">
+                <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-lg border border-blue-200">
+                  <div className="text-3xl font-bold text-blue-600 mb-2">40–60%</div>
+                  <p className="text-gray-700"><strong>faster response times</strong> to client requests.</p>
+                </div>
+                
+                <div className="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-lg border border-green-200">
+                  <div className="text-3xl font-bold text-green-600 mb-2">50%</div>
+                  <p className="text-gray-700"><strong>fewer disputes</strong>, thanks to better tracking and proactive communication.</p>
+                </div>
+                
+                <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-lg border border-purple-200">
+                  <div className="text-3xl font-bold text-purple-600 mb-2">30%</div>
+                  <p className="text-gray-700"><strong>higher client satisfaction scores</strong>, with consistent follow-through.</p>
+                </div>
+                
+                <div className="bg-gradient-to-r from-orange-50 to-orange-100 p-6 rounded-lg border border-orange-200">
+                  <div className="text-3xl font-bold text-orange-600 mb-2">Stronger</div>
+                  <p className="text-gray-700"><strong>retention rates</strong>, reducing churn and increasing lifetime value.</p>
+                </div>
+              </div>
+            </section>
+
+            {/* Real-World Example */}
+            <section className="bg-white rounded-2xl shadow-lg p-8 lg:p-12">
+              <div className="flex items-center mb-8">
+                <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mr-4">
+                  <Users className="h-6 w-6 text-white" />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900">A Real-World Example</h2>
+              </div>
+              
+              <div className="bg-gradient-to-r from-orange-50 to-orange-100 p-6 rounded-lg border border-orange-200">
+                <p className="text-lg text-gray-700 mb-6">
+                  A professional services firm adopted client management automation to route incoming concerns, track resolution status, and keep clients updated automatically.
+                </p>
+                
+                <div className="bg-white p-4 rounded-lg">
+                  <p className="font-semibold text-gray-900">
+                    <strong>Result:</strong> Average response time dropped by 55%, disputes decreased by nearly half, and client satisfaction scores rose to their highest levels.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* Deep Dive Section */}
+            <section className="bg-white rounded-2xl shadow-lg p-8 lg:p-12">
+              <div className="flex items-center mb-8">
+                <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center mr-4">
+                  <Shield className="h-6 w-6 text-white" />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900">Deep Dive: The Future of Client Management</h2>
+              </div>
+              
+              <div className="prose prose-lg max-w-none text-gray-600 mb-6">
+                <p className="mb-6">
+                  Client expectations are higher than ever. They want <strong>fast, transparent, and proactive communication</strong>. Businesses that automate client management will:
+                </p>
+                
+                <ul className="space-y-4 text-lg">
+                  <li className="flex items-start">
+                    <span className="w-2 h-2 bg-indigo-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                    Prevent disputes before they start.
+                  </li>
+                  <li className="flex items-start">
+                    <span className="w-2 h-2 bg-indigo-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                    Ensure every request is acknowledged and tracked.
+                  </li>
+                  <li className="flex items-start">
+                    <span className="w-2 h-2 bg-indigo-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                    Build trust through reliable, consistent service.
+                  </li>
+                  <li className="flex items-start">
+                    <span className="w-2 h-2 bg-indigo-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                    Increase client loyalty and lifetime value.
+                  </li>
+                </ul>
+                
+                <p className="mt-6">
+                  The future of growth lies in <strong>automating client success, not just client acquisition</strong>.
+                </p>
+              </div>
+            </section>
+
+            {/* CTA Section */}
+            <section className="bg-gradient-to-r from-interactive-primary to-interactive-accent rounded-2xl shadow-lg p-8 lg:p-12 text-center">
+              <h2 className="text-3xl font-bold text-white mb-6">Ready to Strengthen Client Relationships?</h2>
+              <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+                Stop letting requests and concerns fall through the cracks. See how client management automation can protect your reputation and keep your customers satisfied.
+              </p>
+              <a 
+                href="https://calendly.com/flowmatrix/30min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-8 py-4 text-lg font-semibold bg-white text-interactive-primary rounded-lg hover:bg-white/90 transition-all duration-300 hover:scale-105 shadow-lg"
+              >
+                Book a Free Audit
+              </a>
+            </section>
           </div>
-        </div>
+        </main>
       </div>
     </>
   );
