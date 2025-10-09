@@ -176,9 +176,91 @@ const Newsletter = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="p-8">
-              <div className="prose prose-lg max-w-none">
+              <style>{`
+                .newsletter-content h1 {
+                  background: linear-gradient(135deg, hsl(var(--interactive-primary)), hsl(var(--interactive-accent)));
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  background-clip: text;
+                  font-size: 2.25rem;
+                  font-weight: 700;
+                  margin-top: 2rem;
+                  margin-bottom: 1rem;
+                  line-height: 1.2;
+                }
+                .newsletter-content h2 {
+                  background: linear-gradient(135deg, hsl(var(--interactive-primary)), hsl(var(--interactive-accent)));
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  background-clip: text;
+                  font-size: 1.875rem;
+                  font-weight: 700;
+                  margin-top: 2.5rem;
+                  margin-bottom: 1rem;
+                  line-height: 1.3;
+                }
+                .newsletter-content h3 {
+                  background: linear-gradient(135deg, hsl(var(--interactive-primary)), hsl(var(--interactive-accent)));
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  background-clip: text;
+                  font-size: 1.5rem;
+                  font-weight: 600;
+                  margin-top: 2rem;
+                  margin-bottom: 0.75rem;
+                  line-height: 1.4;
+                }
+                .newsletter-content h4 {
+                  color: hsl(var(--interactive-primary));
+                  font-size: 1.25rem;
+                  font-weight: 600;
+                  margin-top: 1.5rem;
+                  margin-bottom: 0.5rem;
+                }
+                .newsletter-content p {
+                  color: rgb(55, 65, 81);
+                  font-size: 1.125rem;
+                  line-height: 1.75;
+                  margin-bottom: 1.25rem;
+                }
+                .newsletter-content a {
+                  background: linear-gradient(135deg, hsl(var(--interactive-primary)), hsl(var(--interactive-accent)));
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  background-clip: text;
+                  font-weight: 500;
+                  cursor: pointer;
+                  transition: all 0.2s ease;
+                }
+                .newsletter-content a:hover {
+                  text-decoration: underline;
+                  text-decoration-thickness: 2px;
+                  text-underline-offset: 3px;
+                }
+                .newsletter-content ul, .newsletter-content ol {
+                  margin-left: 1.5rem;
+                  margin-bottom: 1.25rem;
+                  color: rgb(55, 65, 81);
+                }
+                .newsletter-content li {
+                  margin-bottom: 0.5rem;
+                  line-height: 1.75;
+                  font-size: 1.125rem;
+                }
+                .newsletter-content strong {
+                  color: rgb(31, 41, 55);
+                  font-weight: 600;
+                }
+                .newsletter-content blockquote {
+                  border-left: 4px solid hsl(var(--interactive-primary));
+                  padding-left: 1rem;
+                  margin: 1.5rem 0;
+                  font-style: italic;
+                  color: rgb(75, 85, 99);
+                }
+              `}</style>
+              <div className="newsletter-content">
                 <div
-                  className="text-gray-700 leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: getRenderableHtml(content) }}
                 />
               </div>
@@ -287,9 +369,92 @@ const Newsletter = () => {
                   
                   return (
                     <div key={displayNewsletter.id}>
-                      <div className="prose prose-lg max-w-none bg-white p-8 rounded-xl shadow-lg">
+                      <style>{`
+                        .newsletter-content h1 {
+                          background: linear-gradient(135deg, hsl(var(--interactive-primary)), hsl(var(--interactive-accent)));
+                          -webkit-background-clip: text;
+                          -webkit-text-fill-color: transparent;
+                          background-clip: text;
+                          font-size: 2.25rem;
+                          font-weight: 700;
+                          margin-top: 2rem;
+                          margin-bottom: 1rem;
+                          line-height: 1.2;
+                        }
+                        .newsletter-content h2 {
+                          background: linear-gradient(135deg, hsl(var(--interactive-primary)), hsl(var(--interactive-accent)));
+                          -webkit-background-clip: text;
+                          -webkit-text-fill-color: transparent;
+                          background-clip: text;
+                          font-size: 1.875rem;
+                          font-weight: 700;
+                          margin-top: 2.5rem;
+                          margin-bottom: 1rem;
+                          line-height: 1.3;
+                        }
+                        .newsletter-content h3 {
+                          background: linear-gradient(135deg, hsl(var(--interactive-primary)), hsl(var(--interactive-accent)));
+                          -webkit-background-clip: text;
+                          -webkit-text-fill-color: transparent;
+                          background-clip: text;
+                          font-size: 1.5rem;
+                          font-weight: 600;
+                          margin-top: 2rem;
+                          margin-bottom: 0.75rem;
+                          line-height: 1.4;
+                        }
+                        .newsletter-content h4 {
+                          color: hsl(var(--interactive-primary));
+                          font-size: 1.25rem;
+                          font-weight: 600;
+                          margin-top: 1.5rem;
+                          margin-bottom: 0.5rem;
+                        }
+                        .newsletter-content p {
+                          color: rgb(55, 65, 81);
+                          font-size: 1.125rem;
+                          line-height: 1.75;
+                          margin-bottom: 1.25rem;
+                        }
+                        .newsletter-content a {
+                          background: linear-gradient(135deg, hsl(var(--interactive-primary)), hsl(var(--interactive-accent)));
+                          -webkit-background-clip: text;
+                          -webkit-text-fill-color: transparent;
+                          background-clip: text;
+                          font-weight: 500;
+                          cursor: pointer;
+                          transition: all 0.2s ease;
+                        }
+                        .newsletter-content a:hover {
+                          text-decoration: underline;
+                          text-decoration-thickness: 2px;
+                          text-underline-offset: 3px;
+                        }
+                        .newsletter-content ul, .newsletter-content ol {
+                          margin-left: 1.5rem;
+                          margin-bottom: 1.25rem;
+                          color: rgb(55, 65, 81);
+                        }
+                        .newsletter-content li {
+                          margin-bottom: 0.5rem;
+                          line-height: 1.75;
+                          font-size: 1.125rem;
+                        }
+                        .newsletter-content strong {
+                          color: rgb(31, 41, 55);
+                          font-weight: 600;
+                        }
+                        .newsletter-content blockquote {
+                          border-left: 4px solid hsl(var(--interactive-primary));
+                          padding-left: 1rem;
+                          margin: 1.5rem 0;
+                          font-style: italic;
+                          color: rgb(75, 85, 99);
+                        }
+                      `}</style>
+                      <div className="bg-white p-8 rounded-xl shadow-lg">
                         <div 
-                          className="text-gray-700 leading-relaxed"
+                          className="newsletter-content"
                           dangerouslySetInnerHTML={{ __html: getRenderableHtml(displayNewsletter.content_markdown) }}
                         />
                       </div>
