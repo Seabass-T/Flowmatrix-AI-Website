@@ -135,7 +135,6 @@ This project uses shadcn/ui components. To add new ones, refer to the shadcn/ui 
 ## Important Notes
 
 - The development server runs on port 8080 with IPv6 support (`::`)
-- Lovable tagger plugin is enabled in development mode only
 - The project uses SWC instead of Babel for faster builds
 - TypeScript strict mode is enabled
 - Multiple tsconfig files: `tsconfig.json` (base), `tsconfig.app.json` (app), `tsconfig.node.json` (build tools)
