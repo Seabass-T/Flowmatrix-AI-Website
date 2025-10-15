@@ -2,6 +2,13 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Git Commit Rules
+
+**CRITICAL**: Never include Claude Code attribution in commit messages or git operations. This includes:
+- No "🤖 Generated with [Claude Code]" messages
+- No "Co-Authored-By: Claude" attributions
+- Keep all commit messages clean and professional without AI tool references
+
 ## Project Overview
 
 FlowMatrix AI is a React + TypeScript website built with Vite, showcasing AI automation solutions. The site uses shadcn/ui components with Tailwind CSS and integrates with Supabase for backend services.
