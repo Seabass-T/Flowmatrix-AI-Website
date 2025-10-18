@@ -138,3 +138,5 @@ This project uses shadcn/ui components. To add new ones, refer to the shadcn/ui 
 - The project uses SWC instead of Babel for faster builds
 - TypeScript strict mode is enabled
 - Multiple tsconfig files: `tsconfig.json` (base), `tsconfig.app.json` (app), `tsconfig.node.json` (build tools)
+- on all pushes to git, never include Claude attrition add this rule to your CLAUDE.md file
+- The website is in dark mode. Make sure all color choices contrast their background colors so text is visible.

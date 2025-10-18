@@ -1,10 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, Clock, Target, TrendingUp, Zap, Users, Bot, ArrowRight, MapPin, Building, Home, Wrench, Calendar, DollarSign, BarChart3, Shield, Star } from "lucide-react";
+import { CheckCircle, Clock, Target, TrendingUp, Zap, Users, Bot, ArrowRight, MapPin, Building, Home, Wrench, Calendar, DollarSign, BarChart3, Shield, Star, FileText, Phone } from "lucide-react";
 import Navigation from "@/components/Navigation";
+import ICPToggle, { ICPType } from "@/components/homepage/ICPToggle";
+import HeroWithICP from "@/components/homepage/HeroWithICP";
+import ICPPainPointSection from "@/components/homepage/ICPPainPointSection";
+import ProofSection from "@/components/homepage/ProofSection";
 
 // Extend the Window interface to include Calendly
 declare global {
@@ -14,6 +18,8 @@ declare global {
 }
 
 const Index = () => {
+  const [selectedICP, setSelectedICP] = useState<ICPType>("construction");
+
   useEffect(() => {
     // Load Calendly widget script
     const script = document.createElement('script');
@@ -89,10 +95,48 @@ const Index = () => {
   const openCalendly = () => {
     if (window.Calendly) {
       window.Calendly.initPopupWidget({
-        url: 'https://calendly.com/flowmatrixai/30min'
+        url: 'https://calendly.com/flowmatrixai-info/consultation-call'
       });
     }
   };
+
+  // Construction Pain Points Data
+  const constructionPainPoints = [
+    {
+      icon: DollarSign,
+      title: "Job Cost Overruns",
+      description: "Poor cost tracking and invoice delays lead to budget overruns and reduced profitability on every job."
+    },
+    {
+      icon: Calendar,
+      title: "Scheduling Chaos",
+      description: "Manual crew scheduling leads to gaps, idle time, missed deadlines, and frustrated clients."
+    },
+    {
+      icon: FileText,
+      title: "Invoice Delays",
+      description: "Manual invoicing and approval bottlenecks slow your payment cycles and hurt cash flow."
+    }
+  ];
+
+  // Home Service Pain Points Data
+  const homeServicePainPoints = [
+    {
+      icon: Clock,
+      title: "Dispatch Lag",
+      description: "Manual scheduling and job assignment wastes hours that could be spent serving more customers."
+    },
+    {
+      icon: Users,
+      title: "Technician Idle Time",
+      description: "Poor route optimization leaves technicians idle instead of maximizing billable hours."
+    },
+    {
+      icon: Phone,
+      title: "Customer Wait Times",
+      description: "Delayed response times mean customers book with competitors who respond faster."
+    }
+  ];
 
   return (
     <>
@@ -106,40 +150,39 @@ const Index = () => {
       
       <div className="bg-gradient-to-br from-surface-light to-surface-medium min-h-screen">
       <Navigation />
-      
-      {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 lg:py-32">
+
+      {/* Hero Section with ICP Toggle */}
+      <section className="relative overflow-hidden py-12 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center">
-            <div className="flex items-center justify-center mb-6 animate-fade-in">
-              <MapPin className="h-6 w-6 text-interactive-primary mr-2" />
-              <span className="text-lg font-semibold text-interactive-primary">Serving Toronto & GTA</span>
-            </div>
-            
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 animate-slide-up">
-              <span className="text-gray-900">Toronto AI Automation for</span>{" "}
-              <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
-                Trade, Real Estate & Home Improvement
-              </span>
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed animate-fade-in">
-              We help trade, residential, commercial and real estate businesses in Toronto & GTA save hundreds of hours/month with AI automation.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 animate-scale-in">
-              <Button 
-                onClick={openCalendly} 
-                size="lg" 
-                className="bg-gradient-to-r from-interactive-primary to-interactive-accent hover:from-interactive-primary-hover to-interactive-accent-hover text-primary-foreground text-lg px-8 py-4 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                Book Your Free Consultation
-                <Calendar className="ml-2 h-5 w-5" />
-              </Button>
-            </div>
-          </div>
+          <ICPToggle selectedICP={selectedICP} onToggle={setSelectedICP} />
+          <HeroWithICP icp={selectedICP} openCalendly={openCalendly} />
         </div>
       </section>
+
+      {/* Construction Pain Points Section */}
+      <ICPPainPointSection
+        icp="construction"
+        heading="We Fix These Problems for Construction Contractors"
+        painPoints={constructionPainPoints}
+        ctaText="See Construction Solutions"
+        ctaLink="/construction"
+        backgroundColor="bg-blue-50"
+        iconGradient="bg-gradient-to-br from-blue-500 to-blue-600"
+      />
+
+      {/* Home Service Pain Points Section */}
+      <ICPPainPointSection
+        icp="home-service"
+        heading="We Fix These Problems for Home Service Providers"
+        painPoints={homeServicePainPoints}
+        ctaText="See Home Service Solutions"
+        ctaLink="/home-service"
+        backgroundColor="bg-green-50"
+        iconGradient="bg-gradient-to-br from-green-500 to-green-600"
+      />
+
+      {/* Proof Section - Real Metrics */}
+      <ProofSection />
 
       {/* Trust Signals Bar */}
       <section className="py-12 bg-surface-dark text-primary-foreground">

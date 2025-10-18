@@ -15,6 +15,8 @@ import Contact from "./pages/Contact";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
+import Construction from "./pages/Construction";
+import HomeService from "./pages/HomeService";
 import Leads from "./pages/use-cases/Leads";
 import ContentCreation from "./pages/use-cases/ContentCreation";
 import SocialMedia from "./pages/use-cases/SocialMedia";
@@ -71,7 +73,11 @@ const App = () => (
               <Route path="/use-cases/personal-assistants" element={<PersonalAssistants />} />
               <Route path="/use-cases/specialized-agents" element={<SpecializedAgents />} />
               <Route path="/use-cases/business-operations" element={<BusinessOperations />} />
-              
+
+              {/* ICP Landing Pages */}
+              <Route path="/construction" element={<Construction />} />
+              <Route path="/home-service" element={<HomeService />} />
+
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
