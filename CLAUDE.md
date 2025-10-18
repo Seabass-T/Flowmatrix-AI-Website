@@ -53,12 +53,24 @@ npm preview
 src/
 ├── components/           # Shared components
 │   ├── ui/              # shadcn/ui components (51 components)
+│   ├── homepage/        # Homepage-specific components (NEW)
+│   │   ├── ICPToggle.tsx
+│   │   ├── HeroWithICP.tsx
+│   │   ├── ICPPainPointSection.tsx
+│   │   ├── ProofCard.tsx
+│   │   └── ProofSection.tsx
+│   ├── landing-pages/   # Reusable landing page components (NEW)
+│   │   ├── LandingPageHero.tsx
+│   │   ├── PainPointCards.tsx
+│   │   └── OfferFunnel.tsx
 │   ├── AnimatedFeatures.tsx
 │   ├── Footer.tsx
 │   ├── Navigation.tsx
 │   └── NewsletterSignup.tsx
 ├── pages/               # Route pages
 │   ├── use-cases/      # Use case category pages (8 pages)
+│   ├── Construction.tsx  # Construction ICP landing page (NEW)
+│   ├── HomeService.tsx   # Home Service ICP landing page (NEW)
 │   └── [other pages]   # Main pages (Index, About, Contact, etc.)
 ├── integrations/
 │   └── supabase/       # Supabase client and types
@@ -85,6 +97,9 @@ The project uses a comprehensive custom design system defined in `src/index.css`
 Routes are centrally managed in `src/App.tsx`. The application uses:
 - Main pages: /, /pricing, /use-cases, /newsletter, /about, /contact, /terms, /privacy
 - Use case category routes: /use-cases/[category]
+- **ICP Landing Pages** (NEW):
+  - /construction - Construction contractors landing page
+  - /home-service - Home service providers landing page
 - Catch-all 404 route at the end
 
 **IMPORTANT**: When adding new routes, add them ABOVE the catch-all `*` route in App.tsx.
@@ -100,9 +115,12 @@ Routes are centrally managed in `src/App.tsx`. The application uses:
 ### Component Conventions
 
 1. **shadcn/ui components** are in `src/components/ui/` and should not be manually edited (they're auto-generated)
-2. **Custom components** go directly in `src/components/`
+2. **Custom components** go directly in `src/components/` or in organized subdirectories:
+   - `src/components/homepage/` - Homepage-specific components
+   - `src/components/landing-pages/` - Reusable landing page components
 3. **Page components** go in `src/pages/` with nested directories for categories
 4. All components use the `@/` import alias (e.g., `@/components`, `@/lib`)
+5. **Reusable components** should accept props to customize behavior for different use cases (see LandingPageHero, PainPointCards, OfferFunnel)
 
 ### Path Aliases
 
@@ -139,4 +157,46 @@ This project uses shadcn/ui components. To add new ones, refer to the shadcn/ui 
 - TypeScript strict mode is enabled
 - Multiple tsconfig files: `tsconfig.json` (base), `tsconfig.app.json` (app), `tsconfig.node.json` (build tools)
 - on all pushes to git, never include Claude attrition add this rule to your CLAUDE.md file
-- The website is in dark mode. Make sure all color choices contrast their background colors so text is visible.
+- **The website supports dark mode.** Make sure all color choices contrast their background colors so text is visible:
+  - Use theme-aware CSS variables: `text-foreground`, `text-card-foreground`, `text-muted-foreground`
+  - Add `dark:` variants for sections with colored backgrounds (e.g., `text-gray-900 dark:text-white`)
+  - Never use hardcoded colors like `text-gray-900` alone - always add dark mode variants
+  - Test both light and dark modes for all new components
+
+## Phase 1 Implementation Summary (Completed)
+
+### New Components Created
+
+**Homepage Components** (`src/components/homepage/`):
+- `ICPToggle.tsx` - Tab-style toggle between Construction and Home Service ICPs
+- `HeroWithICP.tsx` - Dynamic hero section that updates based on ICP selection
+- `ICPPainPointSection.tsx` - Reusable section displaying 3 pain points per ICP
+- `ProofCard.tsx` - Individual proof card with gradient background and metrics
+- `ProofSection.tsx` - Container for 3 proof cards showing UBL Group metrics
+
+**Landing Page Components** (`src/components/landing-pages/`):
+- `LandingPageHero.tsx` - Reusable hero for landing pages (no main nav, "Back to Home" link)
+- `PainPointCards.tsx` - Reusable 3-card pain point display with ICP variants
+- `OfferFunnel.tsx` - 4-step process visualization (horizontal desktop, vertical mobile)
+
+**New Pages** (`src/pages/`):
+- `Construction.tsx` - Full landing page for construction contractors
+- `HomeService.tsx` - Full landing page for home service providers (HVAC, plumbing, electrical)
+
+### Key Patterns Established
+
+1. **ICP Segmentation**: Homepage allows users to toggle between two target personas (Construction vs Home Service)
+2. **Component Reusability**: Landing page components accept props for ICP-specific customization
+3. **Dark Mode Support**: All new components use theme-aware CSS variables and `dark:` variants
+4. **Calendly Integration**: Standardized `openCalendly()` function across all pages using `https://calendly.com/flowmatrixai-info/consultation-call`
+5. **Responsive Design**: All components adapt from 1-col mobile to 2-3 col desktop layouts
+
+### Files Modified
+
+- `src/pages/Index.tsx` - Added ICP toggle, dynamic hero, pain point sections, proof cards
+- `src/App.tsx` - Added routes for `/construction` and `/home-service` above catch-all route
+- Updated Calendly URLs across 8 files: Index, Construction, HomeService, Pricing, UseCases, Contact, About, Navigation
+
+### Next Phase
+
+Phase 2 will add: Hero images, sticky navigation, trust badges, offer funnel graphic, chat widget optimization, and lead magnet modal.
