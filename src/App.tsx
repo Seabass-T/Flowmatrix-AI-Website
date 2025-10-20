@@ -1,4 +1,5 @@
 
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,25 +7,38 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Footer from "@/components/Footer";
+
+// Eager load only the homepage for fastest FCP
 import Index from "./pages/Index";
-import Pricing from "./pages/Pricing";
-import UseCases from "./pages/UseCases";
-import Newsletter from "./pages/Newsletter";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Terms from "./pages/Terms";
-import Privacy from "./pages/Privacy";
-import NotFound from "./pages/NotFound";
-import Construction from "./pages/Construction";
-import HomeService from "./pages/HomeService";
-import Leads from "./pages/use-cases/Leads";
-import ContentCreation from "./pages/use-cases/ContentCreation";
-import SocialMedia from "./pages/use-cases/SocialMedia";
-import EmailManagement from "./pages/use-cases/EmailManagement";
-import ClientManagement from "./pages/use-cases/ClientManagement";
-import PersonalAssistants from "./pages/use-cases/PersonalAssistants";
-import SpecializedAgents from "./pages/use-cases/SpecializedAgents";
-import BusinessOperations from "./pages/use-cases/BusinessOperations";
+
+// Lazy load all other pages for code splitting
+const Pricing = lazy(() => import("./pages/Pricing"));
+const UseCases = lazy(() => import("./pages/UseCases"));
+const Newsletter = lazy(() => import("./pages/Newsletter"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Terms = lazy(() => import("./pages/Terms"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Construction = lazy(() => import("./pages/Construction"));
+const HomeService = lazy(() => import("./pages/HomeService"));
+
+// Lazy load use case pages
+const Leads = lazy(() => import("./pages/use-cases/Leads"));
+const ContentCreation = lazy(() => import("./pages/use-cases/ContentCreation"));
+const SocialMedia = lazy(() => import("./pages/use-cases/SocialMedia"));
+const EmailManagement = lazy(() => import("./pages/use-cases/EmailManagement"));
+const ClientManagement = lazy(() => import("./pages/use-cases/ClientManagement"));
+const PersonalAssistants = lazy(() => import("./pages/use-cases/PersonalAssistants"));
+const SpecializedAgents = lazy(() => import("./pages/use-cases/SpecializedAgents"));
+const BusinessOperations = lazy(() => import("./pages/use-cases/BusinessOperations"));
+
+// Loading fallback component
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+  </div>
+);
 
 const queryClient = new QueryClient();
 
@@ -53,34 +67,36 @@ const App = () => (
       <BrowserRouter>
         <div className="min-h-screen flex flex-col">
           <div className="flex-1">
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/use-cases" element={<UseCases />} />
-              <Route path="/newsletter" element={<Newsletter />} />
-              <Route path="/newsletter/:issueId" element={<Newsletter />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/privacy" element={<Privacy />} />
-              
-              {/* Use Case Category Routes */}
-              <Route path="/use-cases/leads" element={<Leads />} />
-              <Route path="/use-cases/content-creation" element={<ContentCreation />} />
-              <Route path="/use-cases/social-media" element={<SocialMedia />} />
-              <Route path="/use-cases/email-management" element={<EmailManagement />} />
-              <Route path="/use-cases/client-management" element={<ClientManagement />} />
-              <Route path="/use-cases/personal-assistants" element={<PersonalAssistants />} />
-              <Route path="/use-cases/specialized-agents" element={<SpecializedAgents />} />
-              <Route path="/use-cases/business-operations" element={<BusinessOperations />} />
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/use-cases" element={<UseCases />} />
+                <Route path="/newsletter" element={<Newsletter />} />
+                <Route path="/newsletter/:issueId" element={<Newsletter />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
 
-              {/* ICP Landing Pages */}
-              <Route path="/construction" element={<Construction />} />
-              <Route path="/home-service" element={<HomeService />} />
+                {/* Use Case Category Routes */}
+                <Route path="/use-cases/leads" element={<Leads />} />
+                <Route path="/use-cases/content-creation" element={<ContentCreation />} />
+                <Route path="/use-cases/social-media" element={<SocialMedia />} />
+                <Route path="/use-cases/email-management" element={<EmailManagement />} />
+                <Route path="/use-cases/client-management" element={<ClientManagement />} />
+                <Route path="/use-cases/personal-assistants" element={<PersonalAssistants />} />
+                <Route path="/use-cases/specialized-agents" element={<SpecializedAgents />} />
+                <Route path="/use-cases/business-operations" element={<BusinessOperations />} />
 
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+                {/* ICP Landing Pages */}
+                <Route path="/construction" element={<Construction />} />
+                <Route path="/home-service" element={<HomeService />} />
+
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
           </div>
           <Footer />
         </div>

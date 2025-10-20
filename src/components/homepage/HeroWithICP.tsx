@@ -73,12 +73,13 @@ const HeroWithICP = ({ icp, openCalendly }: HeroWithICPProps) => {
 
           {/* Right Column - Hero Image */}
           <div className="relative animate-fade-in">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/3] max-w-2xl mx-auto lg:mx-0">
               <img
                 src={content.imagePath}
                 alt={content.imageAlt}
-                loading="lazy"
-                className="w-full h-full object-cover rounded-2xl"
+                loading="eager"
+                fetchPriority="high"
+                className="w-full h-auto object-cover rounded-2xl"
               />
             </div>
 
