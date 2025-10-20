@@ -141,10 +141,6 @@ export default {
 				'slide-up': 'slide-up 0.5s ease-out',
 				'glow': 'glow 2s ease-in-out infinite',
 			},
-			backgroundImage: {
-				'voice-gradient': 'linear-gradient(135deg, hsl(var(--voice-primary)), hsl(var(--voice-secondary)))',
-				'voice-gradient-hover': 'linear-gradient(135deg, hsl(var(--voice-primary-glow)), hsl(var(--voice-accent)))',
-			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

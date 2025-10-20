@@ -95,12 +95,16 @@ const NewsletterSignup = () => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="flex flex-col sm:flex-row gap-4">
           <Input
+            id="newsletter-email"
+            name="email"
             type="email"
             placeholder="Enter your email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="flex-1 bg-white h-12"
             disabled={isSubmitting}
+            autoComplete="email"
+            aria-label="Email address for newsletter"
           />
           <Button
             type="submit"

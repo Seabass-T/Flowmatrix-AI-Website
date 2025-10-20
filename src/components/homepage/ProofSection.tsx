@@ -11,33 +11,33 @@ const ProofSection = () => {
       subtitle: "Saved in 3 Months",
       description: "Email intelligence automation for GTA construction contractor",
       icon: Mail,
-      gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
+      gradient: "bg-blue-600",
     },
     {
       metric: "$3,500+",
       subtitle: "ROI Achieved",
       description: "Combined savings across email and developer outreach automation",
       icon: TrendingUp,
-      gradient: "bg-gradient-to-br from-green-500 to-green-600",
+      gradient: "bg-green-600",
     },
     {
       metric: "$10K-$20K+",
       subtitle: "Projected Monthly ROI",
       description: "Full ERP system currently in development",
       icon: Database,
-      gradient: "bg-gradient-to-br from-purple-500 to-purple-600",
+      gradient: "bg-blue-600",
       badge: "Coming Soon",
     },
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-surface-light to-surface-medium">
+    <section className="py-20 bg-surface-light dark:bg-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 animate-fade-in">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4 animate-fade-in">
             Real Results from{" "}
-            <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
+            <span className="text-blue-600">
               Real Clients
             </span>
           </h2>
@@ -61,7 +61,7 @@ const ProofSection = () => {
             <Button
               size="lg"
               variant="outline"
-              className="border-2 border-interactive-primary text-interactive-primary hover:bg-interactive-primary hover:text-white text-lg px-8 py-6 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white text-lg px-8 py-6 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
             >
               View Full Case Study
               <ArrowRight className="ml-2 h-5 w-5" />

@@ -70,7 +70,7 @@ const Navigation = () => {
                 alt="FlowMatrix AI" 
                 className="h-10 w-10 object-contain"
               />
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold text-blue-600">
                 FlowMatrix AI
               </span>
             </Link>
@@ -125,7 +125,7 @@ const Navigation = () => {
 
           <div className="hidden md:block">
             <Link to="/contact">
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                 Get Your Free Automation Audit
               </Button>
             </Link>
@@ -189,7 +189,7 @@ const Navigation = () => {
             </Link>
             <div className="px-3 py-2">
               <Link to="/contact">
-                <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
                   Get Your Free Automation Audit
                 </Button>
               </Link>

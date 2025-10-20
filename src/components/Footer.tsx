@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
+import TrustBadges from "@/components/shared/TrustBadges";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-br from-slate-50 to-blue-50 border-t border-border mt-auto">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="bg-slate-50 dark:bg-gray-900 border-t border-border mt-auto">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Trust Badges */}
+        <TrustBadges />
+
+        <div className="py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2">
@@ -14,7 +19,7 @@ const Footer = () => {
                 alt="FlowMatrix AI" 
                 className="h-8 w-8 object-contain"
               />
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold text-blue-600">
                 FlowMatrix AI
               </span>
             </Link>
@@ -92,6 +97,7 @@ const Footer = () => {
               Privacy Policy
             </Link>
           </nav>
+        </div>
         </div>
       </div>
     </footer>

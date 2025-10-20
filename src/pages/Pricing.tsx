@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Helmet } from "react-helmet";
 import { Check, ArrowRight, Users, Zap, TrendingUp, Award, Phone, DollarSign } from "lucide-react";
 import { useEffect } from "react";
+import GuaranteeBadge from "@/components/shared/GuaranteeBadge";
 
 declare global {
   interface Window {
@@ -262,6 +263,11 @@ const Pricing = () => {
                 </Button>
               </CardContent>
             </Card>
+          </div>
+
+          {/* Guarantee Badge */}
+          <div className="mt-12 max-w-4xl mx-auto">
+            <GuaranteeBadge />
           </div>
         </div>
 

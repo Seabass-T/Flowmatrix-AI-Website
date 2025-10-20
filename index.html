@@ -2,6 +2,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YVKJNLRL9S"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-YVKJNLRL9S');
+    </script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FlowMatrix AI</title>
@@ -33,16 +43,17 @@
         <!-- Set render to 'full-width' then adjust the width and height to 500px (for example) to render the chatbot itself without the popup. -->
     </div>
 
-    <!-- VoiceGlow Widget Script - Optimized lazy loading -->
+    <!-- CONVOCORE Widget Script - Optimized lazy loading (PRD Section 4.9) -->
     <script>
-        // Delay CONVOCORE widget until user interaction or 45s (whichever first)
+        // Delay CONVOCORE widget until 45s OR 50% scroll (whichever first)
         (function() {
-            let loaded = false;
+            let triggered = false;
 
             function loadWidget() {
-                if (loaded) return;
-                loaded = true;
+                if (triggered) return;
+                triggered = true;
 
+                // CONVOCORE configuration
                 window.VG_CONFIG = {
                     ID: "urcdwXj3AcLHT37pYcFj",
                     region: 'na',
@@ -51,30 +62,50 @@
                         "https://vg-bunny-cdn.b-cdn.net/vg_live_build/styles.css",
                         "/voice-agent-styles.css"
                     ],
+                    // Optional: Primary color to match site
+                    primaryColor: '#3b82f6',
+                    bubbleColor: '#3b82f6',
+                    // Welcome message (if supported by CONVOCORE)
+                    welcomeMessage: "Hi! Need help deciding if automation is right for your field team? I'm here to chat."
                 };
 
                 const script = document.createElement("script");
                 script.src = "https://vg-bunny-cdn.b-cdn.net/vg_live_build/vg_bundle.js";
                 script.defer = true;
                 document.body.appendChild(script);
-            }
 
-            // Load on scroll (50% of page)
-            let scrolled = false;
-            function checkScroll() {
-                if (scrolled) return;
-                const scrollPercent = (window.scrollY + window.innerHeight) / document.body.scrollHeight;
-                if (scrollPercent > 0.5) {
-                    scrolled = true;
-                    loadWidget();
-                    window.removeEventListener('scroll', checkScroll);
+                // Analytics tracking (if Google Analytics is available)
+                if (window.gtag) {
+                    window.gtag('event', 'chat_widget_shown', {
+                        event_category: 'engagement',
+                        trigger: '45s_or_50%_scroll'
+                    });
                 }
             }
 
-            // Load after 45 seconds OR on scroll (whichever first)
+            // Scroll trigger: 50% of page
+            function handleScroll() {
+                if (triggered) return;
+
+                // Calculate scroll percentage: current scroll / total scrollable height
+                const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+
+                if (scrollPercent > 0.5) {
+                    loadWidget();
+                    window.removeEventListener('scroll', handleScroll);
+                }
+            }
+
+            // Initialize triggers on page load
             window.addEventListener('load', function() {
-                setTimeout(loadWidget, 45000);
-                window.addEventListener('scroll', checkScroll, { passive: true });
+                // Timer trigger: 45 seconds
+                const timer = setTimeout(loadWidget, 45000);
+
+                // Scroll trigger: 50% of page
+                window.addEventListener('scroll', handleScroll, { passive: true });
+
+                // Cleanup is handled by the triggered flag
+                // Once triggered=true, both functions return early
             });
         })();
     </script>

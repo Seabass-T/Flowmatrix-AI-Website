@@ -9,6 +9,9 @@ import ICPToggle, { ICPType } from "@/components/homepage/ICPToggle";
 import HeroWithICP from "@/components/homepage/HeroWithICP";
 import ICPPainPointSection from "@/components/homepage/ICPPainPointSection";
 import ProofSection from "@/components/homepage/ProofSection";
+import FounderBadge from "@/components/homepage/FounderBadge";
+import OfferFunnelGraphic from "@/components/homepage/OfferFunnelGraphic";
+import LeadMagnetModal from "@/components/homepage/LeadMagnetModal";
 
 // Extend the Window interface to include Calendly
 declare global {
@@ -19,6 +22,7 @@ declare global {
 
 const Index = () => {
   const [selectedICP, setSelectedICP] = useState<ICPType>("construction");
+  const [showLeadMagnet, setShowLeadMagnet] = useState(false);
 
   useEffect(() => {
     // Load Calendly widget script
@@ -38,6 +42,53 @@ const Index = () => {
       if (document.body.contains(script)) document.body.removeChild(script);
       if (document.head.contains(link)) document.head.removeChild(link);
     };
+  }, []);
+
+  // Lead Magnet Modal Trigger (PRD Section 4.10)
+  useEffect(() => {
+    // Add global helper function for testing
+    (window as any).resetLeadMagnet = () => {
+      localStorage.removeItem("leadMagnetSeen");
+      setShowLeadMagnet(false);
+      console.log("✅ Lead magnet reset! Scroll down to trigger the modal again.");
+    };
+
+    // Check if user has already seen the modal
+    const hasSeenModal = localStorage.getItem("leadMagnetSeen");
+    if (hasSeenModal) {
+      console.log("Lead magnet modal already seen, not showing again");
+      console.log("💡 To test again, run: resetLeadMagnet()");
+      return;
+    }
+
+    let triggered = false;
+
+    const handleScroll = () => {
+      if (triggered) return;
+
+      // Get hero section height (approximate if element not found)
+      const heroElement = document.getElementById("hero-section");
+      const heroHeight = heroElement?.offsetHeight || 800;
+
+      // Trigger at 60% past the hero section
+      const scrollTriggerPoint = heroHeight * 0.6;
+
+      console.log(`Scroll position: ${window.scrollY}px, Trigger point: ${scrollTriggerPoint}px`);
+
+      if (window.scrollY > scrollTriggerPoint) {
+        console.log("Triggering lead magnet modal!");
+        triggered = true;
+        setShowLeadMagnet(true);
+        localStorage.setItem("leadMagnetSeen", "true");
+        window.removeEventListener("scroll", handleScroll);
+      }
+    };
+
+    // Initial check in case user is already scrolled
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Homepage JSON-LD – LocalBusiness + Services
@@ -148,16 +199,19 @@ const Index = () => {
         </script>
       </Helmet>
       
-      <div className="bg-gradient-to-br from-surface-light to-surface-medium min-h-screen">
+      <div className="bg-surface-light min-h-screen">
       <Navigation />
 
       {/* Hero Section with ICP Toggle */}
-      <section className="relative overflow-hidden py-12 lg:py-20">
+      <section id="hero-section" className="relative overflow-hidden py-12 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <ICPToggle selectedICP={selectedICP} onToggle={setSelectedICP} />
           <HeroWithICP icp={selectedICP} openCalendly={openCalendly} />
         </div>
       </section>
+
+      {/* Offer Funnel Graphic */}
+      <OfferFunnelGraphic />
 
       {/* Construction Pain Points Section */}
       <ICPPainPointSection
@@ -166,8 +220,8 @@ const Index = () => {
         painPoints={constructionPainPoints}
         ctaText="See Construction Solutions"
         ctaLink="/construction"
-        backgroundColor="bg-blue-50"
-        iconGradient="bg-gradient-to-br from-blue-500 to-blue-600"
+        backgroundColor="bg-blue-50 dark:bg-slate-800"
+        iconGradient="bg-blue-600"
       />
 
       {/* Home Service Pain Points Section */}
@@ -177,12 +231,15 @@ const Index = () => {
         painPoints={homeServicePainPoints}
         ctaText="See Home Service Solutions"
         ctaLink="/home-service"
-        backgroundColor="bg-green-50"
-        iconGradient="bg-gradient-to-br from-green-500 to-green-600"
+        backgroundColor="bg-green-50 dark:bg-slate-800"
+        iconGradient="bg-green-600"
       />
 
       {/* Proof Section - Real Metrics */}
       <ProofSection />
+
+      {/* Founder Badge */}
+      <FounderBadge />
 
       {/* Trust Signals Bar */}
       <section className="py-12 bg-surface-dark text-primary-foreground">
@@ -214,7 +271,7 @@ const Index = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 animate-fade-in">
               How Our{" "}
-              <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
+              <span className="text-blue-600">
                 Audit Process Works
               </span>
             </h2>
@@ -226,10 +283,10 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <Card className="text-center border-0 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group animate-fade-in bg-card">
               <CardHeader>
-                <div className="w-16 h-16 bg-gradient-to-r from-interactive-primary to-interactive-primary-hover rounded-full flex items-center justify-center mb-4 mx-auto group-hover:animate-pulse">
+                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4 mx-auto group-hover:animate-pulse">
                   <Target className="h-8 w-8 text-white" />
                 </div>
-                <CardTitle className="text-xl text-card-foreground group-hover:text-interactive-primary transition-colors">1. Identify</CardTitle>
+                <CardTitle className="text-xl text-card-foreground group-hover:text-blue-600 transition-colors">1. Identify</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-4">Analyze your current workflows and identify automation opportunities</p>
@@ -243,10 +300,10 @@ const Index = () => {
 
             <Card className="text-center border-0 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group animate-fade-in bg-card">
               <CardHeader>
-                <div className="w-16 h-16 bg-gradient-to-r from-interactive-secondary to-interactive-secondary-hover rounded-full flex items-center justify-center mb-4 mx-auto group-hover:animate-pulse">
+                <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-4 mx-auto group-hover:animate-pulse">
                   <BarChart3 className="h-8 w-8 text-white" />
                 </div>
-                <CardTitle className="text-xl text-card-foreground group-hover:text-interactive-secondary transition-colors">2. Quantify</CardTitle>
+                <CardTitle className="text-xl text-card-foreground group-hover:text-green-600 transition-colors">2. Quantify</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-4">Calculate time savings, cost reductions, and ROI potential</p>
@@ -260,10 +317,10 @@ const Index = () => {
 
             <Card className="text-center border-0 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group animate-fade-in bg-card">
               <CardHeader>
-                <div className="w-16 h-16 bg-gradient-to-r from-interactive-accent to-interactive-accent-hover rounded-full flex items-center justify-center mb-4 mx-auto group-hover:animate-pulse">
+                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4 mx-auto group-hover:animate-pulse">
                   <Zap className="h-8 w-8 text-white" />
                 </div>
-                <CardTitle className="text-xl text-card-foreground group-hover:text-interactive-accent transition-colors">3. Automate</CardTitle>
+                <CardTitle className="text-xl text-card-foreground group-hover:text-blue-600 transition-colors">3. Automate</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-4">Implement custom AI solutions for your specific vertical</p>
@@ -277,10 +334,10 @@ const Index = () => {
 
             <Card className="text-center border-0 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group animate-fade-in bg-card">
               <CardHeader>
-                <div className="w-16 h-16 bg-gradient-to-r from-interactive-primary to-interactive-accent rounded-full flex items-center justify-center mb-4 mx-auto group-hover:animate-pulse">
+                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4 mx-auto group-hover:animate-pulse">
                   <TrendingUp className="h-8 w-8 text-white" />
                 </div>
-                <CardTitle className="text-xl text-card-foreground group-hover:text-interactive-primary transition-colors">4. Scale</CardTitle>
+                <CardTitle className="text-xl text-card-foreground group-hover:text-blue-600 transition-colors">4. Scale</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-4">Optimize and expand automation across your entire operation</p>
@@ -296,12 +353,12 @@ const Index = () => {
       </section>
 
       {/* Deliverables Section */}
-      <section className="py-20 bg-gradient-to-br from-surface-light to-surface-medium">
+      <section className="py-20 bg-surface-light dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
-              <span className="text-gray-900">What You'll</span>{" "}
-              <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
+              <span className="text-gray-900 dark:text-white">What You'll</span>{" "}
+              <span className="text-blue-600">
                 Receive
               </span>
             </h2>
@@ -313,10 +370,10 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <Card className="text-center border-0 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group bg-card">
               <CardHeader>
-                <div className="w-12 h-12 bg-gradient-to-r from-interactive-secondary to-interactive-secondary-hover rounded-lg flex items-center justify-center mb-4 mx-auto group-hover:animate-pulse">
+                <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4 mx-auto group-hover:animate-pulse">
                   <DollarSign className="h-6 w-6 text-white" />
                 </div>
-                <CardTitle className="text-lg text-card-foreground group-hover:text-interactive-secondary transition-colors">ROI Analysis</CardTitle>
+                <CardTitle className="text-lg text-card-foreground group-hover:text-green-600 transition-colors">ROI Analysis</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">Detailed breakdown of potential savings and revenue increases specific to your trade or real estate operations</p>
@@ -325,10 +382,10 @@ const Index = () => {
 
             <Card className="text-center border-0 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group bg-card">
               <CardHeader>
-                <div className="w-12 h-12 bg-gradient-to-r from-interactive-primary to-interactive-primary-hover rounded-lg flex items-center justify-center mb-4 mx-auto group-hover:animate-pulse">
+                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4 mx-auto group-hover:animate-pulse">
                   <BarChart3 className="h-6 w-6 text-white" />
                 </div>
-                <CardTitle className="text-lg text-card-foreground group-hover:text-interactive-primary transition-colors">Benchmarking</CardTitle>
+                <CardTitle className="text-lg text-card-foreground group-hover:text-blue-600 transition-colors">Benchmarking</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">Industry comparisons showing how automation can give you competitive advantages in Toronto's market</p>
@@ -337,10 +394,10 @@ const Index = () => {
 
             <Card className="text-center border-0 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group bg-card">
               <CardHeader>
-                <div className="w-12 h-12 bg-gradient-to-r from-interactive-accent to-interactive-accent-hover rounded-lg flex items-center justify-center mb-4 mx-auto group-hover:animate-pulse">
+                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4 mx-auto group-hover:animate-pulse">
                   <Target className="h-6 w-6 text-white" />
                 </div>
-                <CardTitle className="text-lg text-card-foreground group-hover:text-interactive-accent transition-colors">Roadmap</CardTitle>
+                <CardTitle className="text-lg text-card-foreground group-hover:text-blue-600 transition-colors">Roadmap</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">Step-by-step implementation plan prioritized by impact and tailored to your business type</p>
@@ -349,10 +406,10 @@ const Index = () => {
 
             <Card className="text-center border-0 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group bg-card">
               <CardHeader>
-                <div className="w-12 h-12 bg-gradient-to-r from-interactive-primary to-interactive-accent rounded-lg flex items-center justify-center mb-4 mx-auto group-hover:animate-pulse">
+                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4 mx-auto group-hover:animate-pulse">
                   <Zap className="h-6 w-6 text-white" />
                 </div>
-                <CardTitle className="text-lg text-card-foreground group-hover:text-interactive-primary transition-colors">Workflow Design</CardTitle>
+                <CardTitle className="text-lg text-card-foreground group-hover:text-blue-600 transition-colors">Workflow Design</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">Custom automation workflows designed for your specific vertical - trade dispatching, property management, or home improvement coordination</p>
@@ -382,7 +439,7 @@ const Index = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 animate-fade-in">
               Why{" "}
-              <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
+              <span className="text-blue-600">
                 Pay-What-You-Think-It's-Worth Audit?
               </span>
             </h2>
@@ -396,7 +453,7 @@ const Index = () => {
                   We specialize in automating property management workflows, lead qualification, client communication, and MLS integration. Our Toronto-based team understands the local market dynamics and compliance requirements.
                 </p>
                 <p className="text-muted-foreground">
-                  <strong className="text-interactive-primary">Process:</strong> Free consultation → Custom audit → You pay what you think it's worth → Implementation (if you choose to proceed)
+                  <strong className="text-blue-600">Process:</strong> Free consultation → Custom audit → You pay what you think it's worth → Implementation (if you choose to proceed)
                 </p>
               </CardContent>
             </Card>
@@ -408,7 +465,7 @@ const Index = () => {
                   We automate job scheduling, crew dispatching, invoice processing, customer follow-ups, and equipment tracking. Perfect for plumbing, electrical, HVAC, and general contracting businesses.
                 </p>
                 <p className="text-muted-foreground">
-                  <strong className="text-interactive-secondary">Our guarantee:</strong> We're so confident in our audit value that you only pay after seeing the results. Most clients find 10x+ ROI potential in their first audit.
+                  <strong className="text-green-600">Our guarantee:</strong> We're so confident in our audit value that you only pay after seeing the results. Most clients find 10x+ ROI potential in their first audit.
                 </p>
               </CardContent>
             </Card>
@@ -420,7 +477,7 @@ const Index = () => {
                   We streamline project coordination, supplier management, customer communication, and quality control processes. Ideal for renovation companies, landscapers, and home service providers.
                 </p>
                 <p className="text-muted-foreground">
-                  <strong className="text-interactive-accent">Fair audit pricing:</strong> Our consultation is free, and you pay what you think the audit is worth after receiving it. Implementation and systems development are separately estimated based on your specific requirements.
+                  <strong className="text-blue-600">Fair audit pricing:</strong> Our consultation is free, and you pay what you think the audit is worth after receiving it. Implementation and systems development are separately estimated based on your specific requirements.
                 </p>
               </CardContent>
             </Card>
@@ -430,12 +487,12 @@ const Index = () => {
 
       {/* Trust Signals & Social Proof */}
       {SHOW_SOCIAL_PROOF && (
-      <section className="py-20 bg-gradient-to-br from-surface-light to-surface-medium">
+      <section className="py-20 bg-surface-light dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
-              <span className="text-gray-900">Trusted by</span>{" "}
-              <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
+              <span className="text-gray-900 dark:text-white">Trusted by</span>{" "}
+              <span className="text-blue-600">
                 Toronto Businesses
               </span>
             </h2>
@@ -453,7 +510,7 @@ const Index = () => {
                   "FlowMatrix automated our property showing scheduling and follow-up process. We're now booking 40% more viewings with half the manual work. Game changer for our Toronto real estate business."
                 </p>
                 <div className="flex items-center">
-                  <div className="w-12 h-12 bg-gradient-to-r from-interactive-primary to-interactive-accent rounded-full flex items-center justify-center text-white font-bold">
+                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
                     MK
                   </div>
                   <div className="ml-4">
@@ -475,7 +532,7 @@ const Index = () => {
                   "Our plumbing business was drowning in scheduling calls. Their AI system now handles 80% of appointment bookings automatically. We've saved 15 hours per week and increased customer satisfaction."
                 </p>
                 <div className="flex items-center">
-                  <div className="w-12 h-12 bg-gradient-to-r from-interactive-secondary to-interactive-secondary-hover rounded-full flex items-center justify-center text-white font-bold">
+                  <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
                     JS
                   </div>
                   <div className="ml-4">
@@ -497,7 +554,7 @@ const Index = () => {
                   "The renovation project coordination system they built tracks all our contractors, suppliers, and timelines automatically. We're completing projects 25% faster with better client communication."
                 </p>
                 <div className="flex items-center">
-                  <div className="w-12 h-12 bg-gradient-to-r from-interactive-accent to-interactive-accent-hover rounded-full flex items-center justify-center text-white font-bold">
+                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
                     LC
                   </div>
                   <div className="ml-4">
@@ -536,8 +593,7 @@ const Index = () => {
       )}
 
       {/* Final CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-interactive-primary to-interactive-accent relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-interactive-primary/20 to-interactive-accent/20"></div>
+      <section className="py-20 bg-blue-600 relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 animate-fade-in">
             Ready to Save 120+ Hours Monthly?
@@ -546,10 +602,10 @@ const Index = () => {
             Join Toronto & GTA businesses already automating their success. Get your free consultation and comprehensive audit - pay only what you think it's worth.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-scale-in">
-            <Button 
-              onClick={openCalendly} 
-              size="lg" 
-              className="bg-white text-interactive-primary hover:bg-gray-100 hover:text-interactive-primary-hover text-lg px-8 py-4 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+            <Button
+              onClick={openCalendly}
+              size="lg"
+              className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-4 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               Book Your Free Consultation
               <Calendar className="ml-2 h-5 w-5" />
@@ -561,6 +617,12 @@ const Index = () => {
         </div>
       </section>
     </div>
+
+    {/* Lead Magnet Modal */}
+    <LeadMagnetModal
+      isOpen={showLeadMagnet}
+      onClose={() => setShowLeadMagnet(false)}
+    />
     </>
   );
 };

@@ -43,19 +43,13 @@ html {
 
     --radius: 0.5rem;
 
-    /* Enhanced Color Palette */
-    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(267 84% 65%));
-    --gradient-secondary: linear-gradient(135deg, hsl(142 76% 46%), hsl(158 64% 52%));
-    --gradient-accent: linear-gradient(135deg, hsl(285 85% 70%), hsl(267 84% 65%));
-    --gradient-surface: linear-gradient(135deg, hsl(220 20% 98%), hsl(220 15% 95%));
-    
-    /* Interactive Colors */
+    /* Interactive Colors - Blue-focused design system */
     --interactive-primary: 217 91% 60%;
     --interactive-primary-hover: 217 91% 55%;
     --interactive-secondary: 142 76% 46%;
     --interactive-secondary-hover: 142 76% 41%;
-    --interactive-accent: 285 85% 70%;
-    --interactive-accent-hover: 285 85% 65%;
+    --interactive-accent: 217 91% 65%;
+    --interactive-accent-hover: 217 91% 60%;
     
     /* Surface Colors */
     --surface-light: 220 20% 98%;
@@ -63,11 +57,11 @@ html {
     --surface-dark: 222 47% 11%;
     --surface-darker: 222 84% 4.9%;
 
-    /* Voice Assistant Theme */
+    /* Voice Assistant Theme - Blue-focused */
     --voice-primary: 224 71% 50%;
     --voice-primary-glow: 224 71% 65%;
-    --voice-secondary: 267 84% 65%;
-    --voice-accent: 285 85% 75%;
+    --voice-secondary: 217 91% 60%;
+    --voice-accent: 224 71% 65%;
     --voice-surface: 220 20% 98%;
     --voice-border: 220 15% 90%;
     --voice-success: 142 76% 36%;
@@ -119,11 +113,11 @@ html {
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
     
-    /* Voice Assistant Theme - Dark */
+    /* Voice Assistant Theme - Dark mode - Blue-focused */
     --voice-primary: 224 71% 55%;
     --voice-primary-glow: 224 71% 70%;
-    --voice-secondary: 267 84% 70%;
-    --voice-accent: 285 85% 80%;
+    --voice-secondary: 217 91% 65%;
+    --voice-accent: 224 71% 70%;
     --voice-surface: 222 47% 11%;
     --voice-border: 217 32% 20%;
     --voice-success: 142 76% 46%;

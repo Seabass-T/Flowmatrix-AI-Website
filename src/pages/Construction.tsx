@@ -99,7 +99,7 @@ const Construction = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <Card className="border-0 shadow-lg">
                 <CardContent className="p-8">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mb-4">
                     <DollarSign className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-card-foreground mb-4">Real-Time Cost Tracking</h3>
@@ -125,7 +125,7 @@ const Construction = () => {
 
               <Card className="border-0 shadow-lg">
                 <CardContent className="p-8">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mb-4">
                     <Calendar className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-card-foreground mb-4">Automated Crew Scheduling</h3>
@@ -151,7 +151,7 @@ const Construction = () => {
 
               <Card className="border-0 shadow-lg">
                 <CardContent className="p-8">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mb-4">
                     <FileText className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-card-foreground mb-4">Instant Invoicing</h3>
@@ -190,11 +190,11 @@ const Construction = () => {
               </p>
             </div>
 
-            <Card className="border-0 shadow-2xl bg-gradient-to-br from-blue-50 to-purple-50">
+            <Card className="border-0 shadow-2xl bg-blue-50 dark:bg-slate-800">
               <CardContent className="p-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                   <div className="text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 mb-4">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 mb-4">
                       <Mail className="h-8 w-8 text-white" />
                     </div>
                     <div className="text-4xl font-bold text-blue-600 mb-2">150+ Hours</div>
@@ -202,7 +202,7 @@ const Construction = () => {
                     <div className="text-sm text-gray-600">Email intelligence automation</div>
                   </div>
                   <div className="text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-green-600 mb-4">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-600 mb-4">
                       <TrendingUp className="h-8 w-8 text-white" />
                     </div>
                     <div className="text-4xl font-bold text-green-600 mb-2">$3,500+</div>
@@ -216,7 +216,7 @@ const Construction = () => {
                     "The email intelligence system alone has transformed how we handle contractor communications. We're no longer drowning in our inbox, and urgent items are automatically flagged and prioritized."
                   </p>
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                    <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
                       UBL
                     </div>
                     <div>
@@ -337,7 +337,7 @@ const Construction = () => {
         </section>
 
         {/* Final CTA */}
-        <section className="py-20 bg-gradient-to-r from-interactive-primary to-interactive-accent">
+        <section className="py-20 bg-blue-600">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Ready to Stop Losing Money on Every Job?
@@ -348,7 +348,7 @@ const Construction = () => {
             <Button
               onClick={openCalendly}
               size="lg"
-              className="bg-white text-interactive-primary hover:bg-gray-100 text-xl px-12 py-8 shadow-2xl"
+              className="bg-white text-blue-600 hover:bg-gray-100 text-xl px-12 py-8 shadow-2xl"
             >
               Book Your Free Consultation
               <Calendar className="ml-3 h-6 w-6" />

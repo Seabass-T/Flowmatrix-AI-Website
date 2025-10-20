@@ -154,53 +154,63 @@ const Contact = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">First Name</Label>
-                  <Input 
-                    id="firstName" 
-                    placeholder="John" 
+                  <Input
+                    id="firstName"
+                    name="firstName"
+                    placeholder="John"
                     value={formData.firstName}
                     onChange={(e) => handleInputChange('firstName', e.target.value)}
+                    autoComplete="given-name"
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="lastName">Last Name</Label>
-                  <Input 
-                    id="lastName" 
-                    placeholder="Doe" 
+                  <Input
+                    id="lastName"
+                    name="lastName"
+                    placeholder="Doe"
                     value={formData.lastName}
                     onChange={(e) => handleInputChange('lastName', e.target.value)}
+                    autoComplete="family-name"
                   />
                 </div>
               </div>
               
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input 
-                  id="email" 
-                  type="email" 
-                  placeholder="john@company.com" 
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="john@company.com"
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
+                  autoComplete="email"
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="company">Company</Label>
-                <Input 
-                  id="company" 
-                  placeholder="Your Company Name" 
+                <Input
+                  id="company"
+                  name="company"
+                  placeholder="Your Company Name"
                   value={formData.company}
                   onChange={(e) => handleInputChange('company', e.target.value)}
+                  autoComplete="organization"
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone (Optional)</Label>
-                <Input 
-                  id="phone" 
-                  type="tel" 
-                  placeholder="+1 (647) 282-3908" 
+                <Input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  placeholder="+1 (647) 282-3908"
                   value={formData.phone}
                   onChange={(e) => handleInputChange('phone', e.target.value)}
+                  autoComplete="tel"
                 />
               </div>
               
@@ -223,8 +233,9 @@ const Contact = () => {
               
               <div className="space-y-2">
                 <Label htmlFor="message">Message</Label>
-                <Textarea 
-                  id="message" 
+                <Textarea
+                  id="message"
+                  name="message"
                   placeholder="Tell us about your automation needs, current challenges, and what you're looking to achieve..."
                   className="min-h-[120px]"
                   value={formData.message}

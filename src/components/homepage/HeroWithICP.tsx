@@ -40,7 +40,7 @@ const HeroWithICP = ({ icp, openCalendly }: HeroWithICPProps) => {
           {/* Left Column - Text Content */}
           <div className="text-center lg:text-left">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-slide-up">
-              <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
+              <span className="text-blue-600">
                 {content.headline}
               </span>
             </h1>
@@ -53,7 +53,7 @@ const HeroWithICP = ({ icp, openCalendly }: HeroWithICPProps) => {
               <Button
                 onClick={openCalendly}
                 size="lg"
-                className="bg-gradient-to-r from-interactive-primary to-interactive-accent hover:from-interactive-primary-hover hover:to-interactive-accent-hover text-primary-foreground text-lg px-8 py-6 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 {content.primaryCTA}
                 <Calendar className="ml-2 h-5 w-5" />
@@ -84,8 +84,8 @@ const HeroWithICP = ({ icp, openCalendly }: HeroWithICPProps) => {
             </div>
 
             {/* Decorative elements */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-interactive-primary to-interactive-accent rounded-full opacity-20 blur-2xl"></div>
-            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-br from-interactive-secondary to-interactive-accent rounded-full opacity-20 blur-2xl"></div>
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-blue-600 rounded-full opacity-20 blur-2xl"></div>
+            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-green-600 rounded-full opacity-20 blur-2xl"></div>
           </div>
         </div>
       </div>

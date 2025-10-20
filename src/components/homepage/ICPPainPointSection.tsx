@@ -66,7 +66,7 @@ const ICPPainPointSection = ({
           <Link to={ctaLink}>
             <Button
               size="lg"
-              className="bg-gradient-to-r from-interactive-primary to-interactive-accent hover:from-interactive-primary-hover hover:to-interactive-accent-hover text-white text-lg px-8 py-6 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
             >
               {ctaText}
               <ArrowRight className="ml-2 h-5 w-5" />
