@@ -236,7 +236,7 @@ const Index = () => {
       />
 
       {/* Proof Section - Real Metrics */}
-      <ProofSection />
+      <ProofSection openCalendly={openCalendly} />
 
       {/* Founder Badge */}
       <FounderBadge />

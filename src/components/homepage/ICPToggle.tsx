@@ -35,7 +35,7 @@ const ICPToggle = ({ selectedICP, onToggle }: ICPToggleProps) => {
           className={`
             flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300
             ${selectedICP === "home-service"
-              ? "bg-blue-600 text-white shadow-lg"
+              ? "bg-green-600 text-white shadow-lg"
               : "bg-transparent text-gray-700 hover:bg-gray-200"
             }
           `}

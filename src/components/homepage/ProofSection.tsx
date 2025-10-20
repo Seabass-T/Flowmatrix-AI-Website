@@ -1,10 +1,12 @@
-import { Mail, TrendingUp, Database } from "lucide-react";
+import { Mail, TrendingUp, Database, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import ProofCard from "./ProofCard";
-import { ArrowRight } from "lucide-react";
 
-const ProofSection = () => {
+interface ProofSectionProps {
+  openCalendly?: () => void;
+}
+
+const ProofSection = ({ openCalendly }: ProofSectionProps) => {
   const proofCards = [
     {
       metric: "150+ Hours",
@@ -57,16 +59,15 @@ const ProofSection = () => {
 
         {/* CTA Button */}
         <div className="text-center animate-scale-in">
-          <Link to="/case-study">
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white text-lg px-8 py-6 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-            >
-              View Full Case Study
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
+          <Button
+            onClick={openCalendly}
+            size="lg"
+            variant="outline"
+            className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white text-lg px-8 py-6 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+          >
+            Book Your Free Consultation
+            <Calendar className="ml-2 h-5 w-5" />
+          </Button>
         </div>
       </div>
     </section>
