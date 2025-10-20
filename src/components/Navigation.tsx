@@ -12,8 +12,9 @@ declare global {
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  
+
   const isActiveRoute = (path: string) => location.pathname === path;
 
   useEffect(() => {
@@ -34,6 +35,16 @@ const Navigation = () => {
     };
   }, []);
 
+  // Scroll detection for sticky navigation background
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const openCalendly = () => {
     if (window.Calendly) {
       window.Calendly.initPopupWidget({
@@ -45,7 +56,11 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      scrolled
+        ? 'bg-white shadow-md border-b border-gray-200'
+        : 'bg-transparent'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
