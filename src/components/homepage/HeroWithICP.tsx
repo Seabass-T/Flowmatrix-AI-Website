@@ -78,7 +78,7 @@ const HeroWithICP = ({ icp, openCalendly }: HeroWithICPProps) => {
                 src={content.imagePath}
                 alt={content.imageAlt}
                 loading="eager"
-                fetchPriority="high"
+                fetchpriority="high"
                 className="w-full h-auto object-cover rounded-2xl"
               />
             </div>
