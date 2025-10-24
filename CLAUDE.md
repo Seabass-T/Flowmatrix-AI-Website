@@ -17,9 +17,9 @@ FlowMatrix AI is a React + TypeScript website built with Vite, showcasing AI aut
 
 **Business Model:** Low-friction onboarding with 5-step process, 2 decision points, and transparent pricing ($300 audit, $2-5K/month retainer).
 
-**Design Philosophy:** Clean, minimal white/black design with ONE accent color (green: text-green-600). No gradients, no purple, no em dashes, simple and professional.
+**Design Philosophy:** Clean, minimal white/black design with ONE primary color (dark green: bg-primary / text-primary = #166534 / green-800). Light accents allowed (bg-green-50, bg-green-100). No gradients, no purple, no em dashes, simple and professional.
 
-**Status:** ✅ Homepage rebuild complete (Oct 23, 2025)
+**Status:** ✅ Homepage rebuild complete (Oct 23, 2025) | ✅ Pricing page Monthly Retainer tab updated (Oct 24, 2025)
 
 ---
 
@@ -166,36 +166,46 @@ Footer Only: Contact | Newsletter
 
 ## Design System
 
-### New Color Palette (PRD v2.0)
+### Color Palette (Current - October 2025)
 
-**SIMPLIFIED - Only 2 colors:**
+**PRIMARY COLOR - DARK GREEN:**
 
 ```css
 :root {
   /* Core Colors */
-  --background: #FFFFFF;        /* Pure white everywhere */
-  --text-primary: #000000;      /* Black text */
-  --text-secondary: #666666;    /* Gray for secondary text */
+  --background: #FFFFFF;        /* Pure white everywhere (HSL: 0 0% 100%) */
+  --foreground: #000000;        /* Black text (HSL: 0 0% 0%) */
 
-  /* Accent Color (CHOOSE ONE - see PRD Section 14) */
-  /* Option A: Dark Blue */
-  --accent: #1e40af;            /* Blue-800 */
-  --accent-hover: #1e3a8a;      /* Blue-900 */
-
-  /* Option B: Dark Green */
-  --accent: #065f46;            /* Emerald-800 */
-  --accent-hover: #064e3b;      /* Emerald-900 */
+  /* Primary Brand Color - Dark Green #166534 (green-800 in Tailwind) */
+  --primary: 142 76% 24%;       /* HSL for #166534 */
+  --primary-foreground: 0 0% 100%; /* White text on primary */
 }
 ```
+
+**USAGE RULES:**
+- **Solid backgrounds**: Use `bg-primary` (NOT `bg-green-600`)
+- **Text emphasis**: Use `text-primary` (NOT `text-green-600`)
+- **Borders**: Use `border-primary` (NOT `border-green-600`)
+- **Hover states**: Use `hover:bg-primary/90` for slight darkening
+- **Light accents** (subtle highlights): `bg-green-50`, `bg-green-100`, `bg-green-200` are acceptable
+- **Dark text on light backgrounds**: `text-green-800`, `text-green-900` are acceptable for contrast
+
+**COLOR CODE REFERENCE:**
+- Primary: `#166534` (HSL: 142 76% 24%) - Tailwind `green-800`
+- DO NOT USE: `green-600` (#16a34a), `green-700` (#15803d) for primary elements
+- Light accents: `green-50` (#f0fdf4), `green-100` (#dcfce7), `green-200` (#bbf7d0)
 
 ### Design Rules
 
 1. **Background**: White (#FFFFFF) on ALL pages
 2. **Text**: Black (#000000) for body, #666666 for secondary
-3. **Accent**: ONLY for CTA buttons and icons
+3. **Primary Color**: Use `bg-primary` / `text-primary` for CTAs, emphasis, and decision points
 4. **NO gradients** anywhere
-5. **NO colored backgrounds** (except accent on buttons)
+5. **NO colored backgrounds** except:
+   - `bg-primary` for CTA buttons
+   - `bg-green-50` / `bg-green-100` for subtle highlights
 6. **NO purple** (completely removed)
+7. **NO green-600 or green-700** as primary color (use `bg-primary` instead)
 
 ### Files to Update for Design System
 
@@ -209,10 +219,14 @@ Footer Only: Contact | Newsletter
    - Remove custom gradient definitions
 
 3. **All Component Files:**
-   - Replace `bg-gradient-to-r from-blue-600 to-purple-600` → `bg-accent`
-   - Replace `hover:from-blue-700 hover:to-purple-700` → `hover:bg-accent-hover`
+   - Replace `bg-gradient-to-r from-blue-600 to-purple-600` → `bg-primary`
+   - Replace `hover:from-blue-700 hover:to-purple-700` → `hover:bg-primary/90`
+   - Replace `text-green-600` / `text-green-700` → `text-primary`
+   - Replace `bg-green-600` / `bg-green-700` → `bg-primary`
+   - Replace `border-green-600` → `border-primary`
    - Remove `bg-blue-50`, `bg-purple-50`, `bg-gradient-*`
    - Use `bg-white` or `bg-gray-50` instead
+   - Light accents (bg-green-50, bg-green-100) are acceptable for subtle highlights
 
 ---
 
@@ -250,7 +264,7 @@ src/
 │   ├── Construction.tsx       # TO DELETE
 │   ├── HomeService.tsx        # TO DELETE
 │   ├── Index.tsx              # Major updates needed
-│   ├── Pricing.tsx            # Complete rewrite needed
+│   ├── Pricing.tsx            # ✅ Monthly Retainer tab updated (Oct 24, 2025)
 │   ├── About.tsx              # Add credibility
 │   ├── Contact.tsx            # Keep, footer only
 │   ├── Newsletter.tsx         # Keep, footer only
@@ -310,6 +324,21 @@ src/
 - ✅ Process section with 5 steps
 - ✅ Inline newsletter signups
 - ✅ Contact/Newsletter in footer
+
+### Recent Updates - Pricing Page (Oct 24, 2025)
+
+**Monthly Retainer Tab Improvements:**
+- ✅ Hero section simplified: "+" changed to "&", removed $10K developer comparison
+- ✅ Pricing cards streamlined: Removed specific system counts to reduce clutter
+- ✅ Removed "Most Popular" badge for equal visual hierarchy across all packages
+- ✅ Added Client Portal Demo section (https://client.flowmatrixai.com/demo)
+- ✅ FAQ section updated with 6 focused questions
+- ✅ Maintained clean "Includes all [tier] features, plus:" structure
+
+**Package Structure (Simplified):**
+- **Starter ($1,500-$3,000/month):** Portal access, support, monitoring, AI research insights
+- **Professional ($3,000-$5,000/month):** All Starter + priority support, ROI reports, advanced integrations, bi-weekly check-ins
+- **Enterprise (Custom):** All Professional + dedicated support line, weekly sessions, custom development, white-glove implementation
 
 ---
 
@@ -648,4 +677,4 @@ function loadScript() {
 
 ---
 
-*Last Updated: October 23, 2025 - PRD v2.0 Rebuild*
+*Last Updated: October 24, 2025 - Pricing Page Monthly Retainer Tab Updates*

@@ -2,7 +2,7 @@
 
 **Version:** 2.0
 **Date:** October 23, 2025
-**Status:** ✅ HOMEPAGE REBUILD COMPLETE (Oct 23, 2025)
+**Status:** ✅ HOMEPAGE REBUILD COMPLETE (Oct 23, 2025) | ✅ PRICING PAGE MONTHLY RETAINER TAB UPDATED (Oct 24, 2025)
 **Target:** Pre-client outreach launch (ASAP)
 **Tech Stack:** Vite + React 18 + TypeScript + Tailwind CSS + React Router v6
 
@@ -11,6 +11,7 @@
 ## 🎉 Phase 1 Completion Status
 
 **Completed:** October 23, 2025
+**Pricing Page Updates:** October 24, 2025
 
 ### ✅ Major Milestones Achieved
 
@@ -44,9 +45,17 @@
    - ✅ Image optimization (PNG format, sips conversion)
    - ✅ Em dashes removed from all homepage components
 
+5. **Pricing Page - Monthly Retainer Tab Updates (Oct 24, 2025)**
+   - ✅ Hero section simplified: Changed "+" to "&", removed $10K comparison
+   - ✅ Pricing cards streamlined: Removed specific system counts (2-3, 3-5, 5+ systems/month)
+   - ✅ Removed "Most Popular" badge from Professional package for equal visual weight
+   - ✅ Added Client Portal Demo section with prominent CTA to https://client.flowmatrixai.com/demo
+   - ✅ Updated FAQ section with 6 simplified, focused questions
+   - ✅ Maintained clean, scannable card design with "Includes all [tier] features, plus:" structure
+
 ### 🚧 Remaining Work (Phase 2+)
 
-- ⏳ Pricing page rewrite
+- ⏳ Pricing page Getting Started tab optimization
 - ⏳ Solutions gallery page creation
 - ⏳ About page credibility updates
 - ⏳ n8n automation (form → email → diagnostic)
@@ -231,38 +240,43 @@ CTA Button: "Get Started" → Tally Form (https://tally.so/r/wMBOXE)
 
 ### 🎨 Color Palette Simplification
 
-**CURRENT (Complex):**
-- Multiple gradient combinations
-- Purple + Blue + Pink accents
-- `interactive-primary`, `interactive-secondary`, `interactive-accent`, `interactive-primary-hover`, `voice-*`, `surface-*`
+**CURRENT (As of October 2025):**
 
-**NEW (Minimal):**
+**PRIMARY COLOR - DARK GREEN #166534:**
 
 ```css
-/* Only TWO colors needed */
 :root {
   /* Core Colors */
-  --background: #FFFFFF;        /* Pure white background everywhere */
-  --text-primary: #000000;      /* Black text */
-  --text-secondary: #666666;    /* Gray for secondary text */
-  
-  /* Accent Color (CHOOSE ONE) */
-  /* Option A: Dark Blue */
-  --accent: #1e40af;            /* Blue-800 */
-  --accent-hover: #1e3a8a;      /* Blue-900 */
-  
-  /* Option B: Dark Green */
-  --accent: #065f46;            /* Emerald-800 */
-  --accent-hover: #064e3b;      /* Emerald-900 */
+  --background: #FFFFFF;        /* Pure white everywhere (HSL: 0 0% 100%) */
+  --foreground: #000000;        /* Black text (HSL: 0 0% 0%) */
+
+  /* Primary Brand Color - Dark Green #166534 (green-800 in Tailwind) */
+  --primary: 142 76% 24%;       /* HSL for #166534 */
+  --primary-foreground: 0 0% 100%; /* White text on primary */
 }
 ```
 
-**Usage Rules:**
+**USAGE RULES:**
+- **Solid backgrounds**: Use `bg-primary` (NOT `bg-green-600`)
+- **Text emphasis**: Use `text-primary` (NOT `text-green-600`)
+- **Borders**: Use `border-primary` (NOT `border-green-600`)
+- **Hover states**: Use `hover:bg-primary/90` for slight darkening
+- **Light accents** (subtle highlights): `bg-green-50`, `bg-green-100`, `bg-green-200` are acceptable
+- **Dark text on light backgrounds**: `text-green-800`, `text-green-900` are acceptable for contrast
+
+**COLOR CODE REFERENCE:**
+- Primary: `#166534` (HSL: 142 76% 24%) - Tailwind `green-800`
+- DO NOT USE: `green-600` (#16a34a), `green-700` (#15803d) for primary elements
+- Light accents: `green-50` (#f0fdf4), `green-100` (#dcfce7), `green-200` (#bbf7d0)
+
+**DESIGN RULES:**
 - Background: White (#FFFFFF) on ALL pages
 - Text: Black (#000000) for body text, #666666 for secondary
-- Accent Color: ONLY for CTA buttons and icons
+- Primary Color: Use `bg-primary` / `text-primary` for CTAs, emphasis, and decision points
 - NO gradients anywhere
-- NO colored backgrounds (except accent on buttons)
+- NO colored backgrounds except `bg-primary` for buttons and `bg-green-50`/`bg-green-100` for subtle highlights
+- NO purple (completely removed)
+- NO green-600 or green-700 as primary color
 
 ### 🗑️ Remove from Codebase
 
@@ -280,10 +294,14 @@ CTA Button: "Get Started" → Tally Form (https://tally.so/r/wMBOXE)
    - Remove custom gradient definitions
 
 3. **All Component Files:**
-   - Find & replace `bg-gradient-to-r from-blue-600 to-purple-600` → `bg-accent`
-   - Find & replace `hover:from-blue-700 hover:to-purple-700` → `hover:bg-accent-hover`
+   - Find & replace `bg-gradient-to-r from-blue-600 to-purple-600` → `bg-primary`
+   - Find & replace `hover:from-blue-700 hover:to-purple-700` → `hover:bg-primary/90`
+   - Find & replace `text-green-600` / `text-green-700` → `text-primary`
+   - Find & replace `bg-green-600` / `bg-green-700` → `bg-primary`
+   - Find & replace `border-green-600` → `border-primary`
    - Remove all `bg-blue-50`, `bg-purple-50`, `bg-gradient-*` classes
    - Replace with `bg-white` or `bg-gray-50` (very subtle if needed)
+   - Light accents (bg-green-50, bg-green-100) are acceptable for subtle highlights
 
 ---
 
@@ -1225,3 +1243,4 @@ This PRD provides a complete blueprint for rebuilding the FlowMatrix AI website 
 ---
 
 *End of PRD - Version 2.0*
+*Last Updated: October 24, 2025 - Pricing Page Monthly Retainer Tab Updates*
