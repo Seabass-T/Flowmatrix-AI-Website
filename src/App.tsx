@@ -14,7 +14,9 @@ import Index from "./pages/Index";
 // Lazy load all other pages for code splitting
 const Pricing = lazy(() => import("./pages/Pricing"));
 const Solutions = lazy(() => import("./pages/Solutions"));
+const SolutionDetail = lazy(() => import("./pages/SolutionDetail"));
 const Results = lazy(() => import("./pages/Results"));
+const ResultsPost = lazy(() => import("./pages/ResultsPost"));
 const Newsletter = lazy(() => import("./pages/Newsletter"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -63,7 +65,9 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/pricing" element={<Pricing />} />
                 <Route path="/solutions" element={<Solutions />} />
+                <Route path="/solutions/:slug" element={<SolutionDetail />} />
                 <Route path="/results" element={<Results />} />
+                <Route path="/results/:slug" element={<ResultsPost />} />
                 <Route path="/newsletter" element={<Newsletter />} />
                 <Route path="/newsletter/:issueId" element={<Newsletter />} />
                 <Route path="/about" element={<About />} />
