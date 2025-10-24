@@ -25,8 +25,8 @@ const AnimatedFeatures = () => {
       icon: Users,
       title: "Small Business Specialists",
       description: "We understand small business challenges and create solutions that scale with your growth.",
-      color: "from-blue-400 to-cyan-500",
-      bgColor: "bg-blue-50"
+      color: "bg-primary",
+      bgColor: "bg-gray-50"
     },
     {
       icon: Clock,
@@ -39,7 +39,7 @@ const AnimatedFeatures = () => {
       icon: TrendingUp,
       title: "Guaranteed ROI",
       description: "Most clients see 300%+ return on investment within the first 6 months of implementation.",
-      color: "from-indigo-400 to-blue-500",
+      color: "bg-primary",
       bgColor: "bg-indigo-50"
     },
     {
@@ -59,12 +59,12 @@ const AnimatedFeatures = () => {
   }, [features.length]);
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
+    <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Why Choose{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-primary">
               FlowMatrix AI?
             </span>
           </h2>
@@ -89,14 +89,14 @@ const AnimatedFeatures = () => {
                 onMouseEnter={() => setActiveFeature(index)}
               >
                 <CardContent className="p-8 relative z-10">
-                  <div className={`w-16 h-16 rounded-full bg-gradient-to-r ${feature.color} flex items-center justify-center mb-6 transform transition-all duration-500 ${
+                  <div className={`w-16 h-16 rounded-full bg-primary ${feature.color} flex items-center justify-center mb-6 transform transition-all duration-500 ${
                     isActive ? 'animate-bounce' : 'group-hover:rotate-12'
                   }`}>
                     <Icon className="h-8 w-8 text-white" />
                   </div>
                   
                   <h3 className={`text-xl font-bold mb-4 transition-colors duration-300 ${
-                    isActive ? 'text-gray-900' : 'text-gray-800 group-hover:text-blue-600'
+                    isActive ? 'text-gray-900' : 'text-gray-800 group-hover:text-primary'
                   }`}>
                     {feature.title}
                   </h3>
@@ -108,13 +108,13 @@ const AnimatedFeatures = () => {
                   </p>
                   
                   {/* Animated background gradient */}
-                  <div className={`absolute inset-0 bg-gradient-to-r ${feature.color} opacity-0 transition-opacity duration-500 ${
+                  <div className={`absolute inset-0 bg-primary ${feature.color} opacity-0 transition-opacity duration-500 ${
                     isActive ? 'opacity-5' : 'group-hover:opacity-5'
                   }`} />
                 </CardContent>
                 
                 {/* Animated border */}
-                <div className={`absolute inset-0 border-2 border-transparent bg-gradient-to-r ${feature.color} opacity-0 transition-opacity duration-500 ${
+                <div className={`absolute inset-0 border-2 border-transparent bg-primary ${feature.color} opacity-0 transition-opacity duration-500 ${
                   isActive ? 'opacity-100' : 'group-hover:opacity-50'
                 } -z-10`} style={{ padding: '2px', borderRadius: '0.75rem' }}>
                   <div className="w-full h-full bg-white rounded-lg" />
@@ -132,7 +132,7 @@ const AnimatedFeatures = () => {
               onClick={() => setActiveFeature(index)}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 index === activeFeature 
-                  ? 'bg-blue-600 scale-125' 
+                  ? 'bg-primary scale-125' 
                   : 'bg-gray-300 hover:bg-gray-400'
               }`}
             />

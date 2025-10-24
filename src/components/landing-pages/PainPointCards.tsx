@@ -14,16 +14,16 @@ interface PainPointCardsProps {
 }
 
 const PainPointCards = ({ painPoints, variant = "construction" }: PainPointCardsProps) => {
-  const iconColor = variant === "construction" ? "from-blue-500 to-blue-600" : "from-green-500 to-green-600";
+  const iconColor = variant === "construction" ? "bg-primary" : "from-green-500 to-green-600";
 
   return (
-    <section className="py-20 bg-background">
+    <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             The Problems We Solve
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             These challenges are costing you time, money, and growth opportunities every single day
           </p>
         </div>
@@ -38,17 +38,17 @@ const PainPointCards = ({ painPoints, variant = "construction" }: PainPointCards
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <CardContent className="p-8">
-                  <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${iconColor} flex items-center justify-center mb-6`}>
+                  <div className={`w-16 h-16 rounded-full bg-primary ${iconColor} flex items-center justify-center mb-6`}>
                     <Icon className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-card-foreground mb-4">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">
                     {painPoint.title}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed mb-4">
+                  <p className="text-gray-600 leading-relaxed mb-4">
                     {painPoint.description}
                   </p>
                   {painPoint.expandedDescription && (
-                    <p className="text-muted-foreground text-sm leading-relaxed opacity-80">
+                    <p className="text-gray-600 text-sm leading-relaxed opacity-80">
                       {painPoint.expandedDescription}
                     </p>
                   )}

@@ -125,14 +125,14 @@ const Contact = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="bg-white">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 animate-slide-up">
             Get In{" "}
-            <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
+            <span className="bg-primary bg-clip-text text-transparent">
               Touch
             </span>
           </h1>
@@ -246,7 +246,7 @@ const Contact = () => {
               <Button 
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-interactive-primary to-interactive-accent hover:from-interactive-primary-hover hover:to-interactive-accent-hover text-lg py-6 disabled:opacity-50"
+                className="w-full bg-primary hover:bg-primary/90 text-lg py-6 disabled:opacity-50"
               >
                 {isSubmitting ? "Sending..." : "Send Message"}
               </Button>
@@ -264,18 +264,18 @@ const Contact = () => {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
                     <Mail className="h-6 w-6 text-white" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-500 text-lg">Email Us</h3>
-                    <p className="text-blue-600 font-medium text-base">info@flowmatrixai.com</p>
+                    <p className="text-primary font-medium text-base">info@flowmatrixai.com</p>
                     <p className="text-gray-600 text-sm mt-1">We respond within 24 hours</p>
                   </div>
                 </div>
                 
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
                     <Phone className="h-6 w-6 text-white" />
                   </div>
                   <div>
@@ -286,7 +286,7 @@ const Contact = () => {
                 </div>
                 
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center">
                     <Clock className="h-6 w-6 text-white" />
                   </div>
                   <div>
@@ -299,10 +299,10 @@ const Contact = () => {
             </Card>
 
             {/* Calendar Booking */}
-            <Card className="shadow-lg border-0 bg-gradient-to-r from-interactive-primary to-interactive-accent text-white">
+            <Card className="shadow-lg border-0 bg-primary text-white">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold">Book a Discovery Call</CardTitle>
-                <CardDescription className="text-blue-100">
+                <CardDescription className="text-gray-100">
                   Schedule a free 30-minute consultation to discuss your automation needs.
                 </CardDescription>
               </CardHeader>
@@ -331,7 +331,7 @@ const Contact = () => {
                 </div>
                 <Button 
                   onClick={openCalendly}
-                  className="w-full mt-6 bg-white text-blue-600 hover:bg-gray-100 font-semibold py-3"
+                  className="w-full mt-6 bg-white text-primary hover:bg-gray-100 font-semibold py-3"
                 >
                   Schedule Your Call
                 </Button>
@@ -339,57 +339,25 @@ const Contact = () => {
             </Card>
 
             {/* FAQ */}
-            <Card className="shadow-lg border-0 bg-gradient-to-br from-gray-800 to-gray-900">
+            <Card className="shadow-lg border-0 bg-primary">
               <CardHeader>
                 <CardTitle className="text-xl font-bold text-white">Quick Questions?</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
                   <h4 className="font-semibold text-white mb-1">How quickly can you implement automation?</h4>
-                  <p className="text-sm text-gray-300">Most projects are completed within 1-2 weeks, depending on complexity.</p>
+                  <p className="text-sm text-white">Most projects are completed within 1-2 weeks, depending on complexity.</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-white mb-1">Do you offer ongoing support?</h4>
-                  <p className="text-sm text-gray-300">Yes, all our plans include ongoing support and maintenance.</p>
+                  <p className="text-sm text-white">Yes, all our plans include ongoing support and maintenance.</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-white mb-1">Can you integrate with our existing tools?</h4>
-                  <p className="text-sm text-gray-300">Absolutely! We specialize in integrating with popular business tools and platforms.</p>
+                  <p className="text-sm text-white">Absolutely! We specialize in integrating with popular business tools and platforms.</p>
                 </div>
               </CardContent>
             </Card>
-          </div>
-        </div>
-
-        {/* Alternative Contact Methods */}
-        <div className="bg-white rounded-2xl p-8 shadow-lg">
-          <h2 className="text-2xl font-bold text-center text-gray-900 mb-8">
-            Prefer a Different Approach?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">💬</span>
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Live Chat</h3>
-              <p className="text-gray-600 text-sm">Chat with our team in real-time during business hours</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">📱</span>
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-2">WhatsApp</h3>
-              <p className="text-gray-600 text-sm">Message us on WhatsApp for quick questions</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">📧</span>
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-2">
-                <Link to="/newsletter" className="hover:text-blue-600 underline">Newsletter</Link>
-              </h3>
-              <p className="text-gray-600 text-sm">Subscribe to our weekly automation insights for Toronto businesses</p>
-            </div>
           </div>
         </div>
       </div>

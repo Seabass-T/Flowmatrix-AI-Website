@@ -82,14 +82,14 @@ const About = () => {
         </script>
       </Helmet>
       
-      <div className="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+      <div className="bg-white min-h-screen">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 animate-slide-up">
-            <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
+            <span className="bg-primary bg-clip-text text-transparent">
               FlowMatrix AI
             </span> – Automation for Trade, Real Estate & Home Improvement Businesses in Toronto & the GTA
           </h1>
@@ -100,7 +100,7 @@ const About = () => {
           <Button 
             onClick={openCalendly}
             size="lg" 
-            className="bg-gradient-to-r from-interactive-primary to-interactive-accent hover:from-interactive-primary-hover hover:to-interactive-accent-hover text-lg px-8 py-6 animate-fade-in shadow-xl"
+            className="bg-primary hover:bg-primary/90 text-lg px-8 py-6 animate-fade-in shadow-xl"
           >
             Book Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
@@ -127,7 +127,7 @@ const About = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <Clock className="h-8 w-8 text-white" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Time Back in Your Week</h3>
@@ -137,7 +137,7 @@ const About = () => {
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <BarChart3 className="h-8 w-8 text-white" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">ROI You Can Measure</h3>
@@ -147,7 +147,7 @@ const About = () => {
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <FileText className="h-8 w-8 text-white" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Audit You Value</h3>
@@ -159,13 +159,13 @@ const About = () => {
         </div>
 
         {/* How It Works - Audit Process */}
-        <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-8 lg:p-12 text-white mb-16">
+        <div className="bg-white rounded-2xl p-8 lg:p-12 text-white mb-16">
           <h2 className="text-3xl font-bold text-center mb-12">Our Audit Process</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="bg-white/10 border-white/20 text-white">
+            <Card className="bg-gray-50 border-gray-200">
               <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4">
                   <MessageSquare className="h-8 w-8 text-white" />
                 </div>
                 <CardTitle className="text-xl text-white">Free Consultation</CardTitle>
@@ -177,9 +177,9 @@ const About = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-white/10 border-white/20 text-white">
+            <Card className="bg-gray-50 border-gray-200">
               <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4">
                   <FileText className="h-8 w-8 text-white" />
                 </div>
                 <CardTitle className="text-xl text-white">Audit Delivery</CardTitle>
@@ -191,9 +191,9 @@ const About = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-white/10 border-white/20 text-white">
+            <Card className="bg-gray-50 border-gray-200">
               <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4">
                   <Settings className="h-8 w-8 text-white" />
                 </div>
                 <CardTitle className="text-xl text-white">Automation Partnership</CardTitle>
@@ -205,9 +205,9 @@ const About = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-white/10 border-white/20 text-white">
+            <Card className="bg-gray-50 border-gray-200">
               <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4">
                   <TrendingUp className="h-8 w-8 text-white" />
                 </div>
                 <CardTitle className="text-xl text-white">Scale & Support</CardTitle>
@@ -222,13 +222,13 @@ const About = () => {
         </div>
 
         {/* Newsletter CTA Section */}
-        <section className="py-16 bg-gradient-to-r from-blue-50 to-indigo-50 mb-16">
+        <section className="py-16 bg-white mb-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Stay Informed</h2>
             <p className="text-xl text-gray-600 mb-6">
               Get weekly insights on AI automation trends, case studies, and implementation strategies specifically for Toronto businesses.
             </p>
-            <Link to="/newsletter" className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+            <Link to="/newsletter" className="inline-flex items-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary transition-colors">
               Read Our Weekly Newsletter
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
@@ -242,7 +242,7 @@ const About = () => {
           </h2>
           
           <div className="max-w-4xl mx-auto text-center mb-8">
-            <div className="w-32 h-32 bg-gradient-to-r from-interactive-primary to-interactive-accent rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="w-32 h-32 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
               <Users className="h-16 w-16 text-white" />
             </div>
             <h3 className="text-2xl font-semibold text-gray-900 mb-6">FlowMatrix AI Founding Team</h3>
@@ -250,8 +250,8 @@ const About = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <div className="text-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Award className="h-6 w-6 text-blue-600" />
+              <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <Award className="h-6 w-6 text-primary" />
               </div>
               <p className="text-gray-600">
                 Decade of experience automating HVAC and real estate workflows in Toronto.
@@ -266,10 +266,11 @@ const About = () => {
                 Certified member of Ontario Property Management & Construction networks.
               </p>
             </div>
-            
+
+
             <div className="text-center">
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <MapPin className="h-6 w-6 text-purple-600" />
+              <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <MapPin className="h-6 w-6 text-primary" />
               </div>
               <p className="text-gray-600">
                 We live in Toronto and serve only Toronto–GTA clients.
@@ -279,7 +280,7 @@ const About = () => {
         </div>
 
         {/* Micro-Case Snapshots */}
-        <div className="bg-gradient-to-br from-slate-100 to-blue-100 rounded-2xl p-8 lg:p-12 mb-16">
+        <div className="bg-white rounded-2xl p-8 lg:p-12 mb-16">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
             Real Results for Toronto & GTA Businesses
           </h2>
@@ -288,7 +289,7 @@ const About = () => {
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle className="text-xl text-white">Trade Business Success</CardTitle>
-                <div className="text-3xl font-bold text-blue-600">15+ hrs/week saved</div>
+                <div className="text-3xl font-bold text-primary">15+ hrs/week saved</div>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-gray-200">
@@ -300,7 +301,7 @@ const About = () => {
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle className="text-xl text-white">Real Estate Automation</CardTitle>
-                <div className="text-3xl font-bold text-green-600">60-agent efficiency</div>
+                <div className="text-3xl font-bold text-primary">60-agent efficiency</div>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-gray-200">
@@ -312,7 +313,7 @@ const About = () => {
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle className="text-xl text-white">Home Improvement ROI</CardTitle>
-                <div className="text-3xl font-bold text-purple-600">80% time reduction</div>
+                <div className="text-3xl font-bold text-primary">80% time reduction</div>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-gray-200">
@@ -368,24 +369,24 @@ const About = () => {
         </div>
 
         {/* Final CTA Section */}
-        <div className="bg-gradient-to-r from-interactive-primary to-interactive-accent rounded-2xl p-8 lg:p-12 text-white text-center">
+        <div className="bg-primary rounded-2xl p-8 lg:p-12 text-white text-center">
           <h2 className="text-3xl font-bold mb-6">Ready to Automate Your Business?</h2>
-          <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-gray-100 max-w-3xl mx-auto mb-8">
             Schedule your Free Consultation today and discover how AI automation can transform your Toronto or GTA trade, real estate, or home improvement business.
           </p>
           
           <div className="space-y-4">
-            <Button 
+            <Button
               onClick={openCalendly}
-              size="lg" 
+              size="lg"
               variant="secondary"
-              className="bg-white text-interactive-primary hover:bg-gray-100 text-lg px-8 py-6 font-semibold"
+              className="bg-white text-primary hover:bg-gray-100 text-lg px-8 py-6 font-semibold"
             >
               Book Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            
-            <div className="flex flex-wrap justify-center gap-4 text-sm text-blue-100">
-              <Link to="/use-cases" className="hover:text-white underline">View Use Cases</Link>
+
+            <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-100">
+              <Link to="/solutions" className="hover:text-white underline">View Solutions</Link>
               <Link to="/pricing" className="hover:text-white underline">Audit Pricing</Link>
               <a 
                 href="https://business.google.com/dashboard/l/03209622293129830584" 

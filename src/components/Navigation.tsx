@@ -70,7 +70,7 @@ const Navigation = () => {
                 alt="FlowMatrix AI" 
                 className="h-10 w-10 object-contain"
               />
-              <span className="text-2xl font-bold text-blue-600">
+              <span className="text-2xl font-bold text-primary">
                 FlowMatrix AI
               </span>
             </Link>
@@ -79,62 +79,56 @@ const Navigation = () => {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               <Link to="/" className={`px-3 py-2 text-sm font-medium transition-colors ${
-                isActiveRoute('/') 
-                  ? 'text-blue-600 bg-blue-50 rounded-md' 
-                  : 'text-gray-700 hover:text-blue-600'
+                isActiveRoute('/')
+                  ? 'text-primary bg-gray-50 rounded-md'
+                  : 'text-gray-700 hover:text-primary'
               }`}>
                 Home
               </Link>
               <Link to="/pricing" className={`px-3 py-2 text-sm font-medium transition-colors ${
-                isActiveRoute('/pricing') 
-                  ? 'text-blue-600 bg-blue-50 rounded-md' 
-                  : 'text-gray-700 hover:text-blue-600'
+                isActiveRoute('/pricing')
+                  ? 'text-primary bg-gray-50 rounded-md'
+                  : 'text-gray-700 hover:text-primary'
               }`}>
                 Pricing
               </Link>
-              <Link to="/use-cases" className={`px-3 py-2 text-sm font-medium transition-colors ${
-                isActiveRoute('/use-cases') 
-                  ? 'text-blue-600 bg-blue-50 rounded-md' 
-                  : 'text-gray-700 hover:text-blue-600'
+              <Link to="/solutions" className={`px-3 py-2 text-sm font-medium transition-colors ${
+                isActiveRoute('/solutions')
+                  ? 'text-primary bg-gray-50 rounded-md'
+                  : 'text-gray-700 hover:text-primary'
               }`}>
-                Use Cases
+                Solutions
               </Link>
-              <Link to="/newsletter" className={`px-3 py-2 text-sm font-medium transition-colors ${
-                isActiveRoute('/newsletter') 
-                  ? 'text-blue-600 bg-blue-50 rounded-md' 
-                  : 'text-gray-700 hover:text-blue-600'
+              <Link to="/results" className={`px-3 py-2 text-sm font-medium transition-colors ${
+                isActiveRoute('/results')
+                  ? 'text-primary bg-gray-50 rounded-md'
+                  : 'text-gray-700 hover:text-primary'
               }`}>
-                Newsletter
+                Results
               </Link>
               <Link to="/about" className={`px-3 py-2 text-sm font-medium transition-colors ${
-                isActiveRoute('/about') 
-                  ? 'text-blue-600 bg-blue-50 rounded-md' 
-                  : 'text-gray-700 hover:text-blue-600'
+                isActiveRoute('/about')
+                  ? 'text-primary bg-gray-50 rounded-md'
+                  : 'text-gray-700 hover:text-primary'
               }`}>
                 About
-              </Link>
-              <Link to="/contact" className={`px-3 py-2 text-sm font-medium transition-colors ${
-                isActiveRoute('/contact') 
-                  ? 'text-blue-600 bg-blue-50 rounded-md' 
-                  : 'text-gray-700 hover:text-blue-600'
-              }`}>
-                Contact
               </Link>
             </div>
           </div>
 
           <div className="hidden md:block">
-            <Link to="/contact">
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                Get Your Free Automation Audit
-              </Button>
-            </Link>
+            <Button
+              onClick={() => window.open('https://tally.so/r/wMBOXE', '_blank')}
+              className="bg-primary hover:bg-primary/90 text-white transition-colors"
+            >
+              Get Started
+            </Button>
           </div>
 
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 hover:text-blue-600 p-2"
+              className="text-gray-700 hover:text-primary p-2"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -146,53 +140,47 @@ const Navigation = () => {
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
             <Link to="/" className={`block px-3 py-2 text-base font-medium ${
-              isActiveRoute('/') 
-                ? 'text-blue-600 bg-blue-50 rounded-md' 
-                : 'text-gray-700 hover:text-blue-600'
+              isActiveRoute('/')
+                ? 'text-primary bg-gray-50 rounded-md'
+                : 'text-gray-700 hover:text-primary'
             }`}>
               Home
             </Link>
             <Link to="/pricing" className={`block px-3 py-2 text-base font-medium ${
-              isActiveRoute('/pricing') 
-                ? 'text-blue-600 bg-blue-50 rounded-md' 
-                : 'text-gray-700 hover:text-blue-600'
+              isActiveRoute('/pricing')
+                ? 'text-primary bg-gray-50 rounded-md'
+                : 'text-gray-700 hover:text-primary'
             }`}>
               Pricing
             </Link>
-            <Link to="/use-cases" className={`block px-3 py-2 text-base font-medium ${
-              isActiveRoute('/use-cases') 
-                ? 'text-blue-600 bg-blue-50 rounded-md' 
-                : 'text-gray-700 hover:text-blue-600'
+            <Link to="/solutions" className={`block px-3 py-2 text-base font-medium ${
+              isActiveRoute('/solutions')
+                ? 'text-primary bg-gray-50 rounded-md'
+                : 'text-gray-700 hover:text-primary'
             }`}>
-              Use Cases
+              Solutions
             </Link>
-            <Link to="/newsletter" className={`block px-3 py-2 text-base font-medium ${
-              isActiveRoute('/newsletter') 
-                ? 'text-blue-600 bg-blue-50 rounded-md' 
-                : 'text-gray-700 hover:text-blue-600'
+            <Link to="/results" className={`block px-3 py-2 text-base font-medium ${
+              isActiveRoute('/results')
+                ? 'text-primary bg-gray-50 rounded-md'
+                : 'text-gray-700 hover:text-primary'
             }`}>
-              Newsletter
+              Results
             </Link>
             <Link to="/about" className={`block px-3 py-2 text-base font-medium ${
-              isActiveRoute('/about') 
-                ? 'text-blue-600 bg-blue-50 rounded-md' 
-                : 'text-gray-700 hover:text-blue-600'
+              isActiveRoute('/about')
+                ? 'text-primary bg-gray-50 rounded-md'
+                : 'text-gray-700 hover:text-primary'
             }`}>
               About
             </Link>
-            <Link to="/contact" className={`block px-3 py-2 text-base font-medium ${
-              isActiveRoute('/contact') 
-                ? 'text-blue-600 bg-blue-50 rounded-md' 
-                : 'text-gray-700 hover:text-blue-600'
-            }`}>
-              Contact
-            </Link>
             <div className="px-3 py-2">
-              <Link to="/contact">
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                  Get Your Free Automation Audit
-                </Button>
-              </Link>
+              <Button
+                onClick={() => window.open('https://tally.so/r/wMBOXE', '_blank')}
+                className="w-full bg-primary hover:bg-primary/90 text-white transition-colors"
+              >
+                Get Started
+              </Button>
             </div>
           </div>
         </div>

@@ -114,7 +114,7 @@ const Newsletter = () => {
   if (issueId) {
     if (loading) {
       return (
-        <div className="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+        <div className="bg-white min-h-screen">
           <Navigation />
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <div className="animate-pulse">
@@ -129,10 +129,10 @@ const Newsletter = () => {
 
     if (!currentNewsletter) {
       return (
-        <div className="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+        <div className="bg-white min-h-screen">
           <Navigation />
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <Link to="/newsletter" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8">
+            <Link to="/newsletter" className="inline-flex items-center text-primary hover:text-primary mb-8">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Newsletter Archive
             </Link>
@@ -150,10 +150,10 @@ const Newsletter = () => {
     const { content_markdown: content, title } = currentNewsletter;
 
     return (
-      <div className="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+      <div className="bg-white min-h-screen">
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <Link to="/newsletter" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8">
+          <Link to="/newsletter" className="inline-flex items-center text-primary hover:text-primary mb-8">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Newsletter Archive
           </Link>
@@ -166,7 +166,7 @@ const Newsletter = () => {
                   alt="FlowMatrix AI" 
                   className="h-12 w-12 object-contain mr-3"
                 />
-                <span className="text-2xl font-bold bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
+                <span className="text-2xl font-bold bg-primary bg-clip-text text-transparent">
                   FlowMatrix AI
                 </span>
               </div>
@@ -273,7 +273,7 @@ const Newsletter = () => {
 
   // Newsletter archive view
   return (
-    <div className="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+    <div className="bg-white min-h-screen">
       <Navigation />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -282,7 +282,7 @@ const Newsletter = () => {
           <select 
             value={selectedNewsletterId || ""}
             onChange={handleDropdownChange}
-            className="px-6 py-3 bg-white border-2 border-gray-200 rounded-xl shadow-lg text-base font-semibold text-gray-800 hover:border-blue-300 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+            className="px-6 py-3 bg-white border-2 border-gray-200 rounded-xl shadow-lg text-base font-semibold text-gray-800 hover:border-gray-300 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           >
             <option value="">Latest Issue</option>
             {newsletters.slice(1).map((newsletter) => (
@@ -301,7 +301,7 @@ const Newsletter = () => {
               className="h-16 w-16 object-contain mr-4"
             />
             <h1 className="text-4xl md:text-5xl font-bold animate-slide-up">
-              <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
+              <span className="bg-primary bg-clip-text text-transparent">
                 The Matrix
               </span>{" "}
               <span className="text-gray-900">- Weekly AI Newsletter for Toronto Businesses</span>
@@ -326,7 +326,7 @@ const Newsletter = () => {
                   <p className="text-sm text-gray-500 mb-6">
                     Once your n8n workflow adds content to the final_newsletters table, it will appear here.
                   </p>
-                  <Button onClick={fetchNewsletters} className="bg-gradient-to-r from-interactive-primary to-interactive-accent">
+                  <Button onClick={fetchNewsletters} className="bg-primary">
                     Check for Updates
                   </Button>
                 </CardContent>
@@ -501,11 +501,11 @@ const Newsletter = () => {
           </div>
 
           {/* What You'll Learn Section */}
-          <div className="max-w-4xl mx-auto mb-12 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8">
+          <div className="max-w-4xl mx-auto mb-12 bg-white rounded-xl p-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">What You'll Learn Each Week</h2>
             <div className="grid md:grid-cols-3 gap-6">
               <div className="text-center">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-white font-bold">AI</span>
                 </div>
                 <h4 className="font-semibold text-gray-800 mb-2">AI Tool Reviews</h4>
@@ -540,7 +540,7 @@ const Newsletter = () => {
           {/* Join The Matrix Section */}
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
-              <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
+              <span className="bg-primary bg-clip-text text-transparent">
                 Join The Matrix
               </span>
             </h2>

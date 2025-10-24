@@ -9,9 +9,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - No "Co-Authored-By: Claude" attributions
 - Keep all commit messages clean and professional without AI tool references
 
+---
+
 ## Project Overview
 
-FlowMatrix AI is a React + TypeScript website built with Vite, showcasing AI automation solutions. The site uses shadcn/ui components with Tailwind CSS and integrates with Supabase for backend services.
+FlowMatrix AI is a React + TypeScript website built with Vite, showcasing AI automation solutions for North American construction and trade businesses. The site uses shadcn/ui components with Tailwind CSS and integrates with Supabase for backend services.
+
+**Business Model:** Low-friction onboarding with 5-step process, 2 decision points, and transparent pricing ($300 audit, $2-5K/month retainer).
+
+**Design Philosophy:** Clean, minimal white/black design with ONE accent color (green: text-green-600). No gradients, no purple, no em dashes, simple and professional.
+
+**Status:** ✅ Homepage rebuild complete (Oct 23, 2025)
+
+---
 
 ## Development Commands
 
@@ -35,9 +45,37 @@ npm run lint
 npm preview
 ```
 
-## Architecture
+---
 
-### Tech Stack
+## PRD Reference
+
+**Location:** `/PRD.md` (Version 2.0)
+
+The PRD is the **single source of truth** for:
+- Business model & pricing structure
+- Site architecture changes
+- Design system specifications
+- Page-by-page requirements
+- Implementation priorities
+
+**Always reference PRD.md when:**
+- Planning new features
+- Making architectural changes
+- Understanding business logic
+- Implementing design updates
+- Prioritizing tasks
+
+**Key PRD Sections:**
+- Section 2: Business Model (5-step process, 2 decision points)
+- Section 3: Site Architecture (navigation, routes, page inventory)
+- Section 4: Design System (color palette, removal of gradients)
+- Section 5: Page-by-Page Requirements (detailed specs for each page)
+- Section 8: Implementation Checklist (Phase 1 pre-launch tasks)
+
+---
+
+## Tech Stack
+
 - **Framework**: React 18 with TypeScript
 - **Build Tool**: Vite with SWC for fast compilation
 - **UI Library**: shadcn/ui (Radix UI primitives)
@@ -45,442 +83,506 @@ npm preview
 - **Routing**: React Router v6
 - **Data Fetching**: TanStack Query (React Query)
 - **Backend**: Supabase (authentication, database)
-- **Form Handling**: React Hook Form with Zod validation
+- **Form Handling**: React Hook Form + Zod validation
+- **Lead Capture**: Tally.io forms (https://tally.so/r/wMBOXE)
 
-### Project Structure
+---
+
+## Business Model (Quick Reference)
+
+### 5-Step Process
+
+```
+STEP 1: Intake Form (Tally) → FREE
+STEP 2: 5-Day Free Diagnostic → FREE
+STEP 3: 30-Min Discovery Call → FREE
+  ↓
+🔶 DECISION POINT #1: Continue with audit?
+  ↓
+STEP 4: 2-Week Deep Audit → $300 (100% satisfaction guarantee)
+  ↓
+🔶 DECISION POINT #2: Start retainer?
+  ↓
+STEP 5: Monthly Retainer → $2-5K/month (custom pricing)
+```
+
+### Key Messaging
+- "We're confident in our value"
+- "Two decision points, zero risk"
+- "100% satisfaction guarantee"
+- "Walk away at any time"
+
+---
+
+## Site Architecture
+
+### Current Navigation Structure (TO BE UPDATED - See PRD Section 3)
+
+**BEFORE (Old - Phase 1/2):**
+```
+Main Nav: Home | Pricing | Use Cases | Newsletter | About | Contact
+CTA: "Get Your Free Automation Audit" → /contact
+```
+
+**AFTER (New - PRD v2.0):**
+```
+Main Nav: Home | Pricing | Solutions | About
+CTA: "Get Started" → Tally Form (https://tally.so/r/wMBOXE)
+Footer Only: Contact | Newsletter
+```
+
+### Page Inventory
+
+| Page | Status | Action |
+|------|--------|--------|
+| Home (`/`) | ✅ Keep | Major updates needed |
+| Pricing (`/pricing`) | ✅ Keep | Complete rewrite needed |
+| **Use Cases** (`/use-cases`) | ❌ DELETE | Replace with Solutions |
+| **Solutions** (`/solutions`) | ✅ CREATE NEW | Simple gallery with case studies |
+| Newsletter (`/newsletter`) | ✅ Keep | Move to footer link only |
+| About (`/about`) | ✅ Keep | Add credibility elements |
+| Contact (`/contact`) | ✅ Keep | Move to footer link only |
+| Terms (`/terms`) | ✅ Keep | No changes |
+| Privacy (`/privacy`) | ✅ Keep | No changes |
+
+### Routes in `src/App.tsx`
+
+**TO REMOVE:**
+```tsx
+<Route path="/use-cases" element={<UseCases />} />
+<Route path="/use-cases/:category" element={<UseCaseCategory />} />
+<Route path="/construction" element={<Construction />} />
+<Route path="/home-service" element={<HomeService />} />
+```
+
+**TO ADD:**
+```tsx
+<Route path="/solutions" element={<Solutions />} />
+```
+
+**IMPORTANT:** Always add new routes ABOVE the catch-all `*` route.
+
+---
+
+## Design System
+
+### New Color Palette (PRD v2.0)
+
+**SIMPLIFIED - Only 2 colors:**
+
+```css
+:root {
+  /* Core Colors */
+  --background: #FFFFFF;        /* Pure white everywhere */
+  --text-primary: #000000;      /* Black text */
+  --text-secondary: #666666;    /* Gray for secondary text */
+
+  /* Accent Color (CHOOSE ONE - see PRD Section 14) */
+  /* Option A: Dark Blue */
+  --accent: #1e40af;            /* Blue-800 */
+  --accent-hover: #1e3a8a;      /* Blue-900 */
+
+  /* Option B: Dark Green */
+  --accent: #065f46;            /* Emerald-800 */
+  --accent-hover: #064e3b;      /* Emerald-900 */
+}
+```
+
+### Design Rules
+
+1. **Background**: White (#FFFFFF) on ALL pages
+2. **Text**: Black (#000000) for body, #666666 for secondary
+3. **Accent**: ONLY for CTA buttons and icons
+4. **NO gradients** anywhere
+5. **NO colored backgrounds** (except accent on buttons)
+6. **NO purple** (completely removed)
+
+### Files to Update for Design System
+
+1. **`src/index.css`**
+   - Remove ALL gradient utilities
+   - Remove `interactive-*`, `voice-*`, `surface-*` variables
+   - Keep only: `--background`, `--text-primary`, `--text-secondary`, `--accent`, `--accent-hover`
+
+2. **`tailwind.config.ts`**
+   - Simplify to: white, black, gray, accent
+   - Remove custom gradient definitions
+
+3. **All Component Files:**
+   - Replace `bg-gradient-to-r from-blue-600 to-purple-600` → `bg-accent`
+   - Replace `hover:from-blue-700 hover:to-purple-700` → `hover:bg-accent-hover`
+   - Remove `bg-blue-50`, `bg-purple-50`, `bg-gradient-*`
+   - Use `bg-white` or `bg-gray-50` instead
+
+---
+
+## Project Structure
 
 ```
 src/
-├── components/           # Shared components
-│   ├── ui/              # shadcn/ui components (51 components)
-│   ├── homepage/        # Homepage-specific components (NEW)
+├── components/
+│   ├── ui/                    # shadcn/ui components (DON'T EDIT)
+│   ├── homepage/              # Homepage-specific (PHASE 1/2 - May be deleted)
 │   │   ├── ICPToggle.tsx
 │   │   ├── HeroWithICP.tsx
 │   │   ├── ICPPainPointSection.tsx
+│   │   ├── OfferFunnelGraphic.tsx
+│   │   ├── LeadMagnetModal.tsx
+│   │   ├── FounderBadge.tsx
 │   │   ├── ProofCard.tsx
 │   │   └── ProofSection.tsx
-│   ├── landing-pages/   # Reusable landing page components (NEW)
+│   ├── shared/                # Shared components
+│   │   ├── GuaranteeBadge.tsx
+│   │   └── TrustBadges.tsx
+│   ├── landing-pages/         # Reusable (PHASE 1/2 - May be deleted)
 │   │   ├── LandingPageHero.tsx
 │   │   ├── PainPointCards.tsx
 │   │   └── OfferFunnel.tsx
-│   ├── AnimatedFeatures.tsx
-│   ├── Footer.tsx
+│   ├── SolutionCard.tsx       # NEW - To be created
+│   ├── NewsletterSignupInline.tsx  # NEW - To be created
+│   ├── DecisionPointCallout.tsx    # NEW - To be created
 │   ├── Navigation.tsx
+│   ├── Footer.tsx
 │   └── NewsletterSignup.tsx
-├── pages/               # Route pages
-│   ├── use-cases/      # Use case category pages (8 pages)
-│   ├── Construction.tsx  # Construction ICP landing page (NEW)
-│   ├── HomeService.tsx   # Home Service ICP landing page (NEW)
-│   └── [other pages]   # Main pages (Index, About, Contact, etc.)
+├── pages/
+│   ├── use-cases/             # TO DELETE (8 files)
+│   ├── Solutions.tsx          # NEW - To be created
+│   ├── Construction.tsx       # TO DELETE
+│   ├── HomeService.tsx        # TO DELETE
+│   ├── Index.tsx              # Major updates needed
+│   ├── Pricing.tsx            # Complete rewrite needed
+│   ├── About.tsx              # Add credibility
+│   ├── Contact.tsx            # Keep, footer only
+│   ├── Newsletter.tsx         # Keep, footer only
+│   ├── Terms.tsx
+│   └── Privacy.tsx
 ├── integrations/
-│   └── supabase/       # Supabase client and types
-├── hooks/              # Custom React hooks
-├── lib/                # Utility functions
-└── utils/              # Additional utilities
+│   └── supabase/
+├── hooks/
+├── lib/
+└── utils/
 ```
 
-### Design System
+---
 
-The project uses a comprehensive custom design system defined in `src/index.css` and `tailwind.config.ts`:
+## Component Conventions
 
-- **Color System**: All colors defined as HSL values in CSS variables
-- **Custom Color Palettes**:
-  - `interactive-*`: Primary, secondary, and accent interactive colors with hover states
-  - `surface-*`: Light, medium, dark, darker surface colors
-  - `voice-*`: Voice interface specific colors with glow effects
-  - `sidebar-*`: Sidebar component colors
-- **Custom Animations**: float, fade-in, scale-in, slide-up, glow, pulse-glow
-- **Gradients**: Pre-defined gradient utilities for voice and interactive elements
-
-### Routing Architecture
-
-Routes are centrally managed in `src/App.tsx`. The application uses:
-- Main pages: /, /pricing, /use-cases, /newsletter, /about, /contact, /terms, /privacy
-- Use case category routes: /use-cases/[category]
-- **ICP Landing Pages** (NEW):
-  - /construction - Construction contractors landing page
-  - /home-service - Home service providers landing page
-- Catch-all 404 route at the end
-
-**IMPORTANT**: When adding new routes, add them ABOVE the catch-all `*` route in App.tsx.
-
-### Supabase Integration
-
-- Client configured in `src/integrations/supabase/client.ts`
-- Auto-generated types in `src/integrations/supabase/types.ts`
-- Authentication configured with localStorage persistence and auto-refresh tokens
-- Backend functions in `supabase/functions/`
-- Database migrations in `supabase/migrations/`
-
-### Component Conventions
-
-1. **shadcn/ui components** are in `src/components/ui/` and should not be manually edited (they're auto-generated)
-2. **Custom components** go directly in `src/components/` or in organized subdirectories:
-   - `src/components/homepage/` - Homepage-specific components
-   - `src/components/landing-pages/` - Reusable landing page components
-3. **Page components** go in `src/pages/` with nested directories for categories
-4. All components use the `@/` import alias (e.g., `@/components`, `@/lib`)
-5. **Reusable components** should accept props to customize behavior for different use cases (see LandingPageHero, PainPointCards, OfferFunnel)
+1. **shadcn/ui components** (`src/components/ui/`) - DON'T EDIT (auto-generated)
+2. **Custom components** - Place in `src/components/` or organized subdirectories
+3. **Page components** - `src/pages/` with nested dirs for categories
+4. **Path aliases** - Always use `@/` imports (e.g., `@/components`, `@/lib`)
+5. **Reusable components** - Accept props for customization
 
 ### Path Aliases
 
-Configured in `vite.config.ts` and `components.json`:
 - `@/` → `./src/`
 - `@/components` → `./src/components`
 - `@/ui` → `./src/components/ui`
 - `@/lib` → `./src/lib`
 - `@/hooks` → `./src/hooks`
 
-### SEO & Meta
+---
 
-The application uses:
-- `react-helmet` for dynamic meta tags
-- Structured data (JSON-LD) for WebSite + SearchAction schema
-- Individual pages should implement their own Helmet configurations
+## Key Changes from Phase 1/2 → PRD v2.0
 
-## Adding shadcn/ui Components
+### What's Being REMOVED
 
-This project uses shadcn/ui components. To add new ones, refer to the shadcn/ui documentation. The `components.json` config file defines the component installation settings.
+- ❌ All purple/gradient color schemes
+- ❌ 8 detailed use case pages (`/use-cases/[category]`)
+- ❌ ICP landing pages (`/construction`, `/home-service`)
+- ❌ ICP toggle on homepage
+- ❌ CONVOCORE voice agent (parking lot)
+- ❌ Newsletter from main nav
+- ❌ Contact from main nav
+- ❌ Toronto/GTA geographic restrictions
+- ❌ "Free Audit" CTAs
+- ❌ Watermarked iStock images
 
-## Styling Guidelines
+### What's Being ADDED
 
-1. Use Tailwind utility classes for styling
-2. Reference design system colors via CSS variables (e.g., `hsl(var(--interactive-primary))`)
-3. Use custom animations: `animate-float`, `animate-fade-in`, `animate-scale-in`, `animate-slide-up`, `animate-glow`, `animate-pulse-glow`
-4. Use custom gradient utilities: `bg-voice-gradient`, `bg-voice-gradient-hover`
-5. All custom colors must be defined as HSL values in the design system
-
-## Important Notes
-
-- The development server runs on port 8080 with IPv6 support (`::`)
-- The project uses SWC instead of Babel for faster builds
-- TypeScript strict mode is enabled
-- Multiple tsconfig files: `tsconfig.json` (base), `tsconfig.app.json` (app), `tsconfig.node.json` (build tools)
-- on all pushes to git, never include Claude attrition add this rule to your CLAUDE.md file
-- **The website supports dark mode.** Make sure all color choices contrast their background colors so text is visible:
-  - Use theme-aware CSS variables: `text-foreground`, `text-card-foreground`, `text-muted-foreground`
-  - Add `dark:` variants for sections with colored backgrounds (e.g., `text-gray-900 dark:text-white`)
-  - Never use hardcoded colors like `text-gray-900` alone - always add dark mode variants
-  - Test both light and dark modes for all new components
-
-## Phase 1 Implementation Summary (Completed)
-
-### New Components Created
-
-**Homepage Components** (`src/components/homepage/`):
-- `ICPToggle.tsx` - Tab-style toggle between Construction and Home Service ICPs
-- `HeroWithICP.tsx` - Dynamic hero section that updates based on ICP selection
-- `ICPPainPointSection.tsx` - Reusable section displaying 3 pain points per ICP
-- `ProofCard.tsx` - Individual proof card with gradient background and metrics
-- `ProofSection.tsx` - Container for 3 proof cards showing UBL Group metrics
-
-**Landing Page Components** (`src/components/landing-pages/`):
-- `LandingPageHero.tsx` - Reusable hero for landing pages (no main nav, "Back to Home" link)
-- `PainPointCards.tsx` - Reusable 3-card pain point display with ICP variants
-- `OfferFunnel.tsx` - 4-step process visualization (horizontal desktop, vertical mobile)
-
-**New Pages** (`src/pages/`):
-- `Construction.tsx` - Full landing page for construction contractors
-- `HomeService.tsx` - Full landing page for home service providers (HVAC, plumbing, electrical)
-
-### Key Patterns Established
-
-1. **ICP Segmentation**: Homepage allows users to toggle between two target personas (Construction vs Home Service)
-2. **Component Reusability**: Landing page components accept props for ICP-specific customization
-3. **Dark Mode Support**: All new components use theme-aware CSS variables and `dark:` variants
-4. **Calendly Integration**: Standardized `openCalendly()` function across all pages using `https://calendly.com/flowmatrixai-info/consultation-call`
-5. **Responsive Design**: All components adapt from 1-col mobile to 2-3 col desktop layouts
-
-### Files Modified
-
-- `src/pages/Index.tsx` - Added ICP toggle, dynamic hero, pain point sections, proof cards
-- `src/App.tsx` - Added routes for `/construction` and `/home-service` above catch-all route
-- Updated Calendly URLs across 8 files: Index, Construction, HomeService, Pricing, UseCases, Contact, About, Navigation
-
-### Next Phase
-
-Phase 2 will add: Hero images, sticky navigation, trust badges, offer funnel graphic, chat widget optimization, and lead magnet modal.
-
-## Sprint 2.2 Implementation: Sticky Navigation (Completed)
-
-### Overview
-Implemented scroll-triggered sticky navigation with smooth background transitions as specified in PRD.md Section 4.6.
-
-### Implementation Details
-
-**Navigation Component** (`src/components/Navigation.tsx`):
-- Added scroll detection using `useState` and `useEffect`
-- 50px scroll threshold triggers background transition
-- Changed from static to `fixed` positioning with `z-50`
-- Conditional styling: transparent background → white + shadow-md
-- Transition duration: 300ms for smooth visual effect
-- Proper event listener cleanup to prevent memory leaks
-
-**Smooth Scroll Behavior** (`src/index.css`):
-- Added `html { scroll-behavior: smooth; }` for anchor link navigation
-- Ensures all navigation links scroll smoothly to sections
-
-**Bug Fix** (`src/components/homepage/HeroWithICP.tsx`):
-- Fixed React warning: Changed `fetchPriority="high"` to `fetchpriority="high"` (line 81)
-- **Important**: HTML attributes must be lowercase, not camelCase
-- This applies to native HTML attributes like `fetchpriority`, not React-specific props
-
-### Testing Procedures
-
-1. **Scroll Testing**:
-   - Scroll down >50px → nav background becomes white with shadow
-   - Scroll up <50px → nav background becomes transparent
-   - Verify smooth 300ms transition
-
-2. **Mobile Compatibility**:
-   - Mobile menu must work with fixed positioning
-   - Menu opens/closes correctly
-   - Background is always solid in mobile menu
-
-3. **Build Testing**:
-   - Run `npm run build` to verify no errors
-   - Check console for React warnings
-   - Verify all pages load correctly
-
-### Performance Impact
-
-- **Minimal**: Event listener added with proper cleanup
-- **FCP/LCP**: No impact (navigation is above-the-fold)
-- **Visual Stability**: Transition improves perceived performance
-- **Mobile**: No additional overhead
-
-### Key Learnings
-
-1. **HTML Attributes vs React Props**:
-   - HTML attributes: lowercase (fetchpriority, class, for)
-   - React props: camelCase (onClick, className, htmlFor)
-   - Native HTML attributes must use lowercase, even in JSX
-
-2. **Fixed vs Sticky Positioning**:
-   - `fixed` provides better control for scroll-triggered styling
-   - Works consistently across all scroll positions
-   - Requires `z-index` management (z-50 in this case)
-
-3. **Event Listener Best Practices**:
-   - Always include cleanup function in useEffect
-   - Return cleanup to prevent memory leaks
-   - Use passive listeners when possible for better performance
-
-### Files Modified in Sprint 2.2
-
-- `src/components/Navigation.tsx` - Added scroll detection and dynamic styling
-- `src/index.css` - Added smooth scroll behavior
-- `src/components/homepage/HeroWithICP.tsx` - Fixed fetchpriority attribute
-- `PRD.md` - Updated Sprint 2.2 status to completed
+- ✅ Clean white/black design with ONE accent color
+- ✅ Tally form integration (https://tally.so/r/wMBOXE)
+- ✅ Simple Solutions gallery (5-7 case studies, scalable)
+- ✅ Clear pricing: $300 audit with 100% guarantee
+- ✅ 2 explicit decision points in process
+- ✅ Founder credibility elements (n8n badge, Colgate, headshot)
+- ✅ North America positioning
+- ✅ Process section with 5 steps
+- ✅ Inline newsletter signups
+- ✅ Contact/Newsletter in footer
 
 ---
 
-## Sprint 2.3 Implementation: Trust Badges (Completed)
+## Content Guidelines
 
-### Overview
-Implemented trust badges system with founder story, pilot guarantee, and footer trust indicators as specified in PRD.md Section 4.7.
+### Global Find & Replace (PRD Section 7.1)
 
-### Components Created
+| Find | Replace |
+|------|---------|
+| `Toronto` | `North America` |
+| `GTA` | `North America` |
+| `Greater Toronto Area` | `North America` |
+| `Get Your Free Automation Audit` | `Get Started` |
+| `Book Free Diagnostic` | `Get Started` |
+| `Pay-what-you-think` | `$300 with 100% satisfaction guarantee` |
 
-**1. FounderBadge.tsx** (`src/components/homepage/FounderBadge.tsx`):
-- Trophy icon with gradient background
-- Features Sebastian Tamburro as founder
-- Mentions D1 Hockey at Colgate University '26
-- Emphasizes solo founder, no middlemen
-- Dark mode compatible
+### Writing Style Rules
 
-**2. GuaranteeBadge.tsx** (`src/components/shared/GuaranteeBadge.tsx`):
-- Shield icon with yellow border
-- Pilot guarantee messaging
-- 50% off or full credit guarantee
-- Dark mode compatible
+**CRITICAL PUNCTUATION RULES:**
+- ❌ **NEVER use em dashes (—)** in copy
+- ✅ Use colons (:) for emphasis or introduction
+- ✅ Use commas (,) for lists or pauses
+- ✅ Use periods (.) to separate complete thoughts
+- ✅ Use "with" or other prepositions instead of em dashes
 
-**3. TrustBadges.tsx** (`src/components/shared/TrustBadges.tsx`):
-- 5 horizontal badges: SSL Secured, NDA Available, Toronto-Based, Colgate '26, Powered by n8n + Supabase
-- Icons from Lucide React: Lock, FileText, MapPin, Award, Code
-- Responsive flex layout
-- Hover effects
+**Examples:**
+- ❌ Bad: `"what matters—growing your business"`
+- ✅ Good: `"what matters: growing your business"`
+- ❌ Bad: `"part ways—zero obligation"`
+- ✅ Good: `"part ways with zero obligation"`
+- ❌ Bad: `"no delays—just immediate action"`
+- ✅ Good: `"no delays, just immediate action"`
 
-### Badge Placements
+### Tone & Voice
 
-- **Homepage**: FounderBadge after ProofSection
-- **Pricing Page**: GuaranteeBadge after pricing cards
-- **Footer**: TrustBadges at top of footer (site-wide)
+**Emphasize:**
+- "We're confident in our value"
+- "Two decision points, zero risk"
+- "100% satisfaction guarantee"
+- "Walk away at any time"
+- "No pressure, no hard selling"
 
-### Files Modified in Sprint 2.3
-
-- `src/components/homepage/FounderBadge.tsx` (NEW)
-- `src/components/shared/GuaranteeBadge.tsx` (NEW)
-- `src/components/shared/TrustBadges.tsx` (NEW)
-- `src/pages/Index.tsx` - Added FounderBadge
-- `src/pages/Pricing.tsx` - Added GuaranteeBadge
-- `src/components/Footer.tsx` - Added TrustBadges
-
----
-
-## Sprint 2.4 Implementation: Offer Funnel Graphic (Completed)
-
-### Overview
-Implemented 4-step process visualization with responsive layout as specified in PRD.md Section 4.8.
-
-### Implementation Details
-
-**OfferFunnelGraphic.tsx** (`src/components/homepage/OfferFunnelGraphic.tsx`):
-- 4 steps with icons: Phone, Zap, Target, TrendingUp
-- Step 01: Free Consultation
-- Step 02: Pay-What-You-Think Audit
-- Step 03: 2-Week Pilot
-- Step 04: Month-to-Month Partnership
-
-**Responsive Layout**:
-- Desktop: Horizontal layout with → arrows between steps
-- Mobile: Vertical layout with ↓ arrows between steps
-- Arrows animate with pulse effect
-
-**Design**:
-- Gradient icon backgrounds (blue variations)
-- Card hover effects (shadow + scale)
-- Step number badges
-- Dark mode support
-
-### Files Modified in Sprint 2.4
-
-- `src/components/homepage/OfferFunnelGraphic.tsx` (NEW)
-- `src/pages/Index.tsx` - Added below hero, before pain points
+**Avoid:**
+- Aggressive sales language
+- Vague promises
+- Over-complicated explanations
+- Corporate jargon
+- Em dashes (use colons, commas, or periods instead)
 
 ---
 
-## Sprint 2.5 Implementation: CONVOCORE Widget Optimization (Completed)
+## Tally Form Integration
 
-### Overview
-Optimized CONVOCORE chat widget with lazy loading triggers as specified in PRD.md Section 4.9.
+**Form URL:** `https://tally.so/r/wMBOXE`
 
-### Implementation Details
+**Preferred Method: Popup Modal**
 
-**Trigger Logic** (`index.html`):
-- Timer trigger: 45 seconds after page load
-- Scroll trigger: 50% of page scrolled
-- Whichever trigger fires FIRST loads the widget
-- Single `triggered` flag prevents duplicate loading
+```typescript
+const openTallyForm = () => {
+  window.Tally?.openPopup('wMBOXE', {
+    layout: 'modal',
+    width: 600,
+    autoClose: 3000,
+  });
+};
+```
 
-**Configuration**:
-- Primary color: #3b82f6 (blue)
-- Bubble color: #3b82f6
-- Position: bottom-right
-- Welcome message configured
-- Analytics tracking added
+**Alternative: New Tab**
 
-**Performance Impact**:
-- 362KB removed from critical rendering path
-- Widget loads on-demand
-- Better perceived performance
+```typescript
+const openTallyForm = () => {
+  window.open('https://tally.so/r/wMBOXE', '_blank');
+};
+```
 
-### Files Modified in Sprint 2.5
-
-- `index.html` - Updated CONVOCORE trigger logic (lines 36-101)
-
----
-
-## Sprint 2.6 Implementation: Lead Magnet PDF + Modal (Completed)
-
-### Overview
-Implemented lead magnet modal with email capture and PDF download as specified in PRD.md Section 4.10.
-
-### Implementation Details
-
-**LeadMagnetModal.tsx** (`src/components/homepage/LeadMagnetModal.tsx`):
-- Slides in from right side
-- Email validation (regex pattern)
-- Connects to Supabase newsletter function
-- `leadMagnet: true` flag for tracking
-- Success state with download button
-- Close methods: X button, backdrop click, ESC key
-
-**Trigger Logic** (`src/pages/Index.tsx`):
-- Triggers at 60% past hero section
-- localStorage prevents repeat display
-- `resetLeadMagnet()` helper for testing
-- Console logging for debugging
-- Initial scroll check on mount
-
-**PDF Download**:
-- Location: `/public/pdfs/automation-wins-field-teams.pdf`
-- Size: 3.8MB
-- Content: 4 automation wins for field teams
-- Direct download link in success state
-
-### Files Modified in Sprint 2.6
-
-- `src/components/homepage/LeadMagnetModal.tsx` (NEW)
-- `src/pages/Index.tsx` - Added modal trigger logic and component
-- `public/pdfs/automation-wins-field-teams.pdf` (NEW)
+**All CTA buttons should:**
+- Say "Get Started"
+- Trigger Tally form
+- Use `bg-accent hover:bg-accent-hover`
+- NO gradients
 
 ---
 
-## Phase 2 Additional Improvements (Completed)
+## New Components to Create (PRD Section 6.4)
 
-### Design Optimization (frontend-design-optimizer agent)
+### 1. SolutionCard.tsx
 
-**Color System Changes**:
-- Removed all purple colors (285° hue)
-- Replaced with blue (217° hue)
-- Removed all gradient elements
-- Solid colors only: blue + green
+```typescript
+interface SolutionCardProps {
+  id: string;
+  title: string;
+  description: string;
+  videoUrl: string; // YouTube Short embed URL
+  timeSaved: string; // "12 hours/week"
+  costSavings: string; // "$2,400/month"
+  industry?: string; // "Construction", "HVAC", etc.
+}
+```
 
-**Files Modified** (10 files):
-- `src/index.css` - Color system variables
-- `tailwind.config.ts` - Theme configuration
-- `src/components/Navigation.tsx` - Logo and buttons
-- `src/components/Footer.tsx` - Background and text
-- `src/components/homepage/HeroWithICP.tsx` - Headline colors
-- `src/components/homepage/ICPPainPointSection.tsx` - Section styling
-- `src/components/homepage/ProofSection.tsx` - Card styling
-- `src/pages/Index.tsx` - Multiple sections
-- `src/pages/Construction.tsx` - Landing page styling
+**Design:**
+- Embedded YouTube Short (16:9)
+- Title + description (2-3 sentences)
+- ROI metrics (time saved, cost savings)
+- Optional industry tag
+- "Learn More" button (Phase 2)
 
-**Design Improvements**:
-- Simplified visual complexity
-- Consistent spacing and sizing
-- Uniform button styles
-- Better dark mode contrast
+### 2. NewsletterSignupInline.tsx
 
-### Form Accessibility Fixes
+**Features:**
+- Subtle inline form
+- Email input + submit button
+- Can be placed anywhere
+- Connects to Supabase
 
-**HTML5 Compliance**:
-- Added `id` and `name` attributes to all inputs
-- Added `autocomplete` attributes (email, tel, given-name, family-name, organization)
-- Fixed `label htmlFor` to match input `id` attributes
-- Added `aria-label` for better screen reader support
+### 3. DecisionPointCallout.tsx
 
-**Forms Updated**:
-- `NewsletterSignup.tsx` - Email input
-- `LeadMagnetModal.tsx` - Email input
-- `Contact.tsx` - All form fields (firstName, lastName, email, company, phone, message)
+```typescript
+<DecisionPointCallout
+  number={1}
+  title="Continue with audit?"
+  description="We're confident you'll see value."
+  yesAction="Proceed to $300 audit"
+  noAction="Part ways, zero obligation"
+/>
+```
 
-### Technical Improvements
-
-**Browserslist Update**:
-- Updated caniuse-lite and browserslist databases
-- Removed 13-month-old data warning
-- Command: `npm update caniuse-lite browserslist`
-
-**PDF Fix**:
-- Replaced blank PDF with valid 3.8MB file
-- 2 pages with proper content
-- Created with Canva
-
-**Testing Helpers**:
-- Added `resetLeadMagnet()` global function
-- Console logging for modal trigger debugging
-- Initial scroll check for better UX
+**Design:**
+- Visual callout box
+- Emphasizes low-friction approach
+- Used on Pricing page
 
 ---
 
-## Key Patterns and Best Practices Established
+## Files to DELETE (PRD Section 10)
+
+```
+src/pages/use-cases/Leads.tsx
+src/pages/use-cases/ContentCreation.tsx
+src/pages/use-cases/SocialMedia.tsx
+src/pages/use-cases/Scheduling.tsx
+src/pages/use-cases/ClientManagement.tsx
+src/pages/use-cases/Documentation.tsx
+src/pages/use-cases/Invoicing.tsx
+src/pages/use-cases/Inventory.tsx
+src/pages/Construction.tsx
+src/pages/HomeService.tsx
+src/components/homepage/ICPToggle.tsx (maybe - verify first)
+src/components/homepage/HeroWithICP.tsx (maybe - verify first)
+src/components/homepage/ICPPainPointSection.tsx (maybe - verify first)
+```
+
+---
+
+## Supabase Integration
+
+- Client: `src/integrations/supabase/client.ts`
+- Types: `src/integrations/supabase/types.ts` (auto-generated)
+- Auth: localStorage persistence, auto-refresh tokens
+- Functions: `supabase/functions/`
+- Migrations: `supabase/migrations/`
+
+---
+
+## SEO & Meta
+
+- Uses `react-helmet` for dynamic meta tags
+- Structured data (JSON-LD) for WebSite + SearchAction
+- Individual pages implement their own Helmet configs
+
+**Update Meta Tags (PRD Section 7.3):**
+
+```html
+<!-- BEFORE -->
+<title>FlowMatrix AI | Toronto Construction Automation</title>
+
+<!-- AFTER -->
+<title>FlowMatrix AI | Construction Automation for North America</title>
+<meta name="description" content="AI automation for North American construction and trade businesses. $300 audit with 100% satisfaction guarantee.">
+```
+
+**Files to update:**
+- `index.html`
+- `src/pages/Index.tsx`
+- `src/pages/Pricing.tsx`
+- `src/pages/About.tsx`
+
+---
+
+## Implementation Priority (PRD Section 9)
+
+### 🔴 Phase 1: Pre-Launch Must-Haves (16-24 hours)
+
+**Goal:** Website ready for client outreach
+
+**Tasks:**
+1. Design system update (remove gradients, simplify colors)
+2. Navigation & routing changes
+3. Homepage updates (hero, process, testimonials, credibility)
+4. Pricing page rewrite (5 steps, 2 decision points)
+5. Solutions page creation (delete use cases)
+6. About page credibility updates
+7. Technical cleanup (remove CONVOCORE, update sitemap)
+
+**Launch Criteria:**
+- No broken links
+- Mobile responsive
+- Fast page loads (<3 seconds)
+- Forms work correctly
+- No console errors
+
+### 🟡 Phase 2: Post-Launch Enhancements (After 2-3 clients)
+
+**Tasks:**
+- n8n automation (form → email → diagnostic)
+- Results/blog section
+- More case studies (10+ total)
+- Advanced testimonials
+- Industry association logos
+
+### 🟢 Phase 3: Growth & Scale (After $5K+ MRR)
+
+**Tasks:**
+- Multi-tier retainer packages
+- Case study filtering/search
+- Advanced analytics
+- Client portal
+
+---
+
+## Testing Checklist
+
+Before considering any page "done":
+
+- [ ] Test on mobile (375px width)
+- [ ] Test on tablet (768px width)
+- [ ] Test on desktop (1440px width)
+- [ ] Check all links work
+- [ ] Verify forms submit correctly
+- [ ] Check for console errors
+- [ ] Validate TypeScript compiles
+- [ ] Test with slow 3G network
+- [ ] Verify Tally form integration works
+- [ ] Check all Toronto → North America replacements
+
+---
+
+## Dark Mode Support
+
+**IMPORTANT:** Website supports dark mode.
+
+- Use theme-aware CSS variables: `text-foreground`, `text-card-foreground`, `text-muted-foreground`
+- Add `dark:` variants for colored backgrounds
+- Never use hardcoded colors without dark mode variants
+- Test both light and dark modes
+
+---
+
+## Important Technical Notes
+
+- Dev server: `http://[::]:8080` (port 8080, IPv6)
+- Build tool: Vite with SWC (faster than Babel)
+- TypeScript: Strict mode enabled
+- Multiple tsconfig files: `tsconfig.json`, `tsconfig.app.json`, `tsconfig.node.json`
+- HTML attributes: Lowercase (e.g., `fetchpriority`, not `fetchPriority`)
+- React props: camelCase (e.g., `onClick`, `className`)
+
+---
+
+## Key Patterns from Phase 1/2 (May be deprecated - verify against PRD)
 
 ### Modal Implementation Pattern
+
 ```typescript
-// Trigger with scroll detection
 useEffect(() => {
   const hasSeenModal = localStorage.getItem("modalKey");
   if (hasSeenModal) return;
@@ -499,6 +601,7 @@ useEffect(() => {
 ```
 
 ### Form Accessibility Pattern
+
 ```typescript
 <Input
   id="unique-id"
@@ -510,8 +613,8 @@ useEffect(() => {
 ```
 
 ### Lazy Loading Third-Party Scripts
+
 ```javascript
-// Load after trigger condition
 function loadScript() {
   const script = document.createElement("script");
   script.src = "script-url";
@@ -519,3 +622,30 @@ function loadScript() {
   document.body.appendChild(script);
 }
 ```
+
+---
+
+## Summary for AI Context Retrieval
+
+**When working on this project:**
+
+1. **Always check PRD.md first** - It's the single source of truth for v2.0 rebuild
+2. **Simplify, don't complicate** - White/black design, one accent color, no gradients
+3. **Focus on credibility** - Real metrics, founder story, n8n badge, testimonials with ROI
+4. **Low-friction UX** - Tally forms, clear CTAs, 2 decision points
+5. **North America, not Toronto** - Geographic expansion
+6. **Phase 1 is pre-launch** - 16-24 hours of focused work
+7. **Delete old complexity** - Use cases, ICP pages, purple gradients, CONVOCORE
+
+**Key Files to Reference:**
+- `/PRD.md` - Product requirements (v2.0)
+- `src/index.css` - Design system (needs simplification)
+- `tailwind.config.ts` - Color config (needs simplification)
+- `src/App.tsx` - Routing (needs route changes)
+- `src/components/Navigation.tsx` - Menu structure (needs updates)
+- `src/pages/Index.tsx` - Homepage (major updates needed)
+- `src/pages/Pricing.tsx` - Pricing (complete rewrite needed)
+
+---
+
+*Last Updated: October 23, 2025 - PRD v2.0 Rebuild*

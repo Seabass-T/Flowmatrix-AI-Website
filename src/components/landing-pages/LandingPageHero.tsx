@@ -18,7 +18,7 @@ const LandingPageHero = ({
   showBackButton = true,
 }: LandingPageHeroProps) => {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-purple-50 py-20 lg:py-32">
+    <section className="relative overflow-hidden bg-white py-20 lg:py-32">
       {/* Minimal Navigation - Back to Home */}
       {showBackButton && (
         <div className="absolute top-4 left-4 z-10">
@@ -35,7 +35,7 @@ const LandingPageHero = ({
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Headline */}
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-slide-up">
-          <span className="bg-gradient-to-r from-interactive-primary to-interactive-accent bg-clip-text text-transparent">
+          <span className="bg-primary bg-clip-text text-transparent">
             {headline}
           </span>
         </h1>
@@ -50,7 +50,7 @@ const LandingPageHero = ({
           <Button
             onClick={onCTAClick}
             size="lg"
-            className="bg-gradient-to-r from-interactive-primary to-interactive-accent hover:from-interactive-primary-hover hover:to-interactive-accent-hover text-primary-foreground text-xl px-12 py-8 transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-3xl"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground text-xl px-12 py-8 transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-3xl"
           >
             {ctaText}
             <Calendar className="ml-3 h-6 w-6" />
@@ -62,8 +62,8 @@ const LandingPageHero = ({
       </div>
 
       {/* Decorative elements */}
-      <div className="absolute top-10 right-10 w-32 h-32 bg-gradient-to-br from-interactive-primary to-interactive-accent rounded-full opacity-10 blur-3xl"></div>
-      <div className="absolute bottom-10 left-10 w-40 h-40 bg-gradient-to-br from-interactive-secondary to-interactive-accent rounded-full opacity-10 blur-3xl"></div>
+      <div className="absolute top-10 right-10 w-32 h-32 bg-primary rounded-full opacity-10 blur-3xl"></div>
+      <div className="absolute bottom-10 left-10 w-40 h-40 bg-primary rounded-full opacity-10 blur-3xl"></div>
     </section>
   );
 };

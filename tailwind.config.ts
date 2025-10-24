@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 export default {
-	darkMode: ["class"],
+	// Dark mode completely disabled - only light mode supported
 	content: [
 		"./pages/**/*.{ts,tsx}",
 		"./components/**/*.{ts,tsx}",
@@ -52,7 +52,7 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// Enhanced interactive colors
+				// Backward compatibility - will be removed in future phases
 				interactive: {
 					primary: 'hsl(var(--interactive-primary))',
 					'primary-hover': 'hsl(var(--interactive-primary-hover))',
@@ -66,6 +66,7 @@ export default {
 					medium: 'hsl(var(--surface-medium))',
 					dark: 'hsl(var(--surface-dark))',
 					darker: 'hsl(var(--surface-darker))',
+					primary: 'hsl(var(--surface-primary))',
 				},
 				voice: {
 					primary: 'hsl(var(--voice-primary))',
@@ -126,22 +127,31 @@ export default {
 					'0%': { transform: 'translateY(10px)', opacity: '0' },
 					'100%': { transform: 'translateY(0)', opacity: '1' },
 				},
-				'glow': {
-					'0%, 100%': { boxShadow: '0 0 20px hsl(var(--interactive-primary) / 0.3)' },
-					'50%': { boxShadow: '0 0 40px hsl(var(--interactive-primary) / 0.6)' },
-				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'pulse-glow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
 				'float': 'float 3s ease-in-out infinite',
 				'fade-in': 'fade-in 0.6s ease-out',
 				'scale-in': 'scale-in 0.4s ease-out',
 				'slide-up': 'slide-up 0.5s ease-out',
-				'glow': 'glow 2s ease-in-out infinite',
 			},
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+		require("tailwindcss-animate"),
+		function ({ addUtilities }: any) {
+			addUtilities({
+				'.scrollbar-hide': {
+					/* Hide scrollbar for Chrome, Safari and Opera */
+					'&::-webkit-scrollbar': {
+						display: 'none',
+					},
+					/* Hide scrollbar for IE, Edge and Firefox */
+					'-ms-overflow-style': 'none',
+					'scrollbar-width': 'none',
+				},
+			});
+		},
+	],
 } satisfies Config;

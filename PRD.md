@@ -1,2665 +1,1227 @@
-# FlowMatrix AI Website Enhancement PRD v1.1
+# FlowMatrix AI Website Rebuild - Product Requirements Document
 
-**Target:** 69/100 → 100/100 | **Duration:** 52-62 hours (3 phases) | **Updated:** Jan 20, 2025
-**Performance Baseline:** Lighthouse <85 → 95+ (Optimizations Applied)
+**Version:** 2.0
+**Date:** October 23, 2025
+**Status:** ✅ HOMEPAGE REBUILD COMPLETE (Oct 23, 2025)
+**Target:** Pre-client outreach launch (ASAP)
+**Tech Stack:** Vite + React 18 + TypeScript + Tailwind CSS + React Router v6
+
+---
+
+## 🎉 Phase 1 Completion Status
+
+**Completed:** October 23, 2025
+
+### ✅ Major Milestones Achieved
+
+1. **Homepage Overhaul**
+   - ✅ SimpleHero component with clean messaging
+   - ✅ Customer Journey Diagram with horizontal timeline (desktop) and vertical (mobile)
+   - ✅ Decision Points styled with green text emphasis (no emojis, professional)
+   - ✅ Dual Pain Points section (side-by-side desktop, toggle mobile)
+   - ✅ Real Results section with UBL Group case study and timeline
+   - ✅ Logo banners (Credibility: static, Tech Stack: scrollable)
+   - ✅ Inline newsletter signup component
+   - ✅ All em dashes removed from copy
+
+2. **Design System**
+   - ✅ White background throughout
+   - ✅ Green accent color (text-green-600) for Decision Points and key CTAs
+   - ✅ No gradients, no purple
+   - ✅ Clean, professional aesthetic
+
+3. **Content & Messaging**
+   - ✅ All "Toronto/GTA" replaced with "North America"
+   - ✅ CTAs unified to "Get Started"
+   - ✅ Tally form integration (https://tally.so/r/wMBOXE)
+   - ✅ 5-step process clearly communicated
+   - ✅ 2 Decision Points emphasized
+   - ✅ Real client testimonial (UBL Group) with specific ROI metrics
+
+4. **Technical Cleanup**
+   - ✅ TrustBadges component removed from footer
+   - ✅ Credibility and Tech Stack logos organized in /public/logos/
+   - ✅ Image optimization (PNG format, sips conversion)
+   - ✅ Em dashes removed from all homepage components
+
+### 🚧 Remaining Work (Phase 2+)
+
+- ⏳ Pricing page rewrite
+- ⏳ Solutions gallery page creation
+- ⏳ About page credibility updates
+- ⏳ n8n automation (form → email → diagnostic)
+- ⏳ Additional case studies (target: 10+ total)
+
+---
+
+## 📋 Table of Contents
+
+1. [Executive Summary](#executive-summary)
+2. [Business Model & Onboarding Process](#business-model--onboarding-process)
+3. [Site Architecture Changes](#site-architecture-changes)
+4. [Design System Overhaul](#design-system-overhaul)
+5. [Page-by-Page Requirements](#page-by-page-requirements)
+6. [Component Updates](#component-updates)
+7. [Content Guidelines](#content-guidelines)
+8. [Implementation Checklist](#implementation-checklist)
+9. [Priority Phases](#priority-phases)
 
 ---
 
 ## 1. Executive Summary
 
-**Current State:** Generic website, no ICP segmentation, no social proof = 69/100
-**Target State:** ICP-specific landing pages + real metrics + conversion optimization = 100/100
+### 🎯 Core Objectives
 
-### ⚡ Performance Optimizations Applied (Jan 20, 2025)
+**Simplify now, scale later** - Remove complexity, establish credibility, create foundation for growth.
 
-**Achieved:**
-- **98% reduction** in Lucide icons bundle (1.1MB → 19.78KB)
-- **90% reduction** in total JavaScript (7.2MB → ~500KB)
-- **Route-based code splitting** (18 lazy-loaded pages)
-- **CONVOCORE widget lazy loading** (45s or 50% scroll)
-- **Expected Lighthouse score: 95+** (up from <85)
+| Objective | Current Problem | Solution |
+|-----------|----------------|----------|
+| **Credibility** | Generic content, no personal touch | Add founder story, n8n badge, professional headshot, real metrics |
+| **Low Friction** | Unclear process, confusing CTAs | Crystal-clear 5-step process with 2 decision points |
+| **Scalability** | Overbuilt "use cases" with fluff | Simple Solutions gallery (add 1 case study every 2-3 days) |
+| **Geographic Reach** | Toronto-centric language | North America positioning |
+| **Trust** | Flashy gradients, too much color | Clean white background, minimal color, professional design |
 
-### Real Client Metrics (UBL Group)
-- **Email Intelligence:** 150+ hrs saved, $3,500+ ROI (3 months)
-- **Developer Outreach:** 20 hrs saved, $600+ ROI (2 months)
-- **ERP (In Development):** Projected $10K-$20K+/month ROI
+### 🚫 What We're Removing
 
-### Success Criteria
-- Homepage conversion: **5%+** (up from 1-2%)
-- ICP landing pages: **8%+** conversion
-- Calendly bookings: **200%+** increase
-- Bounce rate: **<50%**
+- ❌ All purple/gradient color schemes
+- ❌ 8 detailed "use case" explanation pages
+- ❌ CONVOCORE voice agent (parking lot)
+- ❌ Newsletter from main nav
+- ❌ Contact from main nav
+- ❌ Toronto/GTA geographic restrictions
+- ❌ Vague CTAs ("Free Audit")
+
+### ✅ What We're Adding
+
+- ✅ Clean white/black design with ONE accent color
+- ✅ Tally form integration for lead capture
+- ✅ Simple Solutions gallery (5-7 case studies, scalable)
+- ✅ Clear pricing: $300 2-week audit with 100% satisfaction guarantee
+- ✅ 2 explicit decision points (builds confidence, lowers friction)
+- ✅ Founder credibility elements
+- ✅ North America positioning
+
+---
+
+## 2. Business Model & Onboarding Process
+
+### 💰 Pricing Structure
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    CONVERSION FUNNEL                        │
-├─────────────────────────────────────────────────────────────┤
-│  Homepage Visit → ICP Selection → Pain Point → CTA         │
-│     (1000)          (400)           (200)       (50)        │
-│                                                             │
-│  Current:  1-2% conversion                                  │
-│  Target:   5% homepage, 8% landing pages                    │
+│  STEP 1: Intake Form (Tally)                               │
+│  → Free, 2-3 minutes                                        │
 └─────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 2. Tech Stack (Current - No Changes Required)
-
-```
-┌────────────────────────────────────────────────────────┐
-│  Frontend Stack                                        │
-├────────────────────────────────────────────────────────┤
-│  React 18 + TypeScript                                 │
-│  Vite with SWC                                         │
-│  Tailwind CSS + shadcn/ui                              │
-│  React Router v6                                       │
-│  TanStack Query (React Query)                          │
-│  React Hook Form + Zod                                 │
-├────────────────────────────────────────────────────────┤
-│  Backend & Services                                    │
-├────────────────────────────────────────────────────────┤
-│  Supabase (Auth + Database + Edge Functions)           │
-│  Vercel (Deployment)                                   │
-│  GitHub (Version Control)                              │
-├────────────────────────────────────────────────────────┤
-│  New Integrations                                      │
-├────────────────────────────────────────────────────────┤
-│  GA4 (Analytics)                                       │
-│  Hotjar (Heatmaps + Recordings)                        │
-│  Tally (Forms - Already Set Up)                        │
-│  CONVOCORE (Chat Widget - Optimize)                    │
-└────────────────────────────────────────────────────────┘
-```
-
----
-
-## 2A. Performance Optimization Best Practices ⚡
-
-**Status:** ✅ Implemented (Jan 20, 2025) | **Branch:** `performance-optimization`
-
-### Performance Baseline
-
-```
+                          ↓
 ┌─────────────────────────────────────────────────────────────┐
-│  LIGHTHOUSE METRICS: BEFORE → AFTER                         │
-├─────────────────────────────────────────────────────────────┤
-│  First Contentful Paint:    19.7s  →  <3s    (85% faster)   │
-│  Largest Contentful Paint:  40.3s  →  <5s    (87% faster)   │
-│  Total Blocking Time:       190ms  →  <100ms (47% faster)   │
-│  Speed Index:               19.7s  →  <4s    (80% faster)   │
-│  Cumulative Layout Shift:   0.001  →  0.001  (maintained)   │
-│                                                             │
-│  LIGHTHOUSE SCORE:          <85    →  95+    (+10-15 pts)   │
-├─────────────────────────────────────────────────────────────┤
-│  BUNDLE SIZES: BEFORE → AFTER                               │
-├─────────────────────────────────────────────────────────────┤
-│  Total JavaScript:          7.2MB  →  ~500KB (93% smaller)  │
-│  Lucide Icons:              1.1MB  →  19.78KB (98% smaller) │
-│  Initial Load:              5MB+   →  ~600KB (88% smaller)  │
-│  CONVOCORE Widget:          362KB (blocking) → (lazy)        │
+│  STEP 2: 5-Day Free Diagnostic                             │
+│  → FlowMatrix AI conducts initial analysis                 │
+│  → FREE (no commitment)                                     │
+└─────────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────────┐
+│  STEP 3: 30-Minute Discovery Call                          │
+│  → Review diagnostic findings                              │
+│  → Discuss potential systems                               │
+│  → FREE                                                     │
+└─────────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────────┐
+│  🔶 DECISION POINT #1                                       │
+│  Continue with 2-Week Audit?                               │
+│  ├─ YES → Proceed to Step 4 ($300 paid audit)             │
+│  └─ NO  → Part ways, no hard feelings                     │
+└─────────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────────┐
+│  STEP 4: 2-Week Deep Audit                                 │
+│  → Cost: $300                                              │
+│  → 100% Satisfaction Guarantee (full refund if unhappy)   │
+│  → Comprehensive workflow analysis + recommendations       │
+└─────────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────────┐
+│  🔶 DECISION POINT #2                                       │
+│  Start Monthly Retainer Partnership?                       │
+│  ├─ YES → Proceed to implementation ($2-5K/month custom)  │
+│  └─ NO  → Keep audit deliverables, part ways             │
+└─────────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────────┐
+│  STEP 5: Monthly Retainer (Implementation & Scale)         │
+│  → Custom pricing: $2-5K/month                            │
+│  → Build, deploy, maintain automation systems             │
+│  → Ongoing optimization and expansion                      │
 └─────────────────────────────────────────────────────────────┘
 ```
 
+### 🎯 Decision Points Framework
+
+**Why 2 Decision Points?**
+
+We're confident in the value we deliver. By offering two clear exit points with zero penalty, we:
+1. Remove pressure and anxiety from the sales process
+2. Demonstrate confidence in our diagnostic quality
+3. Build trust through transparency
+4. Ensure only qualified, enthusiastic clients continue
+
+**Messaging:**
+- "We're so confident in our value that we give you TWO chances to walk away with zero risk"
+- "After the discovery call, decide if you want to proceed—no pressure"
+- "After the audit, keep all deliverables even if you don't continue—100% satisfaction guaranteed"
+
+### 🎁 Value Positioning
+
+| Decision Point | What Client Gets | Risk to Client |
+|----------------|-----------------|----------------|
+| After Discovery Call | Free 5-day diagnostic findings | $0 (can walk away) |
+| After $300 Audit | Full audit deliverables + 100% refund if unsatisfied | $0 (money back guarantee) |
+
 ---
 
-### 1. Route-Based Code Splitting (CRITICAL)
+## 3. Site Architecture Changes
 
-**Why:** Loading all pages upfront (5MB+) destroys FCP/LCP metrics
-**How:** Use `React.lazy()` for all routes except homepage
+### 📐 Before → After Comparison
 
-```tsx
-// ✅ CORRECT: Lazy load non-critical routes
-import { lazy, Suspense } from "react";
-import Index from "./pages/Index"; // Only homepage eager-loaded
+#### Navigation Structure
 
-const Pricing = lazy(() => import("./pages/Pricing"));
-const About = lazy(() => import("./pages/About"));
-// ... all other routes
-
-<Suspense fallback={<PageLoader />}>
-  <Routes>
-    <Route path="/" element={<Index />} />
-    <Route path="/pricing" element={<Pricing />} />
-  </Routes>
-</Suspense>
-
-// ❌ WRONG: Eager-load all pages
-import Pricing from "./pages/Pricing";
-import About from "./pages/About";
-// ... destroys initial load performance
+**BEFORE:**
+```
+Main Nav: Home | Pricing | Use Cases | Newsletter | About | Contact
+CTA Button: "Get Your Free Automation Audit" → /contact
 ```
 
-**Impact:**
-- Homepage bundle: **47.43KB** (down from 5MB+)
-- Each page chunk: **10-23KB** (loaded on-demand)
-- **90% reduction** in initial JavaScript load
+**AFTER:**
+```
+Main Nav: Home | Pricing | Solutions | About
+Footer Only: Contact (force site exploration), Newsletter signup
+CTA Button: "Get Started" → Tally Form (https://tally.so/r/wMBOXE)
+```
 
----
+#### Page Inventory
 
-### 2. Aggressive Vendor Chunk Splitting
+| Page | Status | Action |
+|------|--------|--------|
+| Home (`/`) | ✅ Keep | Major updates (see section 5.1) |
+| Pricing (`/pricing`) | ✅ Keep | Complete rewrite (see section 5.2) |
+| **Use Cases** (`/use-cases`) | ❌ DELETE | Replace with Solutions |
+| **Solutions** (`/solutions`) | ✅ CREATE NEW | Simple gallery (see section 5.3) |
+| **Results** (`/results`) | 🅿️ PARKING LOT | Blog section (Phase 2) |
+| Newsletter (`/newsletter`) | ✅ Keep | Move to footer, add inline signups |
+| About (`/about`) | ✅ Keep | Add credibility (see section 5.4) |
+| Contact (`/contact`) | ✅ Keep | Move to footer only |
+| Terms (`/terms`) | ✅ Keep | No changes |
+| Privacy (`/privacy`) | ✅ Keep | No changes |
 
-**Why:** Single vendor bundle forces re-download when any dependency changes
-**How:** Split by library for optimal browser caching
+#### Route Changes in `src/App.tsx`
 
 ```typescript
-// vite.config.ts
-build: {
-  rollupOptions: {
-    output: {
-      manualChunks: (id) => {
-        // ⚡ CRITICAL: Isolate Lucide icons (prevents 1.1MB bundle)
-        if (id.includes('lucide-react')) return 'lucide-icons';
+// REMOVE
+<Route path="/use-cases" element={<UseCases />} />
+<Route path="/use-cases/:category" element={<UseCaseCategory />} />
 
-        // Split by major libraries
-        if (id.includes('node_modules/react')) return 'react-core';
-        if (id.includes('node_modules/@supabase')) return 'supabase';
-        if (id.includes('node_modules/@radix-ui')) return 'radix-ui';
-        if (id.includes('node_modules/@tanstack')) return 'tanstack-query';
-        if (id.includes('node_modules')) return 'vendor';
-      }
-    }
-  }
+// ADD
+<Route path="/solutions" element={<Solutions />} />
+```
+
+---
+
+## 4. Design System Overhaul
+
+### 🎨 Color Palette Simplification
+
+**CURRENT (Complex):**
+- Multiple gradient combinations
+- Purple + Blue + Pink accents
+- `interactive-primary`, `interactive-secondary`, `interactive-accent`, `interactive-primary-hover`, `voice-*`, `surface-*`
+
+**NEW (Minimal):**
+
+```css
+/* Only TWO colors needed */
+:root {
+  /* Core Colors */
+  --background: #FFFFFF;        /* Pure white background everywhere */
+  --text-primary: #000000;      /* Black text */
+  --text-secondary: #666666;    /* Gray for secondary text */
+  
+  /* Accent Color (CHOOSE ONE) */
+  /* Option A: Dark Blue */
+  --accent: #1e40af;            /* Blue-800 */
+  --accent-hover: #1e3a8a;      /* Blue-900 */
+  
+  /* Option B: Dark Green */
+  --accent: #065f46;            /* Emerald-800 */
+  --accent-hover: #064e3b;      /* Emerald-900 */
 }
 ```
 
-**Result Bundle Analysis:**
-```
-lucide-icons:    19.78KB  (gzip: 4.33KB)  ⭐ 98% reduction
-react-core:      174KB    (gzip: 56KB)
-supabase:        112KB    (gzip: 31KB)
-radix-ui:        56KB     (gzip: 18KB)
-tanstack-query:  24KB     (gzip: 8KB)
-vendor:          92KB     (gzip: 32KB)
+**Usage Rules:**
+- Background: White (#FFFFFF) on ALL pages
+- Text: Black (#000000) for body text, #666666 for secondary
+- Accent Color: ONLY for CTA buttons and icons
+- NO gradients anywhere
+- NO colored backgrounds (except accent on buttons)
 
-TOTAL: ~480KB (gzip: ~150KB) ✅
-```
+### 🗑️ Remove from Codebase
 
----
+**Files to Update:**
 
-### 3. Third-Party Script Lazy Loading
+1. **`src/index.css`**
+   - Remove ALL gradient utilities
+   - Remove `interactive-*` variables
+   - Remove `voice-*` variables
+   - Remove `surface-*` variables
+   - Keep only: `--background`, `--text-primary`, `--text-secondary`, `--accent`, `--accent-hover`
 
-**Why:** Blocking scripts (CONVOCORE: 362KB) delay page render
-**How:** Delay until user engagement (45s or 50% scroll)
+2. **`tailwind.config.ts`**
+   - Simplify color palette to just: white, black, gray, accent
+   - Remove custom gradient definitions
 
-```javascript
-// index.html - CONVOCORE Widget
-(function() {
-    let loaded = false;
-
-    function loadWidget() {
-        if (loaded) return;
-        loaded = true;
-
-        window.VG_CONFIG = { /* config */ };
-        const script = document.createElement("script");
-        script.src = "https://vg-bunny-cdn.b-cdn.net/vg_live_build/vg_bundle.js";
-        script.defer = true;
-        document.body.appendChild(script);
-    }
-
-    // Load after 45s OR 50% scroll (whichever first)
-    window.addEventListener('load', function() {
-        setTimeout(loadWidget, 45000);
-        window.addEventListener('scroll', () => {
-            if ((window.scrollY + window.innerHeight) / document.body.scrollHeight > 0.5) {
-                loadWidget();
-            }
-        }, { passive: true });
-    });
-})();
-```
-
-**Impact:**
-- **362KB removed** from critical rendering path
-- Widget appears when user is engaged (conversion-optimized)
-- Aligns with PRD Section 4.9 (Chat Widget Optimization)
+3. **All Component Files:**
+   - Find & replace `bg-gradient-to-r from-blue-600 to-purple-600` → `bg-accent`
+   - Find & replace `hover:from-blue-700 hover:to-purple-700` → `hover:bg-accent-hover`
+   - Remove all `bg-blue-50`, `bg-purple-50`, `bg-gradient-*` classes
+   - Replace with `bg-white` or `bg-gray-50` (very subtle if needed)
 
 ---
 
-### 4. Build Configuration Best Practices
+## 5. Page-by-Page Requirements
 
-```typescript
-// vite.config.ts
-export default defineConfig({
-  build: {
-    target: 'es2020',           // Modern browsers (smaller output than ES2015)
-    minify: 'esbuild',          // Fast minification
-    cssCodeSplit: true,         // Split CSS per route
-    chunkSizeWarningLimit: 500, // Warn for chunks >500KB
-  },
-});
+### 5.1 Homepage (`src/pages/Index.tsx`)
+
+#### 🎯 Primary Goals
+1. Capture leads via Tally form
+2. Clearly communicate 5-step process with 2 decision points
+3. Establish credibility (testimonials, n8n badge, metrics)
+4. Remove Toronto focus → North America
+
+#### ✏️ Required Changes
+
+**A. Hero Section**
+```
+BEFORE:
+- Headline: "AI Automation for Toronto & GTA Trade Businesses"
+- CTA: "Get Your Free Automation Audit" → /contact
+
+AFTER:
+- Headline: "AI Automation for North American Construction & Trade Businesses"
+- Subheadline: "Simple process. Two decision points. Zero risk."
+- CTA: "Get Started" → Tally Form (https://tally.so/r/wMBOXE)
 ```
 
-**Why Each Setting:**
-- `es2020`: Native `async/await`, no polyfills needed (smaller bundles)
-- `esbuild`: 10-100x faster than Terser
-- `cssCodeSplit`: Route-specific CSS (better caching)
-- `chunkSizeWarningLimit`: Prevent accidental monolithic chunks
+**B. Remove IStock Images**
+- Current: Construction worker with tablet (has iStock watermark)
+- Current: HVAC worker (has iStock watermark)
+- Action: Delete both images OR replace with royalty-free alternatives
 
----
+**C. Process Section (NEW)**
 
-### 5. Image Optimization Guidelines
+Add visual flowchart showing 5 steps with 2 decision points clearly marked:
 
-**For all new images added (PRD Phase 2+):**
+```
+[Intake Form] → [5-Day Free Diagnostic] → [Discovery Call]
+                                              ↓
+                                    🔶 DECISION POINT #1 🔶
+                                    Continue with audit?
+                                              ↓
+                                    [2-Week Audit - $300]
+                                    (100% refund guarantee)
+                                              ↓
+                                    🔶 DECISION POINT #2 🔶
+                                    Start retainer?
+                                              ↓
+                                    [Monthly Partnership]
+                                    ($2-5K/month custom)
+```
+
+**Key Copy:**
+- "We're confident in our value, so we give you TWO exit points with zero risk"
+- "Walk away after the discovery call—no hard feelings"
+- "Not satisfied with the audit? Keep the deliverables AND get a full refund"
+
+**D. Remove "Featured Systems" Section**
+- Delete entire section
+- Replace with single button: "View Our Solutions" → /solutions
+
+**E. Testimonials Section**
+
+Current testimonials are generic. Update to:
+
+```
+┌────────────────────────────────────────────────────┐
+│ UBL Group (Construction)                           │
+│ [Add UBL Logo]                                     │
+│                                                    │
+│ "FlowMatrix AI automated our project intake and   │
+│ saved us 15 hours per week. ROI positive in 60    │
+│ days."                                            │
+│                                                    │
+│ - Operations Manager                              │
+│ Saved: 15 hrs/week | ROI: $2,418/month           │
+└────────────────────────────────────────────────────┘
+```
+
+**Requirements:**
+- Add 2-3 more testimonials with REAL numbers (hours saved, $ saved)
+- Each testimonial must include company name/industry + ROI metrics
+- Add company logos if possible
+
+**F. Credibility Section**
+
+Remove generic "Industry Affiliations" placeholders.
+
+Add:
+```
+┌─────────────────────────────────────────────────────┐
+│         Trusted Tools & Certifications              │
+│                                                     │
+│  [n8n Creator Badge]  [Colgate University]         │
+│  [30+ Systems Built]  [Google Certifications]      │
+└─────────────────────────────────────────────────────┘
+```
+
+**G. Newsletter Signup (NEW)**
+
+Add subtle inline signup after testimonials section:
 
 ```html
-<!-- ✅ CORRECT: Optimized hero image -->
-<img
-  src="/images/hero-construction.webp"
-  alt="Construction worker using tablet for job management"
-  width="800"
-  height="600"
-  loading="lazy"
-  fetchpriority="high"
-/>
-
-<!-- ❌ WRONG: Unoptimized PNG -->
-<img src="/images/hero.png" />
+<div class="bg-gray-50 rounded-lg p-6 max-w-2xl mx-auto">
+  <h3>Get Weekly AI Automation Insights</h3>
+  <p>Tips, case studies, and ROI strategies for construction businesses</p>
+  <NewsletterSignupInline />
+</div>
 ```
 
-**Best Practices:**
-1. **Format:** WebP (not PNG/JPG) - 25-35% smaller
-2. **Size:** <50KB per image for hero, <20KB for thumbnails
-3. **Dimensions:** Explicit `width`/`height` (prevents CLS)
-4. **Loading:** `loading="lazy"` for below-the-fold
-5. **Priority:** `fetchpriority="high"` for LCP images only
-6. **Responsive:** Use `srcset` for different screen sizes
-
-**Example Optimization:**
-```bash
-# Before: 227KB PNG (current favicon issue)
-# After: <5KB WebP
-
-# Using ImageMagick
-convert hero.png -resize 800x600 -quality 80 hero.webp
-
-# Using Squoosh (online tool)
-# https://squoosh.app - drag/drop, select WebP, quality 80
-```
+**H. Global Replace**
+- "Toronto" → "North America"
+- "GTA" → "North America"  
+- "Greater Toronto Area" → "North America"
 
 ---
 
-### 6. Suspense Loading States
+### 5.2 Pricing Page (`src/pages/Pricing.tsx`)
 
-**Why:** Prevent white screen flash during route transitions
-**How:** Add loading spinner wrapper
+#### 🎯 Primary Goal
+Clearly communicate the 5-step process, pricing, and decision points.
 
-```tsx
-const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-  </div>
-);
+#### ✏️ Required Changes
 
-// Wrap all lazy routes
-<Suspense fallback={<PageLoader />}>
-  <Routes>...</Routes>
-</Suspense>
-```
-
----
-
-### 7. Performance Testing Protocol
-
-**Before every production deploy:**
-
-1. **Build locally:**
-   ```bash
-   npm run build
-   # Verify no chunks >500KB
-   # Verify total gzip <200KB
-   ```
-
-2. **Run Lighthouse (DevTools):**
-   - Desktop: Score >95
-   - Mobile: Score >90
-   - FCP <3s, LCP <5s
-
-3. **Check Network tab:**
-   - Verify lazy loading (chunks load on route change)
-   - Verify CONVOCORE loads after 45s/scroll
-   - No blocking scripts in critical path
-
-4. **Verify on production URL:**
-   ```bash
-   # After Vercel deploy
-   curl -o /dev/null -w "%{time_total}\n" https://flowmatrixai.com
-   # Should be <2s
-   ```
-
----
-
-### 8. Known Performance Issues & Fixes
+**A. Hero Section**
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  ISSUE #1: 227KB PNG Favicon                                │
-├─────────────────────────────────────────────────────────────┤
-│  Current:  /lovable-uploads/54fa5058-0927-424f-859e-4a5e.png│
-│  Size:     800x800, 226KB                                    │
-│  Impact:   Low (favicons cached aggressively)                │
-│  Fix:      Convert to 32x32 ICO (<5KB)                       │
-│  Priority: Medium                                            │
-└─────────────────────────────────────────────────────────────┘
+BEFORE:
+"Free Consultation → Pay-What-You-Think Audit → Custom Partnership"
 
-┌─────────────────────────────────────────────────────────────┐
-│  ISSUE #2: Hero Images Not Yet Optimized (PRD Phase 2)      │
-├─────────────────────────────────────────────────────────────┤
-│  Status:   Not implemented yet                               │
-│  Plan:     Source from Unsplash → Convert to WebP <50KB     │
-│  Ref:      Section 4.5 (Hero Visual/Images)                 │
-│  Priority: High (Phase 2, Sprint 2.1)                        │
-└─────────────────────────────────────────────────────────────┘
+AFTER:
+"Transparent Pricing. Two Decision Points. Zero Risk."
+
+Subheadline:
+"$300 audit with 100% satisfaction guarantee. 
+Walk away at two points with zero penalty."
 ```
 
----
+**B. Process Cards (MAJOR UPDATE)**
 
-### 9. Performance Monitoring (Post-Launch)
-
-**Tools to implement in Phase 3:**
-
-1. **Vercel Analytics** (built-in)
-   - Real User Monitoring (RUM)
-   - Web Vitals tracking
-   - Already enabled on Vercel deploy
-
-2. **Google Analytics 4 Custom Events**
-   ```javascript
-   // Track slow page loads
-   window.addEventListener('load', () => {
-     const loadTime = performance.now();
-     if (loadTime > 3000) {
-       gtag('event', 'slow_page_load', {
-         load_time: loadTime,
-         page: window.location.pathname
-       });
-     }
-   });
-   ```
-
-3. **Lighthouse CI** (optional - automate testing)
-   ```yaml
-   # .github/workflows/lighthouse.yml
-   name: Lighthouse CI
-   on: [push]
-   jobs:
-     lighthouse:
-       runs-on: ubuntu-latest
-       steps:
-         - uses: actions/checkout@v3
-         - run: npm ci && npm run build
-         - uses: treosh/lighthouse-ci-action@v9
-           with:
-             urls: |
-               https://flowmatrixai.com
-               https://flowmatrixai.com/pricing
-             uploadArtifacts: true
-   ```
-
----
-
-### 10. Component Performance Guidelines
-
-**When creating new components (PRD Phase 1-3):**
-
-```tsx
-// ✅ GOOD: Memoize expensive components
-import { memo } from 'react';
-
-const ProofCard = memo(({ metric, description }) => (
-  <div className="proof-card">
-    <h3>{metric}</h3>
-    <p>{description}</p>
-  </div>
-));
-
-// ✅ GOOD: Lazy load heavy components
-const LeadMagnetModal = lazy(() => import('./LeadMagnetModal'));
-
-// ❌ BAD: Import entire icon library
-import * as Icons from 'lucide-react'; // Imports 1.1MB!
-
-// ✅ GOOD: Import specific icons
-import { Mail, TrendingUp, Database } from 'lucide-react';
-
-// ✅ GOOD: Use CSS animations (not JS)
-<div className="animate-fade-in">...</div>
-
-// ❌ BAD: Heavy JS animation libraries
-import { motion } from 'framer-motion'; // Adds 50KB+
-```
-
----
-
-### Performance Checklist for PRD Implementation
-
-**Phase 1 (Foundation):**
-- [x] Route-based code splitting implemented
-- [x] Vendor chunk splitting optimized
-- [x] CONVOCORE widget lazy loading
-- [ ] Optimize favicon (227KB → <5KB)
-- [ ] Test Lighthouse score >95
-
-**Phase 2 (Conversion Optimization):**
-- [ ] Hero images: WebP format, <50KB each
-- [ ] Lazy load images with `loading="lazy"`
-- [ ] Add `width`/`height` to prevent CLS
-- [ ] Trust badges: SVG format (not PNG)
-- [ ] Offer funnel graphic: Inline SVG (not image)
-
-**Phase 3 (Analytics & Polish):**
-- [ ] GA4 performance event tracking
-- [ ] Vercel Analytics monitoring
-- [ ] Mobile optimization (<3s FCP on 3G)
-- [ ] Font optimization (subset, preload)
-
----
-
-## 3. User Personas (ICPs)
-
-### ICP #1: Construction Contractors (GTA)
+Create 5 detailed cards (one per step):
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│  PERSONA: Sarah (Operations Manager)                   │
-├─────────────────────────────────────────────────────────┤
-│  Age:           35-45                                   │
-│  Revenue:       $1M-$10M                                │
-│  Employees:     10-50                                   │
-│  Tools:         Procore, QuickBooks                     │
-├─────────────────────────────────────────────────────────┤
-│  PAIN POINTS                                            │
-│  ▸ Job cost overruns due to poor tracking              │
-│  ▸ Scheduling chaos causing crew downtime               │
-│  ▸ Invoice delays slowing payment cycles                │
-├─────────────────────────────────────────────────────────┤
-│  GOALS                                                  │
-│  ✓ 30%+ admin time reduction                           │
-│  ✓ Faster invoicing and payments                       │
-│  ✓ Real-time project visibility                        │
-└─────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│ STEP 1: Intake Form                                 │
+│ Free • 2-3 minutes                                  │
+│                                                     │
+│ Tell us about your business and automation needs.  │
+│ [Get Started Button] → Tally Form                  │
+└─────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│ STEP 2: 5-Day Free Diagnostic                      │
+│ Free • No commitment                                │
+│                                                     │
+│ We analyze your workflows and identify              │
+│ automation opportunities. Completely free.          │
+└─────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│ STEP 3: 30-Minute Discovery Call                   │
+│ Free • Review findings together                     │
+│                                                     │
+│ We present diagnostic results and discuss next      │
+│ steps. You decide if you want to continue.         │
+└─────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│ 🔶 DECISION POINT #1                                │
+│                                                     │
+│ Continue with 2-week deep audit?                    │
+│ • YES → Proceed to paid audit ($300)               │
+│ • NO → Part ways, zero obligation                  │
+│                                                     │
+│ "We're confident you'll see value in the           │
+│ diagnostic. Choose what's right for your business."│
+└─────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│ STEP 4: 2-Week Deep Audit                          │
+│ $300 • 100% Satisfaction Guarantee                 │
+│                                                     │
+│ Comprehensive workflow analysis, automation         │
+│ blueprint, and ROI projections.                     │
+│                                                     │
+│ 💯 Not satisfied? Keep deliverables + full refund  │
+└─────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│ 🔶 DECISION POINT #2                                │
+│                                                     │
+│ Start monthly retainer partnership?                 │
+│ • YES → Implement systems ($2-5K/month custom)     │
+│ • NO → Keep audit findings, part ways              │
+│                                                     │
+│ "Only partner with us if you're 100% confident     │
+│ in the value we'll deliver."                        │
+└─────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│ STEP 5: Monthly Retainer Partnership               │
+│ $2,000-5,000/month • Custom pricing                │
+│                                                     │
+│ We build, deploy, and maintain your automation     │
+│ systems. Continuous optimization and expansion.     │
+│                                                     │
+│ "Most clients see positive ROI within 60 days"     │
+└─────────────────────────────────────────────────────┘
 ```
 
-### ICP #2: Home Service Providers (GTA)
+**C. FAQ Section Updates**
+
+Add these questions:
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│  PERSONA: Mike (Owner/Service Manager)                 │
-├─────────────────────────────────────────────────────────┤
-│  Age:           40-55                                   │
-│  Revenue:       $500K-$5M                               │
-│  Employees:     5-25 technicians                        │
-│  Tools:         ServiceTitan or pen/paper               │
-├─────────────────────────────────────────────────────────┤
-│  PAIN POINTS                                            │
-│  ▸ Dispatch lag wasting 2+ hours daily                 │
-│  ▸ Technician idle time between jobs                   │
-│  ▸ Slow customer response losing jobs                  │
-├─────────────────────────────────────────────────────────┤
-│  GOALS                                                  │
-│  ✓ More jobs per tech per day                          │
-│  ✓ Faster lead response time                           │
-│  ✓ Automated service renewals                          │
-└─────────────────────────────────────────────────────────┘
+Q: Why do you offer two decision points?
+A: We're confident in our value. The two exit points remove pressure 
+   and ensure you're 100% comfortable at every stage.
+
+Q: What if I'm not satisfied with the $300 audit?
+A: You get a full refund, no questions asked. Plus, you keep all 
+   the deliverables we created.
+
+Q: What's included in the 2-week audit?
+A: Workflow analysis, automation blueprint, ROI projections, 
+   implementation roadmap, and 1-on-1 strategy session.
+
+Q: How is the monthly retainer priced?
+A: Custom pricing based on your needs, typically $2-5K/month. 
+   We'll propose a plan after the audit based on the systems 
+   you want to implement.
+
+Q: Do you work with businesses outside North America?
+A: We focus on North American construction and trade businesses 
+   for now. Contact us to discuss your specific situation.
 ```
 
----
-
-## 4. Feature Specifications (10 Core Features)
-
-### 4.1 Homepage Hero with ICP Toggle ⏱️ 4 hours
-
-**Files:**
-- `/src/components/homepage/ICPToggle.tsx`
-- `/src/components/homepage/HeroWithICP.tsx`
-- Update: `/src/pages/Index.tsx`
-
-**Construction Variant:**
-```
-Headline: "Stop Job Cost Overruns & Scheduling Chaos"
-Subheadline: "Free 5-Day Diagnostic → 2-Week Pilot → Month-to-Month Partnership"
-CTA Primary: "Book Free Diagnostic"
-CTA Secondary: "See How It Works"
-```
-
-**Home Service Variant:**
-```
-Headline: "End Dispatch Lag & Technician Idle Time"
-Subheadline: "We automate your service workflows so techs book more jobs per day"
-CTA Primary: "Book Free Diagnostic"
-CTA Secondary: "See Case Study"
-```
-
-**Component Structure:**
-```tsx
-<ICPToggle selectedICP={icp} onToggle={setICP} />
-<HeroWithICP icp={icp} />
-```
-
----
-
-### 4.2 ICP Pain Point Sections ⏱️ 6 hours
-
-**Files:**
-- `/src/components/homepage/ICPPainPointSection.tsx`
-- Update: `/src/pages/Index.tsx`
-
-**Visual Layout:**
-```
-┌─────────────────────────────────────────────────────────┐
-│  CONSTRUCTION PAIN POINTS (bg-blue-50)                  │
-├─────────────────────────────────────────────────────────┤
-│  [💰] Job Cost Overruns                                 │
-│      Projects going over budget...                      │
-│                                                         │
-│  [📅] Scheduling Chaos                                  │
-│      Manual scheduling leads to downtime...             │
-│                                                         │
-│  [📄] Invoice Delays                                    │
-│      Slow payment cycles...                             │
-│                                                         │
-│      [See Construction Solutions →]                     │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  HOME SERVICE PAIN POINTS (bg-green-50)                 │
-├─────────────────────────────────────────────────────────┤
-│  [⏰] Dispatch Lag                                      │
-│      Wasting 2+ hours daily...                          │
-│                                                         │
-│  [👥] Technician Idle Time                             │
-│      Techs idle between jobs...                         │
-│                                                         │
-│  [📞] Customer Wait Times                               │
-│      Slow response = lost jobs...                       │
-│                                                         │
-│      [See Home Service Solutions →]                     │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-### 4.3 Proof Cards with Real Metrics ⏱️ 4 hours
-
-**Files:**
-- `/src/components/homepage/ProofCard.tsx`
-- `/src/components/homepage/ProofSection.tsx`
-- Update: `/src/pages/Index.tsx`
-
-**Card Design:**
-```
-┌──────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐
-│  📧                  │  │  📈                  │  │  💾 [Coming Soon]    │
-│                      │  │                      │  │                      │
-│  150+ Hours          │  │  $3,500+             │  │  $10K-$20K+          │
-│  Saved in 3 Months   │  │  ROI Achieved        │  │  Projected Monthly   │
-│                      │  │                      │  │  ROI                 │
-│  [Gradient Blue]     │  │  [Gradient Green]    │  │  [Gradient Purple]   │
-└──────────────────────┘  └──────────────────────┘  └──────────────────────┘
-```
-
-**Styling:**
+**D. Remove**
+- All "Pay-What-You-Think-It's-Worth" language
+- All "Toronto & GTA" references
 - Gradient backgrounds
-- `p-8, rounded-2xl, shadow-xl`
-- `hover:scale-105` animation
-- Lucide icons: `Mail`, `TrendingUp`, `Database`
 
 ---
 
-### 4.4 ICP Landing Pages (/construction, /home-service) ⏱️ 8 hours (4 per page)
+### 5.3 Solutions Page (NEW - Replaces Use Cases)
 
-**Files:**
-- `/src/pages/Construction.tsx` (NEW)
-- `/src/pages/HomeService.tsx` (NEW)
-- `/src/components/landing-pages/LandingPageHero.tsx` (NEW - Reusable)
-- `/src/components/landing-pages/PainPointCards.tsx` (NEW - Reusable)
-- `/src/components/landing-pages/OfferFunnel.tsx` (NEW - Reusable)
-- Update: `/src/App.tsx` (Add routes ABOVE `<Route path="*">`)
+#### 🎯 Primary Goal
+Showcase actual systems built with real ROI data. Scalable gallery that can grow from 5 → 50+ case studies.
 
-**Page Structure:**
+#### 📋 Structure
+
+**Path:** `/solutions`  
+**File:** `src/pages/Solutions.tsx` (NEW)
+
+**Layout:**
+
 ```
-┌─────────────────────────────────────────────────────────┐
-│  1. Hero (No Navigation)                                │
-│     ▸ ICP-specific headline + subheadline               │
-│     ▸ Primary CTA: "Book Free Diagnostic"               │
-├─────────────────────────────────────────────────────────┤
-│  2. Pain Point Cards (3 cards)                          │
-│     ▸ Icon + Title + Description                        │
-├─────────────────────────────────────────────────────────┤
-│  3. Solutions Section                                   │
-│     ▸ How we solve each pain point                      │
-├─────────────────────────────────────────────────────────┤
-│  4. UBL Case Study                                      │
-│     ▸ Real metrics + screenshots                        │
-├─────────────────────────────────────────────────────────┤
-│  5. Offer Funnel                                        │
-│     ▸ Free Consultation → Audit → Pilot → Partnership  │
-├─────────────────────────────────────────────────────────┤
-│  6. Pricing (Transparent)                               │
-│     ▸ Pay-What-You-Think → Pilot → Partnership          │
-├─────────────────────────────────────────────────────────┤
-│  7. Final CTA                                           │
-│     ▸ "Book Free Diagnostic" (sticky or large button)   │
-└─────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│                   SOLUTIONS                         │
+│  Systems We've Built That Save Time & Money        │
+└─────────────────────────────────────────────────────┘
+
+[Simple grid of solution cards - no filters/tags yet]
+
+┌───────────────┐  ┌───────────────┐  ┌───────────────┐
+│ Solution Card │  │ Solution Card │  │ Solution Card │
+│               │  │               │  │               │
+│ [Video]       │  │ [Video]       │  │ [Video]       │
+│ Email         │  │ Project       │  │ Invoice       │
+│ Organizer     │  │ Tracker       │  │ Automation    │
+│               │  │               │  │               │
+│ ⏱ 12 hrs/week │  │ ⏱ 8 hrs/week  │  │ ⏱ 6 hrs/week  │
+│ 💰 $2,400/mo  │  │ 💰 $1,600/mo  │  │ 💰 $1,200/mo  │
+└───────────────┘  └───────────────┘  └───────────────┘
+
+... (scroll for more)
 ```
 
-**Routes to Add in App.tsx:**
-```tsx
-<Route path="/construction" element={<Construction />} />
-<Route path="/home-service" element={<HomeService />} />
-// IMPORTANT: Add ABOVE the catch-all route
-<Route path="*" element={<NotFound />} />
-```
+#### 📄 Solution Card Component
 
----
+**File:** `src/components/SolutionCard.tsx` (NEW)
 
-### 4.5 Hero Visual/Images ⏱️ 3 hours
-
-**Files:**
-- Update: `/src/components/homepage/HeroWithICP.tsx`
-- Assets: `/public/images/hero-construction.webp`, `/public/images/hero-home-service.webp`
-
-**Image Requirements:**
-- **Source:** Unsplash
-  - Construction: "construction worker tablet" or "construction site technology"
-  - Home Service: "HVAC technician mobile" or "plumber smartphone"
-- **Format:** WebP
-- **Size:** <200KB each
-- **Optimization:** Lazy load, responsive srcset
-- **Alt Text:** Descriptive for SEO
-
-**Implementation:**
-```tsx
-<img
-  src="/images/hero-construction.webp"
-  alt="Construction worker using tablet for job management"
-  loading="lazy"
-  className="rounded-2xl shadow-2xl"
-/>
-```
-
----
-
-### 4.6 Sticky Navigation + Smooth Scroll ⏱️ 2 hours
-
-**Files:**
-- Update: `/src/components/Navigation.tsx`
-- Update: `/src/index.css`
-
-**Implementation:**
-```tsx
-// Navigation.tsx
-const [scrolled, setScrolled] = useState(false);
-
-useEffect(() => {
-  const handleScroll = () => {
-    setScrolled(window.scrollY > 50);
-  };
-  window.addEventListener('scroll', handleScroll);
-  return () => window.removeEventListener('scroll', handleScroll);
-}, []);
-
-// Add className
-className={`sticky top-0 z-50 transition-all ${
-  scrolled ? 'bg-white shadow-md' : 'bg-transparent'
-}`}
-```
-
-**CSS:**
-```css
-/* index.css */
-html {
-  scroll-behavior: smooth;
+```typescript
+interface SolutionCardProps {
+  id: string;
+  title: string;
+  description: string;
+  videoUrl: string; // YouTube Short embed URL
+  timeSaved: string; // "12 hours/week"
+  costSavings: string; // "$2,400/month"
+  industry?: string; // "Construction", "HVAC", etc.
 }
 ```
 
----
+**Card Content:**
+1. Embedded YouTube Short (16:9 aspect ratio)
+2. Title (e.g., "Email Organizer System")
+3. Brief description (2-3 sentences max)
+4. ROI Metrics (bold, prominent):
+   - ⏱ Time Saved: "12 hrs/week"
+   - 💰 Cost Savings: "$2,400/month"
+5. Optional industry tag
+6. "Learn More" button (expands to full case study - Phase 2)
 
-### 4.7 Trust Badges & Guarantee ⏱️ 3 hours
+#### 🗂️ Initial Content
 
-**Files:**
-- `/src/components/homepage/FounderBadge.tsx` (NEW)
-- `/src/components/shared/GuaranteeBadge.tsx` (NEW)
-- `/src/components/shared/TrustBadges.tsx` (NEW)
-- Update: `/src/pages/Index.tsx`, `/src/pages/Pricing.tsx`, `/src/components/Footer.tsx`
+Start with 5-7 case studies. User will add more every 2-3 days.
 
-**Founder Badge Content:**
+**Example 1:**
 ```
-┌─────────────────────────────────────────────────────────┐
-│  Founder-Led Automation (No Agency Markup)              │
-├─────────────────────────────────────────────────────────┤
-│  Built by [Name] while competing as D1 Hockey player    │
-│  at Colgate University '26.                             │
-│                                                         │
-│  Solo founder—you work directly with me.                │
-│  No account managers, no junior developers.             │
-│                                                         │
-│  Battle-tested automation systems from someone who      │
-│  understands performing under pressure.                 │
-└─────────────────────────────────────────────────────────┘
-```
-
-**Guarantee Badge (Pricing Page):**
-```
-┌─────────────────────────────────────────────────────────┐
-│  Our Pilot Guarantee                                    │
-├─────────────────────────────────────────────────────────┤
-│  If the 2-week pilot doesn't hit the agreed checklist,  │
-│  you get 50% off OR full credit toward next phase.      │
-│                                                         │
-│  No fine print. Just results.                           │
-└─────────────────────────────────────────────────────────┘
+Title: Email Organizer for Construction Firms
+Video: [YouTube Short showing system in action]
+Description: Automatically sorts client emails, flags urgent 
+requests, and creates tasks in project management system.
+Time Saved: 12 hours/week
+Cost Savings: $2,400/month
+Industry: Construction
 ```
 
-**Trust Badges (Footer):**
-- 🔒 SSL Secured
-- 📄 NDA Available
-- 📍 Toronto-Based
-- 🎓 Colgate '26
+**No Filtering Yet:**
+- Just simple scrollable grid
+- Add filters/search after 10-20 case studies
+- Keep it SIMPLE for now
 
 ---
 
-### 4.8 Offer Funnel Graphic ⏱️ 2 hours
+### 5.4 About Page (`src/pages/About.tsx`)
 
-**Files:**
-- `/src/components/homepage/OfferFunnelGraphic.tsx` (NEW)
-- Update: `/src/pages/Index.tsx`
+#### 🎯 Primary Goal
+Build personal credibility and trust.
 
-**Visual Layout:**
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│  THE FLOWMATRIX AI PROCESS                                              │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│  [📞]            [⚡]              [🎯]            [📈]                 │
-│  Free            Pay-What-You      2-Week          Month-to-Month      │
-│  Consultation    Think Audit       Pilot           Partnership         │
-│                                                                         │
-│  Understand  →   Deep-dive    →   Build & Test →  Scale & Optimize    │
-│  your needs      workflow         your solution   automation          │
-│                  analysis                          roadmap            │
-└─────────────────────────────────────────────────────────────────────────┘
+#### ✏️ Required Changes
 
-Desktop: Horizontal layout with arrows
-Mobile: Vertical layout with downward arrows
-```
-
-**Styling:**
-- Icons: `h-12 w-12`, gradient backgrounds
-- Cards: `p-6`, `rounded-xl`, `shadow-lg`
-- Arrows: `→` on desktop, `↓` on mobile
-
----
-
-### 4.9 Chat Widget Optimization (CONVOCORE) ⏱️ 2 hours
-
-**Files:**
-- Update CONVOCORE initialization (likely in `index.html` or `App.tsx`)
-
-**Trigger Logic:**
-```tsx
-useEffect(() => {
-  let triggered = false;
-
-  // Timer: 45 seconds
-  const timer = setTimeout(() => {
-    if (!triggered) {
-      showConvoCore();
-      triggered = true;
-    }
-  }, 45000);
-
-  // Scroll: 50% of page
-  const handleScroll = () => {
-    if (!triggered) {
-      const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-      if (scrollPercent > 0.5) {
-        showConvoCore();
-        triggered = true;
-      }
-    }
-  };
-
-  window.addEventListener('scroll', handleScroll);
-
-  return () => {
-    clearTimeout(timer);
-    window.removeEventListener('scroll', handleScroll);
-  };
-}, []);
-```
-
-**Analytics Tracking:**
-```tsx
-window.gtag?.('event', 'chat_widget_shown', {
-  event_category: 'engagement',
-  trigger: '45s_or_50%_scroll'
-});
-```
-
----
-
-### 4.10 Lead Magnet PDF + Modal ⏱️ 4 hours
-
-**Files:**
-- `/src/components/homepage/LeadMagnetModal.tsx` (NEW)
-- `/public/pdfs/automation-wins-field-teams.pdf` (NEW)
-- Update: `/src/pages/Index.tsx`
-
-**PDF Content: "4 Automation Wins for Field Teams"**
-1. Email Intelligence: Auto-prioritize urgent emails
-2. Dispatch Optimization: Route techs for max efficiency
-3. Invoice Acceleration: Generate & send invoices instantly
-4. Customer Follow-up: Automate renewal reminders
-
-**Modal Trigger:**
-- Scroll 60% past hero section
-- Show once per session (localStorage)
-
-**Modal Flow:**
-```
-┌─────────────────────────────────────────────────────────┐
-│  [X]                                                    │
-│                                                         │
-│  Get Your Free PDF                                      │
-│  "4 Automation Wins for Field Teams"                    │
-│                                                         │
-│  [Email Input Field]                                    │
-│                                                         │
-│  [Download Now Button]                                  │
-│                                                         │
-│  We'll email you the PDF instantly.                     │
-└─────────────────────────────────────────────────────────┘
-```
-
-**Backend:**
-- Submit email to Supabase newsletter function
-- Trigger email with PDF attachment via Resend API
-
----
-
-## 5. Implementation Roadmap
-
-### Phase 1: Foundation (Week 1) - 22 hours → Score: 85/100 ✅ COMPLETED
+**A. Add Founder Section**
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│  SPRINT 1.1: Homepage Hero (4h) ✅ COMPLETED            │
-├─────────────────────────────────────────────────────────┤
-│  [✓] Create ICPToggle.tsx                               │
-│  [✓] Create HeroWithICP.tsx                             │
-│  [✓] Source and optimize hero images (Unsplash → WebP) │
-│  [✓] Update Index.tsx to use new hero                   │
-│  [✓] Remove "Serving Toronto & GTA" badge               │
-│  [✓] Update Calendly URL across all pages               │
-└─────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│            [Professional Headshot]                  │
+│                                                     │
+│         Hi, I'm [Founder Name]                      │
+│         Founder of FlowMatrix AI                    │
+└─────────────────────────────────────────────────────┘
 
-┌─────────────────────────────────────────────────────────┐
-│  SPRINT 1.2: ICP Pain Point Sections (6h) ✅ COMPLETED  │
-├─────────────────────────────────────────────────────────┤
-│  [✓] Create ICPPainPointSection.tsx                     │
-│  [✓] Write construction pain point copy                 │
-│  [✓] Write home service pain point copy                 │
-│  [✓] Add to Index.tsx below hero                        │
-└─────────────────────────────────────────────────────────┘
+Paragraph 1: Why I Started FlowMatrix AI
+"After seeing construction and trade businesses waste 
+thousands of hours on repetitive tasks, I knew there 
+had to be a better way..."
 
-┌─────────────────────────────────────────────────────────┐
-│  SPRINT 1.3: Construction Landing Page (4h) ✅ COMPLETE │
-├─────────────────────────────────────────────────────────┤
-│  [✓] Create Construction.tsx                            │
-│  [✓] Create LandingPageHero.tsx (reusable)              │
-│  [✓] Create PainPointCards.tsx (reusable)               │
-│  [✓] Create OfferFunnel.tsx (reusable)                  │
-│  [✓] Add UBL case study section                         │
-│  [✓] Add offer funnel section                           │
-│  [✓] Add pricing section                                │
-│  [✓] Fix dark mode contrast issues                      │
-│  [✓] Update App.tsx routes (ABOVE NotFound)             │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  SPRINT 1.4: Home Service Landing Page (4h) ✅ COMPLETE │
-├─────────────────────────────────────────────────────────┤
-│  [✓] Create HomeService.tsx                             │
-│  [✓] Reuse LandingPageHero.tsx                          │
-│  [✓] Reuse PainPointCards.tsx                           │
-│  [✓] Reuse OfferFunnel.tsx                              │
-│  [✓] Customize content for home service ICP             │
-│  [✓] Update App.tsx routes                              │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  SPRINT 1.5: Proof Cards (4h) ✅ COMPLETED              │
-├─────────────────────────────────────────────────────────┤
-│  [✓] Create ProofCard.tsx                               │
-│  [✓] Create ProofSection.tsx                            │
-│  [✓] Input UBL metrics (150hrs, $3.5K, $10K-$20K)       │
-│  [✓] Add to Index.tsx                                   │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  PHASE 1 TESTING ✅ COMPLETED                           │
-├─────────────────────────────────────────────────────────┤
-│  [✓] ICP toggle switches Construction/Home Service      │
-│  [✓] Landing pages load at /construction, /home-service │
-│  [✓] Proof cards display with correct metrics           │
-│  [✓] Mobile responsive (iPhone SE, 14, iPad)            │
-│  [✓] Dark mode text visibility fixed                    │
-│  [✓] All Calendly URLs updated                          │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  GIT COMMIT & PUSH ✅ COMPLETED                         │
-├─────────────────────────────────────────────────────────┤
-│  [✓] Git add all changes                                │
-│  [✓] Git commit with Phase 1 message                    │
-│  [✓] Git push to main branch                            │
-│  Commit: 197c873                                        │
-│  Message: "feat: complete Phase 1 - ICP segmentation    │
-│           and landing pages (score: 85/100)"            │
-└─────────────────────────────────────────────────────────┘
+[Low priority - can add later if time permits]
 ```
 
----
-
-### Phase 2: Conversion Optimization (Week 2) - 16 hours → Score: 95/100
+**B. Credentials Section**
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│  SPRINT 2.1: Hero Images (3h)                           │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Source construction image (Unsplash)               │
-│  [ ] Source home service image (Unsplash)               │
-│  [ ] Optimize to WebP (<50KB each) ⚠️ See Section 2A.5 │
-│  [ ] Add width/height attributes (prevent CLS)          │
-│  [ ] Add loading="lazy" + fetchpriority="high"          │
-│  [ ] Add to HeroWithICP.tsx with proper optimization    │
-│                                                         │
-│  ⚡ PERFORMANCE REF: Section 2A.5 (Image Guidelines)    │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  SPRINT 2.2: Sticky Navigation (2h) ✅ COMPLETED        │
-├─────────────────────────────────────────────────────────┤
-│  [✓] Update Navigation.tsx with scroll detection        │
-│  [✓] Add fixed positioning + background transition      │
-│  [✓] Add smooth scroll CSS to index.css                 │
-│  [✓] Fix fetchpriority attribute (lowercase)            │
-│                                                         │
-│  ⚡ IMPLEMENTED: Scroll-triggered nav with smooth UX    │
-│  📚 REF: Section 4.6 (Sticky Navigation Spec)           │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  SPRINT 2.3: Trust Badges (3h) ✅ COMPLETED             │
-├─────────────────────────────────────────────────────────┤
-│  [✓] Create FounderBadge.tsx (Sebastian Tamburro)      │
-│  [✓] Create GuaranteeBadge.tsx (Pilot guarantee)       │
-│  [✓] Create TrustBadges.tsx (5 badges with icons)      │
-│  [✓] Add FounderBadge to Index.tsx (after ProofSection)│
-│  [✓] Add GuaranteeBadge to Pricing.tsx (after cards)   │
-│  [✓] Add TrustBadges to Footer.tsx (top of footer)     │
-│                                                         │
-│  ⚡ IMPLEMENTED: Trust badges with dark mode support    │
-│  📚 REF: Section 4.7 (Trust Badges & Guarantee)         │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  SPRINT 2.4: Offer Funnel Graphic (2h) ✅ COMPLETED     │
-├─────────────────────────────────────────────────────────┤
-│  [✓] Create OfferFunnelGraphic.tsx (4 steps)           │
-│  [✓] Design 4-step horizontal layout (desktop)          │
-│  [✓] Design vertical layout for mobile (arrows adapt)   │
-│  [✓] Add to Index.tsx below hero (before pain points)   │
-│  [✓] Icons: Phone, Zap, Target, TrendingUp (Lucide)    │
-│  [✓] Responsive arrows: → (desktop), ↓ (mobile)        │
-│                                                         │
-│  ⚡ IMPLEMENTED: 4-step process visualization           │
-│  📚 REF: Section 4.8 (Offer Funnel Graphic)             │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  SPRINT 2.5: Chat Widget Optimization (2h) ✅ COMPLETED │
-├─────────────────────────────────────────────────────────┤
-│  [✓] Find CONVOCORE initialization code (index.html)    │
-│  [✓] Add 45-second timer trigger                        │
-│  [✓] Add 50% scroll trigger (whichever first)           │
-│  [✓] Optimize to lazy load (non-blocking)               │
-│  [ ] Add GA4 event tracking for widget shown (Phase 3)  │
-│                                                         │
-│  ⚡ PERFORMANCE IMPACT: 362KB removed from critical path│
-│  📚 REF: Section 2A.3 (Third-Party Script Lazy Loading) │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  SPRINT 2.6: Lead Magnet (4h) ✅ COMPLETED              │
-├─────────────────────────────────────────────────────────┤
-│  [✓] Create PDF content (4 automation wins, 3.8MB)     │
-│  [✓] Create LeadMagnetModal.tsx (slide-in from right)  │
-│  [✓] Add scroll trigger (60% past hero section)        │
-│  [✓] Add localStorage to show once per session         │
-│  [✓] Connect to Supabase newsletter function           │
-│  [✓] Add leadMagnet: true flag for tracking            │
-│  [✓] Email validation and form handling                │
-│  [✓] Success state with direct PDF download link       │
-│  [✓] Close methods: X button, backdrop, ESC key        │
-│  [✓] Add resetLeadMagnet() helper for testing          │
-│                                                         │
-│  ⚡ IMPLEMENTED: Lead capture with PDF download         │
-│  📚 REF: Section 4.10 (Lead Magnet PDF + Modal)         │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  PHASE 2 TESTING                                        │
-├─────────────────────────────────────────────────────────┤
-│  [✓] Nav sticky after 50px scroll                       │
-│  [ ] Hero images load correctly (Sprint 2.1 pending)    │
-│  [✓] Trust badges visible in correct locations          │
-│  [✓] Chat widget triggers at 45s OR 50% scroll          │
-│  [✓] Lead magnet modal appears, can be closed           │
-│  [✓] Email capture → PDF delivery works                 │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  PHASE 2 ADDITIONAL IMPROVEMENTS ✅ COMPLETED           │
-├─────────────────────────────────────────────────────────┤
-│  DESIGN OPTIMIZATION (frontend-design-optimizer agent): │
-│  [✓] Remove all purple colors (replaced with blue)     │
-│  [✓] Remove all gradient elements (solid colors only)   │
-│  [✓] Simplify design across all components             │
-│  [✓] Ensure consistent design across pages             │
-│  [✓] Update Navigation, Footer, Hero, Index.tsx        │
-│                                                         │
-│  Color Scheme: Blue (217°) + Green (142°) only         │
-│  Files Modified: 10 files (design system + components)  │
-│                                                         │
-│  FORM ACCESSIBILITY FIXES:                              │
-│  [✓] Add id/name attributes to all form inputs         │
-│  [✓] Add autocomplete attributes (email, tel, etc.)    │
-│  [✓] Fix label for attributes to match input ids       │
-│  [✓] Add aria-label for better screen reader support   │
-│                                                         │
-│  Forms Updated: NewsletterSignup, LeadMagnetModal,     │
-│  Contact (firstName, lastName, email, company, phone)   │
-│                                                         │
-│  TECHNICAL IMPROVEMENTS:                                 │
-│  [✓] Update browserslist database (npm update)         │
-│  [✓] Fix PDF file (3.8MB, valid content)               │
-│  [✓] Add resetLeadMagnet() console helper              │
-│  [✓] Enhanced modal trigger with logging               │
-└─────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│              Credentials & Experience               │
+│                                                     │
+│  ✅ n8n Creator                                     │
+│  ✅ 30-50 automation systems built                  │
+│  ✅ Colgate University                              │
+│  ✅ Founder, Colgate AI Club                        │
+│  ✅ Google Certifications (in progress)             │
+└─────────────────────────────────────────────────────┘
 ```
 
----
+**C. Remove/Update**
+- ❌ Remove "decade of experience" (only 1 year)
+- ❌ Remove generic team icons
+- ✅ Replace Toronto/GTA → North America
 
-### Phase 3: Analytics & Polish (Week 3) - 14 hours → Score: 100/100
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  SPRINT 3.1: Case Study Page (4h)                       │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Create CaseStudy.tsx                               │
-│  [ ] Write UBL Group case study                         │
-│  [ ] Add n8n workflow screenshots                       │
-│  [ ] Add metrics visualization                          │
-│  [ ] Update App.tsx routes                              │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  SPRINT 3.2: Tally Integration (2h)                     │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Option A: Embed Tally on Contact page              │
-│  [ ] Option B: Create TallyModal component              │
-│  [ ] Test form submissions                              │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  SPRINT 3.3: Analytics Setup (3h)                       │
-├─────────────────────────────────────────────────────────┤
-│  [ ] GA4: Create account + property                     │
-│  [ ] GA4: Add tracking code to index.html               │
-│  [ ] GA4: Set up conversion goals                       │
-│  [ ] Hotjar: Create account (free tier)                 │
-│  [ ] Hotjar: Add tracking code to index.html            │
-│  [ ] Hotjar: Configure recordings + heatmaps            │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  SPRINT 3.4: Mobile Copy Optimization (2h)              │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Shorten headlines for mobile viewport              │
-│  [ ] Convert paragraphs to bullet points                │
-│  [ ] Test readability on iPhone SE                      │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  SPRINT 3.5: Blog Template (3h)                         │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Create Blog.tsx (blog listing page)                │
-│  [ ] Create BlogPost.tsx (individual post template)     │
-│  [ ] Write sample post                                  │
-│  [ ] Update App.tsx routes                              │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  PHASE 3 TESTING                                        │
-├─────────────────────────────────────────────────────────┤
-│  [ ] GA4 tracking events firing correctly               │
-│  [ ] Hotjar recording sessions                          │
-│  [ ] Mobile copy readable on small screens              │
-│  [ ] Blog page displays correctly                       │
-│  [ ] Case study page loads with images                  │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-### Phase 4: QA & Launch (Week 4) - 10 hours
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  COMPREHENSIVE TESTING                                  │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Chrome browser testing                             │
-│  [ ] Safari browser testing                             │
-│  [ ] Firefox browser testing                            │
-│  [ ] Edge browser testing                               │
-│  [ ] iPhone SE mobile testing                           │
-│  [ ] iPhone 14 mobile testing                           │
-│  [ ] Samsung Android testing                            │
-│  [ ] iPad tablet testing                                │
-│  [ ] Lighthouse score >90 (all pages)                   │
-│  [ ] No console errors                                  │
-│  [ ] No 404 errors                                      │
-│  [ ] All forms submit successfully                      │
-│  [ ] Copy proofread and links verified                  │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  DEPLOYMENT                                             │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Set environment variables in Vercel                │
-│  [ ] Test build locally (npm run build)                 │
-│  [ ] Check for TypeScript errors                        │
-│  [ ] Merge to main branch                               │
-│  [ ] Push to GitHub                                     │
-│  [ ] Verify Vercel auto-deploy                          │
-│  [ ] Test production URL end-to-end                     │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  POST-LAUNCH MONITORING                                 │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Verify GA4 tracking in production                  │
-│  [ ] Verify Hotjar recording in production              │
-│  [ ] Mobile test on real devices                        │
-│  [ ] Monitor Vercel logs for errors                     │
-│  [ ] Set up UptimeRobot monitoring                      │
-│  [ ] Configure GA4 alerts                               │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-## 6. Content Library
-
-### Homepage Copy
-
-#### Construction Hero
-```
-Headline: Stop Job Cost Overruns & Scheduling Chaos
-
-Subheadline: We automate your construction workflows so you spend less on admin
-and scale faster. Free 5-Day Diagnostic → 2-Week Pilot → Month-to-Month Partnership.
-
-CTA Primary: Book Free Diagnostic
-CTA Secondary: See How It Works
-```
-
-#### Home Service Hero
-```
-Headline: End Dispatch Lag & Technician Idle Time
-
-Subheadline: We automate your service workflows so your techs book more jobs per day.
-Free 5-Day Diagnostic → 2-Week Pilot → Month-to-Month Partnership.
-
-CTA Primary: Book Free Diagnostic
-CTA Secondary: See Case Study
-```
-
----
-
-### Pain Points
-
-#### Construction Pain Points
-```
-1. Job Cost Overruns
-   Icon: DollarSign (Lucide)
-   Title: "Projects Going Over Budget"
-   Description: "Poor cost tracking and invoice delays lead to budget overruns and
-   reduced profitability on every job."
-
-2. Scheduling Chaos
-   Icon: Calendar (Lucide)
-   Title: "Manual Scheduling = Downtime"
-   Description: "Manual crew scheduling leads to gaps, idle time, missed deadlines,
-   and frustrated clients."
-
-3. Invoice Delays
-   Icon: FileText (Lucide)
-   Title: "Slow Payment Cycles"
-   Description: "Manual invoicing and approval bottlenecks slow your payment cycles
-   and hurt cash flow."
-```
-
-#### Home Service Pain Points
-```
-1. Dispatch Lag
-   Icon: Clock (Lucide)
-   Title: "2+ Hours Wasted Daily"
-   Description: "Manual scheduling and job assignment wastes hours that could be
-   spent serving more customers."
-
-2. Technician Idle Time
-   Icon: Users (Lucide)
-   Title: "Techs Idle Between Jobs"
-   Description: "Poor route optimization leaves technicians idle instead of
-   maximizing billable hours."
-
-3. Customer Wait Times
-   Icon: Phone (Lucide)
-   Title: "Slow Response = Lost Jobs"
-   Description: "Delayed response times mean customers book with competitors who
-   respond faster."
-```
-
----
-
-### Proof Cards Copy
-```
-Card 1:
-  Metric: "150+ Hours"
-  Subtext: "Saved in 3 Months"
-  Description: "Email intelligence automation for GTA construction contractor"
-  Gradient: Blue
-  Icon: Mail
-
-Card 2:
-  Metric: "$3,500+"
-  Subtext: "ROI Achieved"
-  Description: "Combined savings across email and developer outreach automation"
-  Gradient: Green
-  Icon: TrendingUp
-
-Card 3:
-  Metric: "$10K-$20K+"
-  Subtext: "Projected Monthly ROI"
-  Description: "Full ERP system currently in development"
-  Badge: "Coming Soon"
-  Gradient: Purple
-  Icon: Database
-```
-
----
-
-### Founder Story
-```
-Headline: Founder-Led Automation (No Agency Markup)
-
-Body: Built by [Name] while competing as D1 Hockey player at Colgate University '26.
-
-Solo founder—you work directly with me. No account managers, no junior developers.
-
-Battle-tested automation systems from someone who understands performing under pressure.
-```
-
----
-
-### Guarantee Copy
-```
-Headline: Our Pilot Guarantee
-
-Body: If the 2-week pilot doesn't hit the agreed checklist, you get 50% off OR
-full credit toward next phase.
-
-No fine print. Just results.
-```
-
----
-
-### Offer Funnel Steps
-```
-Step 1: Free Consultation
-  Icon: Phone
-  Description: "Understand your workflow and identify automation opportunities"
-
-Step 2: Pay-What-You-Think Audit
-  Icon: Zap
-  Description: "Deep-dive workflow analysis with actionable recommendations"
-
-Step 3: 2-Week Pilot
-  Icon: Target
-  Description: "Build and test your custom automation solution"
-
-Step 4: Month-to-Month Partnership
-  Icon: TrendingUp
-  Description: "Scale automation and optimize your entire operation"
-```
-
----
-
-## 7. Integrations Setup
-
-### Google Analytics 4 (GA4) - ⏱️ 3 hours
-
-**Setup Steps:**
-1. Create account at analytics.google.com
-2. Create property for FlowMatrix AI
-3. Get measurement ID (G-XXXXXXXXXX)
-4. Add tracking code to `/index.html`:
+**D. Add n8n Creator Badge**
 
 ```html
-<!-- Google Analytics 4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-</script>
-```
-
-**Conversion Goals:**
-- `calendly_booking` - When user clicks Calendly CTA
-- `tally_form_submit` - When user submits Tally form
-- `newsletter_signup` - When user signs up for newsletter
-- `lead_magnet_download` - When user downloads PDF
-
-**Event Tracking Example:**
-```tsx
-// Track Calendly booking
-window.gtag?.('event', 'calendly_booking', {
-  event_category: 'conversion',
-  event_label: 'Free Diagnostic',
-  value: 1
-});
+<div class="flex items-center justify-center">
+  <img src="/badges/n8n-creator-badge.png" alt="n8n Creator" />
+  <span>Official n8n Creator</span>
+</div>
 ```
 
 ---
 
-### Hotjar - ⏱️ 1 hour
+### 5.5 Newsletter Page (`src/pages/Newsletter.tsx`)
 
-**Setup Steps:**
-1. Create account at hotjar.com (free tier: 35 daily sessions)
-2. Create site
-3. Get tracking code
-4. Add to `/index.html` before `</head>`
-
-**Configuration:**
-- Enable recordings for: `/`, `/construction`, `/home-service`, `/pricing`
-- Create heatmaps for: Homepage, Landing pages
-- Set up funnels: Homepage → Landing Page → Calendly
+#### Changes
+- Keep page as-is
+- Remove from main navigation
+- Add link in footer
+- Add inline signup components throughout site
 
 ---
 
-### Tally Forms - ⏱️ 2 hours
+### 5.6 Contact Page (`src/pages/Contact.tsx`)
 
-**Already set up, needs optimization**
+#### Changes
+- Keep page as-is
+- Remove from main navigation
+- Add link in footer only
+- Update form to trigger n8n automation (Phase 2)
 
-**Option A: Modal Popup**
+---
+
+## 6. Component Updates
+
+### 6.1 Navigation Component (`src/components/Navigation.tsx`)
+
+#### Current Structure
 ```tsx
-// TallyModal.tsx
-<TallyEmbed formId="FORM_ID" />
+<nav>
+  <Link to="/">Home</Link>
+  <Link to="/pricing">Pricing</Link>
+  <Link to="/use-cases">Use Cases</Link>
+  <Link to="/newsletter">Newsletter</Link>
+  <Link to="/about">About</Link>
+  <Link to="/contact">Contact</Link>
+  <Button>Get Your Free Automation Audit</Button>
+</nav>
 ```
 
-**Option B: Dedicated Page**
+#### New Structure
 ```tsx
-// /intake page
-<Route path="/intake" element={<IntakePage />} />
+<nav>
+  <Link to="/">Home</Link>
+  <Link to="/pricing">Pricing</Link>
+  <Link to="/solutions">Solutions</Link>
+  <Link to="/about">About</Link>
+  <Button onClick={openTallyForm}>Get Started</Button>
+</nav>
 ```
 
-**Embed Code:**
+#### Implementation Notes
+- Remove `/use-cases` link
+- Change to `/solutions`
+- Remove `/newsletter` and `/contact` links
+- Update CTA button text
+- Add Tally form popup handler
+
+```typescript
+const openTallyForm = () => {
+  // Tally.io embed code
+  window.open('https://tally.so/r/wMBOXE', '_blank', 'width=600,height=800');
+  // OR use Tally's embed widget if preferred
+};
+```
+
+### 6.2 Footer Component (`src/components/Footer.tsx`)
+
+#### Updates Needed
+
+**Add to Footer:**
+- Contact link
+- Newsletter link
+- Inline newsletter signup form
+
 ```tsx
-<iframe
-  src="https://tally.so/r/FORM_ID"
-  width="100%"
-  height="600"
-  frameBorder="0"
-  title="Free Diagnostic Form"
+<footer>
+  <div class="footer-links">
+    <Link to="/about">About</Link>
+    <Link to="/pricing">Pricing</Link>
+    <Link to="/solutions">Solutions</Link>
+    <Link to="/contact">Contact</Link>
+    <Link to="/newsletter">Newsletter</Link>
+    <Link to="/terms">Terms</Link>
+    <Link to="/privacy">Privacy</Link>
+  </div>
+  
+  <div class="newsletter-signup">
+    <h4>Get Weekly AI Automation Insights</h4>
+    <NewsletterSignupInline />
+  </div>
+</footer>
+```
+
+### 6.3 Button Component Standardization
+
+**All CTA buttons should:**
+- Use single accent color (blue OR green)
+- Say "Get Started" or similar optimized text
+- Link to Tally form
+- NO gradients
+
+```tsx
+// BEFORE
+<Button className="bg-gradient-to-r from-blue-600 to-purple-600">
+  Get Your Free Automation Audit
+</Button>
+
+// AFTER
+<Button className="bg-accent hover:bg-accent-hover">
+  Get Started
+</Button>
+```
+
+### 6.4 New Components to Create
+
+#### `src/components/SolutionCard.tsx`
+- Card for Solutions gallery
+- Shows video, title, description, ROI metrics
+- Responsive design
+
+#### `src/components/NewsletterSignupInline.tsx`
+- Subtle inline signup form
+- Email input + submit button
+- Can be placed anywhere on site
+
+#### `src/components/DecisionPointCallout.tsx`
+- Visual component for decision points
+- Used on Pricing page
+- Emphasizes low-friction approach
+
+```tsx
+<DecisionPointCallout 
+  number={1}
+  title="Continue with audit?"
+  description="We're confident you'll see value in the diagnostic."
+  yesAction="Proceed to $300 audit"
+  noAction="Part ways, zero obligation"
 />
 ```
 
 ---
 
-### Supabase Edge Function: Lead Magnet Email - ⏱️ 1 hour
+## 7. Content Guidelines
 
-**File:** `/supabase/functions/send-lead-magnet/index.ts`
+### 7.1 Global Find & Replace
 
+Run these replacements across ALL files:
+
+| Find | Replace |
+|------|---------|
+| `Toronto` | `North America` |
+| `GTA` | `North America` |
+| `Greater Toronto Area` | `North America` |
+| `Get Your Free Automation Audit` | `Get Started` |
+| `Book Free Diagnostic` | `Get Started` |
+| `Pay-what-you-think` | `$300 with 100% satisfaction guarantee` |
+| `Pay what you think it's worth` | `$300 with 100% satisfaction guarantee` |
+
+### 7.2 Tone & Voice
+
+**Key Messages to Emphasize:**
+- "We're confident in our value"
+- "Two decision points, zero risk"
+- "100% satisfaction guarantee"
+- "Walk away at any time"
+- "No pressure, no hard selling"
+
+**Avoid:**
+- Aggressive sales language
+- Vague promises
+- Over-complicated explanations
+- Corporate jargon
+
+### 7.3 SEO Updates
+
+**Meta Tags to Update:**
+
+```html
+<!-- BEFORE -->
+<title>FlowMatrix AI | Toronto Construction Automation</title>
+<meta name="description" content="AI automation for Toronto & GTA trades">
+
+<!-- AFTER -->
+<title>FlowMatrix AI | Construction Automation for North America</title>
+<meta name="description" content="AI automation for North American construction and trade businesses. $300 audit with 100% satisfaction guarantee.">
+```
+
+**Update in Files:**
+- `index.html`
+- `src/pages/Index.tsx` (Helmet component)
+- `src/pages/Pricing.tsx` (Helmet component)
+- `src/pages/About.tsx` (Helmet component)
+
+---
+
+## 8. Implementation Checklist
+
+### Phase 1: Critical (Pre-Launch) - Estimated 16-24 hours
+
+#### Design System (4 hours)
+- [ ] Update `src/index.css` - remove gradients, simplify colors
+- [ ] Update `tailwind.config.ts` - remove complex color system
+- [ ] Choose accent color (dark blue OR dark green)
+- [ ] Test color changes across all pages
+- [ ] Remove all gradient classes from components
+
+#### Navigation & Routing (2 hours)
+- [ ] Update `src/components/Navigation.tsx` - new menu structure
+- [ ] Update `src/App.tsx` - change routes
+- [ ] Update `src/components/Footer.tsx` - add Contact, Newsletter
+- [ ] Add Tally form integration to CTA buttons
+- [ ] Test navigation flow
+
+#### Homepage Updates (4 hours)
+- [ ] Replace IStock watermarked images
+- [ ] Update hero headline (Toronto → North America)
+- [ ] Add 5-step process section with decision points
+- [ ] Remove "Featured Systems" section
+- [ ] Update testimonials with ROI metrics
+- [ ] Add credibility section (n8n badge, Colgate, etc.)
+- [ ] Add inline newsletter signup
+- [ ] Update all CTAs to "Get Started"
+
+#### Pricing Page Rewrite (3 hours)
+- [ ] Create 5 detailed step cards
+- [ ] Add 2 decision point callouts
+- [ ] Update FAQ section
+- [ ] Change audit price to $300
+- [ ] Emphasize 100% satisfaction guarantee
+- [ ] Update all copy (Toronto → North America)
+
+#### Solutions Page Creation (4 hours)
+- [ ] Delete 8 use case detail pages
+- [ ] Create `src/pages/Solutions.tsx`
+- [ ] Create `src/components/SolutionCard.tsx`
+- [ ] Build simple gallery layout
+- [ ] Add 5-7 initial case studies (user will provide)
+- [ ] Test responsive design
+
+#### About Page Updates (1 hour)
+- [ ] Add professional headshot
+- [ ] Add credentials section (n8n, Colgate, systems built)
+- [ ] Remove "decade of experience"
+- [ ] Update Toronto → North America
+
+#### Technical Cleanup (2 hours)
+- [ ] Remove CONVOCORE agent code from `index.html`
+- [ ] Update `public/sitemap.xml`
+- [ ] Global find & replace (Toronto, GTA, CTA text)
+- [ ] Remove unused CSS/components
+- [ ] Test all page routes
+- [ ] Fix any TypeScript errors
+- [ ] Test mobile responsiveness
+
+### Phase 2: Enhancement (Post-Launch) - Ongoing
+
+#### n8n Automation Setup
+- [ ] Build n8n workflow: Tally form → Email → Calendly link
+- [ ] Test automation end-to-end
+- [ ] Add error handling
+
+#### Content Expansion
+- [ ] Add 1 case study every 2-3 days to Solutions page
+- [ ] Create Results/Blog section
+- [ ] Write client success story posts
+- [ ] Link blog posts to Solutions
+
+#### Credibility Enhancements
+- [ ] Add more testimonials with logos
+- [ ] Join industry associations (paid memberships)
+- [ ] Add association logos to homepage
+- [ ] Get client permission for logo usage
+
+#### Optimization
+- [ ] A/B test CTA button text
+- [ ] Add analytics tracking
+- [ ] Monitor conversion rates
+- [ ] Optimize page load speeds
+
+---
+
+## 9. Priority Phases
+
+### 🔴 Phase 1: Pre-Launch Must-Haves (Do First)
+
+**Goal:** Website ready for client outreach
+
+**Deliverables:**
+1. ✅ Clean white/black design with one accent color
+2. ✅ Clear 5-step process with 2 decision points
+3. ✅ Tally form integration
+4. ✅ Solutions page with 5-7 case studies
+5. ✅ Updated pricing ($300 audit)
+6. ✅ North America positioning
+7. ✅ About page credibility elements
+8. ✅ All Toronto references removed
+
+**Estimated Time:** 16-24 hours
+
+**Launch Criteria:**
+- No broken links
+- Mobile responsive
+- Fast page loads (<3 seconds)
+- Forms work correctly
+- No console errors
+
+### 🟡 Phase 2: Post-Launch Enhancements (After 2-3 Clients)
+
+**Goal:** Scale and optimize based on real feedback
+
+**Deliverables:**
+1. n8n automation (form → email → diagnostic)
+2. Results/blog section
+3. More case studies (10+ total)
+4. Advanced testimonials
+5. Industry association logos
+6. Newsletter optimization
+7. CONVOCORE agent (revisit)
+
+### 🟢 Phase 3: Growth & Scale (After $5K+ MRR)
+
+**Goal:** Add complexity as needed
+
+**Deliverables:**
+1. Multi-tier retainer packages
+2. Case study filtering/search
+3. Advanced analytics
+4. Client portal (separate project)
+5. Employee management system
+
+---
+
+## 10. Files Reference
+
+### Files to DELETE
+```
+src/pages/use-cases/Leads.tsx
+src/pages/use-cases/ContentCreation.tsx
+src/pages/use-cases/SocialMedia.tsx
+src/pages/use-cases/Scheduling.tsx
+src/pages/use-cases/ClientManagement.tsx
+src/pages/use-cases/Documentation.tsx
+src/pages/use-cases/Invoicing.tsx
+src/pages/use-cases/Inventory.tsx
+```
+
+### Files to CREATE
+```
+src/pages/Solutions.tsx
+src/components/SolutionCard.tsx
+src/components/NewsletterSignupInline.tsx
+src/components/DecisionPointCallout.tsx
+```
+
+### Files to MODIFY
+```
+src/index.css (major changes - color system)
+tailwind.config.ts (simplify colors)
+src/App.tsx (routing changes)
+src/components/Navigation.tsx (menu structure)
+src/components/Footer.tsx (add links)
+src/pages/Index.tsx (major updates)
+src/pages/Pricing.tsx (complete rewrite)
+src/pages/About.tsx (credibility updates)
+src/pages/UseCases.tsx (delete or repurpose)
+index.html (remove CONVOCORE agent)
+public/sitemap.xml (update routes)
+```
+
+### Files to KEEP AS-IS
+```
+src/pages/Newsletter.tsx
+src/pages/Contact.tsx
+src/pages/Terms.tsx
+src/pages/Privacy.tsx
+All src/components/ui/* (shadcn components)
+```
+
+---
+
+## 11. Technical Notes for Claude Code
+
+### 🛠️ Tech Stack
+- **Framework:** Vite + React 18
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Routing:** React Router v6
+- **UI Components:** shadcn/ui (Radix UI primitives)
+- **Form Handling:** React Hook Form + Zod
+
+### 📁 Project Structure
+```
+src/
+├── components/
+│   ├── ui/              # shadcn components (don't edit)
+│   ├── Navigation.tsx
+│   ├── Footer.tsx
+│   ├── SolutionCard.tsx        # NEW
+│   └── NewsletterSignupInline.tsx  # NEW
+├── pages/
+│   ├── Index.tsx
+│   ├── Pricing.tsx
+│   ├── Solutions.tsx           # NEW
+│   ├── About.tsx
+│   └── [other pages]
+├── index.css
+└── App.tsx
+```
+
+### 🎨 Styling Conventions
+- Use Tailwind utility classes
+- Follow existing component patterns
+- Maintain responsive design (mobile-first)
+- Use semantic HTML
+
+### 🧪 Testing Checklist
+Before considering any page "done":
+- [ ] Test on mobile (375px width)
+- [ ] Test on tablet (768px width)
+- [ ] Test on desktop (1440px width)
+- [ ] Check all links work
+- [ ] Verify forms submit correctly
+- [ ] Check for console errors
+- [ ] Validate TypeScript compiles
+- [ ] Test with slow 3G network
+
+### 📞 Tally Form Integration
+
+**Form URL:** `https://tally.so/r/wMBOXE`
+
+**Implementation Options:**
+
+**Option A: Popup Modal**
 ```typescript
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-
-serve(async (req) => {
-  const { email } = await req.json()
-
-  // Save to newsletter table
-  const supabase = createClient(
-    Deno.env.get('SUPABASE_URL')!,
-    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-  )
-
-  await supabase.from('newsletter_signups').insert({ email })
-
-  // Send email with PDF via Resend API
-  const resendResponse = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      from: 'FlowMatrix AI <hello@flowmatrixai.com>',
-      to: email,
-      subject: 'Your Free PDF: 4 Automation Wins for Field Teams',
-      html: `<p>Thanks for your interest! Here's your PDF.</p>`,
-      attachments: [{
-        filename: 'automation-wins-field-teams.pdf',
-        path: 'https://flowmatrixai.com/pdfs/automation-wins-field-teams.pdf'
-      }]
-    })
-  })
-
-  return new Response(JSON.stringify({ success: true }), {
-    headers: { 'Content-Type': 'application/json' }
-  })
-})
+const openTallyForm = () => {
+  window.Tally?.openPopup('wMBOXE', {
+    layout: 'modal',
+    width: 600,
+    autoClose: 3000,
+  });
+};
 ```
+
+**Option B: New Tab**
+```typescript
+const openTallyForm = () => {
+  window.open('https://tally.so/r/wMBOXE', '_blank');
+};
+```
+
+**Option C: Embed (for dedicated page)**
+```html
+<iframe 
+  src="https://tally.so/embed/wMBOXE?alignLeft=1&hideTitle=1&transparentBackground=1"
+  width="100%" 
+  height="600" 
+  frameborder="0" 
+  marginheight="0" 
+  marginwidth="0"
+  title="FlowMatrix AI Intake Form"
+></iframe>
+```
+
+**Choose Option A (Popup Modal)** for best UX - keeps users on site.
 
 ---
 
-## 8. File Structure
+## 12. Success Metrics (Post-Launch)
 
-```
-flowmatrixai/
-├── src/
-│   ├── components/
-│   │   ├── homepage/                        [NEW DIRECTORY]
-│   │   │   ├── ICPToggle.tsx               [NEW - 4.1]
-│   │   │   ├── HeroWithICP.tsx             [NEW - 4.1]
-│   │   │   ├── ICPPainPointSection.tsx     [NEW - 4.2]
-│   │   │   ├── ProofSection.tsx            [NEW - 4.3]
-│   │   │   ├── ProofCard.tsx               [NEW - 4.3]
-│   │   │   ├── OfferFunnelGraphic.tsx      [NEW - 4.8]
-│   │   │   ├── FounderBadge.tsx            [NEW - 4.7]
-│   │   │   └── LeadMagnetModal.tsx         [NEW - 4.10]
-│   │   │
-│   │   ├── landing-pages/                   [NEW DIRECTORY]
-│   │   │   ├── LandingPageHero.tsx         [NEW - 4.4]
-│   │   │   ├── PainPointCards.tsx          [NEW - 4.4]
-│   │   │   └── OfferFunnel.tsx             [NEW - 4.4]
-│   │   │
-│   │   ├── shared/                          [NEW DIRECTORY]
-│   │   │   ├── GuaranteeBadge.tsx          [NEW - 4.7]
-│   │   │   ├── TrustBadges.tsx             [NEW - 4.7]
-│   │   │   └── TallyModal.tsx              [NEW - Optional]
-│   │   │
-│   │   ├── ui/                              [EXISTING - shadcn/ui]
-│   │   ├── Footer.tsx                       [UPDATE - Add TrustBadges]
-│   │   └── Navigation.tsx                   [UPDATE - Sticky nav]
-│   │
-│   ├── pages/
-│   │   ├── Index.tsx                        [UPDATE - Add all homepage components]
-│   │   ├── Construction.tsx                 [NEW - 4.4]
-│   │   ├── HomeService.tsx                  [NEW - 4.4]
-│   │   ├── CaseStudy.tsx                    [NEW - Phase 3]
-│   │   ├── Pricing.tsx                      [UPDATE - Add GuaranteeBadge]
-│   │   ├── Blog.tsx                         [NEW - Phase 3]
-│   │   └── BlogPost.tsx                     [NEW - Phase 3]
-│   │
-│   ├── App.tsx                              [UPDATE - Add routes]
-│   └── index.css                            [UPDATE - Smooth scroll]
-│
-├── public/
-│   ├── images/
-│   │   ├── hero-construction.webp           [NEW - 4.5]
-│   │   └── hero-home-service.webp           [NEW - 4.5]
-│   └── pdfs/
-│       └── automation-wins-field-teams.pdf  [NEW - 4.10]
-│
-├── supabase/
-│   └── functions/
-│       └── send-lead-magnet/
-│           └── index.ts                     [NEW - Lead magnet email]
-│
-├── index.html                               [UPDATE - Add GA4 + Hotjar]
-├── PRD.md                                   [THIS FILE]
-└── CLAUDE.md                                [EXISTING - Project docs]
-```
+### Key Performance Indicators
+
+| Metric | Target | Measurement |
+|--------|--------|-------------|
+| Form Completion Rate | >15% | Tally analytics |
+| Discovery Call Bookings | >60% (of diagnostics) | Manual tracking |
+| Audit Conversion | >40% (of discovery calls) | Manual tracking |
+| Retainer Sign-ups | >50% (of audits) | Manual tracking |
+| Average Time on Site | >2 minutes | Google Analytics |
+| Bounce Rate | <50% | Google Analytics |
+| Page Load Speed | <3 seconds | Lighthouse |
+
+### Feedback Loop
+
+**Week 1-2:**
+- Monitor form submissions
+- Track user feedback
+- Identify friction points
+
+**Week 3-4:**
+- Optimize based on data
+- A/B test CTA variations
+- Add testimonials from first clients
+
+**Month 2+:**
+- Add case studies regularly
+- Expand Solutions gallery
+- Build Results/blog section
 
 ---
 
-## 9. Design System Reference
+## 13. Final Checklist Before Launch
 
-### Colors (Existing in index.css)
+### Pre-Launch Validation
 
-```css
-/* Primary Interactive Colors */
---interactive-primary: hsl(221, 83%, 53%)        /* Blue #3B82F6 */
---interactive-primary-hover: hsl(221, 83%, 45%)  /* Darker Blue */
---interactive-secondary: hsl(142, 71%, 45%)      /* Green #10B981 */
---interactive-accent: hsl(280, 87%, 65%)         /* Purple #A855F7 */
+- [ ] All pages load without errors
+- [ ] No broken links (internal or external)
+- [ ] Forms submit successfully
+- [ ] Tally integration works
+- [ ] Mobile responsive (test on real device)
+- [ ] Fast load times (<3 seconds)
+- [ ] No console errors in browser
+- [ ] Spelling/grammar checked
+- [ ] Toronto → North America (all instances)
+- [ ] No watermarked images
+- [ ] All CTAs say "Get Started"
+- [ ] Pricing shows $300 audit
+- [ ] Decision points clearly visible
+- [ ] n8n badge present
+- [ ] Contact/Newsletter in footer only
+- [ ] Sitemap updated
+- [ ] Meta tags updated
+- [ ] Favicon present
 
-/* Surface Colors */
---surface-light: hsl(0, 0%, 98%)                 /* Light Gray */
---surface-medium: hsl(0, 0%, 95%)                /* Medium Gray */
---surface-dark: hsl(0, 0%, 20%)                  /* Dark Gray */
+### Post-Launch Monitoring
 
-/* Background Colors for ICP Sections */
-bg-blue-50    /* Construction section background */
-bg-green-50   /* Home Service section background */
-```
-
----
-
-### Typography
-
-```css
-/* Headings */
-H1: text-4xl md:text-6xl font-bold
-H2: text-3xl md:text-5xl font-bold
-H3: text-2xl md:text-4xl font-semibold
-H4: text-xl md:text-2xl font-semibold
-
-/* Body */
-Body Large: text-lg md:text-xl
-Body: text-base (16px)
-Body Small: text-sm
-
-/* Font Family */
-font-family: Inter, system-ui, sans-serif
-```
+- [ ] Google Analytics installed
+- [ ] Track form submissions
+- [ ] Monitor page performance
+- [ ] Check for 404 errors
+- [ ] Test on multiple browsers
+- [ ] Gather user feedback
 
 ---
 
-### Component Styles
+## 14. Questions for Founder
 
-#### ICPToggle
-```tsx
-// Active state
-className="bg-blue-600 text-white px-6 py-3 rounded-lg"
+**Accent Color Decision:**
+- [ ] Dark Blue (#1e40af) 
+- [ ] Dark Green (#065f46)
 
-// Inactive state
-className="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300"
-```
-
-#### ProofCard
-```tsx
-className="
-  p-8 rounded-2xl shadow-xl
-  bg-gradient-to-br from-blue-500 to-blue-600
-  hover:scale-105 transition-transform
-  text-white
-"
-```
-
-#### Offer Funnel Steps
-```tsx
-// Desktop: Horizontal
-className="flex flex-row items-center gap-4"
-
-// Mobile: Vertical
-className="flex flex-col items-center gap-4"
-
-// Icons
-className="h-12 w-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full"
-```
+**Please choose one and confirm.**
 
 ---
 
-### Animations (Existing in index.css)
+## 15. Summary
 
-```css
-animate-float        /* Subtle floating animation */
-animate-fade-in      /* Fade in on load */
-animate-scale-in     /* Scale up on load */
-animate-slide-up     /* Slide up on load */
-animate-glow         /* Glow effect */
-animate-pulse-glow   /* Pulsing glow effect */
-```
+This PRD provides a complete blueprint for rebuilding the FlowMatrix AI website with:
 
----
+✅ **Clear business model** - 5 steps, 2 decision points, transparent pricing  
+✅ **Simplified design** - White background, minimal color, professional  
+✅ **Scalable architecture** - Easy to add case studies over time  
+✅ **Credibility focus** - Real metrics, founder story, n8n badge  
+✅ **Low-friction UX** - Tally form integration, clear CTAs  
+✅ **North America positioning** - Remove geographic restrictions  
 
-### Gradients (Existing)
+**Estimated Implementation:** 16-24 hours for Phase 1 (pre-launch)
 
-```css
-bg-voice-gradient         /* Gradient for voice UI elements */
-bg-voice-gradient-hover   /* Hover state gradient */
-```
+**Ready to build.** 🚀
 
 ---
 
-### Spacing
-
-```css
-/* Container Padding */
-px-4 md:px-8 lg:px-16     /* Responsive horizontal padding */
-py-8 md:py-12 lg:py-16    /* Responsive vertical padding */
-
-/* Section Spacing */
-my-16 md:my-24 lg:my-32   /* Margin between major sections */
-```
-
----
-
-## 10. Testing Checklists
-
-### Phase 1 Testing Checklist
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  FUNCTIONALITY                                          │
-├─────────────────────────────────────────────────────────┤
-│  [ ] ICP toggle switches between Construction/Home      │
-│  [ ] Hero headline updates based on ICP selection       │
-│  [ ] Hero subheadline updates based on ICP              │
-│  [ ] /construction page loads without errors            │
-│  [ ] /home-service page loads without errors            │
-│  [ ] Proof cards display with correct metrics           │
-│  [ ] Pain point sections show correct content           │
-│  [ ] All CTAs are clickable                             │
-├─────────────────────────────────────────────────────────┤
-│  RESPONSIVE DESIGN                                      │
-├─────────────────────────────────────────────────────────┤
-│  [ ] iPhone SE (375px) - All content readable           │
-│  [ ] iPhone 14 (390px) - All content readable           │
-│  [ ] iPad (768px) - Layout adjusts properly             │
-│  [ ] Desktop (1920px) - Full layout displays            │
-│  [ ] No horizontal scroll on mobile                     │
-├─────────────────────────────────────────────────────────┤
-│  PERFORMANCE                                            │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Lighthouse Performance >85                         │
-│  [ ] Lighthouse Accessibility >90                       │
-│  [ ] Lighthouse Best Practices >90                      │
-│  [ ] Lighthouse SEO >90                                 │
-│  [ ] No console errors                                  │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-### Phase 2 Testing Checklist
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  NAVIGATION                                             │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Nav becomes sticky after 50px scroll               │
-│  [ ] Nav background changes on scroll                   │
-│  [ ] Smooth scroll works for anchor links               │
-├─────────────────────────────────────────────────────────┤
-│  IMAGES                                                 │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Hero images load (WebP format)                     │
-│  [ ] Images are <200KB each                             │
-│  [ ] Images are lazy loaded                             │
-│  [ ] Alt text is descriptive                            │
-├─────────────────────────────────────────────────────────┤
-│  TRUST ELEMENTS                                         │
-├─────────────────────────────────────────────────────────┤
-│  [ ] FounderBadge visible on homepage                   │
-│  [ ] GuaranteeBadge visible on pricing page             │
-│  [ ] TrustBadges visible in footer                      │
-├─────────────────────────────────────────────────────────┤
-│  CHAT WIDGET                                            │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Widget appears after 45 seconds                    │
-│  [ ] Widget appears after 50% scroll (whichever first)  │
-│  [ ] GA4 event fires when widget shown                  │
-├─────────────────────────────────────────────────────────┤
-│  LEAD MAGNET                                            │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Modal appears after 60% scroll past hero           │
-│  [ ] Modal can be closed (X button)                     │
-│  [ ] Modal doesn't reappear in same session             │
-│  [ ] Email submission works                             │
-│  [ ] PDF delivered via email                            │
-│  [ ] localStorage prevents repeat display               │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-### Phase 3 Testing Checklist
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  ANALYTICS                                              │
-├─────────────────────────────────────────────────────────┤
-│  [ ] GA4 tracking code fires on all pages               │
-│  [ ] calendly_booking event tracks                      │
-│  [ ] tally_form_submit event tracks                     │
-│  [ ] newsletter_signup event tracks                     │
-│  [ ] lead_magnet_download event tracks                  │
-│  [ ] Hotjar recordings capture sessions                 │
-│  [ ] Hotjar heatmaps configured for key pages           │
-├─────────────────────────────────────────────────────────┤
-│  CONTENT                                                │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Case study page displays correctly                 │
-│  [ ] Case study images/screenshots load                 │
-│  [ ] Blog listing page works                            │
-│  [ ] Individual blog post template works                │
-│  [ ] Mobile copy is shortened for readability           │
-│  [ ] Paragraphs converted to bullets where appropriate  │
-├─────────────────────────────────────────────────────────┤
-│  FORMS                                                  │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Tally form embeds correctly                        │
-│  [ ] Tally form submissions work                        │
-│  [ ] Contact form works                                 │
-│  [ ] Newsletter signup works                            │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-### Phase 4 Final QA Checklist
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  CROSS-BROWSER TESTING                                  │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Chrome (latest) - All features work                │
-│  [ ] Safari (latest) - All features work                │
-│  [ ] Firefox (latest) - All features work               │
-│  [ ] Edge (latest) - All features work                  │
-├─────────────────────────────────────────────────────────┤
-│  MOBILE DEVICE TESTING                                  │
-├─────────────────────────────────────────────────────────┤
-│  [ ] iPhone SE - Layout + functionality                 │
-│  [ ] iPhone 14 - Layout + functionality                 │
-│  [ ] Samsung Galaxy - Layout + functionality            │
-│  [ ] iPad - Layout + functionality                      │
-├─────────────────────────────────────────────────────────┤
-│  PERFORMANCE                                            │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Lighthouse >90 on all key pages                    │
-│  [ ] No console errors on any page                      │
-│  [ ] No 404 errors for any resource                     │
-│  [ ] Page load time <3 seconds                          │
-├─────────────────────────────────────────────────────────┤
-│  CONTENT REVIEW                                         │
-├─────────────────────────────────────────────────────────┤
-│  [ ] All copy proofread (no typos)                      │
-│  [ ] All links verified and working                     │
-│  [ ] All images have alt text                           │
-│  [ ] All CTAs lead to correct destinations              │
-├─────────────────────────────────────────────────────────┤
-│  FORMS & CONVERSIONS                                    │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Calendly booking link works                        │
-│  [ ] Tally form submissions go through                  │
-│  [ ] Newsletter signups save to database                │
-│  [ ] Lead magnet PDF emails send                        │
-├─────────────────────────────────────────────────────────┤
-│  PRODUCTION DEPLOYMENT                                  │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Environment variables set in Vercel                │
-│  [ ] Build succeeds locally                             │
-│  [ ] No TypeScript errors                               │
-│  [ ] Merged to main branch                              │
-│  [ ] Pushed to GitHub                                   │
-│  [ ] Vercel auto-deployed successfully                  │
-│  [ ] Production URL tested end-to-end                   │
-├─────────────────────────────────────────────────────────┤
-│  POST-LAUNCH MONITORING                                 │
-├─────────────────────────────────────────────────────────┤
-│  [ ] GA4 tracking verified in production                │
-│  [ ] Hotjar recording in production                     │
-│  [ ] Vercel logs monitored for errors                   │
-│  [ ] UptimeRobot configured                             │
-│  [ ] GA4 alerts configured                              │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-## 11. Success Metrics & ROI
-
-### Traffic Metrics (Post-Launch)
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  TRAFFIC GOALS                                          │
-├─────────────────────────────────────────────────────────┤
-│  Monthly Visitors:    500 → 1,000+  (2x increase)       │
-│  Bounce Rate:         60% → <50%    (improvement)       │
-│  Session Duration:    1:30 → 2:30+  (improvement)       │
-│  Pages per Session:   2 → 4+        (2x increase)       │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-### Conversion Metrics
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  CONVERSION GOALS                                       │
-├─────────────────────────────────────────────────────────┤
-│  Homepage Conversion:        1-2% → 5%                  │
-│  Landing Page Conversion:    0% → 8%                    │
-│  Calendly Bookings:          2-5/mo → 15-20/mo         │
-│  Lead Magnet Downloads:      0 → 30-50/mo              │
-│  Newsletter Signups:         5-10/mo → 30-40/mo        │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-### ROI Calculation
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  INVESTMENT                                             │
-├─────────────────────────────────────────────────────────┤
-│  Development Time:  52-62 hours @ $50/hr = $2,600-$3,100│
-│  Tools (GA4, Hotjar, etc.):  $0/mo (free tiers)         │
-│  Total Investment:  ~$3,000                             │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  6-MONTH REVENUE PROJECTION                             │
-├─────────────────────────────────────────────────────────┤
-│  Bookings per Month:  15-20                             │
-│  Close Rate:          30%                               │
-│  Clients per Month:   4-6                               │
-│  Average Deal Value:  $3,000                            │
-│  Monthly Revenue:     $12,000-$18,000                   │
-│  6-Month Revenue:     $72,000-$108,000                  │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  ROI                                                    │
-├─────────────────────────────────────────────────────────┤
-│  Revenue:     $72K-$108K                                │
-│  Investment:  $3K                                       │
-│  ROI:         24x-36x (2,400%-3,600%)                   │
-│  Payback:     <1 month                                  │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-## 12. Environment Variables
-
-```bash
-# ===== EXISTING =====
-VITE_SUPABASE_URL=https://xxx.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJxxx...
-SUPABASE_SERVICE_ROLE_KEY=eyJxxx...
-
-# ===== ADD NEW =====
-
-# Google Analytics 4
-VITE_GA4_MEASUREMENT_ID=G-XXXXXXXXXX
-
-# Hotjar
-VITE_HOTJAR_ID=XXXXXX
-
-# Resend (for lead magnet emails)
-RESEND_API_KEY=re_xxx...
-
-# Tally Forms
-VITE_TALLY_FORM_ID=xxx...
-
-# CONVOCORE Chat Widget (if not already set)
-VITE_CONVOCORE_ID=xxx...
-```
-
-**Setup in Vercel:**
-1. Go to Vercel Dashboard → Project → Settings → Environment Variables
-2. Add each variable for Production, Preview, and Development
-3. Redeploy after adding variables
-
----
-
-## 13. Deployment Guide
-
-### Pre-Deployment Checklist
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  PRE-DEPLOY TASKS                                       │
-├─────────────────────────────────────────────────────────┤
-│  [ ] All environment variables set in Vercel            │
-│  [ ] Test build locally: npm run build                  │
-│  [ ] Check for TypeScript errors: npm run lint          │
-│  [ ] All forms tested and working                       │
-│  [ ] All images optimized (<200KB)                      │
-│  [ ] All links verified                                 │
-│  [ ] Lighthouse score >90 on key pages                  │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-### Deployment Steps
-
-```bash
-# 1. Create feature branch (if not already)
-git checkout -b feature/website-enhancement
-
-# 2. Commit all changes
-git add .
-git commit -m "feat: complete website enhancement (PRD v1.0)"
-
-# 3. Push to GitHub
-git push origin feature/website-enhancement
-
-# 4. Create Pull Request on GitHub
-# Review changes, ensure CI/CD passes
-
-# 5. Merge to main
-git checkout main
-git merge feature/website-enhancement
-git push origin main
-
-# 6. Vercel auto-deploys from main branch
-# Monitor deployment at vercel.com/dashboard
-```
-
----
-
-### Post-Deployment Verification
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  POST-DEPLOY VERIFICATION                               │
-├─────────────────────────────────────────────────────────┤
-│  [ ] Production URL loads: flowmatrixai.com             │
-│  [ ] All pages accessible (no 404s)                     │
-│  [ ] GA4 tracking fires (check Real-Time reports)       │
-│  [ ] Hotjar recording sessions                          │
-│  [ ] Forms submit successfully                          │
-│  [ ] Lead magnet email delivers                         │
-│  [ ] Chat widget triggers correctly                     │
-│  [ ] Mobile responsive on real devices                  │
-│  [ ] No console errors in production                    │
-│  [ ] SSL certificate valid                              │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-### Monitoring Setup
-
-**UptimeRobot:**
-1. Create account at uptimerobot.com
-2. Add monitor for https://flowmatrixai.com
-3. Set check interval: 5 minutes
-4. Enable email alerts
-
-**GA4 Alerts:**
-1. Go to Admin → Property → Custom Alerts
-2. Create alert: "Traffic drop >50% day-over-day"
-3. Create alert: "Zero conversions for 24 hours"
-
-**Vercel Logs:**
-- Monitor at vercel.com → Project → Logs
-- Check for runtime errors
-- Review function invocations
-
----
-
-## 14. Priority Order (If Time Constrained)
-
-### Must Have (22 hours) - Gets to 85/100
-
-```
-1. ICP Toggle + Hero (4h)
-   ├─ ICPToggle.tsx
-   ├─ HeroWithICP.tsx
-   └─ Update Index.tsx
-
-2. ICP Pain Point Sections (6h)
-   ├─ ICPPainPointSection.tsx
-   └─ Update Index.tsx
-
-3. Proof Cards (4h)
-   ├─ ProofCard.tsx
-   ├─ ProofSection.tsx
-   └─ Update Index.tsx
-
-4. Construction Landing Page (4h)
-   ├─ Construction.tsx
-   ├─ LandingPageHero.tsx
-   └─ Update App.tsx
-
-5. Home Service Landing Page (4h)
-   ├─ HomeService.tsx
-   └─ Update App.tsx
-```
-
----
-
-### Should Have (11 hours) - Gets to 95/100
-
-```
-6. Founder Badge (1h)
-   ├─ FounderBadge.tsx
-   └─ Update Index.tsx
-
-7. Hero Images (3h)
-   ├─ Source + optimize images
-   └─ Update HeroWithICP.tsx
-
-8. Sticky Nav (2h)
-   ├─ Update Navigation.tsx
-   └─ Update index.css
-
-9. Funnel Graphic (2h)
-   ├─ OfferFunnelGraphic.tsx
-   └─ Update Index.tsx
-
-10. Trust Badges (3h)
-    ├─ GuaranteeBadge.tsx
-    ├─ TrustBadges.tsx
-    ├─ Update Pricing.tsx
-    └─ Update Footer.tsx
-```
-
----
-
-### Nice to Have (10 hours) - Gets to 100/100
-
-```
-11. Lead Magnet (4h)
-    ├─ Create PDF
-    ├─ LeadMagnetModal.tsx
-    └─ Supabase function
-
-12. Chat Widget Optimization (2h)
-    └─ Update CONVOCORE triggers
-
-13. Analytics Setup (3h)
-    ├─ GA4 setup
-    └─ Hotjar setup
-
-14. Case Study Page (1h)
-    └─ CaseStudy.tsx
-```
-
----
-
-## 15. Risk Mitigation
-
-### Technical Risks
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  RISK: Browser Compatibility Issues                     │
-├─────────────────────────────────────────────────────────┤
-│  Mitigation:                                            │
-│  ▸ Test in Chrome, Safari, Firefox, Edge (Phase 4)     │
-│  ▸ Use widely supported CSS features                   │
-│  ▸ Polyfills for older browsers if needed               │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  RISK: Image Performance Issues                         │
-├─────────────────────────────────────────────────────────┤
-│  Mitigation:                                            │
-│  ▸ Optimize all images to <200KB                        │
-│  ▸ Use WebP format                                      │
-│  ▸ Implement lazy loading                               │
-│  ▸ Load images asynchronously                           │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  RISK: Integration Failures (GA4, Hotjar, etc.)         │
-├─────────────────────────────────────────────────────────┤
-│  Mitigation:                                            │
-│  ▸ Test each integration immediately after setup        │
-│  ▸ Verify in production post-deploy                     │
-│  ▸ Error handling for missing analytics                 │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-### Content Risks
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  RISK: Metrics Lack Context (Confusing to Visitors)     │
-├─────────────────────────────────────────────────────────┤
-│  Mitigation:                                            │
-│  ▸ Get feedback from UBL Group on case study           │
-│  ▸ Add context to each metric (description text)       │
-│  ▸ Include timeframes ("in 3 months")                  │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  RISK: Messaging Doesn't Resonate with ICP              │
-├─────────────────────────────────────────────────────────┤
-│  Mitigation:                                            │
-│  ▸ A/B test different headlines (GA4 Experiments)       │
-│  ▸ Gather feedback from target personas                 │
-│  ▸ Monitor bounce rate and adjust copy                  │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-### Conversion Risks
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  RISK: Visitors Confused by Multiple CTAs                │
-├─────────────────────────────────────────────────────────┤
-│  Mitigation:                                            │
-│  ▸ Primary CTA: "Book Free Diagnostic" (prominent)     │
-│  ▸ Secondary CTA: "See How It Works" (subtle)          │
-│  ▸ Monitor click-through rates and simplify if needed   │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────┐
-│  RISK: Lead Magnet Modal Annoys Users                    │
-├─────────────────────────────────────────────────────────┤
-│  Mitigation:                                            │
-│  ▸ Easy close button (X in top corner)                 │
-│  ▸ Show only once per session (localStorage)           │
-│  ▸ Delay trigger (60% scroll, not immediate)           │
-│  ▸ Monitor bounce rate after modal implementation       │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-## 16. Getting Started Guide (For Claude Code)
-
-### Workflow for Each Feature
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  STEP-BY-STEP DEVELOPMENT WORKFLOW                      │
-├─────────────────────────────────────────────────────────┤
-│  1. Read Section 5 (Roadmap)                            │
-│     ▸ Identify current sprint                           │
-│     ▸ Review tasks and checklist                        │
-│                                                         │
-│  2. Reference Feature Specs (Section 4)                 │
-│     ▸ Component structure                               │
-│     ▸ File paths                                        │
-│     ▸ Implementation details                            │
-│                                                         │
-│  3. Get Copy from Content Library (Section 6)           │
-│     ▸ Headlines, subheadlines, CTAs                     │
-│     ▸ Pain point descriptions                           │
-│     ▸ Proof card content                                │
-│                                                         │
-│  4. Check File Structure (Section 8)                    │
-│     ▸ Where to create new files                         │
-│     ▸ Which files to update                             │
-│                                                         │
-│  5. Apply Design System (Section 9)                     │
-│     ▸ Colors, typography, spacing                       │
-│     ▸ Component styles                                  │
-│     ▸ Animations                                        │
-│                                                         │
-│  6. Implement Feature                                   │
-│     ▸ Create/update files                               │
-│     ▸ Write code following design system                │
-│     ▸ Test locally (npm run dev)                        │
-│                                                         │
-│  7. Test Using Checklist (Section 10)                   │
-│     ▸ Functionality                                     │
-│     ▸ Responsive design                                 │
-│     ▸ Performance                                       │
-│                                                         │
-│  8. Commit Changes                                      │
-│     ▸ git add .                                         │
-│     ▸ git commit -m "feat: [description]"               │
-│     ▸ git push origin feature/[name]                    │
-│                                                         │
-│  9. Move to Next Sprint                                 │
-│     ▸ Mark current sprint complete                      │
-│     ▸ Begin next sprint in roadmap                      │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-### Git Workflow
-
-```bash
-# Initial setup (if not done)
-git checkout -b feature/website-enhancement
-
-# For each feature/sprint
-git add .
-git commit -m "feat: implement [feature name]"
-git push origin feature/website-enhancement
-
-# After Phase 1, 2, 3 completion
-git commit -m "feat: complete Phase [X] - [description]"
-git push origin feature/website-enhancement
-
-# Final merge after Phase 4
-git checkout main
-git merge feature/website-enhancement
-git push origin main
-# Vercel auto-deploys
-```
-
-**Commit Message Format:**
-```
-feat: implement ICP toggle and hero component
-feat: add construction landing page
-feat: integrate GA4 and Hotjar analytics
-fix: resolve mobile responsive issues on iPhone SE
-```
-
----
-
-### Quick Reference
-
-**When building a new component:**
-1. Check Section 4 for specs
-2. Check Section 6 for copy
-3. Check Section 9 for styling
-4. Check Section 8 for file path
-
-**When testing:**
-1. Use Section 10 checklist for current phase
-2. Test on mobile (iPhone SE minimum)
-3. Check Lighthouse score
-4. Verify no console errors
-
-**When stuck:**
-1. Reference CLAUDE.md for project architecture
-2. Check existing shadcn/ui components in `/src/components/ui/`
-3. Review design system in Section 9
-
----
-
-## 17. Completion Criteria
-
-### Phase 1 Completion (Score: 85/100)
-
-```
-✓ ICP toggle works and switches content
-✓ Hero updates based on ICP selection
-✓ 2 landing pages live (/construction, /home-service)
-✓ Proof cards showing UBL metrics
-✓ Mobile responsive (iPhone SE, 14, iPad)
-✓ Lighthouse >85 on all pages
-✓ All CTAs clickable and functional
-```
-
----
-
-### Phase 2 Completion (Score: 95/100)
-
-```
-✓ Hero images optimized and loading
-✓ Sticky navigation with scroll detection
-✓ Trust badges in footer, homepage, pricing
-✓ Lead magnet modal triggering correctly
-✓ Chat widget optimized (45s or 50% scroll)
-✓ All forms submitting successfully
-✓ Lighthouse >90 on all pages
-```
-
----
-
-### Phase 3 Completion (Score: 100/100)
-
-```
-✓ GA4 tracking all conversion events
-✓ Hotjar recording sessions and heatmaps
-✓ Case study page live with UBL content
-✓ Mobile copy optimized for readability
-✓ Blog template created and functional
-✓ All analytics working in production
-✓ Lighthouse >90 on all pages
-```
-
----
-
-### Project Completion
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  FINAL COMPLETION CRITERIA                              │
-├─────────────────────────────────────────────────────────┤
-│  Technical:                                             │
-│  ✓ All features deployed to production                  │
-│  ✓ All tracking active (GA4, Hotjar)                    │
-│  ✓ No console errors                                    │
-│  ✓ Lighthouse >90 all key pages                         │
-│  ✓ Mobile responsive on all devices                     │
-│                                                         │
-│  Business:                                              │
-│  ✓ Calendly bookings increasing                         │
-│  ✓ Lead magnet downloads >10/week                       │
-│  ✓ Newsletter signups >10/week                          │
-│  ✓ Bounce rate <50%                                     │
-│                                                         │
-│  ROI:                                                   │
-│  ✓ 5+ qualified bookings per month                      │
-│  ✓ Positive ROI within 60 days                          │
-│  ✓ Score: 100/100                                       │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-## 18. Visual Architecture Diagram
-
-```
-┌───────────────────────────────────────────────────────────────────┐
-│                     FLOWMATRIX AI WEBSITE                         │
-│                      SITE ARCHITECTURE                            │
-└───────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────┐
-│  HOMEPAGE (/)                                                   │
-├─────────────────────────────────────────────────────────────────┤
-│  ┌─────────────────────────────────────────┐                    │
-│  │ ICP Toggle: [Construction] [Home Service] │                  │
-│  └─────────────────────────────────────────┘                    │
-│                     ↓                                           │
-│  ┌─────────────────────────────────────────┐                    │
-│  │ Hero (Dynamic based on ICP)              │                   │
-│  │ - Headline                               │                   │
-│  │ - Subheadline                            │                   │
-│  │ - CTA Buttons                            │                   │
-│  │ - Hero Image (WebP)                      │                   │
-│  └─────────────────────────────────────────┘                    │
-│                     ↓                                           │
-│  ┌─────────────────────────────────────────┐                    │
-│  │ ICP Pain Point Section                   │                   │
-│  │ - 3 Pain Points (Construction)           │                   │
-│  │ - 3 Pain Points (Home Service)           │                   │
-│  │ - CTA to Landing Pages                   │                   │
-│  └─────────────────────────────────────────┘                    │
-│                     ↓                                           │
-│  ┌─────────────────────────────────────────┐                    │
-│  │ Proof Section (UBL Metrics)              │                   │
-│  │ [150+ Hrs] [$3,500+] [$10K-$20K+]        │                   │
-│  └─────────────────────────────────────────┘                    │
-│                     ↓                                           │
-│  ┌─────────────────────────────────────────┐                    │
-│  │ Offer Funnel Graphic                     │                   │
-│  │ Consultation → Audit → Pilot → Partner   │                   │
-│  └─────────────────────────────────────────┘                    │
-│                     ↓                                           │
-│  ┌─────────────────────────────────────────┐                    │
-│  │ Founder Badge                            │                   │
-│  │ (Solo founder, D1 Hockey, Colgate '26)   │                   │
-│  └─────────────────────────────────────────┘                    │
-│                     ↓                                           │
-│  ┌─────────────────────────────────────────┐                    │
-│  │ Final CTA Section                        │                   │
-│  └─────────────────────────────────────────┘                    │
-└─────────────────────────────────────────────────────────────────┘
-                     │
-         ┌───────────┴───────────┐
-         ↓                       ↓
-┌──────────────────┐    ┌──────────────────┐
-│ /construction    │    │ /home-service    │
-├──────────────────┤    ├──────────────────┤
-│ • Hero           │    │ • Hero           │
-│ • Pain Points    │    │ • Pain Points    │
-│ • Solutions      │    │ • Solutions      │
-│ • UBL Case Study │    │ • UBL Case Study │
-│ • Offer Funnel   │    │ • Offer Funnel   │
-│ • Pricing        │    │ • Pricing        │
-│ • Final CTA      │    │ • Final CTA      │
-└──────────────────┘    └──────────────────┘
-```
-
----
-
-## 19. Conversion Funnel Flow
-
-```
-┌───────────────────────────────────────────────────────────────────┐
-│                   USER CONVERSION JOURNEY                         │
-└───────────────────────────────────────────────────────────────────┘
-
-VISITOR LANDS ON HOMEPAGE
-         │
-         ↓
-    ┌────────────────────┐
-    │ Sees ICP Toggle    │
-    │ Selects Industry   │
-    └────────────────────┘
-         │
-         ↓
-    ┌────────────────────┐
-    │ Reads Hero         │
-    │ (ICP-specific)     │
-    └────────────────────┘
-         │
-         ├─────────────────────┬─────────────────────┐
-         ↓                     ↓                     ↓
-   ┌──────────┐         ┌──────────┐         ┌──────────┐
-   │ Option 1 │         │ Option 2 │         │ Option 3 │
-   │ Clicks   │         │ Scrolls  │         │ Scrolls  │
-   │ CTA      │         │ to Pain  │         │ 60% and  │
-   │ Button   │         │ Points   │         │ sees     │
-   └──────────┘         └──────────┘         │ Lead     │
-         │                    │               │ Magnet   │
-         │                    ↓               └──────────┘
-         │             ┌────────────┐               │
-         │             │ Resonates  │               │
-         │             │ with Pain  │               │
-         │             │ Points     │               │
-         │             └────────────┘               │
-         │                    │                     │
-         │                    ↓                     │
-         │             ┌────────────┐               │
-         │             │ Clicks CTA │               │
-         │             │ to Landing │               │
-         │             │ Page       │               │
-         │             └────────────┘               │
-         │                    │                     │
-         │                    ↓                     │
-         │             ┌────────────┐               │
-         │             │ Reads Case │               │
-         │             │ Study +    │               │
-         │             │ Pricing    │               │
-         │             └────────────┘               │
-         │                    │                     │
-         └────────────────────┴─────────────────────┘
-                              │
-                              ↓
-                     ┌────────────────┐
-                     │ Books Free     │
-                     │ Diagnostic     │
-                     │ (Calendly)     │
-                     └────────────────┘
-                              │
-                              ↓
-                     ┌────────────────┐
-                     │ CONVERSION!    │
-                     │ (Qualified     │
-                     │  Lead)         │
-                     └────────────────┘
-```
-
----
-
-## 20. Analytics Events Map
-
-```
-┌───────────────────────────────────────────────────────────────────┐
-│                     GA4 EVENT TRACKING MAP                        │
-└───────────────────────────────────────────────────────────────────┘
-
-EVENT: page_view (Auto-tracked by GA4)
-├─ Trigger: Every page load
-├─ Parameters: page_location, page_title, page_referrer
-└─ Use: Track traffic, bounce rate, session duration
-
-EVENT: icp_toggle_click
-├─ Trigger: User clicks Construction or Home Service toggle
-├─ Parameters: icp_selection (construction/home_service)
-└─ Use: Understand which ICP is more popular
-
-EVENT: cta_click
-├─ Trigger: User clicks any CTA button
-├─ Parameters: cta_text, cta_location, destination_url
-└─ Use: Track which CTAs convert best
-
-EVENT: calendly_booking
-├─ Trigger: User clicks Calendly link
-├─ Parameters: source_page, icp_context
-└─ Use: PRIMARY CONVERSION METRIC
-
-EVENT: lead_magnet_shown
-├─ Trigger: Lead magnet modal appears
-├─ Parameters: scroll_depth, time_on_page
-└─ Use: Understand when users are most engaged
-
-EVENT: lead_magnet_download
-├─ Trigger: User submits email for PDF
-├─ Parameters: email (hashed), source_page
-└─ Use: Track lead generation
-
-EVENT: newsletter_signup
-├─ Trigger: User signs up for newsletter
-├─ Parameters: source_page, source_component
-└─ Use: Track email list growth
-
-EVENT: tally_form_submit
-├─ Trigger: User submits Tally form
-├─ Parameters: form_id, source_page
-└─ Use: Track form conversions
-
-EVENT: chat_widget_shown
-├─ Trigger: CONVOCORE widget appears
-├─ Parameters: trigger_type (timer/scroll)
-└─ Use: Optimize chat widget timing
-
-EVENT: landing_page_view
-├─ Trigger: User views /construction or /home-service
-├─ Parameters: icp_type, referrer
-└─ Use: Track landing page performance
-```
-
----
-
-## 21. Component Dependency Map
-
-```
-┌───────────────────────────────────────────────────────────────────┐
-│                  COMPONENT DEPENDENCY TREE                        │
-└───────────────────────────────────────────────────────────────────┘
-
-Index.tsx (Homepage)
-├─ Navigation.tsx (Updated - Sticky)
-├─ ICPToggle.tsx (NEW)
-├─ HeroWithICP.tsx (NEW)
-│  └─ Uses: icp state from ICPToggle
-├─ ICPPainPointSection.tsx (NEW)
-│  └─ Uses: icp state from ICPToggle
-├─ ProofSection.tsx (NEW)
-│  └─ ProofCard.tsx (NEW) [Used 3x]
-├─ OfferFunnelGraphic.tsx (NEW)
-├─ FounderBadge.tsx (NEW)
-├─ LeadMagnetModal.tsx (NEW)
-│  └─ Calls: Supabase newsletter function
-└─ Footer.tsx (Updated)
-   └─ TrustBadges.tsx (NEW)
-
-Construction.tsx (Landing Page)
-├─ LandingPageHero.tsx (NEW - Reusable)
-│  └─ Prop: icp="construction"
-├─ PainPointCards.tsx (NEW - Reusable)
-│  └─ Prop: icp="construction"
-├─ OfferFunnel.tsx (NEW - Reusable)
-└─ GuaranteeBadge.tsx (NEW)
-
-HomeService.tsx (Landing Page)
-├─ LandingPageHero.tsx (Reused)
-│  └─ Prop: icp="home_service"
-├─ PainPointCards.tsx (Reused)
-│  └─ Prop: icp="home_service"
-├─ OfferFunnel.tsx (Reused)
-└─ GuaranteeBadge.tsx (Reused)
-
-Pricing.tsx (Updated)
-└─ GuaranteeBadge.tsx (Added)
-
-CaseStudy.tsx (NEW - Phase 3)
-└─ Standalone page, no new components
-
-Blog.tsx (NEW - Phase 3)
-└─ BlogPost.tsx (NEW)
-```
-
----
-
----
-
-## 22. Document Change History
-
-**v1.1 - January 20, 2025:**
-- ✅ Added Section 2A: Performance Optimization Best Practices
-- ✅ Integrated performance guidelines from PERFORMANCE_OPTIMIZATION.md
-- ✅ Updated Phase 1 status (completed)
-- ✅ Updated Sprint 2.5 (Chat Widget - completed)
-- ✅ Updated Sprint 2.1 (Hero Images - added performance references)
-- ✅ Updated Executive Summary with performance metrics
-- ✅ Added cross-references to performance sections throughout
-
-**v1.0 - January 19, 2025:**
-- Initial PRD creation
-- 10 core features defined
-- 3-phase implementation roadmap
-- 52-62 hour timeline
-
----
-
-## 23. Quick Reference Guide
-
-**Need performance best practices?** → Section 2A
-**Need image optimization guidelines?** → Section 2A.5
-**Need code splitting examples?** → Section 2A.1
-**Need build config?** → Section 2A.4
-**Need component patterns?** → Section 2A.10
-
-**Need copy for components?** → Section 6
-**Need design system reference?** → Section 9
-**Need file structure?** → Section 8
-**Need testing checklists?** → Section 10
-
-**Current Status:**
-- Phase 1: ✅ COMPLETED (85/100 score)
-- Performance: ✅ OPTIMIZED (95+ expected score)
-- Next: Phase 2 (Conversion Optimization)
-
----
-
-**END OF PRD v1.1**
-
-**Next Steps:**
-1. Merge `performance-optimization` branch to `main`
-2. Test Lighthouse score (expected: 95+)
-3. Begin Phase 2, Sprint 2.1: Hero Images (with performance guidelines)
-4. Continue referencing Section 2A for all performance-related tasks
-
-**Estimated Timeline:**
-- Phase 1: ✅ Week 1 (22 hours) → 85/100 COMPLETED
-- Performance: ✅ Optimizations Applied → 95+ Expected
-- Phase 2: Week 2 (16 hours) → 95/100
-- Phase 3: Week 3 (14 hours) → 100/100
-- Phase 4: Week 4 (10 hours) → QA & Launch
-
-**Total: 52-62 hours to 100/100 score | Current: 22 hours completed**
+*End of PRD - Version 2.0*

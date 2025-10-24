@@ -109,7 +109,7 @@ const NewsletterSignup = () => {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold px-8 rounded-xl h-12"
+            className="bg-primary hover:bg-primary/90 text-white font-semibold px-8 rounded-xl h-12"
           >
             {isSubmitting ? "Subscribing..." : "Subscribe"}
           </Button>

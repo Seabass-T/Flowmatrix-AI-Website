@@ -36,78 +36,66 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Dark Mode Detection & Prevention Script -->
+    <script>
+      (function() {
+        // Prevent dark class from being added
+        const observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+              const html = document.documentElement;
+              const body = document.body;
+
+              if (html.classList.contains('dark')) {
+                console.error('⚠️ DARK MODE DETECTED ON HTML - Removing!', 'Source:', mutation.target);
+                html.classList.remove('dark');
+
+                // Log stack trace to find what added it
+                console.trace('Dark class addition stack trace');
+
+                // Alert in development
+                if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                  alert('Dark mode was attempted to be enabled on HTML element. Check console for details.');
+                }
+              }
+
+              if (body.classList.contains('dark')) {
+                console.error('⚠️ DARK MODE DETECTED ON BODY - Removing!', 'Source:', mutation.target);
+                body.classList.remove('dark');
+
+                // Log stack trace
+                console.trace('Dark class addition stack trace');
+
+                // Alert in development
+                if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                  alert('Dark mode was attempted to be enabled on BODY element. Check console for details.');
+                }
+              }
+            }
+          });
+        });
+
+        // Observe both HTML and BODY for class changes
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+        console.log('✅ Dark mode prevention script active');
+      })();
+    </script>
     
-    <!-- VoiceGlow Widget Container -->
+    <!-- CONVOCORE Widget - TEMPORARILY DISABLED -->
+    <!-- ISSUE: vg_bundle.js adds 'dark' class to HTML element, conflicting with our light-only design -->
+    <!-- TODO: Contact CONVOCORE support to disable dark mode detection or configure light mode only -->
+    <!--
     <div style="width: 0; height: 0;" id="VG_OVERLAY_CONTAINER">
-        <!-- Here is where CONVOCORE renders the widget. -->
-        <!-- Set render to 'full-width' then adjust the width and height to 500px (for example) to render the chatbot itself without the popup. -->
     </div>
 
-    <!-- CONVOCORE Widget Script - Optimized lazy loading (PRD Section 4.9) -->
     <script>
-        // Delay CONVOCORE widget until 45s OR 50% scroll (whichever first)
-        (function() {
-            let triggered = false;
-
-            function loadWidget() {
-                if (triggered) return;
-                triggered = true;
-
-                // CONVOCORE configuration
-                window.VG_CONFIG = {
-                    ID: "urcdwXj3AcLHT37pYcFj",
-                    region: 'na',
-                    render: 'bottom-right',
-                    stylesheets: [
-                        "https://vg-bunny-cdn.b-cdn.net/vg_live_build/styles.css",
-                        "/voice-agent-styles.css"
-                    ],
-                    // Optional: Primary color to match site
-                    primaryColor: '#3b82f6',
-                    bubbleColor: '#3b82f6',
-                    // Welcome message (if supported by CONVOCORE)
-                    welcomeMessage: "Hi! Need help deciding if automation is right for your field team? I'm here to chat."
-                };
-
-                const script = document.createElement("script");
-                script.src = "https://vg-bunny-cdn.b-cdn.net/vg_live_build/vg_bundle.js";
-                script.defer = true;
-                document.body.appendChild(script);
-
-                // Analytics tracking (if Google Analytics is available)
-                if (window.gtag) {
-                    window.gtag('event', 'chat_widget_shown', {
-                        event_category: 'engagement',
-                        trigger: '45s_or_50%_scroll'
-                    });
-                }
-            }
-
-            // Scroll trigger: 50% of page
-            function handleScroll() {
-                if (triggered) return;
-
-                // Calculate scroll percentage: current scroll / total scrollable height
-                const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-
-                if (scrollPercent > 0.5) {
-                    loadWidget();
-                    window.removeEventListener('scroll', handleScroll);
-                }
-            }
-
-            // Initialize triggers on page load
-            window.addEventListener('load', function() {
-                // Timer trigger: 45 seconds
-                const timer = setTimeout(loadWidget, 45000);
-
-                // Scroll trigger: 50% of page
-                window.addEventListener('scroll', handleScroll, { passive: true });
-
-                // Cleanup is handled by the triggered flag
-                // Once triggered=true, both functions return early
-            });
-        })();
+        // CONVOCORE Widget Script - DISABLED until dark mode issue resolved
+        // The widget automatically adds 'dark' class to HTML element
+        // which conflicts with our pure white design system
     </script>
+    -->
   </body>
 </html>

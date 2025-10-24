@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, LucideIcon } from "lucide-react";
-import { Link } from "react-router-dom";
 
 interface PainPoint {
   icon: LucideIcon;
@@ -13,18 +12,16 @@ interface ICPPainPointSectionProps {
   heading: string;
   painPoints: PainPoint[];
   ctaText: string;
-  ctaLink: string;
+  onCtaClick: () => void;
   backgroundColor: string;
-  iconGradient: string;
 }
 
 const ICPPainPointSection = ({
   heading,
   painPoints,
   ctaText,
-  ctaLink,
+  onCtaClick,
   backgroundColor,
-  iconGradient,
 }: ICPPainPointSectionProps) => {
   return (
     <section className={`py-20 ${backgroundColor}`}>
@@ -46,7 +43,7 @@ const ICPPainPointSection = ({
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div
-                  className={`w-12 h-12 rounded-full flex items-center justify-center mb-4 ${iconGradient}`}
+                  className="w-12 h-12 rounded-full flex items-center justify-center mb-4 bg-primary"
                 >
                   <Icon className="h-6 w-6 text-white" />
                 </div>
@@ -63,15 +60,14 @@ const ICPPainPointSection = ({
 
         {/* CTA Button */}
         <div className="text-center animate-scale-in">
-          <Link to={ctaLink}>
-            <Button
-              size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-            >
-              {ctaText}
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
+          <Button
+            onClick={onCtaClick}
+            size="lg"
+            className="bg-primary hover:bg-primary/90 text-white text-lg px-8 py-6 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+          >
+            {ctaText}
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
         </div>
       </div>
     </section>

@@ -29,13 +29,13 @@ const OfferFunnel = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-slate-800 dark:to-slate-900">
+    <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             The FlowMatrix AI Process
           </h2>
-          <p className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
             A proven 4-step approach to transform your business operations
           </p>
         </div>
@@ -47,21 +47,21 @@ const OfferFunnel = () => {
             return (
               <div key={index} className="flex items-center flex-1">
                 <div className="flex flex-col items-center text-center animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-interactive-primary to-interactive-accent flex items-center justify-center mb-4 shadow-lg">
+                  <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center mb-4 shadow-lg">
                     <Icon className="h-10 w-10 text-white" />
                   </div>
-                  <div className="bg-interactive-primary text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mb-3 text-sm">
+                  <div className="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mb-3 text-sm">
                     {step.number}
                   </div>
-                  <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2 max-w-[200px]">
+                  <h3 className="font-bold text-lg text-gray-900 mb-2 max-w-[200px]">
                     {step.title}
                   </h3>
-                  <p className="text-sm text-gray-700 dark:text-gray-300 max-w-[200px]">
+                  <p className="text-sm text-gray-700 max-w-[200px]">
                     {step.description}
                   </p>
                 </div>
                 {index < steps.length - 1 && (
-                  <ArrowRight className="h-8 w-8 text-interactive-primary mx-4 flex-shrink-0" />
+                  <ArrowRight className="h-8 w-8 text-primary mx-4 flex-shrink-0" />
                 )}
               </div>
             );
@@ -75,22 +75,22 @@ const OfferFunnel = () => {
             return (
               <div key={index} className="animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
                 <div className="flex flex-col items-center text-center">
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-interactive-primary to-interactive-accent flex items-center justify-center mb-4 shadow-lg">
+                  <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center mb-4 shadow-lg">
                     <Icon className="h-10 w-10 text-white" />
                   </div>
-                  <div className="bg-interactive-primary text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mb-3 text-sm">
+                  <div className="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mb-3 text-sm">
                     {step.number}
                   </div>
-                  <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">
+                  <h3 className="font-bold text-lg text-gray-900 mb-2">
                     {step.title}
                   </h3>
-                  <p className="text-sm text-gray-700 dark:text-gray-300 max-w-md">
+                  <p className="text-sm text-gray-700 max-w-md">
                     {step.description}
                   </p>
                 </div>
                 {index < steps.length - 1 && (
                   <div className="flex justify-center my-6">
-                    <ArrowDown className="h-8 w-8 text-interactive-primary" />
+                    <ArrowDown className="h-8 w-8 text-primary" />
                   </div>
                 )}
               </div>

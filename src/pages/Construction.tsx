@@ -72,7 +72,7 @@ const Construction = () => {
         <meta name="description" content="Stop job cost overruns and scheduling chaos. Automate your construction workflows with FlowMatrix AI. Serving Toronto & GTA contractors." />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-white">
         {/* Hero Section */}
         <LandingPageHero
           headline="Stop Job Cost Overruns & Scheduling Chaos"
@@ -85,13 +85,13 @@ const Construction = () => {
         <PainPointCards painPoints={painPoints} variant="construction" />
 
         {/* Solutions Section */}
-        <section className="py-20 bg-blue-50 dark:bg-slate-800">
+        <section className="py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 How We Solve These Problems
               </h2>
-              <p className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
+              <p className="text-lg text-gray-700 max-w-2xl mx-auto">
                 Our automation solutions are built specifically for construction contractors
               </p>
             </div>
@@ -99,25 +99,25 @@ const Construction = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <Card className="border-0 shadow-lg">
                 <CardContent className="p-8">
-                  <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center mb-4">
                     <DollarSign className="h-6 w-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-card-foreground mb-4">Real-Time Cost Tracking</h3>
-                  <p className="text-muted-foreground mb-4">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">Real-Time Cost Tracking</h3>
+                  <p className="text-gray-600 mb-4">
                     Automated expense tracking and budget alerts keep every job profitable from start to finish.
                   </p>
                   <ul className="space-y-2">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-muted-foreground">Instant budget variance alerts</span>
+                      <span className="text-sm text-gray-600">Instant budget variance alerts</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-muted-foreground">Automated expense categorization</span>
+                      <span className="text-sm text-gray-600">Automated expense categorization</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-muted-foreground">Profitability forecasting</span>
+                      <span className="text-sm text-gray-600">Profitability forecasting</span>
                     </li>
                   </ul>
                 </CardContent>
@@ -125,25 +125,25 @@ const Construction = () => {
 
               <Card className="border-0 shadow-lg">
                 <CardContent className="p-8">
-                  <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center mb-4">
                     <Calendar className="h-6 w-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-card-foreground mb-4">Automated Crew Scheduling</h3>
-                  <p className="text-muted-foreground mb-4">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">Automated Crew Scheduling</h3>
+                  <p className="text-gray-600 mb-4">
                     Smart scheduling optimizes crew assignments and eliminates gaps between jobs.
                   </p>
                   <ul className="space-y-2">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-muted-foreground">Skill-based crew matching</span>
+                      <span className="text-sm text-gray-600">Skill-based crew matching</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-muted-foreground">Equipment conflict prevention</span>
+                      <span className="text-sm text-gray-600">Equipment conflict prevention</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-muted-foreground">Automatic crew notifications</span>
+                      <span className="text-sm text-gray-600">Automatic crew notifications</span>
                     </li>
                   </ul>
                 </CardContent>
@@ -151,25 +151,25 @@ const Construction = () => {
 
               <Card className="border-0 shadow-lg">
                 <CardContent className="p-8">
-                  <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center mb-4">
                     <FileText className="h-6 w-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-card-foreground mb-4">Instant Invoicing</h3>
-                  <p className="text-muted-foreground mb-4">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">Instant Invoicing</h3>
+                  <p className="text-gray-600 mb-4">
                     Generate and send invoices automatically as soon as jobs are completed.
                   </p>
                   <ul className="space-y-2">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-muted-foreground">Job completion triggers</span>
+                      <span className="text-sm text-gray-600">Job completion triggers</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-muted-foreground">Payment tracking & reminders</span>
+                      <span className="text-sm text-gray-600">Payment tracking & reminders</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-muted-foreground">QuickBooks integration</span>
+                      <span className="text-sm text-gray-600">QuickBooks integration</span>
                     </li>
                   </ul>
                 </CardContent>
@@ -179,25 +179,25 @@ const Construction = () => {
         </section>
 
         {/* Proof / Case Study Section */}
-        <section className="py-20 bg-background">
+        <section className="py-20 bg-white">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Real Results from a GTA Construction Contractor
               </h2>
-              <p className="text-lg text-muted-foreground">
+              <p className="text-lg text-gray-600">
                 See how UBL Group saved over 150 hours in just 3 months
               </p>
             </div>
 
-            <Card className="border-0 shadow-2xl bg-blue-50 dark:bg-slate-800">
+            <Card className="border-0 shadow-2xl bg-gray-50">
               <CardContent className="p-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                   <div className="text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 mb-4">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary mb-4">
                       <Mail className="h-8 w-8 text-white" />
                     </div>
-                    <div className="text-4xl font-bold text-blue-600 mb-2">150+ Hours</div>
+                    <div className="text-4xl font-bold text-primary mb-2">150+ Hours</div>
                     <div className="text-lg font-semibold text-gray-700 mb-2">Saved in 3 Months</div>
                     <div className="text-sm text-gray-600">Email intelligence automation</div>
                   </div>
@@ -216,7 +216,7 @@ const Construction = () => {
                     "The email intelligence system alone has transformed how we handle contractor communications. We're no longer drowning in our inbox, and urgent items are automatically flagged and prioritized."
                   </p>
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
+                    <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold">
                       UBL
                     </div>
                     <div>
@@ -234,13 +234,13 @@ const Construction = () => {
         <OfferFunnel />
 
         {/* Pricing Section */}
-        <section className="py-20 bg-background">
+        <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Simple, Transparent Pricing
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                 No long-term contracts. No hidden fees. Pay only for value delivered.
               </p>
             </div>
@@ -248,8 +248,8 @@ const Construction = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <Card className="border-2 border-gray-200 shadow-lg">
                 <CardContent className="p-8">
-                  <h3 className="text-2xl font-bold text-card-foreground mb-2">Free Consultation</h3>
-                  <div className="text-4xl font-bold text-blue-600 mb-6">$0</div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Free Consultation</h3>
+                  <div className="text-4xl font-bold text-primary mb-6">$0</div>
                   <p className="text-gray-600 mb-6">
                     30-minute call to understand your workflow and identify quick wins
                   </p>
@@ -275,13 +275,13 @@ const Construction = () => {
 
               <Card className="border-2 border-blue-500 shadow-2xl relative">
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                  <span className="bg-primary text-white px-4 py-1 rounded-full text-sm font-semibold">
                     Most Popular
                   </span>
                 </div>
                 <CardContent className="p-8">
-                  <h3 className="text-2xl font-bold text-card-foreground mb-2">Audit</h3>
-                  <div className="text-4xl font-bold text-blue-600 mb-2">Pay What You Think</div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Audit</h3>
+                  <div className="text-4xl font-bold text-primary mb-2">Pay What You Think</div>
                   <p className="text-sm text-gray-600 mb-6">After you see the value</p>
                   <p className="text-gray-600 mb-6">
                     Comprehensive 5-day workflow analysis with actionable automation roadmap
@@ -300,7 +300,7 @@ const Construction = () => {
                       <span className="text-sm text-gray-600">ROI projections</span>
                     </li>
                   </ul>
-                  <Button onClick={openCalendly} size="lg" className="w-full bg-blue-600 hover:bg-blue-700">
+                  <Button onClick={openCalendly} size="lg" className="w-full bg-primary hover:bg-primary">
                     Get Started
                   </Button>
                 </CardContent>
@@ -308,8 +308,8 @@ const Construction = () => {
 
               <Card className="border-2 border-gray-200 shadow-lg">
                 <CardContent className="p-8">
-                  <h3 className="text-2xl font-bold text-card-foreground mb-2">Partnership</h3>
-                  <div className="text-4xl font-bold text-blue-600 mb-6">Custom Quote</div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Partnership</h3>
+                  <div className="text-4xl font-bold text-primary mb-6">Custom Quote</div>
                   <p className="text-gray-600 mb-6">
                     Ongoing automation development and optimization
                   </p>
@@ -337,7 +337,7 @@ const Construction = () => {
         </section>
 
         {/* Final CTA */}
-        <section className="py-20 bg-blue-600">
+        <section className="py-20 bg-primary">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Ready to Stop Losing Money on Every Job?
@@ -348,7 +348,7 @@ const Construction = () => {
             <Button
               onClick={openCalendly}
               size="lg"
-              className="bg-white text-blue-600 hover:bg-gray-100 text-xl px-12 py-8 shadow-2xl"
+              className="bg-white text-primary hover:bg-gray-100 text-xl px-12 py-8 shadow-2xl"
             >
               Book Your Free Consultation
               <Calendar className="ml-3 h-6 w-6" />
