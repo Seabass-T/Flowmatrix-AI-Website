@@ -1135,6 +1135,41 @@ Before considering any page "done":
 - [ ] Check for console errors
 - [ ] Validate TypeScript compiles
 - [ ] Test with slow 3G network
+- [ ] **CRITICAL:** Run `npm run build` and test with `npm run preview` before deploying
+
+### 🚀 Build & Deployment
+
+**Deployment Platform:** Vercel
+
+**CRITICAL BUILD RULE (Nov 1, 2025):**
+⚠️ **NEVER manually split React into a separate chunk in `vite.config.ts`.** This causes initialization race conditions and blank pages in production.
+
+**❌ BAD:**
+```typescript
+manualChunks: (id) => {
+  if (id.includes('react')) return 'react-core';  // DON'T DO THIS
+  if (id.includes('node_modules')) return 'vendor';  // DON'T DO THIS
+}
+```
+
+**✅ GOOD:**
+```typescript
+manualChunks: (id) => {
+  // Only split large, independent libraries
+  if (id.includes('lucide-react')) return 'lucide-icons';
+  if (id.includes('@supabase')) return 'supabase';
+  // Let Vite handle React automatically
+}
+```
+
+**Required Configuration Files:**
+1. `vercel.json` - SPA routing support (rewrite all routes to index.html)
+2. `vite.config.ts` - Must include `base: '/'` for proper asset paths
+
+**Incident Summary (Nov 1, 2025):**
+Deployment showed blank page with error: `Cannot access 'x' before initialization`. Root cause: Manual React chunk splitting created race condition where vendor chunk (containing Sonner toast) loaded before React was initialized. Fixed by removing manual React splitting and letting Vite handle it automatically.
+
+**See CLAUDE.md "Vite Configuration & Build Guidelines" section for full details and debugging steps.**
 
 ### 📞 Tally Form Integration
 

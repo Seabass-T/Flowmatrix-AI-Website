@@ -88,6 +88,115 @@ The PRD is the **single source of truth** for:
 
 ---
 
+## Vite Configuration & Build Guidelines
+
+### CRITICAL: React Bundling Rules
+
+**⚠️ NEVER manually split React into a separate chunk.** This causes initialization race conditions.
+
+**The Problem (Nov 1, 2025 - Incident):**
+We experienced a production incident where the site showed a blank page with the error:
+```
+Cannot access 'x' before initialization at vendor-CNY3K9en.js
+```
+
+**Root Cause:**
+```typescript
+// ❌ BAD - DO NOT DO THIS
+manualChunks: (id) => {
+  if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+    return 'react-core';  // Separating React causes initialization race
+  }
+  if (id.includes('node_modules')) {
+    return 'vendor';  // Vendor chunk tries to use React before it's loaded
+  }
+}
+```
+
+When React is split into its own chunk:
+1. `vendor` chunk contains libraries like Sonner that use React
+2. `react-core` chunk contains React itself
+3. If `vendor` loads before `react-core`, components try to use React before it exists
+4. Result: `Cannot access 'x' before initialization` error
+
+**The Solution:**
+```typescript
+// ✅ GOOD - Let Vite handle React automatically
+manualChunks: (id) => {
+  // Only split truly large libraries
+  if (id.includes('lucide-react')) return 'lucide-icons';
+  if (id.includes('@supabase')) return 'supabase';
+  if (id.includes('@radix-ui')) return 'radix-ui';
+  // DO NOT split React or create a catch-all 'vendor' chunk
+}
+```
+
+### Vite Configuration Best Practices
+
+**✅ DO:**
+- Let Vite automatically bundle React with components that need it
+- Split only large, independent libraries (Supabase, Radix UI, Lucide, etc.)
+- Use specific package matching (e.g., `id.includes('@supabase')`)
+- Test production builds locally before deploying (`npm run build`)
+
+**❌ DON'T:**
+- Create a catch-all `vendor` chunk that includes everything
+- Manually split React/React-DOM into separate chunks
+- Split React Router away from React
+- Create custom plugins to "fix" React initialization (let Vite handle it)
+- Add `optimizeDeps.include: ['react', 'react-dom']` unless specifically needed
+
+### Vercel Deployment Configuration
+
+**Required Files:**
+
+1. **`vercel.json`** (SPA routing support):
+```json
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
+```
+
+2. **`vite.config.ts`** must include:
+```typescript
+export default defineConfig({
+  base: '/',  // Required for proper asset paths
+  // ... rest of config
+})
+```
+
+### Debugging Production Build Issues
+
+If you encounter a blank page on Vercel:
+
+1. **Check Vercel Build Logs:**
+   - Did the build succeed?
+   - Any warnings about chunk sizes or dependencies?
+
+2. **Check Browser Console (F12 > Console):**
+   - Look for initialization errors
+   - Check for 404s on JavaScript files
+
+3. **Check Browser Network Tab (F12 > Network):**
+   - Are all JS/CSS files loading (200 status)?
+   - Check the order chunks are loading
+
+4. **Test Locally:**
+```bash
+npm run build
+npm run preview
+# Visit http://localhost:4173 and test thoroughly
+```
+
+5. **Common Error Patterns:**
+   - `Cannot access 'x' before initialization` → React chunk splitting issue
+   - `404 on /about` → Missing vercel.json SPA rewrite config
+   - Blank page with no errors → Check `base` path in vite.config
+
+---
+
 ## Business Model (Quick Reference)
 
 ### 5-Step Process
