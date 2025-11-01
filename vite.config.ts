@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { fixReactImports } from "./fix-react-import.js";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,15 +11,11 @@ export default defineConfig({
   },
   plugins: [
     react(),
-    fixReactImports(),
   ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-  },
-  optimizeDeps: {
-    include: ['react', 'react-dom'],
   },
   build: {
     // Optimize bundle size - use ES2020 for smaller output
@@ -30,26 +25,18 @@ export default defineConfig({
     cssCodeSplit: true,
     rollupOptions: {
       output: {
-        // Aggressive code splitting for optimal caching
-        // React MUST be split first to avoid initialization order issues
+        // Simplified code splitting - let Vite handle React automatically
+        // Only split truly large libraries to optimize caching
         manualChunks: (id) => {
-          // React core libraries - HIGHEST PRIORITY to fix initialization order
-          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
-            return 'react-core';
-          }
           // Split Lucide icons separately (1.1MB bundle!)
           if (id.includes('lucide-react')) {
             return 'lucide-icons';
           }
-          // React Router
-          if (id.includes('node_modules/react-router')) {
-            return 'react-router';
-          }
-          // Supabase client
+          // Supabase client (large bundle)
           if (id.includes('node_modules/@supabase')) {
             return 'supabase';
           }
-          // Radix UI components
+          // Radix UI components (large bundle)
           if (id.includes('node_modules/@radix-ui')) {
             return 'radix-ui';
           }
@@ -57,9 +44,9 @@ export default defineConfig({
           if (id.includes('node_modules/@tanstack')) {
             return 'tanstack-query';
           }
-          // All other node_modules
-          if (id.includes('node_modules')) {
-            return 'vendor';
+          // React Router
+          if (id.includes('node_modules/react-router')) {
+            return 'react-router';
           }
         },
         // Optimize chunk file names
