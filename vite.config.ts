@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import { fixReactImports } from "./fix-react-import.js";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,11 +12,15 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    fixReactImports(),
   ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
   },
   build: {
     // Optimize bundle size - use ES2020 for smaller output
@@ -26,14 +31,15 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Aggressive code splitting for optimal caching
+        // React MUST be split first to avoid initialization order issues
         manualChunks: (id) => {
+          // React core libraries - HIGHEST PRIORITY to fix initialization order
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+            return 'react-core';
+          }
           // Split Lucide icons separately (1.1MB bundle!)
           if (id.includes('lucide-react')) {
             return 'lucide-icons';
-          }
-          // React core libraries
-          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
-            return 'react-core';
           }
           // React Router
           if (id.includes('node_modules/react-router')) {
