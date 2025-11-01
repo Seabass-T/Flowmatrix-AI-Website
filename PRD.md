@@ -2,7 +2,7 @@
 
 **Version:** 2.0
 **Date:** October 23, 2025
-**Status:** ✅ HOMEPAGE REBUILD COMPLETE (Oct 23, 2025) | ✅ PRICING PAGE MONTHLY RETAINER TAB UPDATED (Oct 24, 2025) | ✅ SOLUTIONS & RESULTS PAGES COMPLETE (Oct 24, 2025)
+**Status:** ✅ HOMEPAGE REBUILD COMPLETE (Oct 23, 2025) | ✅ PRICING PAGE MONTHLY RETAINER TAB UPDATED (Oct 24, 2025) | ✅ SOLUTIONS & RESULTS PAGES COMPLETE (Oct 24, 2025) | ✅ INVOICE LIFECYCLE MANAGER SOLUTION ADDED (Nov 1, 2025) | ✅ UBL GROUP CLIENT SPOTLIGHT WITH DETAIL PAGE (Nov 1, 2025)
 **Target:** Pre-client outreach launch (ASAP)
 **Tech Stack:** Vite + React 18 + TypeScript + Tailwind CSS + React Router v6
 
@@ -59,12 +59,19 @@
    - ✅ "Learn More" links to detailed solution pages
    - ✅ Email Organizer solution with real YouTube video (https://youtu.be/sZHSdYXZkp8)
    - ✅ Code Compass solution with real YouTube video (https://youtu.be/rn6eMUp9wPg)
+   - ✅ Invoice Lifecycle Manager solution with real YouTube video (https://youtu.be/6_XnGTYzS7A) - Added Nov 1, 2025
+   - ✅ ClientSpotlightPreview component on Solutions page with real UBL Group logo (Nov 1, 2025)
+   - ✅ Full UBL Group case study at /solutions/ubl-group with real UBL Group logo (Nov 1, 2025)
+   - ✅ Interactive navigation between case study and solution cards with smooth scroll and highlight
+   - ✅ Two-tier case study architecture: short preview card → full detail page
    - ✅ Detailed solution pages at /solutions/:slug
    - ✅ SolutionDetail component with Excalidraw diagram embed support
    - ✅ Email Organizer detail page with 3 implementation phases and workflow diagram
    - ✅ Code Compass detail page with 3 implementation phases and workflow diagram
+   - ✅ Invoice Lifecycle Manager detail page with 3 implementation phases (Nov 1, 2025)
    - ✅ Two-tier scalable architecture for easy solution additions
    - ✅ Bottom CTA section with Tally form integration
+   - ✅ Conditional workflow diagram rendering (only shows if excalidrawUrl provided)
 
 7. **Results/Blog Page (Phase 6 - Oct 24, 2025)**
    - ✅ Results page with vertical blog post list layout

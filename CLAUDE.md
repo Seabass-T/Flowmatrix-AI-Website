@@ -19,7 +19,7 @@ FlowMatrix AI is a React + TypeScript website built with Vite, showcasing AI aut
 
 **Design Philosophy:** Clean, minimal white/black design with ONE primary color (dark green: bg-primary / text-primary = #166534 / green-800). Light accents allowed (bg-green-50, bg-green-100). No gradients, no purple, no em dashes, simple and professional.
 
-**Status:** ✅ Homepage rebuild complete (Oct 23, 2025) | ✅ Pricing page Monthly Retainer tab updated (Oct 24, 2025) | ✅ Solutions & Results pages complete with 2 detailed solution pages: Email Organizer & Code Compass (Oct 24, 2025)
+**Status:** ✅ Homepage rebuild complete (Oct 23, 2025) | ✅ Pricing page Monthly Retainer tab updated (Oct 24, 2025) | ✅ Solutions & Results pages complete with 3 detailed solution pages: Email Organizer, Code Compass & Invoice Lifecycle Manager (Oct 24, 2025 / Nov 1, 2025) | ✅ UBL Group case study with preview card and detail page (Nov 1, 2025)
 
 ---
 
@@ -253,6 +253,8 @@ src/
 │   │   ├── PainPointCards.tsx
 │   │   └── OfferFunnel.tsx
 │   ├── SolutionCard.tsx       # ✅ Created - Links to detail pages
+│   ├── ClientSpotlight.tsx    # ✅ Created (Nov 1, 2025) - Full UBL Group case study
+│   ├── ClientSpotlightPreview.tsx # ✅ Created (Nov 1, 2025) - Preview card for Solutions page
 │   ├── ResultsPostCard.tsx    # ✅ Created - Blog post cards
 │   ├── NewsletterSignupInline.tsx  # NEW - To be created
 │   ├── DecisionPointCallout.tsx    # NEW - To be created
@@ -261,8 +263,9 @@ src/
 │   └── NewsletterSignup.tsx
 ├── pages/
 │   ├── use-cases/             # TO DELETE (8 files)
-│   ├── Solutions.tsx          # ✅ Created (Oct 24) - Grid with 6 solutions
+│   ├── Solutions.tsx          # ✅ Created (Oct 24) - Grid with 8 solutions + case study preview
 │   ├── SolutionDetail.tsx     # ✅ Created (Oct 24) - Detail pages at /solutions/:slug
+│   ├── CaseStudyDetail.tsx    # ✅ Created (Nov 1, 2025) - Case study at /solutions/ubl-group
 │   ├── Results.tsx            # ✅ Created (Oct 24) - Blog list page
 │   ├── ResultsPost.tsx        # ✅ Created (Oct 24) - Individual posts at /results/:slug
 │   ├── Construction.tsx       # TO DELETE
@@ -673,18 +676,19 @@ function loadScript() {
 
 ### Tier 2: Detailed Pages (`/solutions/:slug`)
 - SolutionDetail component handles all detail pages
-- Currently supports: `email-organizer`, `code-compass`
+- Currently supports: `email-organizer`, `code-compass`, `invoice-lifecycle-manager`
 - Structure includes:
   - Full YouTube video embed
-  - Excalidraw workflow diagram (iframe embed)
+  - Excalidraw workflow diagram (iframe embed) - conditionally rendered if excalidrawUrl is provided
   - Project overview (comprehensive description)
   - Implementation phases (expandable sections)
   - ROI details (bullet list with checkmarks)
-  - Bottom CTA section
+  - Bottom CTA section (generic for all solutions)
 
 **Live Solutions with Detail Pages:**
 1. **Email Organizer and Summarizer** - AI-powered inbox management (5-15 hrs/week saved)
 2. **Code Compass** - AI-powered regulatory compliance assistant (8-20 hrs/project saved)
+3. **Invoice Lifecycle Manager** - AI-powered financial automation (8-12+ hrs/month saved, 40-60% faster payment collection) - Added Nov 1, 2025
 
 **Adding New Solutions:**
 
@@ -703,10 +707,14 @@ function loadScript() {
 
 2. **Add content to `SolutionDetail.tsx`:**
    - Add new object to the content map at top of file
-   - Follow email-organizer structure
-   - Include all required fields: title, category, videoUrl, excalidrawUrl (optional), roiMetrics, overview, phases, roiDetails, conclusion
+   - Follow email-organizer or invoice-lifecycle-manager structure
+   - Include all required fields: title, category, videoUrl, excalidrawUrl (optional - set to null if none), roiMetrics, overview, phases, roiDetails, conclusion
+   - Update the slug routing logic to recognize the new solution slug
 
-3. **Excalidraw Diagram Embedding:**
+3. **Excalidraw Diagram Embedding (Optional):**
+   - Set `excalidrawUrl: null` if no diagram is available yet
+   - The diagram section will automatically be hidden with conditional rendering
+   - When ready to add a diagram, use:
    ```html
    <iframe
      src="https://link.excalidraw.com/readonly/YOUR_DIAGRAM_ID"
@@ -746,11 +754,85 @@ function loadScript() {
 - `src/components/Navigation.tsx` - Menu structure
 - `src/pages/Index.tsx` - Homepage (major updates needed)
 - `src/pages/Pricing.tsx` - Pricing (Monthly Retainer tab updated)
-- `src/pages/Solutions.tsx` - Solutions gallery (✅ Complete)
-- `src/pages/SolutionDetail.tsx` - Detailed solution pages (✅ Complete)
+- `src/pages/Solutions.tsx` - Solutions gallery (✅ Complete - 8 solutions in grid)
+- `src/pages/SolutionDetail.tsx` - Detailed solution pages (✅ Complete - 3 detailed pages)
 - `src/pages/Results.tsx` - Blog list page (✅ Complete)
 - `src/pages/ResultsPost.tsx` - Individual blog posts (✅ Complete)
 
 ---
 
-*Last Updated: October 24, 2025 - Solutions & Results Pages Complete with 2 Detailed Solution Pages (Email Organizer & Code Compass)*
+## Recent Updates Log
+
+### November 1, 2025 - Session 2C: Logo Integration Complete
+- ✅ Added real UBL Group logo to /public/ubl-group-logo.png
+- ✅ Integrated logo in ClientSpotlightPreview.tsx (preview card on Solutions page)
+- ✅ Integrated logo in ClientSpotlight.tsx (full case study page)
+- ✅ Removed Building2 icon placeholders from both components
+- ✅ Logo displays with proper sizing, padding, and responsive behavior
+- ✅ White background container for logo visibility in both light/dark modes
+
+### November 1, 2025 - Session 2B: UBL Group Case Study Restructured
+- ✅ Created ClientSpotlightPreview.tsx (short, wide preview card for Solutions page)
+- ✅ Created CaseStudyDetail.tsx page component at /solutions/ubl-group
+- ✅ Modified ClientSpotlight.tsx to navigate back to Solutions page with state
+- ✅ Updated App.tsx routing with case study route before generic :slug route
+- ✅ Enhanced Solutions.tsx with useEffect to handle navigation state and scroll to solutions
+- ✅ Implemented two-tier case study architecture: preview → full detail
+- ✅ Preview card shows key highlights with "Read Full Case Study" button at bottom
+- ✅ Full detail page has back button and interactive links to solutions
+- ✅ Smooth scroll and highlight animation when navigating from case study to specific solutions
+- ✅ Fixed routing issue preventing case study detail page from loading
+- ✅ Refined button layout to single centered CTA
+
+### November 1, 2025 - Session 2A: UBL Group Client Spotlight Added (Initial)
+- ✅ Created ClientSpotlight.tsx component (comprehensive case study layout)
+- ✅ Added featured UBL Group case study to top of Solutions page
+- ✅ Implemented interactive solution links with smooth scroll and highlight effect
+- ✅ Includes client background, challenges, solutions, results with metrics grid
+- ✅ Features two prominent testimonials from co-founders
+- ✅ Responsive design with mobile-first approach
+- ✅ Integrated Tally form CTA within case study
+- ✅ Logo placeholder with Building2 icon from lucide-react
+
+### November 1, 2025 - Session 1: Invoice Lifecycle Manager Solution Added
+- ✅ Added Invoice Lifecycle Manager to Solutions.tsx (3rd card in grid)
+- ✅ Created detailed solution page at /solutions/invoice-lifecycle-manager
+- ✅ Includes YouTube video embed (https://youtu.be/6_XnGTYzS7A)
+- ✅ 3 implementation phases: Automated Invoice Creation & Delivery, Communication Monitoring & Response, Strategic Follow-up Automation
+- ✅ ROI metrics: 8-12+ hours/month saved, 40-60% faster payment collection
+- ✅ Enhanced SolutionDetail component with conditional workflow diagram rendering
+- ✅ Updated CTA section to be generic for all solutions
+
+---
+
+---
+
+## Complete Feature Summary: November 1, 2025
+
+**Solutions Page Enhancements:**
+1. ✅ Invoice Lifecycle Manager solution with YouTube video and 3 implementation phases
+2. ✅ UBL Group case study with two-tier architecture:
+   - Preview card on `/solutions` with logo, key metrics, and CTA
+   - Full detail page at `/solutions/ubl-group` with complete case study
+3. ✅ Interactive navigation with smooth scroll and highlight effects
+4. ✅ Real UBL Group logo integration in both preview and detail views
+5. ✅ Conditional workflow diagram rendering for solutions
+
+**Files Created:**
+- `src/components/ClientSpotlightPreview.tsx` - Preview card component
+- `src/pages/CaseStudyDetail.tsx` - Case study detail page
+- `public/ubl-group-logo.png` - UBL Group logo asset
+
+**Files Modified:**
+- `src/components/ClientSpotlight.tsx` - Navigation updates
+- `src/pages/Solutions.tsx` - Preview integration and navigation handling
+- `src/pages/SolutionDetail.tsx` - Invoice Lifecycle Manager content
+- `src/App.tsx` - Routing updates
+
+**Routes Added:**
+- `/solutions/ubl-group` - Full UBL Group case study
+- `/solutions/invoice-lifecycle-manager` - Invoice Lifecycle Manager detail page
+
+---
+
+*Last Updated: November 1, 2025 - Complete Solutions Page with Invoice Lifecycle Manager, UBL Group Case Study & Logo Integration*

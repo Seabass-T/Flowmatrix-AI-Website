@@ -112,6 +112,60 @@ const codeCompassContent = {
   conclusion: "The system continuously updates as regulations change and learns from each interaction to become increasingly tailored to specific industries and project types."
 };
 
+// Invoice Lifecycle Manager Content
+const invoiceLifecycleManagerContent = {
+  slug: "invoice-lifecycle-manager",
+  title: "Invoice Lifecycle Manager",
+  category: "AI-Powered Financial Automation",
+  videoUrl: "https://www.youtube.com/embed/6_XnGTYzS7A",
+  excalidrawUrl: null, // No workflow diagram provided yet
+  roiMetrics: {
+    timeSaved: "8-12+ hours saved monthly",
+    costSavings: "40-60% faster payment collection"
+  },
+  overview: "The Invoice Lifecycle Manager transforms the entire invoicing process into a fully automated system that requires minimal human intervention. This AI-powered solution handles everything from invoice creation to payment collection, intelligently monitoring client communications and providing timely follow-ups. By eliminating hours spent on manual invoicing, payment tracking, and client follow-ups, professionals can focus on delivering value while ensuring consistent cash flow and reducing administrative overhead.",
+  phases: [
+    {
+      title: "Phase 1: Automated Invoice Creation & Delivery",
+      trigger: "Activated when a project status is changed to 'Complete' in your project management system.",
+      capabilities: [
+        "Intelligent Data Aggregation: Automatically collects all relevant client and project information from your business database to ensure accurate invoicing.",
+        "Standardized Invoice Generation: Creates professionally formatted invoices with consistent branding, payment terms, and all required legal information.",
+        "Multi-format Delivery: Converts HTML invoices to polished PDFs and delivers them to clients through their preferred communication channel.",
+        "Centralized Record-Keeping: Updates your invoice tracking system with new invoice details and maintains a comprehensive financial database."
+      ]
+    },
+    {
+      title: "Phase 2: Communication Monitoring & Response",
+      trigger: "Runs daily to analyze all incoming client communications related to invoices.",
+      capabilities: [
+        "Smart Email Classification: Uses natural language processing to categorize invoice-related emails (payment confirmations, questions, disputes) without manual sorting.",
+        "Payment Recognition: Automatically identifies payment confirmations and updates your tracking system to reflect paid status.",
+        "Priority Notification System: Sends real-time text alerts for important invoice communications, including direct links to the relevant email threads for immediate action.",
+        "Client Response Management: Identifies questions requiring personal attention versus those that can be handled automatically."
+      ]
+    },
+    {
+      title: "Phase 3: Strategic Follow-up Automation",
+      trigger: "Monitors invoice due dates and payment status continuously.",
+      capabilities: [
+        "Intelligent Reminder Sequence: Implements a progressive follow-up schedule with increasingly direct communications (1 week after sending, 2 weeks, due date, and daily after due date).",
+        "Tone Calibration: Automatically adjusts communication tone from gentle reminders to more direct requests based on payment lateness.",
+        "Multi-channel Escalation: Expands from email-only reminders to text and optional automated phone calls for severely overdue invoices.",
+        "Payment Facilitation: Includes multiple payment options in follow-ups to reduce friction and accelerate collections."
+      ]
+    }
+  ],
+  roiDetails: [
+    "Saving 8-12+ hours monthly typically spent on invoice creation, sending, tracking, and follow-ups",
+    "Accelerating payment collection by 40-60% through consistent, timely follow-ups",
+    "Reducing late payments by implementing systematic follow-up procedures",
+    "Eliminating lost invoice situations through centralized tracking and monitoring",
+    "Improving client relationships by maintaining professional communication throughout the payment process"
+  ],
+  conclusion: "The modular architecture allows for seamless integration with your existing business systems, including accounting software, project management tools, and communication platforms. Custom extensions can add capabilities like automatic revenue recognition, year-end financial reporting, or integration with tax preparation software."
+};
+
 const SolutionDetail = () => {
   const { slug } = useParams<{ slug: string }>();
 
@@ -121,6 +175,8 @@ const SolutionDetail = () => {
     content = emailOrganizerContent;
   } else if (slug === "code-compass") {
     content = codeCompassContent;
+  } else if (slug === "invoice-lifecycle-manager") {
+    content = invoiceLifecycleManagerContent;
   }
 
   // If content not found, show fallback
@@ -222,23 +278,25 @@ const SolutionDetail = () => {
           </p>
         </section>
 
-        {/* Excalidraw Workflow Diagram */}
-        <section className="mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-            Workflow Diagram
-          </h2>
-          <div className="w-full max-w-4xl mx-auto rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
-            <iframe
-              src={content.excalidrawUrl}
-              width="100%"
-              height="500px"
-              frameBorder="0"
-              allowFullScreen
-              title="Email Organizer Workflow Diagram"
-              className="bg-white"
-            />
-          </div>
-        </section>
+        {/* Excalidraw Workflow Diagram - Only show if URL is provided */}
+        {content.excalidrawUrl && (
+          <section className="mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
+              Workflow Diagram
+            </h2>
+            <div className="w-full max-w-4xl mx-auto rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+              <iframe
+                src={content.excalidrawUrl}
+                width="100%"
+                height="500px"
+                frameBorder="0"
+                allowFullScreen
+                title="Workflow Diagram"
+                className="bg-white"
+              />
+            </div>
+          </section>
+        )}
 
         {/* Implementation Phases */}
         <section className="mb-12">
@@ -299,10 +357,10 @@ const SolutionDetail = () => {
         {/* CTA Section */}
         <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-2xl p-8 md:p-12 text-center">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            Ready to transform your inbox?
+            Ready to implement this solution?
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-            Get your free automation diagnostic. We'll analyze your email workflows and create a custom implementation plan.
+            Get your free automation diagnostic. We'll analyze your workflows and create a custom implementation plan tailored to your business.
           </p>
           <Button
             onClick={() => window.open('https://tally.so/r/wMBOXE', '_blank')}

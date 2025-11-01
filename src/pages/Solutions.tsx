@@ -1,9 +1,48 @@
 import { Helmet } from "react-helmet";
+import { useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import SolutionCard from "@/components/SolutionCard";
+import ClientSpotlightPreview from "@/components/ClientSpotlightPreview";
 import { Button } from "@/components/ui/button";
 
 const Solutions = () => {
+  const location = useLocation();
+  // Refs for solution cards to enable scrolling
+  const solutionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+  // Function to scroll to a specific solution card
+  const scrollToSolution = (solutionId: string) => {
+    const element = solutionRefs.current[solutionId];
+    if (element) {
+      // Scroll with offset for fixed header
+      const headerOffset = 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+
+      // Add a subtle highlight effect
+      element.classList.add('ring-4', 'ring-primary', 'ring-opacity-50');
+      setTimeout(() => {
+        element.classList.remove('ring-4', 'ring-primary', 'ring-opacity-50');
+      }, 2000);
+    }
+  };
+
+  // Handle navigation from case study detail page
+  useEffect(() => {
+    const state = location.state as { scrollToSolution?: string } | null;
+    if (state?.scrollToSolution) {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        scrollToSolution(state.scrollToSolution!);
+      }, 100);
+    }
+  }, [location]);
   // Sample case studies - Replace with real data when available
   const casStudies = [
     {
@@ -23,6 +62,15 @@ const Solutions = () => {
       timeSaved: "8-20 hours/project",
       costSavings: "Prevents costly redesigns",
       industry: "Regulatory Compliance",
+    },
+    {
+      id: "invoice-lifecycle-manager",
+      title: "Invoice Lifecycle Manager",
+      description: "AI-powered financial automation that handles everything from invoice creation to payment collection, intelligently monitoring client communications and providing timely follow-ups. Eliminates manual invoicing and payment tracking.",
+      videoUrl: "https://www.youtube.com/embed/6_XnGTYzS7A",
+      timeSaved: "8-12+ hours/month",
+      costSavings: "40-60% faster payment collection",
+      industry: "Financial Automation",
     },
     {
       id: "project-tracker",
@@ -94,10 +142,19 @@ const Solutions = () => {
           </p>
         </div>
 
+        {/* Client Spotlight Preview - Links to detailed case study */}
+        <ClientSpotlightPreview />
+
         {/* Solutions Grid - Responsive: 1 column mobile, 2 tablet, 3 desktop */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {casStudies.map((study) => (
-            <SolutionCard key={study.id} {...study} />
+            <div
+              key={study.id}
+              ref={(el) => (solutionRefs.current[study.id] = el)}
+              className="transition-all duration-300"
+            >
+              <SolutionCard {...study} />
+            </div>
           ))}
         </div>
 
