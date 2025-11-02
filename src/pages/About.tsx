@@ -183,23 +183,6 @@ const About = () => {
             </div>
           </div>
 
-          {/* Newsletter CTA Section */}
-          <section className="py-16 bg-gray-50 rounded-2xl mb-16">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Stay Informed</h2>
-              <p className="text-xl text-gray-600 mb-6">
-                Get weekly insights on AI automation trends, case studies, and implementation strategies for construction businesses.
-              </p>
-              <Link
-                to="/newsletter"
-                className="inline-flex items-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors"
-              >
-                Subscribe to Newsletter
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </div>
-          </section>
-
           {/* Final CTA Section */}
           <div className="bg-primary rounded-2xl p-8 lg:p-12 text-white text-center">
             <h2 className="text-3xl font-bold mb-6">Let's Talk</h2>
