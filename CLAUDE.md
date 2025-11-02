@@ -822,8 +822,7 @@ function loadScript() {
 **STEP 1: Prepare Your Content**
 
 Gather these materials before coding:
-- YouTube video URL (embed format)
-- Excalidraw diagram link (optional, can be null)
+- YouTube video URL (embed format) **OR** Excalidraw diagram link (at least one required)
 - Solution name and category
 - Brief description (2-3 sentences for card)
 - ROI metrics (time saved + cost/business impact)
@@ -832,11 +831,20 @@ Gather these materials before coding:
 - 5+ ROI detail points
 - Conclusion statement
 
+**Note:** You can launch a solution with just an Excalidraw diagram if the demo video isn't ready yet. The diagram will display on the card and detail page until you add the video.
+
 **STEP 2: Add Solution Card to Solutions.tsx**
 
 File: `src/pages/Solutions.tsx`
 Location: `casStudies` array (around line 47)
 
+**Visual Fallback Behavior:**
+Solution cards display in this priority order:
+1. **Video** (if `videoUrl` provided) → Shows YouTube embed
+2. **Excalidraw Diagram** (if no video but `excalidrawUrl` provided) → Shows workflow diagram
+3. **Placeholder** (if neither provided) → Shows "Preview coming soon"
+
+**With Video:**
 ```typescript
 // Add to the casStudies array:
 {
@@ -844,9 +852,24 @@ Location: `casStudies` array (around line 47)
   title: "Your Solution Name",
   description: "Brief 2-3 sentence overview explaining what this does and the problem it solves.",
   videoUrl: "https://www.youtube.com/embed/VIDEO_ID",
+  excalidrawUrl: "https://link.excalidraw.com/readonly/DIAGRAM_ID",  // Optional
   timeSaved: "X hours/week",          // or "X hours/month"
   costSavings: "Impact description",  // e.g., "40% faster payments"
   industry: "Category Name",          // e.g., "Construction", "Financial Automation"
+},
+```
+
+**Without Video (uses Excalidraw):**
+```typescript
+{
+  id: "your-solution-slug",
+  title: "Your Solution Name",
+  description: "Brief 2-3 sentence overview.",
+  videoUrl: null,                    // No video yet - diagram will display instead
+  excalidrawUrl: "https://link.excalidraw.com/readonly/DIAGRAM_ID",
+  timeSaved: "X hours/week",
+  costSavings: "Impact description",
+  industry: "Category Name",
 },
 ```
 
@@ -955,15 +978,18 @@ if (slug === "email-organizer") {
 
 **Adding to Solutions:**
 - Set `excalidrawUrl: "https://link.excalidraw.com/readonly/YOUR_ID"`
-- Diagram section renders automatically in detail page
+- **Card Fallback:** Diagram displays on solution card when `videoUrl` is `null`
+- **Detail Page:** Diagram section renders automatically if URL provided
 - If no diagram available, set `excalidrawUrl: null`
-- Conditional rendering hides diagram section when null
+- Conditional rendering hides sections when null
+- **Priority:** Video → Excalidraw → Placeholder
 
 **Diagram Best Practices:**
 - Keep diagrams simple and clear
 - Use consistent colors and shapes
 - Label all components and flows
 - Test diagram loads before publishing
+- Can be used as primary visual on cards when no video available
 
 ### Content Best Practices
 
@@ -972,6 +998,7 @@ if (slug === "email-organizer") {
 - NOT watch URLs: `https://www.youtube.com/watch?v=VIDEO_ID`
 - Video must be public or unlisted (not private)
 - Test video plays before publishing
+- Can be set to `null` if not available yet (Excalidraw diagram will show instead)
 
 **Slug Naming:**
 - Lowercase letters, numbers, hyphens only

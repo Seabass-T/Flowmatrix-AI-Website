@@ -1325,22 +1325,44 @@ This section provides step-by-step instructions for adding new solution cards an
   id: "unique-slug",           // URL slug (lowercase, hyphens only)
   title: "Solution Name",      // Display title
   description: "Brief 2-3 sentence overview that explains what the solution does and the core problem it solves.",
-  videoUrl: "https://www.youtube.com/embed/VIDEO_ID",  // YouTube embed URL
+  videoUrl: "https://www.youtube.com/embed/VIDEO_ID",  // YouTube embed URL (can be null)
+  excalidrawUrl: "https://link.excalidraw.com/readonly/DIAGRAM_ID",  // Excalidraw diagram URL (can be null)
   timeSaved: "X hours/week",   // Time savings metric
   costSavings: "Impact description",  // Cost/business impact
   industry: "Category Name",   // Industry or category tag
 }
 ```
 
-**Example:**
+**Visual Fallback Behavior:**
+The solution card will display content in this priority order:
+1. **Video** - If `videoUrl` is provided, show YouTube video embed
+2. **Excalidraw Diagram** - If no video but `excalidrawUrl` is provided, show workflow diagram
+3. **"Preview coming soon"** - If neither is provided, show placeholder text
+
+**Example with Video:**
 ```typescript
 {
   id: "project-status-tracker",
   title: "Automated Project Status Tracker",
   description: "AI-powered system that pulls data from multiple project management tools, generates comprehensive weekly status reports, and automatically distributes updates to stakeholders. Eliminates manual reporting work and keeps everyone aligned.",
   videoUrl: "https://www.youtube.com/embed/ABC123XYZ",
+  excalidrawUrl: "https://link.excalidraw.com/readonly/DIAGRAM_ID",  // Optional, can have both
   timeSaved: "8-12 hours/week",
   costSavings: "Improves team coordination",
+  industry: "Construction",
+}
+```
+
+**Example without Video (uses Excalidraw):**
+```typescript
+{
+  id: "permit-coordinator",
+  title: "Digital Permit Coordinator",
+  description: "AI-powered system that automates permit applications and inspection scheduling.",
+  videoUrl: null,  // No video yet
+  excalidrawUrl: "https://link.excalidraw.com/readonly/DIAGRAM_ID",  // Shows diagram instead
+  timeSaved: "15-20 hours/project",
+  costSavings: "Reduces delays by 70%",
   industry: "Construction",
 }
 ```
@@ -1409,8 +1431,8 @@ const yourSolutionContent = {
 **Step 1: Prepare Your Content**
 
 Before coding, gather:
-- [ ] YouTube video (published and embed-ready)
-- [ ] Excalidraw workflow diagram URL (optional)
+- [ ] YouTube video (published and embed-ready) - **OR** -
+- [ ] Excalidraw workflow diagram URL (if no video available yet)
 - [ ] Solution name and category
 - [ ] Brief description (2-3 sentences)
 - [ ] ROI metrics (time saved, cost impact)
@@ -1419,12 +1441,15 @@ Before coding, gather:
 - [ ] 5+ ROI detail points
 - [ ] Conclusion statement
 
+**Note:** You can launch a solution with just an Excalidraw diagram if the demo video isn't ready yet. The diagram will display on the card until you add the video.
+
 **Step 2: Add Solution Card**
 
 1. Open `src/pages/Solutions.tsx`
 2. Find the `casStudies` array (around line 47)
 3. Add your new solution object at the end of the array:
 
+**With Video:**
 ```typescript
 const casStudies = [
   // ... existing solutions ...
@@ -1433,6 +1458,24 @@ const casStudies = [
     title: "Your Solution Name",
     description: "Your 2-3 sentence description.",
     videoUrl: "https://www.youtube.com/embed/YOUR_VIDEO_ID",
+    excalidrawUrl: "https://link.excalidraw.com/readonly/DIAGRAM_ID",  // Optional
+    timeSaved: "X hours/week",
+    costSavings: "Impact description",
+    industry: "Category",
+  },
+];
+```
+
+**Without Video (using Excalidraw):**
+```typescript
+const casStudies = [
+  // ... existing solutions ...
+  {
+    id: "your-solution-slug",
+    title: "Your Solution Name",
+    description: "Your 2-3 sentence description.",
+    videoUrl: null,  // No video yet - diagram will show instead
+    excalidrawUrl: "https://link.excalidraw.com/readonly/DIAGRAM_ID",
     timeSaved: "X hours/week",
     costSavings: "Impact description",
     industry: "Category",
@@ -1500,11 +1543,19 @@ No additional SEO work needed!
 
 ### 15.5 Best Practices
 
-**Video Guidelines:**
-- Use YouTube embed URLs, not watch URLs
-- Format: `https://www.youtube.com/embed/VIDEO_ID`
-- Test video plays before publishing
-- Use unlisted or public videos (not private)
+**Video & Diagram Guidelines:**
+- **Videos:** Use YouTube embed URLs, not watch URLs
+  - Format: `https://www.youtube.com/embed/VIDEO_ID`
+  - Test video plays before publishing
+  - Use unlisted or public videos (not private)
+  - Can be set to `null` if not available yet
+- **Excalidraw Diagrams:** Use as fallback when no video available
+  - Create diagram at excalidraw.com
+  - Generate readonly shareable link
+  - Format: `https://link.excalidraw.com/readonly/DIAGRAM_ID`
+  - Displays on card when `videoUrl` is `null`
+  - Also appears on detail page if provided
+- **Fallback Priority:** Video → Excalidraw → "Preview coming soon"
 
 **Content Quality:**
 - Keep descriptions concise but informative

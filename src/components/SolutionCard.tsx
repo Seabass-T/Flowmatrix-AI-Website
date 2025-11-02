@@ -5,7 +5,8 @@ interface SolutionCardProps {
   id: string;
   title: string;
   description: string;
-  videoUrl: string; // YouTube embed URL
+  videoUrl?: string | null; // YouTube embed URL (optional)
+  excalidrawUrl?: string | null; // Excalidraw diagram URL (optional)
   timeSaved: string; // "12 hours/week"
   costSavings: string; // "$2,400/month"
   industry?: string; // "Construction", "HVAC", etc.
@@ -16,21 +17,35 @@ const SolutionCard = ({
   title,
   description,
   videoUrl,
+  excalidrawUrl,
   timeSaved,
   costSavings,
   industry,
 }: SolutionCardProps) => {
   return (
     <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-      {/* Video Embed */}
-      <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-        <iframe
-          src={videoUrl}
-          title={title}
-          className="absolute top-0 left-0 w-full h-full"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
+      {/* Video or Excalidraw Embed */}
+      <div className="relative w-full bg-gray-50 dark:bg-gray-800" style={{ paddingBottom: '56.25%' }}>
+        {videoUrl ? (
+          <iframe
+            src={videoUrl}
+            title={title}
+            className="absolute top-0 left-0 w-full h-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        ) : excalidrawUrl ? (
+          <iframe
+            src={excalidrawUrl}
+            title={`${title} - Workflow Diagram`}
+            className="absolute top-0 left-0 w-full h-full bg-white"
+            style={{ border: 'none' }}
+          />
+        ) : (
+          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+            <p className="text-gray-400 dark:text-gray-500">Preview coming soon</p>
+          </div>
+        )}
       </div>
 
       {/* Card Content */}

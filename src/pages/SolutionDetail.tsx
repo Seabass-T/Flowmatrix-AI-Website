@@ -166,6 +166,52 @@ const invoiceLifecycleManagerContent = {
   conclusion: "The modular architecture allows for seamless integration with your existing business systems, including accounting software, project management tools, and communication platforms. Custom extensions can add capabilities like automatic revenue recognition, year-end financial reporting, or integration with tax preparation software."
 };
 
+// Digital Permit & Inspection Coordinator Content
+const digitalPermitCoordinatorContent = {
+  slug: "digital-permit-coordinator",
+  title: "Digital Permit & Inspection Coordinator",
+  category: "AI-Powered Regulatory Compliance",
+  videoUrl: null,
+  excalidrawUrl: "https://link.excalidraw.com/readonly/t7LICQ8cwhj8nl1GsO9n",
+  roiMetrics: {
+    timeSaved: "15-20+ hours per project",
+    costSavings: "Reduces project delays by up to 70%"
+  },
+  overview: "The Digital Permit & Inspection Coordinator transforms the frustrating, time-consuming permit process into a streamlined, automated workflow. This system analyzes project details, determines required permits, creates application documents, manages submissions to all relevant authorities, and coordinates inspections all with minimal human oversight. By eliminating the administrative burden of permit management and preventing costly project delays, construction businesses can accelerate timelines while ensuring full compliance with local regulations.",
+  phases: [
+    {
+      title: "Phase 1: Permit Curation & Submission",
+      trigger: "Activated when a project is initiated in your project management system.",
+      capabilities: [
+        "AI-Powered Scope Analysis: Automatically reviews project details to identify all necessary permits (building, electrical, plumbing, HVAC) based on scope and location.",
+        "Document Creation & Assembly: Generates complete permit application documents with required information and specifications formatted to jurisdiction standards.",
+        "Human-in-the-Loop Quality Control: Routes completed applications to your team for review and approval before submission.",
+        "Multi-Jurisdiction Submission Management: Handles submission to appropriate authorities (city, county, state) based on project location and requirements."
+      ]
+    },
+    {
+      title: "Phase 2: Tracking & Inspection Coordination",
+      trigger: "Initiated upon permit submission and continues throughout the project lifecycle.",
+      capabilities: [
+        "Automated Status Monitoring: Continuously scans email inboxes to detect and categorize permit status updates without manual checking.",
+        "Real-Time Notifications: Delivers instant alerts via email/SMS when permits are approved, rejected, or require modifications.",
+        "Database Integration: Updates your central project database with current permit status and relevant documentation.",
+        "Inspection Scheduling Automation: Coordinates with inspectors via email/SMS based on project timeline and availability.",
+        "Calendar Integration: Automatically books inspection appointments in your team's calendar system with all relevant details.",
+        "Follow-Up Management: Handles rescheduling and confirmation requests when inspectors don't respond."
+      ]
+    }
+  ],
+  roiDetails: [
+    "Eliminating 15-20+ hours of administrative work per project typically spent on permit application and tracking",
+    "Reducing project delays by up to 70% by preventing permit-related bottlenecks",
+    "Preventing costly labor standby charges when inspections aren't scheduled properly",
+    "Minimizing compliance risks through consistent, accurate permit submissions",
+    "Improving client satisfaction through faster project completion and transparent status updates"
+  ],
+  conclusion: "For construction businesses managing multiple projects, the permit and inspection process is often the biggest source of unpredictable delays and administrative overhead. Our Digital Permit & Inspection Coordinator eliminates this friction point entirely, creating a predictable, efficient pathway through regulatory requirements that scales across your entire project portfolio."
+};
+
 const SolutionDetail = () => {
   const { slug } = useParams<{ slug: string }>();
 
@@ -177,6 +223,8 @@ const SolutionDetail = () => {
     content = codeCompassContent;
   } else if (slug === "invoice-lifecycle-manager") {
     content = invoiceLifecycleManagerContent;
+  } else if (slug === "digital-permit-coordinator") {
+    content = digitalPermitCoordinatorContent;
   }
 
   // If content not found, show fallback
@@ -255,18 +303,20 @@ const SolutionDetail = () => {
           </div>
         </header>
 
-        {/* Video Embed */}
-        <div className="mb-12">
-          <div className="relative w-full rounded-lg overflow-hidden shadow-md" style={{ paddingBottom: '56.25%' }}>
-            <iframe
-              src={content.videoUrl}
-              title={content.title}
-              className="absolute top-0 left-0 w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+        {/* Video Embed - Only show if URL is provided */}
+        {content.videoUrl && (
+          <div className="mb-12">
+            <div className="relative w-full rounded-lg overflow-hidden shadow-md" style={{ paddingBottom: '56.25%' }}>
+              <iframe
+                src={content.videoUrl}
+                title={content.title}
+                className="absolute top-0 left-0 w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Project Overview */}
         <section className="mb-12">
