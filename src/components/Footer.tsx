@@ -66,9 +66,12 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold text-gray-900 mb-4">Get In Touch</h3>
             <div className="space-y-3">
-              <p className="text-gray-600 text-sm">
-                Email: info@flowmatrixai.com
-              </p>
+              <a
+                href="mailto:info@flowmatrixai.com"
+                className="text-primary hover:text-primary/80 transition-colors text-sm font-medium inline-block"
+              >
+                Reach Out
+              </a>
               <p className="text-gray-600 text-sm">
                 Schedule a consultation to get started
               </p>

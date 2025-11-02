@@ -1,48 +1,13 @@
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Helmet } from "react-helmet";
-import { 
-  ArrowRight, 
-  Clock, 
-  BarChart3, 
-  FileText, 
-  MessageSquare, 
-  CheckCircle, 
-  Target, 
-  Settings,
-  TrendingUp,
-  Users,
-  MapPin,
-  Award
-} from "lucide-react";
-import { useEffect } from "react";
-
-declare global {
-  interface Window {
-    Calendly: any;
-  }
-}
+import { ArrowRight, Target, TrendingUp, CheckCircle2 } from "lucide-react";
 
 const About = () => {
-  useEffect(() => {
-    // Load Calendly widget script
-    const script = document.createElement('script');
-    script.src = 'https://assets.calendly.com/assets/external/widget.js';
-    script.async = true;
-    document.body.appendChild(script);
-
-    const link = document.createElement('link');
-    link.href = 'https://assets.calendly.com/assets/external/widget.css';
-    link.rel = 'stylesheet';
-    document.head.appendChild(link);
-
-    return () => {
-      if (document.body.contains(script)) document.body.removeChild(script);
-      if (document.head.contains(link)) document.head.removeChild(link);
-    };
-  }, []);
+  const openTallyForm = () => {
+    window.open('https://tally.so/r/wMBOXE', '_blank');
+  };
 
   // About Page Organization JSON-LD
   const organizationSchema = {
@@ -51,355 +16,215 @@ const About = () => {
     "name": "FlowMatrix AI",
     "url": "https://www.flowmatrixai.com",
     "logo": "https://www.flowmatrixai.com/logo.png",
-    "description": "FlowMatrix AI helps trade, real estate and home improvement businesses in Toronto & GTA automate workflows, reduce admin overhead, and scale effectively.",
+    "description": "FlowMatrix AI provides AI automation for construction and trade businesses across North America. $300 audit with 100% satisfaction guarantee.",
     "contactPoint": [
       {
         "@type": "ContactPoint",
-        "telephone": "+1‑647‑555‑1234",
+        "email": "info@flowmatrixai.com",
         "contactType": "Customer Service"
       }
-    ],
-    "sameAs": ["https://www.linkedin.com/company/flowmatrix-ai"]
-  };
-
-  const openCalendly = () => {
-    if (window.Calendly) {
-      window.Calendly.initPopupWidget({
-        url: 'https://calendly.com/flowmatrixai-info/consultation-call',
-        prefill: {},
-        utm: {}
-      });
-    }
+    ]
   };
 
   return (
     <>
       <Helmet>
-        <title>About FlowMatrix AI - Trade & Real Estate Automation in Toronto & GTA</title>
-        <meta name="description" content="FlowMatrix AI provides AI automation for trade, real estate & home improvement businesses in Toronto & GTA. Free consultation, audit-first approach, 120+ hours saved monthly." />
+        <title>About FlowMatrix AI | Construction Automation for North America</title>
+        <meta name="description" content="FlowMatrix AI provides AI automation for North American construction and trade businesses. Founded by Sebastian Tamburro. $300 audit with 100% satisfaction guarantee." />
         <script type="application/ld+json">
           {JSON.stringify(organizationSchema)}
         </script>
       </Helmet>
-      
+
       <div className="bg-white min-h-screen">
-      <Navigation />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 animate-slide-up">
-            <span className="bg-primary bg-clip-text text-transparent">
-              FlowMatrix AI
-            </span> – Automation for Trade, Real Estate & Home Improvement Businesses in Toronto & the GTA
-          </h1>
-          <p className="text-xl text-gray-600 max-w-4xl mx-auto mb-8">
-            We save trade & property firms 120+ hours/month via an audit-first system—starting with a Free Consultation.
-          </p>
-          
-          <Button 
-            onClick={openCalendly}
-            size="lg" 
-            className="bg-primary hover:bg-primary/90 text-lg px-8 py-6 animate-fade-in shadow-xl"
-          >
-            Book Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
-        </div>
+        <Navigation />
 
-        {/* Our Why Section */}
-        <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg mb-16">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-            Why FlowMatrix Exists
-          </h2>
-          <div className="max-w-4xl mx-auto text-center mb-12">
-            <p className="text-lg text-gray-600 mb-6">
-              Trade and real estate businesses get caught in admin overload—from dispatching crews to chasing reviews. 
-              Audits that quantify inefficiencies first, then build automation based on real data, not guesswork.
-            </p>
-            <p className="text-lg text-gray-600 mb-8">
-              We built FlowMatrix to make <strong>AI automation accessible to local trades, renovation firms, and property services</strong> 
-              throughout Toronto and the GTA.
-            </p>
-            <p className="text-base text-gray-500">
-              We start with a <strong>Free Consultation</strong>—then deliver a <em>pay-what-you-think-it's-worth Trade Automation Audit</em> customized to your business.
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          {/* Hero Section */}
+          <div className="text-center mb-16">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              About FlowMatrix AI
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Specializing in automation for Construction and Trade businesses across North America.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Time Back in Your Week</h3>
-              <p className="text-gray-600 text-sm">
-                Save 120+ hours monthly on administrative tasks and focus on what you do best.
-              </p>
-            </div>
+          {/* Founder Section */}
+          <div className="max-w-4xl mx-auto mb-16">
+            <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg">
+              <div className="flex flex-col items-center text-center gap-6">
+                {/* Headshot */}
+                <div className="flex-shrink-0">
+                  <img
+                    src="/founder-headshot.jpg"
+                    alt="Sebastian Tamburro, Founder of FlowMatrix AI"
+                    className="w-32 h-32 rounded-full object-cover shadow-md"
+                  />
+                </div>
 
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <BarChart3 className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-2">ROI You Can Measure</h3>
-              <p className="text-gray-600 text-sm">
-                Data-driven audits that show exactly where automation will impact your bottom line.
-              </p>
-            </div>
+                {/* Founder Info */}
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-1">
+                    Sebastian Tamburro
+                  </h2>
+                  <p className="text-lg text-gray-600 mb-4">Founder</p>
 
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <FileText className="h-8 w-8 text-white" />
+                  <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                    My automation journey began at Colgate University where I founded the Colgate AI Club while pursuing my education. I also serve on Colgate's Administrative AI Research Panel, a select committee tasked with preparing the institution for the technological revolution. Our panel explores how the university can leverage AI tools effectively and, most importantly, develops educational frameworks to help students thrive in an AI-powered future. This experience deepened my understanding of how intelligent automation can transform specialized industries when implemented thoughtfully.
+                    <br /><br />
+                    I created FlowMatrix AI after seeing firsthand how construction and trade businesses were losing countless hours to administrative tasks. Growing up around construction sites with family in the trades, I witnessed skilled professionals spending evenings on paperwork instead of with their families. These businesses needed specialized automation solutions that understood their unique workflows but faced a market offering only generic software that created more problems than it solved.
+                    <br /><br />
+                    Today, our mission is simple: help construction and trade businesses save time through practical automation that delivers measurable results from day one.
+                  </p>
+                </div>
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Audit You Value</h3>
-              <p className="text-gray-600 text-sm">
-                Pay what you think it's worth after seeing the comprehensive automation roadmap.
+            </div>
+          </div>
+
+          {/* Why FlowMatrix AI Section */}
+          <div className="max-w-4xl mx-auto mb-16">
+            <h2 className="text-4xl font-bold text-center text-gray-900 mb-8">
+              Why FlowMatrix AI?
+            </h2>
+            <div className="text-center text-gray-600 space-y-4">
+              <p className="text-lg leading-relaxed">
+                Most construction and trade businesses lose 120+ hours every month to repetitive admin tasks. We observed this pattern across dozens of contractors, HVAC companies, and trade businesses throughout North America, and knew there had to be a better way.
+              </p>
+              <p className="text-lg leading-relaxed">
+                <strong>Our difference is our approach:</strong> We never push pre-built solutions or generic software packages. Instead, we invest time in understanding not just your business workflows but also your team's comfort level with technology. This dual understanding allows us to create personalized automation systems that align perfectly with both your operational needs and adoption capabilities. In a world where technology advances exponentially every day, we serve as your bridge to practical innovation.
+              </p>
+              <p className="text-lg leading-relaxed">
+                We deliberately chose to specialize exclusively in Construction and Trades rather than becoming general business consultants. This focused expertise ensures we understand the specific challenges, regulations, and workflows unique to your industry. By mastering one industry deeply rather than serving many superficially, we deliver significantly more value through our specialized knowledge and purpose-built solutions.
               </p>
             </div>
           </div>
-        </div>
 
-        {/* How It Works - Audit Process */}
-        <div className="bg-white rounded-2xl p-8 lg:p-12 text-white mb-16">
-          <h2 className="text-3xl font-bold text-center mb-12">Our Audit Process</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="bg-gray-50 border-gray-200">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <MessageSquare className="h-8 w-8 text-white" />
+          {/* Our Four-Phase Methodology Section */}
+          <div className="max-w-4xl mx-auto mb-16">
+            <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+              Our Four-Phase Methodology
+            </h2>
+            <div className="space-y-8">
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  1. Understand & Analyze
+                </h3>
+                <p className="text-gray-600">
+                  We begin with a comprehensive 5-day diagnostic of your specific construction or trade workflows, identifying exactly where automation will create the highest ROI. This initial phase is completely free because we believe in understanding your business before making any recommendations.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  2. Transparent Assessment
+                </h3>
+                <p className="text-gray-600">
+                  Our $300 deep-dive audit provides a complete roadmap of automation opportunities with projected ROI metrics. This phase includes our 100% satisfaction guarantee and represents the first of two clear decision points where you can walk away with no obligation.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  3. Prove Value First
+                </h3>
+                <p className="text-gray-600">
+                  Before full implementation, we deploy quick-win automations that demonstrate immediate value. This approach proves our concept with your specific workflows before you commit to a broader engagement, representing the second decision point in our low-friction process.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  4. Implement & Innovate
+                </h3>
+                <p className="text-gray-600">
+                  Only after proving measurable value do we move to full implementation and continuous innovation. Each automation is tracked against specific ROI metrics, ensuring you can see exactly how many hours and dollars are being saved every month.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Our Approach Section */}
+          <div className="max-w-5xl mx-auto mb-16">
+            <h2 className="text-4xl font-bold text-center text-gray-900 mb-12">
+              How We Work
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Diagnostic-First */}
+              <div className="text-center">
+                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Target className="h-8 w-8 text-white" />
                 </div>
-                <CardTitle className="text-xl text-white">Free Consultation</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-200">
-                  No obligation call to map your pain points across Toronto and GTA service areas. We identify automation opportunities specific to your trade or real estate business.
-                </CardDescription>
-              </CardContent>
-            </Card>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Diagnostic-First</h3>
+                <p className="text-gray-600">
+                  We analyze your specific workflows before recommending anything. Every business is different, so we don't believe in one-size-fits-all solutions. Our proprietary workflow assessment methodology identifies high-ROI automation opportunities unique to your operations.
+                </p>
+              </div>
 
-            <Card className="bg-gray-50 border-gray-200">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <FileText className="h-8 w-8 text-white" />
+              {/* Transparent Pricing */}
+              <div className="text-center">
+                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle2 className="h-8 w-8 text-white" />
                 </div>
-                <CardTitle className="text-xl text-white">Audit Delivery</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-200">
-                  Pay-what-you-think-it's-worth audit with charts, benchmarks, and a custom 90-day roadmap tailored for Toronto & GTA market conditions.
-                </CardDescription>
-              </CardContent>
-            </Card>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Zero Risk</h3>
+                <p className="text-gray-600">
+                  $300 audit with 100% satisfaction guarantee. Two clear decision points where you can walk away, no questions asked. We're so confident in our value that we've structured our business model around proving results before you commit.
+                </p>
+              </div>
 
-            <Card className="bg-gray-50 border-gray-200">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Settings className="h-8 w-8 text-white" />
-                </div>
-                <CardTitle className="text-xl text-white">Automation Partnership</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-200">
-                  Post-assessment, we build and implement automation solutions designed for Toronto's trade and real estate landscape.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gray-50 border-gray-200">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4">
+              {/* Results-Focused */}
+              <div className="text-center">
+                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                   <TrendingUp className="h-8 w-8 text-white" />
                 </div>
-                <CardTitle className="text-xl text-white">Scale & Support</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-200">
-                  Ongoing training, system maintenance, and expansion into other verticals as your GTA business grows.
-                </CardDescription>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Newsletter CTA Section */}
-        <section className="py-16 bg-white mb-16">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Stay Informed</h2>
-            <p className="text-xl text-gray-600 mb-6">
-              Get weekly insights on AI automation trends, case studies, and implementation strategies specifically for Toronto businesses.
-            </p>
-            <Link to="/newsletter" className="inline-flex items-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary transition-colors">
-              Read Our Weekly Newsletter
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </div>
-        </section>
-
-        {/* Team Section */}
-        <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg mb-16">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-            Meet Your Local Automation Partners
-          </h2>
-          
-          <div className="max-w-4xl mx-auto text-center mb-8">
-            <div className="w-32 h-32 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-              <Users className="h-16 w-16 text-white" />
-            </div>
-            <h3 className="text-2xl font-semibold text-gray-900 mb-6">FlowMatrix AI Founding Team</h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Award className="h-6 w-6 text-primary" />
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Results-Focused</h3>
+                <p className="text-gray-600">
+                  We measure success by the hours you save and the stress you avoid. Every automation we build tracks specific ROI metrics: time saved, costs reduced, revenue accelerated. If it doesn't improve your daily operations, we don't build it.
+                </p>
               </div>
-              <p className="text-gray-600">
-                Decade of experience automating HVAC and real estate workflows in Toronto.
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <CheckCircle className="h-6 w-6 text-green-600" />
-              </div>
-              <p className="text-gray-600">
-                Certified member of Ontario Property Management & Construction networks.
-              </p>
-            </div>
-
-
-            <div className="text-center">
-              <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <MapPin className="h-6 w-6 text-primary" />
-              </div>
-              <p className="text-gray-600">
-                We live in Toronto and serve only Toronto–GTA clients.
-              </p>
             </div>
           </div>
-        </div>
 
-        {/* Micro-Case Snapshots */}
-        <div className="bg-white rounded-2xl p-8 lg:p-12 mb-16">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            Real Results for Toronto & GTA Businesses
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle className="text-xl text-white">Trade Business Success</CardTitle>
-                <div className="text-3xl font-bold text-primary">15+ hrs/week saved</div>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-200">
-                  Saved 15+ hours/week for a GTA plumbing firm via automated invoice pipeline. Eliminated manual data entry and streamlined billing processes across multiple job sites.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle className="text-xl text-white">Real Estate Automation</CardTitle>
-                <div className="text-3xl font-bold text-primary">60-agent efficiency</div>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-200">
-                  Automated a 60-agent brokerage's lead nurture cycle with email/SMS sequences in their local system. Improved response times and conversion rates significantly.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle className="text-xl text-white">Home Improvement ROI</CardTitle>
-                <div className="text-3xl font-bold text-primary">80% time reduction</div>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-200">
-                  Cut quoting time by 80% with an AI-based estimate builder for a Brampton renovation business. Faster quotes led to higher close rates and customer satisfaction.
-                </CardDescription>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* FAQ Section */}
-        <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg mb-16">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            Frequently Asked Questions
-          </h2>
-          
-          <div className="max-w-4xl mx-auto space-y-8">
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                How does AI automation help my trade business in Toronto?
-              </h3>
-              <p className="text-gray-600">
-                AI automation helps Toronto trade businesses by eliminating repetitive administrative tasks like scheduling, invoicing, and customer follow-ups. 
-                For HVAC, plumbing, electrical, and construction companies across the GTA, this typically saves 120+ hours monthly, allowing you to focus on 
-                actual trade work and business growth. Our audit process identifies the highest-impact automation opportunities specific to your trade and service area.
+          {/* Newsletter CTA Section */}
+          <section className="py-16 bg-gray-50 rounded-2xl mb-16">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Stay Informed</h2>
+              <p className="text-xl text-gray-600 mb-6">
+                Get weekly insights on AI automation trends, case studies, and implementation strategies for construction businesses.
               </p>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                What can I expect from the audit process for real estate firms?
-              </h3>
-              <p className="text-gray-600">
-                Our real estate audit process analyzes your current workflows from lead generation to closing, identifying automation opportunities in client communication, 
-                document management, and market analysis. Toronto and GTA real estate professionals receive a comprehensive 90-day roadmap showing exactly how 
-                automation can streamline property management, client nurturing, and administrative tasks. The pay-what-you-think-it's-worth model ensures you only 
-                pay after seeing the value we deliver.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                Why choose FlowMatrix over generic marketing or automation firms in GTA?
-              </h3>
-              <p className="text-gray-600">
-                Unlike generic firms, FlowMatrix specializes exclusively in trade, real estate, and home improvement businesses in Toronto and the GTA. 
-                We understand local market conditions, regulatory requirements, and industry-specific challenges. Our audit-first approach means we quantify 
-                improvements before implementation, and our local presence ensures ongoing support and partnership. We're not just vendors—we're your Toronto-based 
-                automation partners invested in your long-term success.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Final CTA Section */}
-        <div className="bg-primary rounded-2xl p-8 lg:p-12 text-white text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to Automate Your Business?</h2>
-          <p className="text-xl text-gray-100 max-w-3xl mx-auto mb-8">
-            Schedule your Free Consultation today and discover how AI automation can transform your Toronto or GTA trade, real estate, or home improvement business.
-          </p>
-          
-          <div className="space-y-4">
-            <Button
-              onClick={openCalendly}
-              size="lg"
-              variant="secondary"
-              className="bg-white text-primary hover:bg-gray-100 text-lg px-8 py-6 font-semibold"
-            >
-              Book Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-
-            <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-100">
-              <Link to="/solutions" className="hover:text-white underline">View Solutions</Link>
-              <Link to="/pricing" className="hover:text-white underline">Audit Pricing</Link>
-              <a 
-                href="https://business.google.com/dashboard/l/03209622293129830584" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="hover:text-white underline"
+              <Link
+                to="/newsletter"
+                className="inline-flex items-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors"
               >
-                Google Business Profile
-              </a>
+                Subscribe to Newsletter
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </div>
+          </section>
+
+          {/* Final CTA Section */}
+          <div className="bg-primary rounded-2xl p-8 lg:p-12 text-white text-center">
+            <h2 className="text-3xl font-bold mb-6">Let's Talk</h2>
+            <p className="text-xl text-gray-100 max-w-3xl mx-auto mb-8">
+              No pressure, no sales pitch. Just a conversation about where automation could help your business.
+            </p>
+
+            <div className="space-y-4">
+              <Button
+                onClick={openTallyForm}
+                size="lg"
+                variant="secondary"
+                className="bg-white text-primary hover:bg-gray-100 text-lg px-8 py-6 font-semibold"
+              >
+                Get Started <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+
+              <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-100">
+                <Link to="/solutions" className="hover:text-white underline">View Solutions</Link>
+                <Link to="/pricing" className="hover:text-white underline">Pricing</Link>
+                <Link to="/contact" className="hover:text-white underline">Contact</Link>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </>
   );

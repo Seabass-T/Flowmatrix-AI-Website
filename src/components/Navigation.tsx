@@ -99,13 +99,6 @@ const Navigation = () => {
               }`}>
                 Solutions
               </Link>
-              <Link to="/results" className={`px-3 py-2 text-sm font-medium transition-colors ${
-                isActiveRoute('/results')
-                  ? 'text-primary bg-gray-50 rounded-md'
-                  : 'text-gray-700 hover:text-primary'
-              }`}>
-                Results
-              </Link>
               <Link to="/about" className={`px-3 py-2 text-sm font-medium transition-colors ${
                 isActiveRoute('/about')
                   ? 'text-primary bg-gray-50 rounded-md'
@@ -159,13 +152,6 @@ const Navigation = () => {
                 : 'text-gray-700 hover:text-primary'
             }`}>
               Solutions
-            </Link>
-            <Link to="/results" className={`block px-3 py-2 text-base font-medium ${
-              isActiveRoute('/results')
-                ? 'text-primary bg-gray-50 rounded-md'
-                : 'text-gray-700 hover:text-primary'
-            }`}>
-              Results
             </Link>
             <Link to="/about" className={`block px-3 py-2 text-base font-medium ${
               isActiveRoute('/about')

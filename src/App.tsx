@@ -16,8 +16,9 @@ const Pricing = lazy(() => import("./pages/Pricing"));
 const Solutions = lazy(() => import("./pages/Solutions"));
 const SolutionDetail = lazy(() => import("./pages/SolutionDetail"));
 const CaseStudyDetail = lazy(() => import("./pages/CaseStudyDetail"));
-const Results = lazy(() => import("./pages/Results"));
-const ResultsPost = lazy(() => import("./pages/ResultsPost"));
+// TODO: Results page - hidden until production ready
+// const Results = lazy(() => import("./pages/Results"));
+// const ResultsPost = lazy(() => import("./pages/ResultsPost"));
 const Newsletter = lazy(() => import("./pages/Newsletter"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -69,8 +70,9 @@ const App = () => (
                 {/* Case study route must come before the generic :slug route */}
                 <Route path="/solutions/ubl-group" element={<CaseStudyDetail />} />
                 <Route path="/solutions/:slug" element={<SolutionDetail />} />
-                <Route path="/results" element={<Results />} />
-                <Route path="/results/:slug" element={<ResultsPost />} />
+                {/* TODO: Results page - hidden until production ready */}
+                {/* <Route path="/results" element={<Results />} /> */}
+                {/* <Route path="/results/:slug" element={<ResultsPost />} /> */}
                 <Route path="/newsletter" element={<Newsletter />} />
                 <Route path="/newsletter/:issueId" element={<Newsletter />} />
                 <Route path="/about" element={<About />} />
