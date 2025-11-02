@@ -770,76 +770,293 @@ function loadScript() {
 
 ---
 
-## Detailed Solution Pages Pattern (Oct 24, 2025)
+## Adding New Solutions: Implementation Guide (Nov 2, 2025)
 
 **Structure:** Two-tier approach for scalability
 
-### Tier 1: Solutions Grid (`/solutions`)
-- Clean grid layout (1/2/3 columns responsive)
-- SolutionCard component with:
-  - YouTube video embed (16:9 aspect ratio)
-  - Title, description (brief, 2-3 sentences)
-  - ROI metrics (time saved, cost savings)
-  - Industry tag
-  - "Learn More" link to detail page
+### Two-Tier Architecture
 
-### Tier 2: Detailed Pages (`/solutions/:slug`)
+**Tier 1: Solution Card** (`/solutions`)
+- Appears in responsive grid (1/2/3 columns)
+- SolutionCard component displays:
+  - YouTube video embed (16:9 aspect ratio)
+  - Title, brief description (2-3 sentences)
+  - ROI metrics (time saved, cost savings)
+  - Industry/category tag
+  - "Learn More" button linking to detail page
+
+**Tier 2: Solution Detail Page** (`/solutions/:slug`)
 - SolutionDetail component handles all detail pages
-- Currently supports: `email-organizer`, `code-compass`, `invoice-lifecycle-manager`
+- Single component, content-driven architecture
+- Each solution has its own content object
 - Structure includes:
   - Full YouTube video embed
-  - Excalidraw workflow diagram (iframe embed) - conditionally rendered if excalidrawUrl is provided
-  - Project overview (comprehensive description)
-  - Implementation phases (expandable sections)
-  - ROI details (bullet list with checkmarks)
+  - Excalidraw workflow diagram (conditional rendering)
+  - Comprehensive overview
+  - Implementation phases with capabilities
+  - ROI details with checkmarks
   - Bottom CTA section (generic for all solutions)
 
-**Live Solutions with Detail Pages:**
-1. **Email Organizer and Summarizer** - AI-powered inbox management (5-15 hrs/week saved)
-2. **Code Compass** - AI-powered regulatory compliance assistant (8-20 hrs/project saved)
-3. **Invoice Lifecycle Manager** - AI-powered financial automation (8-12+ hrs/month saved, 40-60% faster payment collection) - Added Nov 1, 2025
+### Current Live Solutions
 
-**Adding New Solutions:**
+1. **Email Organizer and Summarizer** (`/solutions/email-organizer`)
+   - 5-15 hrs/week saved
+   - AI-powered inbox management
+   - 3 implementation phases
+   - Excalidraw workflow diagram included
 
-1. **Update `Solutions.tsx` casStudies array:**
-   ```typescript
-   {
-     id: "unique-slug",
-     title: "Solution Name",
-     description: "Brief 2-3 sentence overview",
-     videoUrl: "https://www.youtube.com/embed/VIDEO_ID",
-     timeSaved: "10 hours/week",
-     costSavings: "$2,000/month",
-     industry: "Construction"
-   }
-   ```
+2. **Code Compass** (`/solutions/code-compass`)
+   - 8-20 hrs/project saved
+   - AI-powered regulatory compliance
+   - 3 implementation phases
+   - Excalidraw workflow diagram included
 
-2. **Add content to `SolutionDetail.tsx`:**
-   - Add new object to the content map at top of file
-   - Follow email-organizer or invoice-lifecycle-manager structure
-   - Include all required fields: title, category, videoUrl, excalidrawUrl (optional - set to null if none), roiMetrics, overview, phases, roiDetails, conclusion
-   - Update the slug routing logic to recognize the new solution slug
+3. **Invoice Lifecycle Manager** (`/solutions/invoice-lifecycle-manager`)
+   - 8-12+ hrs/month saved, 40-60% faster payment
+   - AI-powered financial automation
+   - 3 implementation phases
+   - No workflow diagram (excalidrawUrl: null)
 
-3. **Excalidraw Diagram Embedding (Optional):**
-   - Set `excalidrawUrl: null` if no diagram is available yet
-   - The diagram section will automatically be hidden with conditional rendering
-   - When ready to add a diagram, use:
-   ```html
-   <iframe
-     src="https://link.excalidraw.com/readonly/YOUR_DIAGRAM_ID"
-     width="100%"
-     height="500px"
-     frameBorder="0"
-     allowFullScreen
-     title="Workflow Diagram"
-   />
-   ```
+### Step-by-Step: Adding a New Solution
 
-**Pattern Benefits:**
-- Scalable: Add unlimited solutions without new files
-- Consistent: All solutions use same layout/structure
-- SEO-friendly: Each solution gets unique URL
-- Maintainable: Content separated from presentation logic
+**STEP 1: Prepare Your Content**
+
+Gather these materials before coding:
+- YouTube video URL (embed format)
+- Excalidraw diagram link (optional, can be null)
+- Solution name and category
+- Brief description (2-3 sentences for card)
+- ROI metrics (time saved + cost/business impact)
+- Comprehensive overview (3-5 sentences)
+- 3 implementation phases with 3-5 capabilities each
+- 5+ ROI detail points
+- Conclusion statement
+
+**STEP 2: Add Solution Card to Solutions.tsx**
+
+File: `src/pages/Solutions.tsx`
+Location: `casStudies` array (around line 47)
+
+```typescript
+// Add to the casStudies array:
+{
+  id: "your-solution-slug",           // lowercase, hyphens only
+  title: "Your Solution Name",
+  description: "Brief 2-3 sentence overview explaining what this does and the problem it solves.",
+  videoUrl: "https://www.youtube.com/embed/VIDEO_ID",
+  timeSaved: "X hours/week",          // or "X hours/month"
+  costSavings: "Impact description",  // e.g., "40% faster payments"
+  industry: "Category Name",          // e.g., "Construction", "Financial Automation"
+},
+```
+
+**STEP 3: Add Content Object to SolutionDetail.tsx**
+
+File: `src/pages/SolutionDetail.tsx`
+Location: Top of file, after existing content objects (around line 168)
+
+```typescript
+// Your Solution Content
+const yourSolutionContent = {
+  slug: "your-solution-slug",  // MUST match id from Solutions.tsx
+  title: "Your Solution Name",
+  category: "Category/Industry Name",
+  videoUrl: "https://www.youtube.com/embed/VIDEO_ID",
+  excalidrawUrl: null,  // OR "https://link.excalidraw.com/readonly/DIAGRAM_ID"
+  roiMetrics: {
+    timeSaved: "X hours/week saved",
+    costSavings: "Impact description (e.g., '40% faster payment collection')"
+  },
+  overview: "Comprehensive 3-5 sentence overview explaining the solution, the problem it solves, who it's for, and the high-level approach.",
+  phases: [
+    {
+      title: "Phase 1: Descriptive Phase Name",
+      trigger: "Explain what activates this phase (e.g., 'Triggered daily at 8 AM')",
+      capabilities: [
+        "First Key Capability: Description with details.",
+        "Second Key Capability: Description with benefits.",
+        "Third Key Capability: Additional functionality.",
+      ]
+    },
+    {
+      title: "Phase 2: Second Phase Name",
+      trigger: "What activates this phase",
+      capabilities: [
+        "First capability for phase 2",
+        "Second capability for phase 2",
+        "Third capability for phase 2"
+      ]
+    },
+    {
+      title: "Phase 3: Third Phase Name",
+      trigger: "What activates this phase",
+      capabilities: [
+        "First capability for phase 3",
+        "Second capability for phase 3",
+        "Third capability for phase 3"
+      ]
+    }
+  ],
+  roiDetails: [
+    "First ROI benefit: Specific time/cost savings with context",
+    "Second ROI benefit: Risk reduction or quality improvement",
+    "Third ROI benefit: Efficiency or relationship improvement",
+    "Fourth ROI benefit: Strategic or scalability benefit",
+    "Fifth ROI benefit: Long-term value or competitive advantage"
+  ],
+  conclusion: "1-2 sentence conclusion about scalability, customization, or extensibility."
+};
+```
+
+**STEP 4: Update Routing Logic in SolutionDetail.tsx**
+
+File: `src/pages/SolutionDetail.tsx`
+Location: Inside the component (around line 173-180)
+
+```typescript
+// Find the routing logic and add your solution:
+let content;
+if (slug === "email-organizer") {
+  content = emailOrganizerContent;
+} else if (slug === "code-compass") {
+  content = codeCompassContent;
+} else if (slug === "invoice-lifecycle-manager") {
+  content = invoiceLifecycleManagerContent;
+} else if (slug === "your-solution-slug") {
+  content = yourSolutionContent;  // ADD THIS LINE
+}
+```
+
+**STEP 5: Test Implementation**
+
+1. Start dev server: `npm run dev`
+2. Navigate to `http://localhost:8080/solutions`
+3. Verify card appears in grid
+4. Click "Learn More" button
+5. Verify detail page loads at `/solutions/your-solution-slug`
+6. Check all sections render:
+   - Video plays
+   - Workflow diagram shows (if provided) or is hidden (if null)
+   - All phases display correctly
+   - ROI details list properly
+7. Test responsive design (mobile, tablet, desktop)
+8. Run production build: `npm run build`
+9. Preview: `npm run preview`
+10. Test again in production mode
+
+### Excalidraw Workflow Diagrams
+
+**Creating Diagrams:**
+1. Go to excalidraw.com
+2. Create your workflow diagram
+3. Click "Live collaboration" → "Create shareable link"
+4. Select "Readonly" mode
+5. Copy the readonly link (format: `https://link.excalidraw.com/readonly/...`)
+
+**Adding to Solutions:**
+- Set `excalidrawUrl: "https://link.excalidraw.com/readonly/YOUR_ID"`
+- Diagram section renders automatically in detail page
+- If no diagram available, set `excalidrawUrl: null`
+- Conditional rendering hides diagram section when null
+
+**Diagram Best Practices:**
+- Keep diagrams simple and clear
+- Use consistent colors and shapes
+- Label all components and flows
+- Test diagram loads before publishing
+
+### Content Best Practices
+
+**Video Guidelines:**
+- Use YouTube embed URLs: `https://www.youtube.com/embed/VIDEO_ID`
+- NOT watch URLs: `https://www.youtube.com/watch?v=VIDEO_ID`
+- Video must be public or unlisted (not private)
+- Test video plays before publishing
+
+**Slug Naming:**
+- Lowercase letters, numbers, hyphens only
+- Keep short but descriptive
+- Examples: `email-organizer`, `invoice-manager`, `project-tracker`
+- Must be unique across all solutions
+- MUST match between Solutions.tsx `id` and SolutionDetail.tsx `slug`
+
+**Content Quality:**
+- Write for non-technical audiences
+- Use specific metrics, not vague promises
+- Structure phases logically (collection → analysis → action)
+- Include 3-5 capabilities per phase
+- Focus on business value, not technical details
+
+**Industry/Category Tags:**
+- Use clear, professional categories
+- Examples: "Construction", "Financial Automation", "AI-Powered Inbox"
+- Keep consistent with existing solutions
+- Avoid overly technical jargon
+
+### Troubleshooting
+
+**Card not appearing:**
+- Check syntax errors in `casStudies` array
+- Verify comma after previous object
+- Ensure all required fields present
+- Check browser console for errors
+
+**Detail page shows "Coming Soon":**
+- Verify `slug` in content object matches `id` in card
+- Check routing logic includes your solution
+- Ensure content object defined before component
+- Look for typos in slug matching
+
+**Video not loading:**
+- Use `/embed/` format, not `/watch?v=`
+- Verify video is public/unlisted
+- Test URL directly in browser
+- Check for typos in VIDEO_ID
+
+**Workflow diagram not showing:**
+- If `excalidrawUrl: null`, diagram won't render (correct behavior)
+- Verify readonly link format
+- Test diagram URL in browser
+- Check browser console for CORS errors
+
+### Quick Reference Checklist
+
+When adding a new solution:
+
+- [ ] Gather all content (video, diagram, text, metrics)
+- [ ] Create unique slug (lowercase, hyphens)
+- [ ] Add to `casStudies` array in Solutions.tsx
+- [ ] Add content object to SolutionDetail.tsx
+- [ ] Update routing logic in SolutionDetail.tsx
+- [ ] Verify slug matches between both files
+- [ ] Test card appears in grid
+- [ ] Test detail page loads
+- [ ] Verify video plays
+- [ ] Check diagram renders (if applicable)
+- [ ] Test all phases display
+- [ ] Test ROI section shows
+- [ ] Test mobile/tablet/desktop
+- [ ] Run production build and test
+- [ ] Check for console errors
+- [ ] Verify SEO metadata
+
+### Pattern Benefits
+
+- **Scalable:** Add unlimited solutions without creating new files
+- **Consistent:** All solutions use identical layout and structure
+- **SEO-friendly:** Each solution gets unique URL and metadata
+- **Maintainable:** Content separated from presentation logic
+- **Fast:** Single component handles all detail pages
+- **Simple:** Two files to update per solution (Solutions.tsx + SolutionDetail.tsx)
+
+### Complete Template Reference
+
+For the complete template with all fields and detailed examples, see:
+- **PRD.md Section 15:** "Adding New Solutions: Complete Template Guide"
+- Includes full TypeScript interfaces
+- Step-by-step implementation guide
+- Best practices and troubleshooting
+- Quick reference checklist
 
 ---
 
