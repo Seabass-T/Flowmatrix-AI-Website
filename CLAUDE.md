@@ -1007,6 +1007,15 @@ if (slug === "email-organizer") {
 - Must be unique across all solutions
 - MUST match between Solutions.tsx `id` and SolutionDetail.tsx `slug`
 
+**CRITICAL: SolutionCard Height Consistency:**
+- **ALL solution cards MUST be the same height in the grid**
+- The `SolutionCard` component uses `h-full flex flex-col` on the main container
+- Content section uses `flex-1 flex flex-col` to fill available space
+- "Learn More" link uses `mt-auto` to push it to the bottom
+- This ensures cards with different description lengths maintain equal heights
+- **NEVER remove these classes** - they are critical for consistent grid layout
+- Reference implementation: `src/components/SolutionCard.tsx` (Nov 3, 2025)
+
 **Content Quality:**
 - Write for non-technical audiences
 - Use specific metrics, not vague promises
@@ -1057,6 +1066,7 @@ When adding a new solution:
 - [ ] Update routing logic in SolutionDetail.tsx
 - [ ] Verify slug matches between both files
 - [ ] Test card appears in grid
+- [ ] **CRITICAL: Verify all cards in grid have equal height** (SolutionCard uses h-full flex flex-col)
 - [ ] Test detail page loads
 - [ ] Verify video plays
 - [ ] Check diagram renders (if applicable)

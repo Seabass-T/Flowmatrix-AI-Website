@@ -212,6 +212,61 @@ const digitalPermitCoordinatorContent = {
   conclusion: "For construction businesses managing multiple projects, the permit and inspection process is often the biggest source of unpredictable delays and administrative overhead. Our Digital Permit & Inspection Coordinator eliminates this friction point entirely, creating a predictable, efficient pathway through regulatory requirements that scales across your entire project portfolio."
 };
 
+// Project Status Tracker Content
+const projectStatusTrackerContent = {
+  slug: "project-status-tracker",
+  title: "Project Status Tracker",
+  category: "AI-Powered Project Management",
+  videoUrl: null,
+  excalidrawUrl: "https://link.excalidraw.com/readonly/S2vCSUZkuRRsF5D7bsGm",
+  roiMetrics: {
+    timeSaved: "10-15+ hours per week",
+    costSavings: "Improves profit margins by up to 40%"
+  },
+  overview: "The Project Status Tracker transforms scattered project data into a unified intelligence system that continuously monitors progress, costs, and timelines without manual effort. Unlike one-size-fits-all software, this solution is built to integrate with YOUR specific tech stack, whether you use ServiceTitan, Microsoft tools, Procore, or any combination of platforms. It automatically collects updates from your existing systems, analyzes them with AI, delivers prioritized insights to stakeholders, and builds a comprehensive knowledge repository for future intelligence. By eliminating the administrative burden of tracking projects and providing real-time financial visibility tailored to your exact workflow, construction businesses can identify cost overruns early, optimize resource allocation, and make data-driven decisions that maximize profit margins.",
+  phases: [
+    {
+      title: "Phase 1: Customizable Data Collection",
+      trigger: "Continuous monitoring of YOUR existing business systems and communication channels.",
+      capabilities: [
+        "Universal Integration Framework: Connects to virtually any business system you already use, including ServiceTitan, Microsoft, Procore, Quickbooks, Sage, and custom internal tools.",
+        "Workflow-Specific Configuration: Adapts to your unique project management approach rather than forcing you to change your processes.",
+        "Flexible Input Sources: Pulls from task management, team communications, email threads, time tracking, accounting systems, or any other data source relevant to your operation.",
+        "Zero-Friction Implementation: Overlays on your existing tech stack without disrupting your established workflows or requiring team retraining."
+      ]
+    },
+    {
+      title: "Phase 2: Intelligent Analysis & Documentation Repository",
+      trigger: "Activated automatically when new project data is collected.",
+      capabilities: [
+        "Continuous Status Monitoring: Analyzes project developments in real-time to track progress against timelines and budgets.",
+        "Comprehensive Documentation Generation: Creates detailed, searchable reports that build an evolving knowledge base specific to your business.",
+        "Priority-Based Distribution: Uses AI to categorize updates based on urgency and business impact, delivering critical alerts via SMS, standard updates via email, and archiving routine information.",
+        "Historical Intelligence System: Maintains a growing repository of project data that becomes increasingly valuable over time for training custom AI models specific to your business patterns."
+      ]
+    },
+    {
+      title: "Phase 3: Financial Intelligence & Business Knowledge Hub",
+      trigger: "Available 24/7 with real-time updates as new information is processed.",
+      capabilities: [
+        "Real-Time ROI Tracking: Displays estimated vs. actual profit alongside comprehensive financial metrics specific to your business's unique KPIs.",
+        "Customizable Reporting Framework: Adapts financial dashboards to highlight the specific metrics that matter most to your operation.",
+        "Retrieval-Augmented Business Intelligence: Builds a growing knowledge repository that can power future AI applications specific to your company's historical data.",
+        "Projection Modeling: Uses your historical project data to create increasingly accurate estimates and forecasts based on your company's actual performance patterns."
+      ]
+    }
+  ],
+  roiDetails: [
+    "Eliminating 10-15+ hours weekly spent manually tracking project status across multiple platforms",
+    "Building a valuable business intelligence repository that grows more valuable with each completed project",
+    "Reducing costly project delays by identifying and addressing issues before they impact timelines",
+    "Improving profit margins by up to 40% through early detection of budget overruns",
+    "Enabling more accurate estimating for future projects based on your company's actual historical performance",
+    "Creating a foundation for advanced AI applications by maintaining structured records of all project knowledge"
+  ],
+  conclusion: "The Project Status Tracker isn't a rigid, off-the-shelf solution, but rather a flexible framework that adapts to your exact business needs. Every implementation is unique, with integrations, workflows, and reporting customized to your specific operations. This approach allows the system to evolve alongside your business, with the potential to expand into increasingly sophisticated capabilities as your needs grow. What begins as project tracking today can develop into predictive analytics, automated decision support, or custom AI applications tomorrow, all built on the foundation of your company's unique data and processes."
+};
+
 const SolutionDetail = () => {
   const { slug } = useParams<{ slug: string }>();
 
@@ -225,6 +280,8 @@ const SolutionDetail = () => {
     content = invoiceLifecycleManagerContent;
   } else if (slug === "digital-permit-coordinator") {
     content = digitalPermitCoordinatorContent;
+  } else if (slug === "project-status-tracker") {
+    content = projectStatusTrackerContent;
   }
 
   // If content not found, show fallback

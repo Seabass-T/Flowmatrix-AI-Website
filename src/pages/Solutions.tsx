@@ -85,6 +85,16 @@ const Solutions = () => {
       costSavings: "Reduces project delays by up to 70%",
       industry: "Construction",
     },
+    {
+      id: "project-status-tracker",
+      title: "Project Status Tracker",
+      description: "AI-powered system that connects to any of your existing tools to monitor project data and deliver intelligent status updates with comprehensive documentation. Completely customizable to your unique business workflow.",
+      videoUrl: null,
+      excalidrawUrl: "https://link.excalidraw.com/readonly/S2vCSUZkuRRsF5D7bsGm",
+      timeSaved: "10-15+ hours per week",
+      costSavings: "Improves profit margins by up to 40%",
+      industry: "Construction",
+    },
   ];
 
   return (

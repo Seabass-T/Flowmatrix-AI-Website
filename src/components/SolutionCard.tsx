@@ -23,7 +23,7 @@ const SolutionCard = ({
   industry,
 }: SolutionCardProps) => {
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+    <div className="h-full flex flex-col bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
       {/* Video or Excalidraw Embed */}
       <div className="relative w-full bg-gray-50 dark:bg-gray-800" style={{ paddingBottom: '56.25%' }}>
         {videoUrl ? (
@@ -49,7 +49,7 @@ const SolutionCard = ({
       </div>
 
       {/* Card Content */}
-      <div className="p-6">
+      <div className="flex-1 flex flex-col p-6">
         {/* Industry Tag */}
         {industry && (
           <div className="flex items-center gap-1 mb-3">
@@ -96,7 +96,7 @@ const SolutionCard = ({
         {/* Learn More Link */}
         <Link
           to={`/solutions/${id}`}
-          className="mt-6 flex items-center justify-center gap-2 text-primary font-medium hover:gap-3 transition-all group"
+          className="mt-auto pt-6 flex items-center justify-center gap-2 text-primary font-medium hover:gap-3 transition-all group"
         >
           <span>Learn More</span>
           <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
