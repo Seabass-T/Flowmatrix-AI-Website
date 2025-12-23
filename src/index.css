@@ -13,76 +13,43 @@ html {
 
 @layer base {
   :root {
-    /* Base Colors - Pure white background */
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
+    /* ===== BLACK/WHITE/GOLD DESIGN SYSTEM ===== */
 
-    /* Card Colors - Clean white cards */
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
+    /* Base Colors - Pure black background */
+    --background: 0 0% 0%;              /* #000000 - Pure black */
+    --foreground: 0 0% 100%;            /* #FFFFFF - Pure white */
+
+    /* Card Colors - Elevated surfaces */
+    --card: 0 0% 4%;                    /* #0A0A0A - Near black for elevated elements */
+    --card-foreground: 0 0% 100%;       /* #FFFFFF - White text on cards */
 
     /* Popover Colors */
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
+    --popover: 0 0% 4%;                 /* #0A0A0A - Near black */
+    --popover-foreground: 0 0% 100%;    /* #FFFFFF - White */
 
-    /* Primary Brand Color - Dark Green #166534 */
-    --primary: 142 76% 24%;
-    --primary-foreground: 0 0% 100%;
-
-    /* Secondary - Light gray for subtle backgrounds */
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 0%;
+    /* Secondary - Subtle backgrounds */
+    --secondary: 0 0% 7%;               /* #111111 - Subtle elevation */
+    --secondary-foreground: 0 0% 100%;  /* #FFFFFF - White */
 
     /* Muted - For secondary text and subtle elements */
-    --muted: 0 0% 96%;
-    --muted-foreground: 220 9% 23%; /* Darker gray (#374151, gray-700) for better readability */
+    --muted: 0 0% 9%;                   /* #171717 - Subtle background (gray-900) */
+    --muted-foreground: 0 0% 64%;       /* #A3A3A3 - Gray-400 for secondary text */
 
-    /* Accent - Subtle background for hover states */
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 0%;
+    /* Accent - Warm amber gold (ONLY for animations and special elements) */
+    --accent: 43 59% 55%;               /* #D4A84B - Warm amber gold */
+    --accent-foreground: 0 0% 0%;       /* #000000 - Black text on gold */
 
     /* Destructive - For errors */
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;           /* Red for errors */
+    --destructive-foreground: 0 0% 100%; /* White text */
 
     /* Borders and Inputs */
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 142 76% 24%;
+    --border: 0 0% 15%;                 /* #262626 - Gray-800 */
+    --input: 0 0% 15%;                  /* #262626 - Gray-800 */
+    --ring: 43 59% 55%;                 /* #D4A84B - Gold ring */
 
+    /* Border Radius */
     --radius: 0.5rem;
-
-    /* Backward compatibility aliases - map old colors to new simplified palette */
-    /* These will be removed in future phases when components are updated */
-    --interactive-primary: 142 76% 24%;
-    --interactive-primary-hover: 142 76% 20%;
-    --interactive-secondary: 142 76% 24%;
-    --interactive-secondary-hover: 142 76% 20%;
-    --interactive-accent: 142 76% 24%;
-    --interactive-accent-hover: 142 76% 20%;
-    --surface-light: 0 0% 98%;
-    --surface-medium: 0 0% 96%;
-    --surface-dark: 0 0% 5%;
-    --surface-darker: 0 0% 3%;
-    --surface-primary: 0 0% 100%;
-    --voice-primary: 142 76% 24%;
-    --voice-primary-glow: 142 76% 28%;
-    --voice-secondary: 142 76% 24%;
-    --voice-accent: 142 76% 28%;
-    --voice-surface: 0 0% 98%;
-    --voice-border: 0 0% 90%;
-    --voice-success: 142 76% 24%;
-    --voice-warning: 25 95% 53%;
-
-    /* Sidebar - Keep for shadcn compatibility */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 0 0% 16%;
-    --sidebar-primary: 142 76% 24%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 96%;
-    --sidebar-accent-foreground: 0 0% 0%;
-    --sidebar-border: 0 0% 91%;
-    --sidebar-ring: 142 76% 24%;
   }
 
 }

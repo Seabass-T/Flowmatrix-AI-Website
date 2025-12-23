@@ -19,15 +19,17 @@ export default {
 		},
 		extend: {
 			colors: {
+				// Core Colors - Black/White/Gold Design System
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
-				primary: {
-					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
-				},
+
+				// Primary colors removed - using direct background/foreground
+				// No green colors in new system
+
+				// Secondary, Destructive kept for shadcn compatibility
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
 					foreground: 'hsl(var(--secondary-foreground))'
@@ -36,14 +38,20 @@ export default {
 					DEFAULT: 'hsl(var(--destructive))',
 					foreground: 'hsl(var(--destructive-foreground))'
 				},
+
+				// Muted for secondary text and subtle backgrounds
 				muted: {
 					DEFAULT: 'hsl(var(--muted))',
 					foreground: 'hsl(var(--muted-foreground))'
 				},
+
+				// Accent - Gold color (ONLY for animations and special elements)
 				accent: {
 					DEFAULT: 'hsl(var(--accent))',
 					foreground: 'hsl(var(--accent-foreground))'
 				},
+
+				// Popover and Card for shadcn components
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
 					foreground: 'hsl(var(--popover-foreground))'
@@ -51,42 +59,6 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
-				},
-				// Backward compatibility - will be removed in future phases
-				interactive: {
-					primary: 'hsl(var(--interactive-primary))',
-					'primary-hover': 'hsl(var(--interactive-primary-hover))',
-					secondary: 'hsl(var(--interactive-secondary))',
-					'secondary-hover': 'hsl(var(--interactive-secondary-hover))',
-					accent: 'hsl(var(--interactive-accent))',
-					'accent-hover': 'hsl(var(--interactive-accent-hover))',
-				},
-				surface: {
-					light: 'hsl(var(--surface-light))',
-					medium: 'hsl(var(--surface-medium))',
-					dark: 'hsl(var(--surface-dark))',
-					darker: 'hsl(var(--surface-darker))',
-					primary: 'hsl(var(--surface-primary))',
-				},
-				voice: {
-					primary: 'hsl(var(--voice-primary))',
-					'primary-glow': 'hsl(var(--voice-primary-glow))',
-					secondary: 'hsl(var(--voice-secondary))',
-					accent: 'hsl(var(--voice-accent))',
-					surface: 'hsl(var(--voice-surface))',
-					border: 'hsl(var(--voice-border))',
-					success: 'hsl(var(--voice-success))',
-					warning: 'hsl(var(--voice-warning))',
-				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
 				}
 			},
 			borderRadius: {

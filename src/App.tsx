@@ -6,32 +6,20 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import Footer from "@/components/Footer";
+import Footer from "@/components/layout/Footer";
 
 // Eager load only the homepage for fastest FCP
 import Index from "./pages/Index";
 
-// Lazy load all other pages for code splitting
-const Pricing = lazy(() => import("./pages/Pricing"));
-const Solutions = lazy(() => import("./pages/Solutions"));
-const SolutionDetail = lazy(() => import("./pages/SolutionDetail"));
-const CaseStudyDetail = lazy(() => import("./pages/CaseStudyDetail"));
-// TODO: Results page - hidden until production ready
-// const Results = lazy(() => import("./pages/Results"));
-// const ResultsPost = lazy(() => import("./pages/ResultsPost"));
-const Newsletter = lazy(() => import("./pages/Newsletter"));
-const About = lazy(() => import("./pages/About"));
-const Contact = lazy(() => import("./pages/Contact"));
+// Lazy load legal pages only
 const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-const Construction = lazy(() => import("./pages/Construction"));
-const HomeService = lazy(() => import("./pages/HomeService"));
 
-// Loading fallback component
+// Loading fallback component - black background for new design
 const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+  <div className="min-h-screen bg-black flex items-center justify-center">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
   </div>
 );
 
@@ -65,26 +53,8 @@ const App = () => (
             <Suspense fallback={<PageLoader />}>
               <Routes>
                 <Route path="/" element={<Index />} />
-                <Route path="/pricing" element={<Pricing />} />
-                <Route path="/solutions" element={<Solutions />} />
-                {/* Case study route must come before the generic :slug route */}
-                <Route path="/solutions/ubl-group" element={<CaseStudyDetail />} />
-                <Route path="/solutions/:slug" element={<SolutionDetail />} />
-                {/* TODO: Results page - hidden until production ready */}
-                {/* <Route path="/results" element={<Results />} /> */}
-                {/* <Route path="/results/:slug" element={<ResultsPost />} /> */}
-                <Route path="/newsletter" element={<Newsletter />} />
-                <Route path="/newsletter/:issueId" element={<Newsletter />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
-
-                {/* ICP Landing Pages */}
-                <Route path="/construction" element={<Construction />} />
-                <Route path="/home-service" element={<HomeService />} />
-
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>

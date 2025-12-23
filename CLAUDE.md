@@ -13,13 +13,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-FlowMatrix AI is a React + TypeScript website built with Vite, showcasing AI automation solutions for North American construction and trade businesses. The site uses shadcn/ui components with Tailwind CSS and integrates with Supabase for backend services.
+FlowMatrix AI is a React + TypeScript website built with Vite, showcasing AI transformation solutions for businesses across all industries. The site uses shadcn/ui components with Tailwind CSS.
 
-**Business Model:** Low-friction onboarding with 5-step process, 2 decision points, and transparent pricing ($300 audit, $2-5K/month retainer).
+**🚨 MAJOR REVAMP IN PROGRESS (Dec 21, 2025):**
+The website is undergoing a complete transformation from a multi-page, construction-focused site to a single-page, industry-agnostic platform with premium black/white/gold aesthetic.
 
-**Design Philosophy:** Clean, minimal white/black design with ONE primary color (dark green: bg-primary / text-primary = #166534 / green-800). Light accents allowed (bg-green-50, bg-green-100). No gradients, no purple, no em dashes, simple and professional.
+**Branch:** `revamp-v3` (created from main)
 
-**Status:** ✅ Homepage rebuild complete (Oct 23, 2025) | ✅ Pricing page Monthly Retainer tab updated (Oct 24, 2025) | ✅ Solutions & Results pages complete with 3 detailed solution pages: Email Organizer, Code Compass & Invoice Lifecycle Manager (Oct 24, 2025 / Nov 1, 2025) | ✅ UBL Group case study with preview card and detail page (Nov 1, 2025) | ✅ About page content updated (Nov 1, 2025)
+**Design Philosophy:** Minimal, premium black background with white text and warm gold accents (used sparingly for animations). No gradients, no industry-specific language, no em dashes. "The Ancient Code" concept - timeless wisdom meets modern AI implementation.
+
+**Positioning:** Universal AI transformation partner (NOT construction-specific)
+
+**Status (Dec 21, 2025):**
+- ✅ Phase 1 Complete: Foundation (color system, folder structure, deletions)
+- ✅ Phase 2 Complete: Core components (VideoBackground, MagneticButton, TallyForm, Navigation, Footer)
+- ✅ Phase 3 Complete: Section components (Hero, Stakes, Pillars, Proof, Founders, FAQ, CTA) - All 7 sections created and integrated
+- ✅ Phase 4 Complete: Legal page styling (Terms, Privacy, NotFound) - All updated to black/white/gold
+- ⏳ Phase 5 Pending: Testing, optimization, video asset creation
+
+**Previous Status (Pre-Revamp):**
+✅ Homepage rebuild complete (Oct 23, 2025) | ✅ Pricing page Monthly Retainer tab updated (Oct 24, 2025) | ✅ Solutions & Results pages complete with 3 detailed solution pages: Email Organizer, Code Compass & Invoice Lifecycle Manager (Oct 24, 2025 / Nov 1, 2025) | ✅ UBL Group case study with preview card and detail page (Nov 1, 2025) | ✅ About page content updated (Nov 1, 2025)
+
+**NOTE:** The above features were part of the old multi-page construction-focused site and have been removed during the revamp.
 
 ---
 
@@ -49,28 +64,32 @@ npm preview
 
 ## PRD Reference
 
-**Location:** `/PRD.md` (Version 2.0)
+**🚨 ACTIVE REVAMP:** Reference `/PRD-REVAMP.md` (Version 3.0) for all current work.
 
-The PRD is the **single source of truth** for:
-- Business model & pricing structure
-- Site architecture changes
-- Design system specifications
-- Page-by-page requirements
-- Implementation priorities
+**Location:** `/PRD-REVAMP.md` (Version 3.0 - "The Ancient Code")
 
-**Always reference PRD.md when:**
-- Planning new features
-- Making architectural changes
-- Understanding business logic
-- Implementing design updates
-- Prioritizing tasks
+The PRD-REVAMP is the **single source of truth** for the revamp:
+- Black/white/gold design system
+- Single-page application structure
+- Video animation specifications
+- Section-by-section component specs
+- Implementation checklist
 
-**Key PRD Sections:**
-- Section 2: Business Model (5-step process, 2 decision points)
-- Section 3: Site Architecture (navigation, routes, page inventory)
-- Section 4: Design System (color palette, removal of gradients)
-- Section 5: Page-by-Page Requirements (detailed specs for each page)
-- Section 8: Implementation Checklist (Phase 1 pre-launch tasks)
+**Always reference PRD-REVAMP.md when:**
+- Building new section components
+- Implementing design changes
+- Understanding the new architecture
+- Planning Phase 3-5 work
+
+**Key PRD-REVAMP Sections:**
+- Implementation Status (progress tracking)
+- Design System (color palette, typography, spacing)
+- Section-by-Section Specifications (Hero, Stakes, Pillars, Proof, Founders, FAQ, CTA)
+- File Structure Changes (what to delete, what to create)
+- Video Asset Placeholders (VEO 3 video specs)
+- Component Specifications (utility components, section components)
+
+**Legacy PRD:** `/PRD.md` (Version 2.0) contains old multi-page specs - DO NOT use for current work.
 
 ---
 
@@ -80,11 +99,85 @@ The PRD is the **single source of truth** for:
 - **Build Tool**: Vite with SWC for fast compilation
 - **UI Library**: shadcn/ui (Radix UI primitives)
 - **Styling**: Tailwind CSS with custom design system
-- **Routing**: React Router v6
-- **Data Fetching**: TanStack Query (React Query)
-- **Backend**: Supabase (authentication, database)
-- **Form Handling**: React Hook Form + Zod validation
+- **Routing**: React Router v6 (simplified to 4 routes)
+- **Data Fetching**: TanStack Query (React Query) - NOT USED in revamp
+- **Backend**: Supabase - NOT USED in revamp (pure static site)
+- **Form Handling**: Tally.io embedded forms ONLY
 - **Lead Capture**: Tally.io forms (https://tally.so/r/wMBOXE)
+
+---
+
+## Revamp Architecture (Version 3.0)
+
+### Current File Structure
+
+```
+src/
+├── components/
+│   ├── layout/
+│   │   ├── Navigation.tsx        ✅ Created - Minimal sticky nav
+│   │   └── Footer.tsx            ✅ Created - Minimal footer
+│   ├── sections/                 ✅ COMPLETE - Phase 3
+│   │   ├── HeroSection.tsx       ✅ Complete - Full viewport with video
+│   │   ├── StakesSection.tsx     ✅ Complete - "Adapt or become irrelevant"
+│   │   ├── PillarsSection.tsx    ✅ Complete - 3-column grid
+│   │   ├── ProofSection.tsx      ✅ Complete - Client logos + testimonial
+│   │   ├── FoundersSection.tsx   ✅ Complete - Team video + bios
+│   │   ├── FAQSection.tsx        ✅ Complete - Accordion with 5 FAQs
+│   │   └── CTASection.tsx        ✅ Complete - Tally form embed
+│   ├── ui/
+│   │   ├── VideoBackground.tsx   ✅ Created - Video/GIF handler
+│   │   ├── MagneticButton.tsx    ✅ Created - Interactive CTA
+│   │   └── [shadcn components]   ✅ Existing
+│   └── shared/
+│       └── TallyForm.tsx         ✅ Created - Form embed (named export)
+├── pages/
+│   ├── Index.tsx                 ✅ Complete - All 7 sections integrated
+│   ├── Terms.tsx                 ✅ Restyled - Black/white/gold
+│   ├── Privacy.tsx               ✅ Restyled - Black/white/gold
+│   └── NotFound.tsx              ✅ Restyled - Black/white/gold
+├── lib/
+│   └── constants.ts              ✅ Created - All content centralized
+└── assets/
+    └── videos/                   ✅ Created - Video placeholders
+```
+
+### Routing (App.tsx)
+
+**Current Routes (4 total):**
+- `/` → Index.tsx (single scrolling page)
+- `/terms` → Terms.tsx
+- `/privacy` → Privacy.tsx
+- `*` → NotFound.tsx (404)
+
+**Deleted Routes:**
+- `/pricing` ❌ REMOVED
+- `/solutions` ❌ REMOVED
+- `/solutions/:slug` ❌ REMOVED
+- `/about` ❌ REMOVED
+- `/contact` ❌ REMOVED
+- `/newsletter` ❌ REMOVED
+- All other pages ❌ REMOVED
+
+### Design System
+
+**Colors:**
+```css
+--background: 0 0% 0%;              /* #000000 - Pure black */
+--foreground: 0 0% 100%;            /* #FFFFFF - Pure white */
+--card: 0 0% 4%;                    /* #0A0A0A - Elevated surfaces */
+--muted-foreground: 0 0% 64%;       /* #A3A3A3 - Secondary text */
+--accent: 43 59% 55%;               /* #D4A84B - Warm gold (animations only) */
+--border: 0 0% 15%;                 /* #262626 - Borders */
+```
+
+**NO green colors.** All `bg-primary`, `text-primary` removed.
+
+**Typography:**
+- Font: Inter (system-ui fallback)
+- Hero: clamp(3rem, 8vw, 6rem)
+- H1: clamp(2.5rem, 5vw, 4rem)
+- Body: 1.125rem (18px)
 
 ---
 
@@ -1216,4 +1309,48 @@ For the complete template with all fields and detailed examples, see:
 
 ---
 
-*Last Updated: November 1, 2025 - About Page Content Update, Complete Solutions Page with Invoice Lifecycle Manager, UBL Group Case Study & Logo Integration*
+## Revamp Implementation Workflow (Dec 21, 2025)
+
+### Phase 3: Section Components (CURRENT)
+
+Build all 7 section components using PRD-REVAMP.md specs:
+
+1. **HeroSection.tsx** - Full viewport hero with video background, headline, CTA
+2. **StakesSection.tsx** - "Adapt or become irrelevant" messaging
+3. **PillarsSection.tsx** - 3-column grid (Discover, Build, Scale)
+4. **ProofSection.tsx** - Client logos, testimonial, metrics
+5. **FoundersSection.tsx** - Team intro with bios
+6. **FAQSection.tsx** - Accordion with 5 questions
+7. **CTASection.tsx** - Final CTA with Tally form embed
+
+### Phase 4: Polish & Legal Pages
+
+- Restyle Terms.tsx (black bg, white text)
+- Restyle Privacy.tsx (black bg, white text)
+- Restyle NotFound.tsx (black bg, white text)
+
+### Phase 5: Testing & Optimization
+
+- Test scroll-to-section navigation
+- Test Tally form embed
+- Test mobile responsiveness
+- Run Lighthouse audit
+- Production build test
+
+### Video Assets (When Ready)
+
+Place VEO 3 videos in `/public/videos/`:
+- hero-awakening.mp4
+- stakes-transfer.mp4
+- pillar-discover.mp4
+- pillar-build.mp4
+- pillar-scale.mp4
+- proof-gallery.mp4
+- founders-stewards.mp4
+- cta-invitation.mp4
+
+VideoBackground component handles missing videos gracefully (displays black background).
+
+---
+
+*Last Updated: December 21, 2025 - Revamp Phase 2 Complete | Active Branch: `revamp-v3` | Status: Building Phase 3 Section Components*
