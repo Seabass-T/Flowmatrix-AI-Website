@@ -54,7 +54,7 @@ const ProofSection = () => {
                 key={logo.name}
                 src={logo.src}
                 alt={logo.name}
-                className="h-8 md:h-10 lg:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
+                className="h-12 md:h-14 lg:h-16 w-auto grayscale contrast-125 opacity-60 hover:opacity-100 transition-all duration-300 object-contain"
               />
             ))}
           </div>

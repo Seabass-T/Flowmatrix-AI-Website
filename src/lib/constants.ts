@@ -72,7 +72,7 @@ export const COPY = {
         name: 'Dom Joseph',
         title: 'COO',
         school: 'Northeastern University',
-        background: 'Civil Engineering, Project Management & Business',
+        background: 'Industrial Engineering, Project Management & Business',
         location: 'Canfield, Ohio',
         funFact: 'Avid hunter',
         linkedin: 'https://linkedin.com/in/domjoseph',
