@@ -27,8 +27,10 @@ const typeLabels: Record<DeliverableType, string> = {
 
 export function TemplateCard({ template, onClick }: TemplateCardProps) {
   // Get thumbnail URL - use custom or fallback to YouTube default
+  // Add cache-busting parameter using updated_at timestamp to force refresh when thumbnail changes
+  const cacheBuster = template.updated_at ? new Date(template.updated_at).getTime() : Date.now()
   const thumbnailUrl = template.thumbnail_url ||
-    `https://img.youtube.com/vi/${template.youtube_id}/maxresdefault.jpg`
+    `https://img.youtube.com/vi/${template.youtube_id}/maxresdefault.jpg?t=${cacheBuster}`
 
   // Get first 3 tools + count if more
   const displayTools = template.tools_used?.slice(0, 3) || []

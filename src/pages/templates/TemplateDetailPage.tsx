@@ -177,6 +177,10 @@ export default function TemplateDetailPage() {
   }
 
   // Success state - template loaded
+  // Add cache-busting parameter to force thumbnail refresh when updated
+  const cacheBuster = template.updated_at ? new Date(template.updated_at).getTime() : Date.now()
+  const youtubeThumbnail = `https://img.youtube.com/vi/${template.youtube_id}/maxresdefault.jpg?t=${cacheBuster}`
+
   return (
     <>
       <Helmet>
@@ -190,7 +194,7 @@ export default function TemplateDetailPage() {
         <meta property="og:description" content={template.description.slice(0, 160)} />
         <meta
           property="og:image"
-          content={template.thumbnail_url || `https://img.youtube.com/vi/${template.youtube_id}/maxresdefault.jpg`}
+          content={template.thumbnail_url || youtubeThumbnail}
         />
         <meta property="og:url" content={`https://flowmatrixai.com/free/${template.slug}`} />
         <meta property="og:type" content="article" />
@@ -205,7 +209,7 @@ export default function TemplateDetailPage() {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${template.title} | FlowMatrix AI`} />
         <meta name="twitter:description" content={template.description.slice(0, 160)} />
-        <meta name="twitter:image" content={template.thumbnail_url || `https://img.youtube.com/vi/${template.youtube_id}/maxresdefault.jpg`} />
+        <meta name="twitter:image" content={template.thumbnail_url || youtubeThumbnail} />
         <meta name="twitter:site" content="@flowmatrix_ai" />
 
         {/* SoftwareApplication Structured Data */}
@@ -235,7 +239,7 @@ export default function TemplateDetailPage() {
               "@type": "VideoObject",
               "name": template.title,
               "description": template.description,
-              "thumbnailUrl": `https://img.youtube.com/vi/${template.youtube_id}/maxresdefault.jpg`,
+              "thumbnailUrl": template.thumbnail_url || youtubeThumbnail,
               "uploadDate": template.published_at || template.created_at,
               "embedUrl": `https://www.youtube.com/embed/${template.youtube_id}`
             } : undefined
