@@ -15,6 +15,7 @@ const HeroSection = () => {
         src="/videos/hero-awakening.mp4"
         fallback="/images/hero-fallback.jpg"
         className="absolute inset-0 w-full h-full object-cover opacity-80"
+        loading="eager"
       />
 
       {/* Gradient Overlay (subtle, for text readability) */}

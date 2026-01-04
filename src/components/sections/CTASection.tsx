@@ -24,8 +24,8 @@ const CTASection = () => {
         </p>
 
         {/* Tally Form Embed */}
-        <div className="bg-black/95 backdrop-blur-sm border border-white/10 rounded-xl p-8 md:p-10 shadow-2xl">
-          <TallyForm formId="wMBOXE" />
+        <div className="bg-black/90 backdrop-blur-sm border border-white/20 rounded-xl p-6 md:p-8 shadow-2xl">
+          <TallyForm formId="wMBOXE" className="mx-auto" />
         </div>
       </div>
     </section>

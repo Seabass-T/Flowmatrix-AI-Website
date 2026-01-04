@@ -128,6 +128,142 @@ export type Database = {
         }
         Relationships: []
       }
+      email_captures: {
+        Row: {
+          id: string
+          email: string
+          template_id: string
+          source_url: string | null
+          captured_at: string
+          ip_address: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          id?: string
+          email: string
+          template_id: string
+          source_url?: string | null
+          captured_at?: string
+          ip_address?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          id?: string
+          email?: string
+          template_id?: string
+          source_url?: string | null
+          captured_at?: string
+          ip_address?: string | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_captures_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "templates"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      template_views: {
+        Row: {
+          id: string
+          template_id: string
+          viewed_at: string
+          source: string | null
+          ip_address: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          id?: string
+          template_id: string
+          viewed_at?: string
+          source?: string | null
+          ip_address?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          id?: string
+          template_id?: string
+          viewed_at?: string
+          source?: string | null
+          ip_address?: string | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "template_views_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "templates"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      templates: {
+        Row: {
+          id: string
+          slug: string
+          title: string
+          description: string
+          youtube_url: string
+          youtube_id: string
+          thumbnail_url: string | null
+          deliverable_type: string
+          deliverable_url: string | null
+          discount_code: string | null
+          discount_expiry: string | null
+          tools_used: string[] | null
+          labels: string[] | null
+          builders: string[] | null
+          status: string
+          created_at: string
+          updated_at: string
+          published_at: string | null
+        }
+        Insert: {
+          id?: string
+          slug: string
+          title: string
+          description: string
+          youtube_url: string
+          youtube_id: string
+          thumbnail_url?: string | null
+          deliverable_type: string
+          deliverable_url?: string | null
+          discount_code?: string | null
+          discount_expiry?: string | null
+          tools_used?: string[] | null
+          labels?: string[] | null
+          builders?: string[] | null
+          status?: string
+          created_at?: string
+          updated_at?: string
+          published_at?: string | null
+        }
+        Update: {
+          id?: string
+          slug?: string
+          title?: string
+          description?: string
+          youtube_url?: string
+          youtube_id?: string
+          thumbnail_url?: string | null
+          deliverable_type?: string
+          deliverable_url?: string | null
+          discount_code?: string | null
+          discount_expiry?: string | null
+          tools_used?: string[] | null
+          labels?: string[] | null
+          builders?: string[] | null
+          status?: string
+          created_at?: string
+          updated_at?: string
+          published_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

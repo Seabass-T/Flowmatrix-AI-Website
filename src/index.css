@@ -6,12 +6,12 @@
 All colors MUST be HSL.
 */
 
-/* Smooth scroll behavior for navigation anchor links */
-html {
-  scroll-behavior: smooth;
-}
-
 @layer base {
+  /* Smooth scroll behavior for navigation anchor links */
+  html {
+    scroll-behavior: smooth;
+  }
+
   :root {
     /* ===== BLACK/WHITE/GOLD DESIGN SYSTEM ===== */
 
@@ -75,4 +75,66 @@ html {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
+}
+
+/* Tally Form Styling - Ensure proper display on dark backgrounds */
+.tally-form-container iframe {
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Ensure Tally form content is visible on dark background */
+iframe[data-tally-src] {
+  color-scheme: light;
+}
+
+/* EmailGate animations */
+@keyframes unlock {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-unlock {
+  animation: unlock 0.3s ease-out;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-8px);
+  }
+  75% {
+    transform: translateX(8px);
+  }
+}
+
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes success-flash {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.animate-success-flash {
+  animation: success-flash 0.6s ease-in-out;
 }

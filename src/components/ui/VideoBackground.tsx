@@ -8,6 +8,7 @@ interface VideoBackgroundProps {
   loop?: boolean;
   muted?: boolean;
   autoPlay?: boolean;
+  loading?: 'eager' | 'lazy';
 }
 
 export const VideoBackground = ({
@@ -17,10 +18,38 @@ export const VideoBackground = ({
   loop = true,
   muted = true,
   autoPlay = true,
+  loading = 'lazy',
 }: VideoBackgroundProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(loading === 'eager');
+
+  // Intersection Observer for lazy loading
+  useEffect(() => {
+    if (loading === 'eager') return; // Skip observer for eager loading
+
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShouldLoad(true);
+            observer.disconnect();
+          }
+        });
+      },
+      {
+        rootMargin: '50px', // Start loading 50px before entering viewport
+      }
+    );
+
+    observer.observe(video);
+
+    return () => observer.disconnect();
+  }, [loading]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -51,7 +80,7 @@ export const VideoBackground = ({
   return (
     <video
       ref={videoRef}
-      src={src}
+      src={shouldLoad ? src : undefined}
       className={cn(
         'object-cover transition-opacity duration-500',
         isLoaded ? 'opacity-100' : 'opacity-0',
