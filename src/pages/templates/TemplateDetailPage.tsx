@@ -180,15 +180,95 @@ export default function TemplateDetailPage() {
   return (
     <>
       <Helmet>
-        <title>{template.title} | FlowMatrix AI Templates</title>
-        <meta name="description" content={template.description.slice(0, 160)} />
-        <meta property="og:title" content={template.title} />
+        <title>{template.title} | FlowMatrix AI Free Templates</title>
+        <meta name="description" content={`${template.description.slice(0, 155)} - FlowMatrix AI`} />
+        <meta name="keywords" content={`FlowMatrix AI, ${template.title}, ${template.labels?.join(', ')}, ${template.tools_used?.join(', ')}, automation template, AI template`} />
+        <link rel="canonical" href={`https://flowmatrixai.com/free/${template.slug}`} />
+
+        {/* Open Graph */}
+        <meta property="og:title" content={`${template.title} | FlowMatrix AI`} />
         <meta property="og:description" content={template.description.slice(0, 160)} />
         <meta
           property="og:image"
           content={template.thumbnail_url || `https://img.youtube.com/vi/${template.youtube_id}/maxresdefault.jpg`}
         />
+        <meta property="og:url" content={`https://flowmatrixai.com/free/${template.slug}`} />
         <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="FlowMatrix AI" />
+        <meta property="article:published_time" content={template.published_at || template.created_at} />
+        <meta property="article:author" content="FlowMatrix AI" />
+        {template.labels && template.labels.map((label) => (
+          <meta key={label} property="article:tag" content={label} />
+        ))}
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${template.title} | FlowMatrix AI`} />
+        <meta name="twitter:description" content={template.description.slice(0, 160)} />
+        <meta name="twitter:image" content={template.thumbnail_url || `https://img.youtube.com/vi/${template.youtube_id}/maxresdefault.jpg`} />
+        <meta name="twitter:site" content="@flowmatrix_ai" />
+
+        {/* SoftwareApplication Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": template.title,
+            "description": template.description,
+            "url": `https://flowmatrixai.com/free/${template.slug}`,
+            "applicationCategory": template.deliverable_type,
+            "operatingSystem": "Web",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            "author": {
+              "@type": "Organization",
+              "name": "FlowMatrix AI",
+              "url": "https://flowmatrixai.com"
+            },
+            "datePublished": template.published_at || template.created_at,
+            "keywords": [template.title, ...(template.labels || []), ...(template.tools_used || [])].join(', '),
+            "video": template.youtube_id ? {
+              "@type": "VideoObject",
+              "name": template.title,
+              "description": template.description,
+              "thumbnailUrl": `https://img.youtube.com/vi/${template.youtube_id}/maxresdefault.jpg`,
+              "uploadDate": template.published_at || template.created_at,
+              "embedUrl": `https://www.youtube.com/embed/${template.youtube_id}`
+            } : undefined
+          })}
+        </script>
+
+        {/* BreadcrumbList */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://flowmatrixai.com"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Free Templates",
+                "item": "https://flowmatrixai.com/free"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": template.title,
+                "item": `https://flowmatrixai.com/free/${template.slug}`
+              }
+            ]
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen bg-black text-white">

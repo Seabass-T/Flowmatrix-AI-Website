@@ -91,11 +91,79 @@ export default function TemplatesLandingPage() {
   return (
     <>
       <Helmet>
-        <title>Templates & Resources | FlowMatrix AI</title>
+        <title>Free AI Automation Templates & Resources | FlowMatrix AI</title>
         <meta
           name="description"
-          content="Browse our collection of automation templates, demos, and resources for service businesses."
+          content="FlowMatrix AI free templates library. Browse automation templates, AI tools, demos, and resources. N8n workflows, AI integrations, and business automation solutions."
         />
+        <meta name="keywords" content="FlowMatrix AI templates, free automation templates, AI templates, n8n workflows, business automation, AI tools, automation resources, FlowMatrix free tools" />
+        <link rel="canonical" href="https://flowmatrixai.com/free" />
+
+        {/* Open Graph */}
+        <meta property="og:title" content="Free AI Automation Templates | FlowMatrix AI" />
+        <meta property="og:description" content="Browse FlowMatrix AI's collection of free automation templates, demos, and resources for businesses." />
+        <meta property="og:url" content="https://flowmatrixai.com/free" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://flowmatrixai.com/flowmatrix-logo.webp" />
+        <meta property="og:site_name" content="FlowMatrix AI" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Free AI Automation Templates | FlowMatrix AI" />
+        <meta name="twitter:description" content="Browse FlowMatrix AI's collection of free automation templates and resources." />
+        <meta name="twitter:image" content="https://flowmatrixai.com/flowmatrixlogo.webp" />
+        <meta name="twitter:site" content="@flowmatrix_ai" />
+
+        {/* ItemList Structured Data for Templates */}
+        {!loading && !error && filteredTemplates.length > 0 && (
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              "name": "FlowMatrix AI Free Templates & Resources",
+              "description": "Free automation templates, AI tools, and resources from FlowMatrix AI",
+              "numberOfItems": filteredTemplates.length,
+              "itemListElement": filteredTemplates.map((template, index) => ({
+                "@type": "ListItem",
+                "position": index + 1,
+                "item": {
+                  "@type": "SoftwareApplication",
+                  "name": template.title,
+                  "description": template.description,
+                  "url": `https://flowmatrixai.com/free/${template.slug}`,
+                  "applicationCategory": template.deliverable_type,
+                  "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                  }
+                }
+              }))
+            })}
+          </script>
+        )}
+
+        {/* BreadcrumbList */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://flowmatrixai.com"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Free Templates",
+                "item": "https://flowmatrixai.com/free"
+              }
+            ]
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen bg-black text-white">
