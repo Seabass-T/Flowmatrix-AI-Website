@@ -21,8 +21,8 @@ const HeroSection = () => {
       {/* Gradient Overlay (subtle, for text readability) */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
 
-      {/* Watermark Cover - Bottom Right */}
-      <div className="absolute bottom-0 right-0 w-32 h-20 bg-black z-20" />
+      {/* Watermark Cover - Bottom Right (desktop only) */}
+      <div className="hidden md:block absolute bottom-0 right-0 w-32 h-20 bg-black z-20" />
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
