@@ -170,7 +170,7 @@ export const TALLY_FORM_ID = 'wMBOXE';
 export const SEO = {
   title: 'FlowMatrix AI | AI Transformation & Business Automation',
   description: 'FlowMatrix AI architects and executes AI transformation for businesses. We build custom AI systems that become permanent competitive advantages. Fast, permanent, compounding results.',
-  ogImage: 'https://flowmatrixai.com/flowmatrix-logo.webp',
+  ogImage: 'https://flowmatrixai.com/flowmatrix-og-image.png',
   keywords: 'FlowMatrix AI, FlowMatrix, Flow Matrix AI, AI transformation, business automation, AI consulting, custom AI development, AI systems, automation consulting',
   siteName: 'FlowMatrix AI',
   twitterHandle: '@flowmatrix_ai',

@@ -104,14 +104,14 @@ export default function TemplatesLandingPage() {
         <meta property="og:description" content="Browse FlowMatrix AI's collection of free automation templates, demos, and resources for businesses." />
         <meta property="og:url" content="https://flowmatrixai.com/free" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://flowmatrixai.com/flowmatrix-logo.webp" />
+        <meta property="og:image" content="https://flowmatrixai.com/flowmatrix-og-image.png" />
         <meta property="og:site_name" content="FlowMatrix AI" />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Free AI Automation Templates | FlowMatrix AI" />
         <meta name="twitter:description" content="Browse FlowMatrix AI's collection of free automation templates and resources." />
-        <meta name="twitter:image" content="https://flowmatrixai.com/flowmatrixlogo.webp" />
+        <meta name="twitter:image" content="https://flowmatrixai.com/flowmatrix-og-image.png" />
         <meta name="twitter:site" content="@flowmatrix_ai" />
 
         {/* ItemList Structured Data for Templates */}
