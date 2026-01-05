@@ -82,12 +82,23 @@ export default function TemplateDetailPage() {
           <title>Loading... | FlowMatrix AI Templates</title>
         </Helmet>
         <div className="min-h-screen bg-black text-white">
-          {/* Sticky Back Link */}
-          <div className="sticky top-0 z-10 bg-black/80 backdrop-blur-sm border-b border-border">
+          {/* Sticky Header with Centered Branding */}
+          <div className="sticky top-0 z-10 bg-black/95 backdrop-blur-sm border-b border-border">
             <div className="container mx-auto px-4 py-4">
-              <Link to="/free" className="text-white/60 hover:text-white transition-colors">
-                ← Back to Templates
-              </Link>
+              <div className="flex items-center justify-between mb-3">
+                <Link to="/free" className="text-white/60 hover:text-white transition-colors text-sm">
+                  ← Back
+                </Link>
+                <div className="flex-1" />
+              </div>
+              <div className="flex flex-col items-center">
+                <img
+                  src="/flowmatrix-logo.webp"
+                  alt="FlowMatrix AI"
+                  className="h-10 md:h-12 w-auto mb-2"
+                />
+                <span className="text-white/70 text-xs md:text-sm">Free Resources</span>
+              </div>
             </div>
           </div>
 
@@ -120,33 +131,47 @@ export default function TemplateDetailPage() {
         <Helmet>
           <title>Template Not Found | FlowMatrix AI</title>
         </Helmet>
-        <div className="min-h-screen bg-black text-white flex items-center justify-center">
-          <div className="container mx-auto px-4 py-16 max-w-2xl text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted/10 mb-6">
-              <svg
-                className="w-8 h-8 text-muted-foreground"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        <div className="min-h-screen bg-black text-white">
+          <div className="sticky top-0 z-10 bg-black/95 backdrop-blur-sm border-b border-border">
+            <div className="container mx-auto px-4 py-4">
+              <div className="flex items-center justify-between mb-3">
+                <Link to="/free" className="text-white/60 hover:text-white transition-colors text-sm">
+                  ← Back
+                </Link>
+                <div className="flex-1" />
+              </div>
+              <div className="flex flex-col items-center">
+                <img
+                  src="/flowmatrix-logo.webp"
+                  alt="FlowMatrix AI"
+                  className="h-10 md:h-12 w-auto mb-2"
                 />
-              </svg>
+                <span className="text-white/70 text-xs md:text-sm">Free Resources</span>
+              </div>
             </div>
-            <h1 className="text-4xl font-bold mb-4">Template Not Found</h1>
-            <p className="text-white/60 mb-8">
-              This template doesn't exist or has been removed.
-            </p>
-            <Link
-              to="/free"
-              className="inline-flex items-center text-accent hover:text-accent/80 transition-colors"
-            >
-              ← Back to Templates
-            </Link>
+          </div>
+          <div className="flex items-center justify-center min-h-[calc(100vh-160px)]">
+            <div className="container mx-auto px-4 py-16 max-w-2xl text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted/10 mb-6">
+                <svg
+                  className="w-8 h-8 text-muted-foreground"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <h1 className="text-4xl font-bold mb-4">Template Not Found</h1>
+              <p className="text-white/60 mb-8">
+                This template doesn't exist or has been removed.
+              </p>
+            </div>
           </div>
         </div>
       </>
@@ -160,16 +185,30 @@ export default function TemplateDetailPage() {
         <Helmet>
           <title>Error | FlowMatrix AI Templates</title>
         </Helmet>
-        <div className="min-h-screen bg-black text-white flex items-center justify-center">
-          <div className="container mx-auto px-4 py-16 max-w-2xl text-center">
-            <h1 className="text-4xl font-bold mb-4">Something Went Wrong</h1>
-            <p className="text-white/60 mb-8">{error.message}</p>
-            <Link
-              to="/free"
-              className="inline-flex items-center text-accent hover:text-accent/80 transition-colors"
-            >
-              ← Back to Templates
-            </Link>
+        <div className="min-h-screen bg-black text-white">
+          <div className="sticky top-0 z-10 bg-black/95 backdrop-blur-sm border-b border-border">
+            <div className="container mx-auto px-4 py-4">
+              <div className="flex items-center justify-between mb-3">
+                <Link to="/free" className="text-white/60 hover:text-white transition-colors text-sm">
+                  ← Back
+                </Link>
+                <div className="flex-1" />
+              </div>
+              <div className="flex flex-col items-center">
+                <img
+                  src="/flowmatrix-logo.webp"
+                  alt="FlowMatrix AI"
+                  className="h-10 md:h-12 w-auto mb-2"
+                />
+                <span className="text-white/70 text-xs md:text-sm">Free Resources</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center justify-center min-h-[calc(100vh-160px)]">
+            <div className="container mx-auto px-4 py-16 max-w-2xl text-center">
+              <h1 className="text-4xl font-bold mb-4">Something Went Wrong</h1>
+              <p className="text-white/60 mb-8">{error.message}</p>
+            </div>
           </div>
         </div>
       </>
@@ -276,28 +315,39 @@ export default function TemplateDetailPage() {
       </Helmet>
 
       <div className="min-h-screen bg-black text-white">
-        {/* Sticky Back Link */}
-        <div className="sticky top-0 z-10 bg-black/80 backdrop-blur-sm border-b border-border">
+        {/* Sticky Header with Centered Branding */}
+        <div className="sticky top-0 z-10 bg-black/95 backdrop-blur-sm border-b border-border">
           <div className="container mx-auto px-4 py-4">
-            <Link
-              to="/free"
-              className="inline-flex items-center text-white/60 hover:text-white transition-colors"
-            >
-              <svg
-                className="w-5 h-5 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+            <div className="flex items-center justify-between mb-3">
+              <Link
+                to="/free"
+                className="inline-flex items-center text-white/60 hover:text-white transition-colors text-sm"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                />
-              </svg>
-              Back to Templates
-            </Link>
+                <svg
+                  className="w-4 h-4 mr-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                  />
+                </svg>
+                Back
+              </Link>
+              <div className="flex-1" />
+            </div>
+            <div className="flex flex-col items-center">
+              <img
+                src="/flowmatrix-logo.webp"
+                alt="FlowMatrix AI"
+                className="h-10 md:h-12 w-auto mb-2"
+              />
+              <span className="text-white/70 text-xs md:text-sm">Free Resources</span>
+            </div>
           </div>
         </div>
 

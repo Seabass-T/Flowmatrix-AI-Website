@@ -170,14 +170,24 @@ export default function TemplatesLandingPage() {
         <div className="container mx-auto px-4 py-16 md:py-24">
           {/* Hero Section */}
           <div className="mb-12 md:mb-16">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Templates & Resources
+            {/* Prominent Centered Branding */}
+            <div className="flex flex-col items-center mb-8">
+              <img
+                src="/flowmatrix-logo.webp"
+                alt="FlowMatrix AI"
+                className="h-16 md:h-20 w-auto mb-3"
+              />
+              <span className="text-white/80 text-base md:text-lg font-medium">Free Resources</span>
+            </div>
+
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-center">
+              Free Stuff
             </h1>
-            <p className="text-xl text-muted-foreground mb-4">
+            <p className="text-xl text-muted-foreground mb-4 text-center max-w-3xl mx-auto">
               Browse automation templates, watch demos, and access exclusive resources for your service business.
             </p>
             {!loading && !error && (
-              <div className="flex items-center gap-3 flex-wrap">
+              <div className="flex items-center justify-center gap-3 flex-wrap">
                 <span className="inline-flex items-center px-3 py-1 rounded-full bg-accent/10 text-accent text-sm font-medium">
                   {filteredTemplates.length} resource{filteredTemplates.length !== 1 ? 's' : ''} available
                 </span>

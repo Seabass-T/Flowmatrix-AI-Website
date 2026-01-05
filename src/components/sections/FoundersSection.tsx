@@ -1,4 +1,4 @@
-import { Linkedin } from 'lucide-react';
+import { Linkedin, Youtube, Mail, Phone } from 'lucide-react';
 import { VideoBackground } from '@/components/ui/VideoBackground';
 import { COPY } from '@/lib/constants';
 
@@ -27,28 +27,67 @@ const FoundersSection = () => {
           {COPY.founders.team.map((founder, index) => (
             <div
               key={founder.name}
-              className={`text-center ${index === 0 ? 'md:text-left' : 'md:text-right'}`}
+              className="text-center"
             >
+              {/* Headshot Image */}
+              {founder.image && (
+                <div className="flex justify-center mb-6">
+                  <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-accent/30">
+                    <img
+                      src={founder.image}
+                      alt={founder.name}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      style={index === 1 ? { transform: 'scale(0.7)', transformOrigin: 'center center' } : undefined}
+                    />
+                    <div className="absolute inset-0 rounded-full ring-1 ring-accent/20 pointer-events-none"></div>
+                  </div>
+                </div>
+              )}
+
               <h3 className="text-2xl md:text-3xl font-semibold text-white">
                 {founder.name}
               </h3>
-              <p className="text-accent uppercase tracking-widest text-sm mt-1 mb-4">
+              <p className="text-accent uppercase tracking-widest text-sm mt-1 mb-6">
                 {founder.title}
               </p>
-              <div className="text-muted-foreground leading-relaxed mb-4 space-y-2 text-base">
-                <p className="text-white/90">{founder.school}</p>
-                <p>{founder.background}</p>
-                <p className="text-sm">{founder.location}</p>
-                {founder.funFact && <p className="text-sm italic">{founder.funFact}</p>}
+
+              {/* Contact Buttons */}
+              <div className="flex flex-wrap gap-3 mb-4 justify-center">
+                <a
+                  href={founder.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </a>
+                {founder.youtube && (
+                  <a
+                    href={founder.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
+                    aria-label="YouTube"
+                  >
+                    <Youtube className="w-5 h-5" />
+                  </a>
+                )}
+                <a
+                  href={`mailto:${founder.email}`}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
+                  aria-label="Email"
+                >
+                  <Mail className="w-5 h-5" />
+                </a>
+                <a
+                  href={`tel:${founder.phone}`}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
+                  aria-label="Phone"
+                >
+                  <Phone className="w-5 h-5" />
+                </a>
               </div>
-              <a
-                href={founder.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center text-white/60 hover:text-white transition-colors"
-              >
-                <Linkedin className="w-5 h-5" />
-              </a>
             </div>
           ))}
         </div>
