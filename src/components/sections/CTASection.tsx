@@ -1,7 +1,7 @@
 import { TallyForm } from '@/components/shared/TallyForm';
 import { COPY, TALLY_FORM_ID } from '@/lib/constants';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Reveal, GlowOrb, LineSeparator, DotGrid } from '@/components/ui/VisualEffects';
+import { Reveal, GlowOrb, LineSeparator, DotGrid, Aurora } from '@/components/ui/VisualEffects';
 
 const CTASection = () => {
   const { ref, isVisible } = useScrollReveal();
@@ -9,6 +9,7 @@ const CTASection = () => {
   return (
     <section id="start" className="relative py-32 md:py-44 px-6 bg-black overflow-hidden">
       <LineSeparator className="absolute top-0 left-6 right-6" />
+      <Aurora className="opacity-60" />
       <DotGrid className="opacity-[0.02]" />
       <GlowOrb className="top-[-100px] left-1/2 -translate-x-1/2" color="accent" size="xl" />
 

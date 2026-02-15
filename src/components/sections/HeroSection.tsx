@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { COPY } from '@/lib/constants';
-import { GlowOrb } from '@/components/ui/VisualEffects';
+import { GlowOrb, Aurora, TopologyLines } from '@/components/ui/VisualEffects';
 
 const HeroSection = () => {
   const [loaded, setLoaded] = useState(false);
@@ -39,17 +39,15 @@ const HeroSection = () => {
       id="hero"
       className="relative min-h-screen w-full bg-black flex items-center justify-center px-6 overflow-hidden"
     >
+      {/* Aurora ambient gradient layer */}
+      <Aurora />
+
+      {/* Topology flowing lines */}
+      <TopologyLines className="opacity-80" />
+
       {/* Ambient glow orbs */}
       <GlowOrb className="top-[-200px] right-[-100px] animate-pulse-glow" color="accent" size="xl" />
       <GlowOrb className="bottom-[-300px] left-[-200px] animate-pulse-glow" color="white" size="lg" style={{ animationDelay: '2s' } as React.CSSProperties} />
-
-      {/* Geometric grid lines */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/[0.03] to-transparent" />
-        <div className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/[0.03] to-transparent" />
-        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-white/[0.03] to-transparent" />
-        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-white/[0.03] to-transparent" />
-      </div>
 
       {/* Main content */}
       <div className="relative z-10 max-w-5xl mx-auto text-center">
