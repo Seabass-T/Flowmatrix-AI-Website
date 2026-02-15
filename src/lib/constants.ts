@@ -1,8 +1,45 @@
 // Navigation
 export const NAV_ITEMS = [
-  { label: 'Approach', sectionId: 'approach' },
-  { label: 'Proof', sectionId: 'proof' },
-  { label: 'Team', sectionId: 'team' },
+  { label: 'Services', href: '/#services' },
+  { label: 'Results', href: '/#proof' },
+  { label: 'Team', href: '/#team' },
+  { label: 'FAQ', href: '/#faq' },
+];
+
+// Service Phases (new 4-phase framework)
+export const SERVICE_PHASES = [
+  {
+    id: 'assessment',
+    phase: 1,
+    title: 'Assessment',
+    tagline: 'Eliminate the guesswork.',
+    description: 'Before we build anything, we assess. Three tiers of analysis: from a single process audit to a full human-tech holistic review. Every engagement starts here. You walk away with a clear, actionable roadmap, whether you work with us or not.',
+    href: '/assessment',
+  },
+  {
+    id: 'database-mobilization',
+    phase: 2,
+    title: 'Database Mobilization',
+    tagline: 'Bet on the house, not on Red 16.',
+    description: 'We create a living, AI-optimized copy of your company\'s data that stays in sync with your existing tools. Platform-independent, always current, ready for any AI system to plug into. Your data moves as fast as the technology does.',
+    href: '/database-mobilization',
+  },
+  {
+    id: 'ai-implementation',
+    phase: 3,
+    title: 'AI Implementation',
+    tagline: 'Intelligence that works while you sleep.',
+    description: 'From simple automations to autonomous agents, we build the backend systems that eliminate manual work. Four categories: Automations, AI-Powered Workflows, Agentic Systems, and Development Infrastructure. All connected to your mobilized data.',
+    href: '/ai-implementation',
+  },
+  {
+    id: 'personalized-software',
+    phase: 4,
+    title: 'Personalized Software',
+    tagline: 'Where intelligence meets interface.',
+    description: 'Custom applications designed for how your people actually work, powered by your own data, with AI woven into every interaction. Dashboards, portals, tools: built for your team, not adapted from a template.',
+    href: '/personalized-software',
+  },
 ];
 
 // Centralized Copy
@@ -13,51 +50,27 @@ export const COPY = {
     cta: 'Start the Conversation',
   },
   stakes: {
-    preheadline: 'Some will lead. Most will follow.',
     headline: 'The divergence has begun.',
-    body: [
-      'Every industry is splitting in two.',
-      'Companies modernizing their operations via AI are compounding advantages daily. While everyone else falls further behind with each passing quarter.',
-      'You already know this. The question isn\'t awareness. It\'s bandwidth.',
-      'You don\'t have a team to build custom AI systems. You don\'t have months to experiment. You have a business to run today.',
-      'That\'s precisely why we exist.',
-      'We are your AI task force. You stay focused on growth. The transformation happens in the background. While we focus on solving, adopting, and optimizing one solution at a time, your competitors wonder how you got so far ahead.',
-    ],
+    body: 'Every industry is splitting in two. Companies modernizing their operations via AI are compounding advantages daily. Everyone else falls further behind with each passing quarter.',
+    stat1: { value: '72%', label: 'of executives say AI is a top priority' },
+    stat2: { value: '3x', label: 'productivity gains for early adopters' },
+    stat3: { value: '18mo', label: 'before the gap becomes permanent' },
   },
-  pillars: {
-    headline: 'The architecture of change.',
-    items: [
-      {
-        id: 'discover',
-        title: 'Discover',
-        description: 'Before we build anything, we listen. We map your operations, identify the friction, and find the 20% of changes that will drive 80% of impact. No 200-page or sexy slide decks. Just clarity.',
-      },
-      {
-        id: 'build',
-        title: 'Build',
-        description: 'We construct AI systems that feel like they were always part of your business because they\'re built specifically for how you work. Not adapted. Not configured. Built.',
-      },
-      {
-        id: 'scale',
-        title: 'Scale',
-        description: 'The first system is just the beginning. We embed ongoing optimization into your operations, so the gap between you and your competitors widens every month.',
-      },
-    ],
+  services: {
+    headline: 'Four phases. One transformation.',
+    subheadline: 'Each phase builds on the last. Start anywhere the assessment tells you to.',
   },
   proof: {
     headline: 'What happens after.',
-    story: [
-      'Six months ago, this operations team spent 40+ hours weekly on manual data entry, invoice chasing, and email triage.',
-      'Today, those same processes run automatically. The team focuses on growth.',
-    ],
-    metrics: [],
+    testimonial: 'Six months ago, this operations team spent 40+ hours weekly on manual data entry, invoice chasing, and email triage. Today, those same processes run automatically. The team focuses on growth.',
     attribution: {
-      name: 'Umberto Lopardo, CEO & Co-founder',
+      name: 'Umberto Lopardo',
+      title: 'CEO & Co-founder',
       company: 'UBL Group',
     },
   },
   founders: {
-    headline: 'Builders, not just advisors.',
+    headline: 'Builders, not advisors.',
     intro: 'We provide strategic guidance. Then we roll up our sleeves and execute.',
     team: [
       {
@@ -65,18 +78,14 @@ export const COPY = {
         title: 'CEO',
         image: '/sebastian-tamburro.png',
         linkedin: 'https://www.linkedin.com/in/sebastian-tamburro-694530287',
-        youtube: 'https://youtube.com/@seabass-ai?si=75JPN3VRm0s4Rk6K' as string | undefined,
         email: 'st@flowmatrixai.com',
-        phone: '+1 (647) 282-3908',
       },
       {
         name: 'Dom Joseph',
         title: 'COO',
         image: '/dom-joseph.png',
         linkedin: 'https://www.linkedin.com/in/dom-joseph1130/',
-        youtube: undefined as string | undefined,
         email: 'dj@flowmatrixai.com',
-        phone: '+1 (330) 651-8132',
       },
     ],
   },
@@ -85,11 +94,11 @@ export const COPY = {
     items: [
       {
         question: 'What does AI transformation actually mean?',
-        answer: 'It means your business runs differently six months from now. Processes that drain hours happen automatically. Decisions that required guesswork get made with data. Your team focuses on work that matters. That\'s transformation, not a slide deck about it.',
+        answer: 'It means your business runs differently six months from now. Processes that drain hours happen automatically. Decisions that required guesswork get made with data. Your team focuses on work that matters.',
       },
       {
         question: 'How long does this take?',
-        answer: 'It depends on scope. Initial diagnostics take 1-2 weeks. Implementation of first systems typically 2-4 weeks. We move at startup speed, not consultant speed.',
+        answer: 'It depends on scope. Initial assessments take 1-2 weeks. First system implementations typically 2-4 weeks. We move at startup speed, not consultant speed.',
       },
       {
         question: 'What kinds of businesses do you work with?',
@@ -101,7 +110,7 @@ export const COPY = {
       },
       {
         question: 'How does pricing work?',
-        answer: 'Honestly? It depends on what you need. A focused automation might be a fixed project. An ongoing transformation partnership looks different. We don\'t publish pricing because we don\'t sell packages. We solve problems. Let\'s talk and we\'ll give you a straight answer.',
+        answer: 'It starts with an assessment, which is credited toward your first build if you proceed. Beyond that, pricing scales with your company size and scope. No hidden fees, no packages. We scope it honestly after we understand the work.',
       },
     ],
   },
@@ -111,47 +120,6 @@ export const COPY = {
     button: 'Start the Conversation',
   },
 };
-
-// Pillars (legacy - for backwards compatibility)
-export const PILLARS = [
-  {
-    id: 'discover',
-    title: 'Discover',
-    description: COPY.pillars.items[0].description,
-    videoSrc: '/videos/pillar-discover.mp4',
-  },
-  {
-    id: 'build',
-    title: 'Build',
-    description: COPY.pillars.items[1].description,
-    videoSrc: '/videos/pillar-build.mp4',
-  },
-  {
-    id: 'scale',
-    title: 'Scale',
-    description: COPY.pillars.items[2].description,
-    videoSrc: '/videos/pillar-scale.mp4',
-  },
-];
-
-// FAQs (legacy - for backwards compatibility)
-export const FAQS = COPY.faq.items;
-
-// Founders (legacy - for backwards compatibility)
-export const FOUNDERS = [
-  {
-    name: 'Sebastian Tamburro',
-    title: 'CEO',
-    bio: 'Background in AI/automation, founding story, approach to client partnerships. [To be provided]',
-    linkedin: 'https://www.linkedin.com/in/sebastian-tamburro-694530287',
-  },
-  {
-    name: 'Dom Joseph',
-    title: 'COO',
-    bio: 'Background, operational expertise, role in transformation delivery. [To be provided]',
-    linkedin: 'https://www.linkedin.com/in/dom-joseph1130/',
-  },
-];
 
 // Client Logos
 export const CLIENT_LOGOS = [
@@ -168,10 +136,10 @@ export const TALLY_FORM_ID = 'wMBOXE';
 
 // SEO
 export const SEO = {
-  title: 'FlowMatrix AI | AI Transformation & Business Automation',
-  description: 'FlowMatrix AI architects and executes AI transformation for businesses. We build custom AI systems that become permanent competitive advantages. Fast, permanent, compounding results.',
+  title: 'FlowMatrix AI | AI Transformation for Business',
+  description: 'FlowMatrix AI architects and executes AI transformation for businesses. Assessment, database mobilization, AI implementation, and personalized software. Fast, permanent, compounding results.',
   ogImage: 'https://flowmatrixai.com/flowmatrix-og-image.png',
-  keywords: 'FlowMatrix AI, FlowMatrix, Flow Matrix AI, AI transformation, business automation, AI consulting, custom AI development, AI systems, automation consulting',
+  keywords: 'FlowMatrix AI, AI transformation, business automation, AI consulting, AI implementation, database mobilization, personalized software, AI assessment',
   siteName: 'FlowMatrix AI',
   twitterHandle: '@flowmatrix_ai',
 };
