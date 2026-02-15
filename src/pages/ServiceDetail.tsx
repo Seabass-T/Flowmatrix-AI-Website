@@ -333,7 +333,7 @@ const ServiceDetail = () => {
           <div className="relative overflow-hidden">
             {/* Continuous neural pulse network spanning hero through content */}
             <NeuralPulse
-              className="opacity-50"
+              className="opacity-65"
               neurons={[
                 // Top: wide entry layer
                 { x: 0.06, y: 0.01, size: 0.7 },
