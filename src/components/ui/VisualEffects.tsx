@@ -560,8 +560,8 @@ export const DataFlow = ({
   );
 };
 
-// Neural pulse network - interconnected neurons that fire cascading pulses
-// Simulates AI processing chains propagating through a network
+// Neural pulse network - cascading fire with expanding ripple rings and spark bursts
+// Visually distinct from DataFlow: no persistent connections, ripple-based propagation
 type NeuronNode = {
   x: number;  // 0-1 fraction
   y: number;  // 0-1 fraction
@@ -611,7 +611,7 @@ export const NeuralPulse = ({
       targetMouseY = e.clientY / window.innerHeight;
     };
 
-    // Build axon connections (neurons within range)
+    // Build axon connections (neurons within range) - used only for cascade propagation
     const axonDist = 0.45;
     const axons: [number, number][] = [];
     for (let i = 0; i < neurons.length; i++) {
@@ -624,49 +624,95 @@ export const NeuralPulse = ({
       }
     }
 
-    // Neuron fire state: 0 = resting, 1 = just fired, decays over time
+    // Neuron fire state
     const neuronFire = new Float32Array(neurons.length);
-    // Ambient pulse (gentle breathing)
     const neuronPhase = neurons.map(() => Math.random() * Math.PI * 2);
 
-    // Axon pulses: travel along an axon from one neuron to another
-    interface AxonPulse {
-      axonIdx: number;
-      fromIdx: number;
-      toIdx: number;
-      progress: number; // 0-1
+    // Expanding ripple rings - the signature visual of this effect
+    interface Ripple {
+      x: number; y: number;
+      radius: number;
+      maxRadius: number;
       speed: number;
       intensity: number;
     }
+    const ripples: Ripple[] = [];
 
-    const axonPulses: AxonPulse[] = [];
-    const maxPulses = Math.min(axons.length * 3, 50);
+    // Spark particles - scatter from firing neurons
+    interface Spark {
+      x: number; y: number;
+      vx: number; vy: number;
+      life: number;
+      maxLife: number;
+      size: number;
+    }
+    const sparks: Spark[] = [];
 
-    // Fire a neuron: creates outgoing pulses on all connected axons
-    const fireNeuron = (neuronIdx: number, intensity = 1) => {
+    // Electric flash connections - appear briefly when pulse propagates
+    interface Flash {
+      fromX: number; fromY: number;
+      toX: number; toY: number;
+      life: number;
+      intensity: number;
+      // Jagged path points
+      points: { x: number; y: number }[];
+    }
+    const flashes: Flash[] = [];
+
+    // Generate jagged lightning path between two points
+    const buildLightningPath = (x1: number, y1: number, x2: number, y2: number, segments = 8): { x: number; y: number }[] => {
+      const points: { x: number; y: number }[] = [{ x: x1, y: y1 }];
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const len = Math.sqrt(dx * dx + dy * dy);
+      const perpX = -dy / len;
+      const perpY = dx / len;
+      for (let s = 1; s < segments; s++) {
+        const t = s / segments;
+        const jitter = (Math.random() - 0.5) * len * 0.15;
+        points.push({
+          x: x1 + dx * t + perpX * jitter,
+          y: y1 + dy * t + perpY * jitter,
+        });
+      }
+      points.push({ x: x2, y: y2 });
+      return points;
+    };
+
+    // Fire a neuron: creates ripples, sparks, and cascading flashes
+    const fireNeuron = (neuronIdx: number, screenX: number, screenY: number, intensity = 1) => {
       neuronFire[neuronIdx] = intensity;
-      // Send pulses along all connected axons
-      for (let a = 0; a < axons.length; a++) {
-        const [i, j] = axons[a];
-        if (i === neuronIdx || j === neuronIdx) {
-          if (axonPulses.length < maxPulses) {
-            axonPulses.push({
-              axonIdx: a,
-              fromIdx: i === neuronIdx ? i : j,
-              toIdx: i === neuronIdx ? j : i,
-              progress: 0,
-              speed: 0.008 + Math.random() * 0.006,
-              intensity: intensity * (0.6 + Math.random() * 0.4),
-            });
-          }
-        }
+
+      // Spawn ripple rings (2-3 per fire)
+      const rippleCount = intensity > 0.5 ? 3 : 2;
+      for (let r = 0; r < rippleCount; r++) {
+        ripples.push({
+          x: screenX, y: screenY,
+          radius: 3 + r * 4,
+          maxRadius: 60 + intensity * 80 + r * 30,
+          speed: 1.5 + r * 0.5 + Math.random() * 0.5,
+          intensity: intensity * (1 - r * 0.2),
+        });
+      }
+
+      // Spawn spark burst (5-10 sparks)
+      const sparkCount = Math.floor(5 + intensity * 5);
+      for (let s = 0; s < sparkCount; s++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 1 + Math.random() * 3;
+        sparks.push({
+          x: screenX, y: screenY,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: 1,
+          maxLife: 30 + Math.random() * 30,
+          size: 1 + Math.random() * 2,
+        });
       }
     };
 
     // Random cascade timer
     let nextCascade = 0;
-
-    // Drift offsets
     const driftPhase = neurons.map(() => Math.random() * Math.PI * 2);
 
     const draw = () => {
@@ -676,15 +722,6 @@ export const NeuralPulse = ({
       mouseX += (targetMouseX - mouseX) * 0.03;
       mouseY += (targetMouseY - mouseY) * 0.03;
 
-      // Trigger random cascades
-      nextCascade -= 1;
-      if (nextCascade <= 0) {
-        // Fire a random neuron to start a cascade
-        const startIdx = Math.floor(Math.random() * neurons.length);
-        fireNeuron(startIdx, 0.8 + Math.random() * 0.2);
-        nextCascade = 40 + Math.floor(Math.random() * 80); // every ~0.7-2 seconds at 60fps
-      }
-
       // Calculate neuron screen positions
       const nPos = neurons.map((n, i) => ({
         x: w * (n.x + Math.sin(time * 0.4 + driftPhase[i]) * 0.006 + (mouseX - 0.5) * 0.015),
@@ -692,151 +729,192 @@ export const NeuralPulse = ({
         size: n.size ?? 1,
       }));
 
-      // Draw axon connections (base lines)
-      for (const [i, j] of axons) {
-        const a = nPos[i];
-        const b = nPos[j];
-        const dx = a.x - b.x;
-        const dy = a.y - b.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const maxD = axonDist * Math.max(w, h);
-        const fade = Math.max(0, 1 - dist / maxD);
-        // Brighten if either neuron is firing
-        const fireBoost = Math.max(neuronFire[i], neuronFire[j]);
-        const alpha = fade * (0.06 + fireBoost * 0.12);
+      // Trigger random cascades
+      nextCascade -= 1;
+      if (nextCascade <= 0) {
+        const startIdx = Math.floor(Math.random() * neurons.length);
+        fireNeuron(startIdx, nPos[startIdx].x, nPos[startIdx].y, 0.8 + Math.random() * 0.2);
 
-        // Glow
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.4})`;
-        ctx.lineWidth = 4;
-        ctx.stroke();
+        // Create flash connections to nearby neurons (cascade with delay via flash life)
+        for (const [i, j] of axons) {
+          if (i === startIdx || j === startIdx) {
+            const fromIdx = i === startIdx ? i : j;
+            const toIdx = i === startIdx ? j : i;
+            const from = nPos[fromIdx];
+            const to = nPos[toIdx];
+            flashes.push({
+              fromX: from.x, fromY: from.y,
+              toX: to.x, toY: to.y,
+              life: 1,
+              intensity: 0.7 + Math.random() * 0.3,
+              points: buildLightningPath(from.x, from.y, to.x, to.y),
+            });
+            // Delayed cascade fire for target neuron
+            setTimeout(() => {
+              const targetPos = nPos[toIdx];
+              if (targetPos) {
+                fireNeuron(toIdx, targetPos.x, targetPos.y, 0.5 + Math.random() * 0.3);
+                // Second-hop cascade
+                for (const [ii, jj] of axons) {
+                  if ((ii === toIdx || jj === toIdx) && ii !== fromIdx && jj !== fromIdx) {
+                    const nextFrom = nPos[ii === toIdx ? ii : jj];
+                    const nextTo = nPos[ii === toIdx ? jj : ii];
+                    if (nextFrom && nextTo) {
+                      flashes.push({
+                        fromX: nextFrom.x, fromY: nextFrom.y,
+                        toX: nextTo.x, toY: nextTo.y,
+                        life: 1,
+                        intensity: 0.4 + Math.random() * 0.2,
+                        points: buildLightningPath(nextFrom.x, nextFrom.y, nextTo.x, nextTo.y),
+                      });
+                      const hopTarget = ii === toIdx ? jj : ii;
+                      fireNeuron(hopTarget, nextTo.x, nextTo.y, 0.3 + Math.random() * 0.2);
+                    }
+                  }
+                }
+              }
+            }, 200 + Math.random() * 150);
+          }
+        }
 
-        // Core line
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha})`;
-        ctx.lineWidth = 0.8;
-        ctx.stroke();
+        nextCascade = 30 + Math.floor(Math.random() * 60);
       }
 
-      // Update and draw axon pulses
-      for (let p = axonPulses.length - 1; p >= 0; p--) {
-        const pulse = axonPulses[p];
-        pulse.progress += pulse.speed;
+      // --- Draw ripple rings ---
+      for (let r = ripples.length - 1; r >= 0; r--) {
+        const ripple = ripples[r];
+        ripple.radius += ripple.speed;
+        const progress = ripple.radius / ripple.maxRadius;
 
-        if (pulse.progress >= 1) {
-          // Cascade: fire the target neuron (with reduced intensity)
-          if (pulse.intensity > 0.25) {
-            fireNeuron(pulse.toIdx, pulse.intensity * 0.65);
-          } else {
-            neuronFire[pulse.toIdx] = Math.max(neuronFire[pulse.toIdx], pulse.intensity);
-          }
-          axonPulses.splice(p, 1);
+        if (progress >= 1) {
+          ripples.splice(r, 1);
           continue;
         }
 
-        const from = nPos[pulse.fromIdx];
-        const to = nPos[pulse.toIdx];
-        const t = pulse.progress;
-        const px = from.x + (to.x - from.x) * t;
-        const py = from.y + (to.y - from.y) * t;
+        const alpha = ripple.intensity * (1 - progress) * 0.5;
 
-        // Pulse trail
-        for (let trail = 4; trail >= 1; trail--) {
-          const tt = Math.max(0, t - trail * 0.04);
-          const tx = from.x + (to.x - from.x) * tt;
-          const ty = from.y + (to.y - from.y) * tt;
-          const tAlpha = pulse.intensity * (1 - trail / 5) * 0.35;
-
-          ctx.beginPath();
-          ctx.arc(tx, ty, 2 * (1 - trail / 5), 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${tAlpha})`;
-          ctx.fill();
-        }
-
-        // Pulse glow
-        const pGlow = ctx.createRadialGradient(px, py, 0, px, py, 12);
-        pGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${pulse.intensity * 0.35})`);
-        pGlow.addColorStop(0.5, `rgba(${G.r}, ${G.g}, ${G.b}, ${pulse.intensity * 0.08})`);
-        pGlow.addColorStop(1, 'transparent');
-        ctx.fillStyle = pGlow;
-        ctx.fillRect(px - 12, py - 12, 24, 24);
-
-        // Pulse core
+        // Outer glow ring
         ctx.beginPath();
-        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${pulse.intensity * 0.8})`;
-        ctx.fill();
+        ctx.arc(ripple.x, ripple.y, ripple.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.3})`;
+        ctx.lineWidth = 4 + (1 - progress) * 4;
+        ctx.stroke();
 
-        // Bright leading edge along axon (illuminates the line segment behind the pulse)
-        const segStart = Math.max(0, t - 0.15);
-        const sx = from.x + (to.x - from.x) * segStart;
-        const sy = from.y + (to.y - from.y) * segStart;
+        // Core ring
         ctx.beginPath();
-        ctx.moveTo(sx, sy);
-        ctx.lineTo(px, py);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${pulse.intensity * 0.25})`;
-        ctx.lineWidth = 2;
+        ctx.arc(ripple.x, ripple.y, ripple.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha})`;
+        ctx.lineWidth = 1 + (1 - progress) * 1.5;
         ctx.stroke();
       }
 
-      // Draw neurons
+      // --- Draw electric flash connections (jagged lightning) ---
+      for (let f = flashes.length - 1; f >= 0; f--) {
+        const flash = flashes[f];
+        flash.life -= 0.025;
+
+        if (flash.life <= 0) {
+          flashes.splice(f, 1);
+          continue;
+        }
+
+        const alpha = flash.life * flash.intensity;
+        const pts = flash.points;
+
+        // Wide glow pass
+        ctx.beginPath();
+        ctx.moveTo(pts[0].x, pts[0].y);
+        for (let p = 1; p < pts.length; p++) {
+          ctx.lineTo(pts[p].x, pts[p].y);
+        }
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.15})`;
+        ctx.lineWidth = 8;
+        ctx.stroke();
+
+        // Mid glow
+        ctx.beginPath();
+        ctx.moveTo(pts[0].x, pts[0].y);
+        for (let p = 1; p < pts.length; p++) {
+          ctx.lineTo(pts[p].x, pts[p].y);
+        }
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.4})`;
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Sharp core
+        ctx.beginPath();
+        ctx.moveTo(pts[0].x, pts[0].y);
+        for (let p = 1; p < pts.length; p++) {
+          ctx.lineTo(pts[p].x, pts[p].y);
+        }
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.8})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // --- Draw sparks ---
+      for (let s = sparks.length - 1; s >= 0; s--) {
+        const spark = sparks[s];
+        spark.x += spark.vx;
+        spark.y += spark.vy;
+        spark.vx *= 0.97; // friction
+        spark.vy *= 0.97;
+        spark.life -= 1 / spark.maxLife;
+
+        if (spark.life <= 0) {
+          sparks.splice(s, 1);
+          continue;
+        }
+
+        const alpha = spark.life * 0.7;
+
+        // Spark glow
+        ctx.beginPath();
+        ctx.arc(spark.x, spark.y, spark.size + 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.2})`;
+        ctx.fill();
+
+        // Spark core
+        ctx.beginPath();
+        ctx.arc(spark.x, spark.y, spark.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha})`;
+        ctx.fill();
+      }
+
+      // --- Draw neurons (minimal when idle, dramatic on fire) ---
       for (let i = 0; i < nPos.length; i++) {
         const n = nPos[i];
         const fire = neuronFire[i];
-        const ambient = Math.sin(time * 1.2 + neuronPhase[i]) * 0.5 + 0.5; // 0-1 breathing
+        const ambient = Math.sin(time * 1.2 + neuronPhase[i]) * 0.5 + 0.5;
 
         // Decay fire
-        neuronFire[i] = Math.max(0, fire - 0.018);
+        neuronFire[i] = Math.max(0, fire - 0.02);
 
-        const baseSize = 4 * n.size;
-        const fireSize = baseSize + fire * 18;
-        const alpha = 0.15 + fire * 0.5 + ambient * 0.05;
+        const baseSize = 3 * n.size;
 
-        // Outer bloom (only on fire)
-        if (fire > 0.1) {
-          const bloom = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, fireSize * 5);
-          bloom.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${fire * 0.25})`);
-          bloom.addColorStop(0.3, `rgba(${G.r}, ${G.g}, ${G.b}, ${fire * 0.06})`);
+        // Fire bloom
+        if (fire > 0.05) {
+          const bloomR = baseSize + fire * 25;
+          const bloom = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, bloomR);
+          bloom.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${fire * 0.45})`);
+          bloom.addColorStop(0.3, `rgba(${G.r}, ${G.g}, ${G.b}, ${fire * 0.12})`);
           bloom.addColorStop(1, 'transparent');
           ctx.fillStyle = bloom;
-          ctx.fillRect(n.x - fireSize * 5, n.y - fireSize * 5, fireSize * 10, fireSize * 10);
+          ctx.fillRect(n.x - bloomR, n.y - bloomR, bloomR * 2, bloomR * 2);
         }
 
-        // Ambient glow (always present)
-        const ambGlow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, baseSize * 5);
-        ambGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${0.08 + ambient * 0.04})`);
+        // Subtle ambient glow (very faint when idle)
+        const ambAlpha = 0.04 + ambient * 0.03 + fire * 0.15;
+        const ambGlow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, baseSize * 4);
+        ambGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${ambAlpha})`);
         ambGlow.addColorStop(1, 'transparent');
         ctx.fillStyle = ambGlow;
-        ctx.fillRect(n.x - baseSize * 5, n.y - baseSize * 5, baseSize * 10, baseSize * 10);
+        ctx.fillRect(n.x - baseSize * 4, n.y - baseSize * 4, baseSize * 8, baseSize * 8);
 
-        // Outer ring
+        // Core dot (small and dim when idle, bright on fire)
         ctx.beginPath();
-        ctx.arc(n.x, n.y, fireSize * 1.3, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.04 + fire * 0.1})`;
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
-
-        // Inner ring
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, fireSize, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.1 + fire * 0.2})`;
-        ctx.lineWidth = 0.8;
-        ctx.stroke();
-
-        // Core fill
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, baseSize, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.5})`;
-        ctx.fill();
-
-        // Core dot
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, baseSize * 0.45, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.5 + fire * 0.45})`;
+        ctx.arc(n.x, n.y, baseSize * (0.4 + fire * 0.6), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.2 + fire * 0.7 + ambient * 0.05})`;
         ctx.fill();
       }
 
