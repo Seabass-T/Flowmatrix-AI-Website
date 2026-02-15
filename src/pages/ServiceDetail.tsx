@@ -115,25 +115,23 @@ const ServiceDetail = () => {
   const prevPhase = phaseIndex > 0 ? SERVICE_PHASES[phaseIndex - 1] : null;
   const isAssessment = actualSlug === 'assessment';
 
-  // Full-page radar centers scattered from hero through content - "scanning for inefficiencies"
+  // Full-page radar centers along left/right margins - center dots stay clear of text
+  // Rings and sweep lines still reach across behind text, but focal points are in margins
   const fullPageRadarCenters = [
-    // Hero area - primary large scan + flanking smaller ones
-    { x: 0.55, y: 0.08, scale: 1.4, speed: 1, offset: 0 },
-    { x: 0.12, y: 0.05, scale: 0.6, speed: 0.7, offset: 2.1 },
-    { x: 0.88, y: 0.12, scale: 0.55, speed: 1.3, offset: 4.2 },
-    // Problem statement area
-    { x: 0.82, y: 0.22, scale: 0.8, speed: 0.85, offset: 1.5 },
-    // Content section 01-02 area
-    { x: 0.15, y: 0.35, scale: 0.9, speed: 1.1, offset: 3.5 },
-    { x: 0.78, y: 0.42, scale: 0.65, speed: 0.75, offset: 5.8 },
-    // Content section 02-03 area
-    { x: 0.5, y: 0.55, scale: 1.0, speed: 0.9, offset: 1.0 },
-    { x: 0.9, y: 0.6, scale: 0.5, speed: 1.2, offset: 3.8 },
-    // Content section 03-04 area
-    { x: 0.2, y: 0.72, scale: 0.75, speed: 1.05, offset: 2.5 },
-    { x: 0.7, y: 0.8, scale: 0.6, speed: 0.8, offset: 5.0 },
-    // Bottom of content
-    { x: 0.4, y: 0.92, scale: 0.7, speed: 0.95, offset: 4.0 },
+    // Hero area - far edges, large scale so rings reach across
+    { x: 0.05, y: 0.06, scale: 1.3, speed: 1, offset: 0 },
+    { x: 0.95, y: 0.10, scale: 1.1, speed: 0.8, offset: 2.1 },
+    { x: 0.92, y: 0.02, scale: 0.5, speed: 1.3, offset: 4.2 },
+    // Problem statement area - left margin
+    { x: 0.04, y: 0.24, scale: 0.9, speed: 0.85, offset: 1.5 },
+    // Content sections - zigzag down the margins
+    { x: 0.95, y: 0.35, scale: 1.0, speed: 1.1, offset: 3.5 },
+    { x: 0.06, y: 0.45, scale: 0.85, speed: 0.75, offset: 5.8 },
+    { x: 0.93, y: 0.55, scale: 0.9, speed: 0.9, offset: 1.0 },
+    { x: 0.04, y: 0.65, scale: 0.7, speed: 1.2, offset: 3.8 },
+    { x: 0.94, y: 0.75, scale: 0.85, speed: 1.05, offset: 2.5 },
+    { x: 0.07, y: 0.85, scale: 0.65, speed: 0.8, offset: 5.0 },
+    { x: 0.96, y: 0.93, scale: 0.7, speed: 0.95, offset: 4.0 },
   ];
 
   return (
