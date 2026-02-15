@@ -255,28 +255,166 @@ export const TopologyLines = ({ className }: { className?: string }) => {
   );
 };
 
-// 3D Perspective grid background with vanishing point convergence
-export const PerspectiveGrid = ({ className }: { className?: string }) => (
-  <div className={cn('absolute inset-0 overflow-hidden pointer-events-none', className)}>
-    {/* Vanishing point glow - warm gold bloom at convergence */}
-    <div
-      className="absolute left-1/2 -translate-x-1/2 w-[800px] h-[400px] blur-[120px]"
-      style={{
-        bottom: '-10%',
-        background: 'radial-gradient(ellipse, hsla(43, 59%, 55%, 0.15) 0%, hsla(43, 59%, 55%, 0.05) 40%, transparent 70%)',
-      }}
+// 3D Perspective grid - canvas-based with true perspective projection
+export const PerspectiveGrid = ({ className }: { className?: string }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationId: number;
+    let time = 0;
+    let w = 0, h = 0;
+    let targetMouseX = 0.5, targetMouseY = 0.5;
+    let mouseX = 0.5, mouseY = 0.5;
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio, 2);
+      w = canvas.clientWidth;
+      h = canvas.clientHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.scale(dpr, dpr);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      targetMouseX = e.clientX / window.innerWidth;
+      targetMouseY = e.clientY / window.innerHeight;
+    };
+
+    const G = { r: 212, g: 168, b: 75 }; // gold accent
+
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+      time += 0.004;
+
+      // Smooth mouse lerp
+      mouseX += (targetMouseX - mouseX) * 0.05;
+      mouseY += (targetMouseY - mouseY) * 0.05;
+
+      // Vanishing point with mouse parallax
+      const vpX = w * (0.5 + (mouseX - 0.5) * 0.06);
+      const vpY = h * 0.40;
+      const floorBottom = h * 1.15;
+      const floorSpan = floorBottom - vpY;
+
+      // --- Horizon glow ---
+      const hGlow = ctx.createRadialGradient(vpX, vpY, 0, vpX, vpY, w * 0.5);
+      hGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, 0.10)`);
+      hGlow.addColorStop(0.3, `rgba(${G.r}, ${G.g}, ${G.b}, 0.04)`);
+      hGlow.addColorStop(1, 'transparent');
+      ctx.fillStyle = hGlow;
+      ctx.fillRect(0, 0, w, h);
+
+      // --- Horizontal lines (floor receding into distance) ---
+      const hLineCount = 30;
+      for (let i = 0; i < hLineCount; i++) {
+        // Flowing animation: offset index by time
+        const rawT = ((i + 0.5) / hLineCount + time * 0.4) % 1;
+        // Perspective foreshortening: quadratic maps evenly-spaced 3D lines
+        // to bunched-near-horizon screen positions
+        const t = rawT * rawT;
+        const y = vpY + t * floorSpan;
+        if (y > h || y < vpY) continue;
+
+        // Width spreads as lines get closer to viewer
+        const spread = t * w * 0.9;
+        const x1 = vpX - spread;
+        const x2 = vpX + spread;
+
+        // Opacity: invisible at horizon, strong near bottom
+        const baseAlpha = t * 0.25;
+        // Fade out lines near bottom edge of viewport
+        const bottomFade = y > h * 0.9 ? 1 - (y - h * 0.9) / (h * 0.1) : 1;
+        const alpha = Math.max(0, baseAlpha * bottomFade);
+        if (alpha <= 0) continue;
+
+        // Subtle wave deformation
+        const wave = Math.sin(i * 0.4 + time * 6) * t * 2.5;
+
+        // Glow pass (wider, softer)
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.35})`;
+        ctx.lineWidth = 3 + t * 4;
+        ctx.moveTo(x1, y + wave);
+        ctx.lineTo(x2, y + wave);
+        ctx.stroke();
+
+        // Sharp pass
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha})`;
+        ctx.lineWidth = 0.6 + t * 0.8;
+        ctx.moveTo(x1, y + wave);
+        ctx.lineTo(x2, y + wave);
+        ctx.stroke();
+      }
+
+      // --- Vertical lines (converging to vanishing point) ---
+      const vLineCount = 24;
+      for (let i = 0; i < vLineCount; i++) {
+        const t = i / (vLineCount - 1); // 0 to 1 across bottom
+        const bottomX = w * (t * 1.5 - 0.25); // wider than viewport
+
+        // Opacity: strongest near center, fading at edges
+        const centerDist = Math.abs(t - 0.5) * 2;
+        const alpha = Math.max(0, (1 - centerDist * 0.8)) * 0.15;
+        if (alpha <= 0) continue;
+
+        // Glow pass
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.3})`;
+        ctx.lineWidth = 2.5;
+        ctx.moveTo(vpX, vpY);
+        ctx.lineTo(bottomX, floorBottom);
+        ctx.stroke();
+
+        // Sharp pass
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha})`;
+        ctx.lineWidth = 0.5;
+        ctx.moveTo(vpX, vpY);
+        ctx.lineTo(bottomX, floorBottom);
+        ctx.stroke();
+      }
+
+      // --- Horizon line ---
+      ctx.beginPath();
+      const hlGrad = ctx.createLinearGradient(0, vpY, w, vpY);
+      hlGrad.addColorStop(0, 'transparent');
+      hlGrad.addColorStop(0.15, `rgba(${G.r}, ${G.g}, ${G.b}, 0.06)`);
+      hlGrad.addColorStop(0.5, `rgba(${G.r}, ${G.g}, ${G.b}, 0.2)`);
+      hlGrad.addColorStop(0.85, `rgba(${G.r}, ${G.g}, ${G.b}, 0.06)`);
+      hlGrad.addColorStop(1, 'transparent');
+      ctx.strokeStyle = hlGrad;
+      ctx.lineWidth = 1;
+      ctx.moveTo(0, vpY);
+      ctx.lineTo(w, vpY);
+      ctx.stroke();
+
+      animationId = requestAnimationFrame(draw);
+    };
+
+    resize();
+    draw();
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className={cn('absolute inset-0 pointer-events-none', className)}
+      style={{ width: '100%', height: '100%' }}
     />
-    {/* Primary grid - gold tinted */}
-    <div className="absolute inset-x-0 bottom-0 h-[85%] perspective-grid" />
-    {/* Secondary grid - white, wider spacing for depth layering */}
-    <div className="absolute inset-x-0 bottom-0 h-[85%] perspective-grid-secondary" />
-    {/* Horizon line - subtle gold accent */}
-    <div
-      className="absolute left-0 right-0 h-px"
-      style={{
-        bottom: '50%',
-        background: 'linear-gradient(90deg, transparent 5%, rgba(212, 168, 75, 0.12) 25%, rgba(212, 168, 75, 0.2) 50%, rgba(212, 168, 75, 0.12) 75%, transparent 95%)',
-      }}
-    />
-  </div>
-);
+  );
+};

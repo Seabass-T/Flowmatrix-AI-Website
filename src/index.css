@@ -145,34 +145,6 @@ iframe[data-tally-src] {
   background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212, 168, 75, 0.08), transparent 40%);
 }
 
-/* 3D Perspective grid - converging toward vanishing point */
-@keyframes gridScroll {
-  0% { background-position: 0 0, 0 0; }
-  100% { background-position: 0 50px, 0 50px; }
-}
-.perspective-grid {
-  background-image:
-    linear-gradient(rgba(212, 168, 75, 0.15) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212, 168, 75, 0.1) 1px, transparent 1px);
-  background-size: 50px 50px;
-  transform: perspective(400px) rotateX(50deg);
-  transform-origin: center bottom;
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 100%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 40%, transparent 70%);
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 100%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 40%, transparent 70%);
-  animation: gridScroll 3s linear infinite;
-}
-.perspective-grid-secondary {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 100px 100px;
-  transform: perspective(400px) rotateX(50deg);
-  transform-origin: center bottom;
-  -webkit-mask-image: radial-gradient(ellipse 90% 65% at 50% 100%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 45%, transparent 65%);
-  mask-image: radial-gradient(ellipse 90% 65% at 50% 100%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 45%, transparent 65%);
-  animation: gridScroll 6s linear infinite;
-}
-
 /* Aurora gradient animations - slow drifting color fields */
 @keyframes aurora-1 {
   0%, 100% {
