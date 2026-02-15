@@ -1,6 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 
+// --- Performance utilities ---
+
+// Swap-and-pop: O(1) array removal (replaces O(n) splice)
+function swapRemove<T>(arr: T[], index: number): void {
+  arr[index] = arr[arr.length - 1];
+  arr.pop();
+}
+
 // Film grain overlay for premium texture
 export const GrainOverlay = () => (
   <div
@@ -149,6 +157,7 @@ export const TopologyLines = ({ className }: { className?: string }) => {
     if (!ctx) return;
 
     let animationId: number;
+    let visible = true;
     let time = 0;
     let mouseX = 0.5;
     let mouseY = 0.5;
@@ -191,34 +200,25 @@ export const TopologyLines = ({ className }: { className?: string }) => {
         : `rgba(255, 255, 255, ${opacity})`;
       ctx.lineWidth = width;
 
-      for (let x = 0; x <= w; x += 2) {
+      for (let x = 0; x <= w; x += 4) {
         const normalX = x / w;
-        // Base wave
         const wave = Math.sin(normalX * frequency + time * speed) * amplitude;
-        // Mouse influence - subtle pull toward cursor
         const mouseDist = Math.abs(normalX - mouseX);
         const mouseInfluence = Math.max(0, 1 - mouseDist * 3) * 15 * (mouseY - 0.5);
-        // Secondary harmonic
         const harmonic = Math.sin(normalX * frequency * 2.3 + time * speed * 0.7) * (amplitude * 0.3);
-
         const finalY = y + wave + harmonic + mouseInfluence;
 
-        if (x === 0) {
-          ctx.moveTo(x, finalY);
-        } else {
-          ctx.lineTo(x, finalY);
-        }
+        if (x === 0) ctx.moveTo(x, finalY);
+        else ctx.lineTo(x, finalY);
       }
       ctx.stroke();
     };
 
     const draw = () => {
+      if (!visible) return;
       ctx.clearRect(0, 0, cachedWidth, cachedHeight);
-
       time += 0.003;
 
-      // Multiple flowing lines at different positions
-      // White lines - subtle
       drawLine(0.20, 18, 3.0, 0.8, 0.04, false, 0.8);
       drawLine(0.30, 22, 2.5, 0.6, 0.03, false, 0.6);
       drawLine(0.45, 15, 3.5, 1.0, 0.035, false, 0.7);
@@ -226,22 +226,33 @@ export const TopologyLines = ({ className }: { className?: string }) => {
       drawLine(0.65, 25, 2.2, 0.9, 0.04, false, 0.8);
       drawLine(0.75, 18, 3.2, 0.5, 0.03, false, 0.6);
       drawLine(0.85, 12, 4.0, 1.1, 0.025, false, 0.5);
-
-      // Gold accent line - slightly more visible
       drawLine(0.40, 20, 2.7, 0.65, 0.06, true, 1.0);
 
       animationId = requestAnimationFrame(draw);
     };
 
+    // Pause when off-screen
+    const observer = new IntersectionObserver(([entry]) => {
+      const wasVisible = visible;
+      visible = entry.isIntersecting;
+      if (visible && !wasVisible) { animationId = requestAnimationFrame(draw); }
+    }, { threshold: 0 });
+    observer.observe(canvas);
+
+    let resizeFrame = 0;
+    const onResize = () => { cancelAnimationFrame(resizeFrame); resizeFrame = requestAnimationFrame(resize); };
+
     resize();
     draw();
 
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', onResize);
     window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(resizeFrame);
+      observer.disconnect();
+      window.removeEventListener('resize', onResize);
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
@@ -284,6 +295,7 @@ export const DataFlow = ({
     if (!ctx) return;
 
     let animationId: number;
+    let visible = true;
     let time = 0;
     let w = 0, h = 0;
     let targetMouseX = 0.5, targetMouseY = 0.5;
@@ -305,28 +317,22 @@ export const DataFlow = ({
       targetMouseY = e.clientY / window.innerHeight;
     };
 
-    // Build connection pairs (nodes within distance threshold)
+    // Build connection pairs
     const connectionDist = 0.55;
     const connections: [number, number][] = [];
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
         const dx = nodes[i].x - nodes[j].x;
         const dy = nodes[i].y - nodes[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < connectionDist) {
+        if (dx * dx + dy * dy < connectionDist * connectionDist) {
           connections.push([i, j]);
         }
       }
     }
 
-    // Particle system
     interface Particle {
-      fromIdx: number;
-      toIdx: number;
-      progress: number;
-      speed: number;
-      ctrlOffX: number;
-      ctrlOffY: number;
+      fromIdx: number; toIdx: number; progress: number;
+      speed: number; ctrlOffX: number; ctrlOffY: number;
     }
 
     const maxParticles = Math.min(connections.length * 3, 60);
@@ -339,80 +345,74 @@ export const DataFlow = ({
       const reversed = Math.random() > 0.5;
       const fromIdx = reversed ? b : a;
       const toIdx = reversed ? a : b;
-
-      // Random perpendicular offset for bezier control point
       const perpScale = (Math.random() - 0.5) * 0.25;
       const dx = nodes[toIdx].x - nodes[fromIdx].x;
       const dy = nodes[toIdx].y - nodes[fromIdx].y;
-
-      particles.push({
-        fromIdx,
-        toIdx,
-        progress: 0,
+      particles.push({ fromIdx, toIdx, progress: 0,
         speed: 0.004 + Math.random() * 0.006,
-        ctrlOffX: -dy * perpScale,
-        ctrlOffY: dx * perpScale,
-      });
+        ctrlOffX: -dy * perpScale, ctrlOffY: dx * perpScale });
     };
 
-    // Seed initial particles
     for (let i = 0; i < Math.min(maxParticles, 30); i++) {
       spawnParticle();
       particles[particles.length - 1].progress = Math.random();
     }
 
-    // Node pulse state
     const nodePulse = new Float32Array(nodes.length);
-
-    // Node drift offsets (gentle floating)
     const nodeDriftPhase = nodes.map(() => Math.random() * Math.PI * 2);
 
+    // Pre-allocate node position array
+    const nodePos: { x: number; y: number; size: number }[] = nodes.map(() => ({ x: 0, y: 0, size: 1 }));
+
     const draw = () => {
+      if (!visible) return;
       ctx.clearRect(0, 0, w, h);
       time += 0.004;
 
       mouseX += (targetMouseX - mouseX) * 0.03;
       mouseY += (targetMouseY - mouseY) * 0.03;
 
-      // Calculate node screen positions with drift
-      const nodePos = nodes.map((n, i) => ({
-        x: w * (n.x + Math.sin(time * 0.5 + nodeDriftPhase[i]) * 0.008 + (mouseX - 0.5) * 0.02),
-        y: h * (n.y + Math.cos(time * 0.7 + nodeDriftPhase[i] * 1.3) * 0.005 + (mouseY - 0.5) * 0.02),
-        size: n.size ?? 1,
-      }));
+      // Update node positions (reuse array)
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        nodePos[i].x = w * (n.x + Math.sin(time * 0.5 + nodeDriftPhase[i]) * 0.008 + (mouseX - 0.5) * 0.02);
+        nodePos[i].y = h * (n.y + Math.cos(time * 0.7 + nodeDriftPhase[i] * 1.3) * 0.005 + (mouseY - 0.5) * 0.02);
+        nodePos[i].size = n.size ?? 1;
+      }
 
-      // Draw connections
+      // Draw connections (batch by line width to reduce state changes)
+      const maxDist = connectionDist * Math.max(w, h);
+      // Glow pass
+      ctx.lineWidth = 6;
       for (const [i, j] of connections) {
-        const a = nodePos[i];
-        const b = nodePos[j];
-        const dx = a.x - b.x;
-        const dy = a.y - b.y;
+        const a = nodePos[i], b = nodePos[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        const maxDist = connectionDist * Math.max(w, h);
         const alpha = Math.max(0, (1 - dist / maxDist)) * 0.14;
-
-        // Wide glow pass
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
         ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.35})`;
-        ctx.lineWidth = 6;
         ctx.stroke();
-
-        // Mid glow pass
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
+      }
+      // Mid pass
+      ctx.lineWidth = 2.5;
+      for (const [i, j] of connections) {
+        const a = nodePos[i], b = nodePos[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const alpha = Math.max(0, (1 - dist / maxDist)) * 0.14;
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
         ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.6})`;
-        ctx.lineWidth = 2.5;
         ctx.stroke();
-
-        // Sharp pass
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
+      }
+      // Sharp pass
+      ctx.lineWidth = 0.8;
+      for (const [i, j] of connections) {
+        const a = nodePos[i], b = nodePos[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const alpha = Math.max(0, (1 - dist / maxDist)) * 0.14;
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
         ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha})`;
-        ctx.lineWidth = 0.8;
         ctx.stroke();
       }
 
@@ -422,10 +422,8 @@ export const DataFlow = ({
         particle.progress += particle.speed;
 
         if (particle.progress >= 1) {
-          // Pulse target node
           nodePulse[particle.toIdx] = 1;
-          // Remove and respawn
-          particles.splice(p, 1);
+          swapRemove(particles, p);
           if (particles.length < maxParticles) spawnParticle();
           continue;
         }
@@ -440,95 +438,83 @@ export const DataFlow = ({
         const px = invT * invT * from.x + 2 * invT * t * midX + t * t * to.x;
         const py = invT * invT * from.y + 2 * invT * t * midY + t * t * to.y;
 
-        // Trail (6 positions behind for longer comet tail)
-        for (let trail = 6; trail >= 1; trail--) {
-          const tt = Math.max(0, t - trail * 0.025);
+        // Trail (reduced to 4 from 6 for perf)
+        for (let trail = 4; trail >= 1; trail--) {
+          const tt = Math.max(0, t - trail * 0.03);
           const invTT = 1 - tt;
           const tx = invTT * invTT * from.x + 2 * invTT * tt * midX + tt * tt * to.x;
           const ty = invTT * invTT * from.y + 2 * invTT * tt * midY + tt * tt * to.y;
-          const trailAlpha = (1 - trail / 7) * 0.45;
-          const trailSize = 2.5 * (1 - trail / 7);
+          const trailAlpha = (1 - trail / 5) * 0.45;
+          const trailSize = 2.5 * (1 - trail / 5);
 
-          // Trail glow
           ctx.beginPath();
           ctx.arc(tx, ty, trailSize + 3, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${trailAlpha * 0.15})`;
           ctx.fill();
 
-          // Trail dot
           ctx.beginPath();
           ctx.arc(tx, ty, trailSize, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${trailAlpha})`;
           ctx.fill();
         }
 
-        // Particle outer glow
-        const pGlow = ctx.createRadialGradient(px, py, 0, px, py, 14);
-        pGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, 0.25)`);
-        pGlow.addColorStop(0.5, `rgba(${G.r}, ${G.g}, ${G.b}, 0.06)`);
-        pGlow.addColorStop(1, 'transparent');
-        ctx.fillStyle = pGlow;
-        ctx.fillRect(px - 14, py - 14, 28, 28);
+        // Particle glow (simple circle instead of radial gradient)
+        ctx.beginPath();
+        ctx.arc(px, py, 10, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.06)`;
+        ctx.fill();
 
-        // Particle mid ring
         ctx.beginPath();
         ctx.arc(px, py, 4, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.3)`;
         ctx.fill();
 
-        // Particle core (bright)
         ctx.beginPath();
         ctx.arc(px, py, 2.5, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.75)`;
         ctx.fill();
       }
 
-      // Maintain particle count
-      while (particles.length < maxParticles * 0.8) {
-        spawnParticle();
-      }
+      while (particles.length < maxParticles * 0.8) spawnParticle();
 
       // Draw nodes
       for (let i = 0; i < nodePos.length; i++) {
         const n = nodePos[i];
         const pulse = nodePulse[i];
-
-        // Decay pulse
         nodePulse[i] = Math.max(0, pulse - 0.012);
 
-        const baseAlpha = 0.18 + pulse * 0.45;
         const baseSize = 4.5 * n.size;
         const pulseSize = baseSize + pulse * 14;
 
-        // Wide outer glow
-        const glow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, pulseSize * 6);
-        glow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${baseAlpha * 0.35})`);
-        glow.addColorStop(0.4, `rgba(${G.r}, ${G.g}, ${G.b}, ${baseAlpha * 0.1})`);
-        glow.addColorStop(1, 'transparent');
-        ctx.fillStyle = glow;
-        ctx.fillRect(n.x - pulseSize * 6, n.y - pulseSize * 6, pulseSize * 12, pulseSize * 12);
+        // Only create radial gradient when pulsing (expensive operation)
+        if (pulse > 0.05) {
+          const glow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, pulseSize * 6);
+          const baseAlpha = 0.18 + pulse * 0.45;
+          glow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${baseAlpha * 0.35})`);
+          glow.addColorStop(0.4, `rgba(${G.r}, ${G.g}, ${G.b}, ${baseAlpha * 0.1})`);
+          glow.addColorStop(1, 'transparent');
+          ctx.fillStyle = glow;
+          ctx.fillRect(n.x - pulseSize * 6, n.y - pulseSize * 6, pulseSize * 12, pulseSize * 12);
+        }
 
-        // Outer ring
+        // Rings
         ctx.beginPath();
         ctx.arc(n.x, n.y, pulseSize * 1.5, 0, Math.PI * 2);
         ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.04 + pulse * 0.08})`;
         ctx.lineWidth = 0.5;
         ctx.stroke();
 
-        // Inner ring
         ctx.beginPath();
         ctx.arc(n.x, n.y, pulseSize, 0, Math.PI * 2);
         ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.12 + pulse * 0.25})`;
         ctx.lineWidth = 0.8;
         ctx.stroke();
 
-        // Mid fill
         ctx.beginPath();
         ctx.arc(n.x, n.y, baseSize, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.12 + pulse * 0.2})`;
         ctx.fill();
 
-        // Core dot (bright)
         ctx.beginPath();
         ctx.arc(n.x, n.y, baseSize * 0.5, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.55 + pulse * 0.4})`;
@@ -538,15 +524,28 @@ export const DataFlow = ({
       animationId = requestAnimationFrame(draw);
     };
 
+    // Pause when off-screen
+    const observer = new IntersectionObserver(([entry]) => {
+      const wasVisible = visible;
+      visible = entry.isIntersecting;
+      if (visible && !wasVisible) { animationId = requestAnimationFrame(draw); }
+    }, { threshold: 0 });
+    observer.observe(canvas);
+
+    let resizeFrame = 0;
+    const onResize = () => { cancelAnimationFrame(resizeFrame); resizeFrame = requestAnimationFrame(resize); };
+
     resize();
     draw();
 
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', onResize);
     window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(resizeFrame);
+      observer.disconnect();
+      window.removeEventListener('resize', onResize);
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, [nodes]);
@@ -590,6 +589,7 @@ export const NeuralPulse = ({
     if (!ctx) return;
 
     let animationId: number;
+    let visible = true;
     let time = 0;
     let w = 0, h = 0;
     let targetMouseX = 0.5, targetMouseY = 0.5;
@@ -611,14 +611,15 @@ export const NeuralPulse = ({
       targetMouseY = e.clientY / window.innerHeight;
     };
 
-    // Build axon connections (neurons within range) - used only for cascade propagation
+    // Build axon connections
     const axonDist = 0.55;
+    const axonDistSq = axonDist * axonDist;
     const axons: [number, number][] = [];
     for (let i = 0; i < neurons.length; i++) {
       for (let j = i + 1; j < neurons.length; j++) {
         const dx = neurons[i].x - neurons[j].x;
         const dy = neurons[i].y - neurons[j].y;
-        if (Math.sqrt(dx * dx + dy * dy) < axonDist) {
+        if (dx * dx + dy * dy < axonDistSq) {
           axons.push([i, j]);
         }
       }
@@ -690,19 +691,24 @@ export const NeuralPulse = ({
     let nextCascade = 0;
     const driftPhase = neurons.map(() => Math.random() * Math.PI * 2);
 
+    // Pre-allocate neuron position array
+    const nPos: { x: number; y: number; size: number }[] = neurons.map(() => ({ x: 0, y: 0, size: 1 }));
+
     const draw = () => {
+      if (!visible) return;
       ctx.clearRect(0, 0, w, h);
       time += 0.005;
 
       mouseX += (targetMouseX - mouseX) * 0.03;
       mouseY += (targetMouseY - mouseY) * 0.03;
 
-      // Calculate neuron screen positions
-      const nPos = neurons.map((n, i) => ({
-        x: w * (n.x + Math.sin(time * 0.4 + driftPhase[i]) * 0.006 + (mouseX - 0.5) * 0.015),
-        y: h * (n.y + Math.cos(time * 0.6 + driftPhase[i] * 1.3) * 0.004 + (mouseY - 0.5) * 0.015),
-        size: n.size ?? 1,
-      }));
+      // Update neuron screen positions (reuse array)
+      for (let i = 0; i < neurons.length; i++) {
+        const n = neurons[i];
+        nPos[i].x = w * (n.x + Math.sin(time * 0.4 + driftPhase[i]) * 0.006 + (mouseX - 0.5) * 0.015);
+        nPos[i].y = h * (n.y + Math.cos(time * 0.6 + driftPhase[i] * 1.3) * 0.004 + (mouseY - 0.5) * 0.015);
+        nPos[i].size = n.size ?? 1;
+      }
 
       // Trigger random cascades
       nextCascade -= 1;
@@ -762,7 +768,7 @@ export const NeuralPulse = ({
         const progress = ripple.radius / ripple.maxRadius;
 
         if (progress >= 1) {
-          ripples.splice(r, 1);
+          swapRemove(ripples, r);
           continue;
         }
 
@@ -789,7 +795,7 @@ export const NeuralPulse = ({
         flash.life -= 0.025;
 
         if (flash.life <= 0) {
-          flashes.splice(f, 1);
+          swapRemove(flashes, f);
           continue;
         }
 
@@ -838,7 +844,7 @@ export const NeuralPulse = ({
 
         const baseSize = 3 * n.size;
 
-        // Fire bloom
+        // Fire bloom (only when actively firing - skip expensive gradient when idle)
         if (fire > 0.05) {
           const bloomR = baseSize + fire * 25;
           const bloom = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, bloomR);
@@ -847,15 +853,15 @@ export const NeuralPulse = ({
           bloom.addColorStop(1, 'transparent');
           ctx.fillStyle = bloom;
           ctx.fillRect(n.x - bloomR, n.y - bloomR, bloomR * 2, bloomR * 2);
-        }
 
-        // Subtle ambient glow (very faint when idle)
-        const ambAlpha = 0.04 + ambient * 0.03 + fire * 0.15;
-        const ambGlow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, baseSize * 4);
-        ambGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${ambAlpha})`);
-        ambGlow.addColorStop(1, 'transparent');
-        ctx.fillStyle = ambGlow;
-        ctx.fillRect(n.x - baseSize * 4, n.y - baseSize * 4, baseSize * 8, baseSize * 8);
+          // Ambient glow only when firing (skip gradient for idle neurons)
+          const ambAlpha = 0.04 + ambient * 0.03 + fire * 0.15;
+          const ambGlow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, baseSize * 4);
+          ambGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${ambAlpha})`);
+          ambGlow.addColorStop(1, 'transparent');
+          ctx.fillStyle = ambGlow;
+          ctx.fillRect(n.x - baseSize * 4, n.y - baseSize * 4, baseSize * 8, baseSize * 8);
+        }
 
         // Core dot (small and dim when idle, bright on fire)
         ctx.beginPath();
@@ -867,15 +873,28 @@ export const NeuralPulse = ({
       animationId = requestAnimationFrame(draw);
     };
 
+    // Pause when off-screen
+    const observer = new IntersectionObserver(([entry]) => {
+      const wasVisible = visible;
+      visible = entry.isIntersecting;
+      if (visible && !wasVisible) { animationId = requestAnimationFrame(draw); }
+    }, { threshold: 0 });
+    observer.observe(canvas);
+
+    let resizeFrame = 0;
+    const onResize = () => { cancelAnimationFrame(resizeFrame); resizeFrame = requestAnimationFrame(resize); };
+
     resize();
     draw();
 
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', onResize);
     window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(resizeFrame);
+      observer.disconnect();
+      window.removeEventListener('resize', onResize);
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, [neurons]);
@@ -909,6 +928,7 @@ export const TessellationMesh = ({
     if (!ctx) return;
 
     let animationId: number;
+    let visible = true;
     let time = 0;
     let w = 0, h = 0;
     let targetMouseX = -1, targetMouseY = -1;
@@ -1020,6 +1040,7 @@ export const TessellationMesh = ({
     };
 
     const draw = () => {
+      if (!visible) return;
       ctx.clearRect(0, 0, w, h);
       time += 0.014;
 
@@ -1050,7 +1071,7 @@ export const TessellationMesh = ({
       for (let wv = waves.length - 1; wv >= 0; wv--) {
         waves[wv].radius += waves[wv].speed;
         if (waves[wv].radius > waves[wv].maxRadius) {
-          waves.splice(wv, 1);
+          swapRemove(waves, wv);
         }
       }
 
@@ -1155,16 +1176,29 @@ export const TessellationMesh = ({
       animationId = requestAnimationFrame(draw);
     };
 
+    // Pause when off-screen
+    const observer = new IntersectionObserver(([entry]) => {
+      const wasVisible = visible;
+      visible = entry.isIntersecting;
+      if (visible && !wasVisible) { animationId = requestAnimationFrame(draw); }
+    }, { threshold: 0 });
+    observer.observe(canvas);
+
+    let resizeFrame = 0;
+    const onResize = () => { cancelAnimationFrame(resizeFrame); resizeFrame = requestAnimationFrame(resize); };
+
     resize();
     draw();
 
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', onResize);
     canvas.addEventListener('mousemove', handleMouseMove);
     canvas.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
       cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(resizeFrame);
+      observer.disconnect();
+      window.removeEventListener('resize', onResize);
       canvas.removeEventListener('mousemove', handleMouseMove);
       canvas.removeEventListener('mouseleave', handleMouseLeave);
     };
@@ -1207,6 +1241,7 @@ export const RadarSweep = ({
     if (!ctx) return;
 
     let animationId: number;
+    let visible = true;
     let time = 0;
     let w = 0, h = 0;
     let targetMouseX = 0.5, targetMouseY = 0.5;
@@ -1379,29 +1414,42 @@ export const RadarSweep = ({
     };
 
     const draw = () => {
+      if (!visible) return;
       ctx.clearRect(0, 0, w, h);
       time += 0.004;
 
       mouseX += (targetMouseX - mouseX) * 0.03;
       mouseY += (targetMouseY - mouseY) * 0.03;
 
-      // Draw each radar center
-      centers.forEach((center, i) => {
-        drawRadar(center, centerBlips[i]);
-      });
+      for (let i = 0; i < centers.length; i++) {
+        drawRadar(centers[i], centerBlips[i]);
+      }
 
       animationId = requestAnimationFrame(draw);
     };
 
+    // Pause when off-screen
+    const observer = new IntersectionObserver(([entry]) => {
+      const wasVisible = visible;
+      visible = entry.isIntersecting;
+      if (visible && !wasVisible) { animationId = requestAnimationFrame(draw); }
+    }, { threshold: 0 });
+    observer.observe(canvas);
+
+    let resizeFrame = 0;
+    const onResize = () => { cancelAnimationFrame(resizeFrame); resizeFrame = requestAnimationFrame(resize); };
+
     resize();
     draw();
 
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', onResize);
     window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(resizeFrame);
+      observer.disconnect();
+      window.removeEventListener('resize', onResize);
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, [centers]);
@@ -1426,6 +1474,7 @@ export const PerspectiveGrid = ({ className }: { className?: string }) => {
     if (!ctx) return;
 
     let animationId: number;
+    let visible = true;
     let time = 0;
     let w = 0, h = 0;
     let targetMouseX = 0.5, targetMouseY = 0.5;
@@ -1445,9 +1494,10 @@ export const PerspectiveGrid = ({ className }: { className?: string }) => {
       targetMouseY = e.clientY / window.innerHeight;
     };
 
-    const G = { r: 212, g: 168, b: 75 }; // gold accent
+    const G = { r: 212, g: 168, b: 75 };
 
     const draw = () => {
+      if (!visible) return;
       ctx.clearRect(0, 0, w, h);
       time += 0.004;
 
@@ -1557,15 +1607,28 @@ export const PerspectiveGrid = ({ className }: { className?: string }) => {
       animationId = requestAnimationFrame(draw);
     };
 
+    // Pause when off-screen
+    const observer = new IntersectionObserver(([entry]) => {
+      const wasVisible = visible;
+      visible = entry.isIntersecting;
+      if (visible && !wasVisible) { animationId = requestAnimationFrame(draw); }
+    }, { threshold: 0 });
+    observer.observe(canvas);
+
+    let resizeFrame = 0;
+    const onResize = () => { cancelAnimationFrame(resizeFrame); resizeFrame = requestAnimationFrame(resize); };
+
     resize();
     draw();
 
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', onResize);
     window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(resizeFrame);
+      observer.disconnect();
+      window.removeEventListener('resize', onResize);
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);

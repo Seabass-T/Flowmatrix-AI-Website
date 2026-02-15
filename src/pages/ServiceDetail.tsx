@@ -453,7 +453,7 @@ const ServiceDetail = () => {
         ) : isPersonalizedSw ? (
           <div className="relative overflow-hidden">
             {/* Living tessellation mesh spanning the full page */}
-            <TessellationMesh className="opacity-90 z-0" cols={16} rows={50} />
+            <TessellationMesh className="opacity-90 z-0" cols={12} rows={35} />
             <Aurora className="opacity-25" />
             <GlowOrb className="top-0 right-[-200px]" color="accent" size="lg" />
 
