@@ -59,38 +59,40 @@ const PillarsSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {SERVICE_PHASES.map((phase, index) => (
             <Reveal key={phase.id} isVisible={isVisible} delay={200 + index * 120} direction="up">
-              <Link
-                to={phase.href}
-                className="card-glow group block relative rounded-xl p-8 md:p-10 bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] transition-all duration-500"
-              >
-                {/* Phase number badge */}
-                <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-black border border-accent/30 flex items-center justify-center text-accent text-xs font-bold">
+              <div className="relative pt-3 pl-3">
+                {/* Phase number badge - outside overflow container */}
+                <div className="absolute top-0 left-0 z-10 w-8 h-8 rounded-full bg-black border border-accent/30 flex items-center justify-center text-accent text-xs font-bold shadow-lg shadow-black/50">
                   {phase.phase}
                 </div>
 
-                {/* Icon */}
-                <div className="text-white/40 group-hover:text-accent/70 transition-colors duration-500 mb-6">
-                  {PHASE_ICONS[index]}
-                </div>
+                <Link
+                  to={phase.href}
+                  className="card-glow group block relative rounded-xl p-8 md:p-10 bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] transition-all duration-500"
+                >
+                  {/* Icon */}
+                  <div className="text-white/40 group-hover:text-accent/70 transition-colors duration-500 mb-6">
+                    {PHASE_ICONS[index]}
+                  </div>
 
-                <span className="text-accent text-[11px] font-medium uppercase tracking-[0.2em]">
-                  Phase {phase.phase}
-                </span>
-                <h3 className="mt-2 text-2xl md:text-3xl font-semibold text-white group-hover:text-white transition-colors">
-                  {phase.title}
-                </h3>
-                <p className="mt-1 text-base text-white/50 italic">
-                  {phase.tagline}
-                </p>
-                <p className="mt-4 text-white/55 leading-relaxed text-[15px]">
-                  {phase.description}
-                </p>
+                  <span className="text-accent text-[11px] font-medium uppercase tracking-[0.2em]">
+                    Phase {phase.phase}
+                  </span>
+                  <h3 className="mt-2 text-2xl md:text-3xl font-semibold text-white group-hover:text-white transition-colors">
+                    {phase.title}
+                  </h3>
+                  <p className="mt-1 text-base text-white/50 italic">
+                    {phase.tagline}
+                  </p>
+                  <p className="mt-4 text-white/55 leading-relaxed text-[15px]">
+                    {phase.description}
+                  </p>
 
-                <div className="mt-6 flex items-center gap-2 text-sm text-white/40 group-hover:text-accent transition-colors duration-300">
-                  Explore phase
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
-                </div>
-              </Link>
+                  <div className="mt-6 flex items-center gap-2 text-sm text-white/40 group-hover:text-accent transition-colors duration-300">
+                    Explore phase
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
+                  </div>
+                </Link>
+              </div>
             </Reveal>
           ))}
         </div>

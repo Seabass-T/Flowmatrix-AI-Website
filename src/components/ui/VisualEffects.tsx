@@ -255,10 +255,28 @@ export const TopologyLines = ({ className }: { className?: string }) => {
   );
 };
 
-// 3D Perspective grid background
+// 3D Perspective grid background with vanishing point convergence
 export const PerspectiveGrid = ({ className }: { className?: string }) => (
   <div className={cn('absolute inset-0 overflow-hidden pointer-events-none', className)}>
-    <div className="absolute inset-x-0 bottom-0 h-[70%] perspective-grid" />
-    <div className="absolute inset-x-0 bottom-0 h-[70%] perspective-grid-secondary" />
+    {/* Vanishing point glow - warm gold origin */}
+    <div
+      className="absolute left-1/2 -translate-x-1/2 w-[600px] h-[300px] blur-[100px]"
+      style={{
+        bottom: '-5%',
+        background: 'radial-gradient(ellipse, hsla(43, 59%, 55%, 0.08) 0%, transparent 70%)',
+      }}
+    />
+    {/* Primary grid - gold tinted, tighter spacing */}
+    <div className="absolute inset-x-0 bottom-0 h-[80%] perspective-grid" />
+    {/* Secondary grid - white, wider spacing for depth layering */}
+    <div className="absolute inset-x-0 bottom-0 h-[80%] perspective-grid-secondary" />
+    {/* Horizon line */}
+    <div
+      className="absolute left-0 right-0 h-px"
+      style={{
+        bottom: '55%',
+        background: 'linear-gradient(90deg, transparent 10%, rgba(212, 168, 75, 0.1) 30%, rgba(212, 168, 75, 0.15) 50%, rgba(212, 168, 75, 0.1) 70%, transparent 90%)',
+      }}
+    />
   </div>
 );
