@@ -306,7 +306,7 @@ export const DataFlow = ({
     };
 
     // Build connection pairs (nodes within distance threshold)
-    const connectionDist = 0.35;
+    const connectionDist = 0.55;
     const connections: [number, number][] = [];
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
@@ -329,7 +329,7 @@ export const DataFlow = ({
       ctrlOffY: number;
     }
 
-    const maxParticles = Math.min(connections.length * 2, 25);
+    const maxParticles = Math.min(connections.length * 3, 60);
     const particles: Particle[] = [];
 
     const spawnParticle = () => {
@@ -341,7 +341,7 @@ export const DataFlow = ({
       const toIdx = reversed ? a : b;
 
       // Random perpendicular offset for bezier control point
-      const perpScale = (Math.random() - 0.5) * 0.15;
+      const perpScale = (Math.random() - 0.5) * 0.25;
       const dx = nodes[toIdx].x - nodes[fromIdx].x;
       const dy = nodes[toIdx].y - nodes[fromIdx].y;
 
@@ -349,14 +349,14 @@ export const DataFlow = ({
         fromIdx,
         toIdx,
         progress: 0,
-        speed: 0.003 + Math.random() * 0.004,
+        speed: 0.004 + Math.random() * 0.006,
         ctrlOffX: -dy * perpScale,
         ctrlOffY: dx * perpScale,
       });
     };
 
     // Seed initial particles
-    for (let i = 0; i < Math.min(maxParticles, 12); i++) {
+    for (let i = 0; i < Math.min(maxParticles, 30); i++) {
       spawnParticle();
       particles[particles.length - 1].progress = Math.random();
     }
@@ -389,14 +389,22 @@ export const DataFlow = ({
         const dy = a.y - b.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         const maxDist = connectionDist * Math.max(w, h);
-        const alpha = Math.max(0, (1 - dist / maxDist)) * 0.06;
+        const alpha = Math.max(0, (1 - dist / maxDist)) * 0.14;
 
-        // Glow pass
+        // Wide glow pass
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.5})`;
-        ctx.lineWidth = 3;
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.35})`;
+        ctx.lineWidth = 6;
+        ctx.stroke();
+
+        // Mid glow pass
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.6})`;
+        ctx.lineWidth = 2.5;
         ctx.stroke();
 
         // Sharp pass
@@ -404,7 +412,7 @@ export const DataFlow = ({
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
         ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha})`;
-        ctx.lineWidth = 0.5;
+        ctx.lineWidth = 0.8;
         ctx.stroke();
       }
 
@@ -432,35 +440,51 @@ export const DataFlow = ({
         const px = invT * invT * from.x + 2 * invT * t * midX + t * t * to.x;
         const py = invT * invT * from.y + 2 * invT * t * midY + t * t * to.y;
 
-        // Trail (3 positions behind)
-        for (let trail = 3; trail >= 1; trail--) {
-          const tt = Math.max(0, t - trail * 0.03);
+        // Trail (6 positions behind for longer comet tail)
+        for (let trail = 6; trail >= 1; trail--) {
+          const tt = Math.max(0, t - trail * 0.025);
           const invTT = 1 - tt;
           const tx = invTT * invTT * from.x + 2 * invTT * tt * midX + tt * tt * to.x;
           const ty = invTT * invTT * from.y + 2 * invTT * tt * midY + tt * tt * to.y;
-          const trailAlpha = (1 - trail / 4) * 0.2;
+          const trailAlpha = (1 - trail / 7) * 0.45;
+          const trailSize = 2.5 * (1 - trail / 7);
 
+          // Trail glow
           ctx.beginPath();
-          ctx.arc(tx, ty, 1.5, 0, Math.PI * 2);
+          ctx.arc(tx, ty, trailSize + 3, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${trailAlpha * 0.15})`;
+          ctx.fill();
+
+          // Trail dot
+          ctx.beginPath();
+          ctx.arc(tx, ty, trailSize, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${trailAlpha})`;
           ctx.fill();
         }
 
-        // Particle glow
+        // Particle outer glow
+        const pGlow = ctx.createRadialGradient(px, py, 0, px, py, 14);
+        pGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, 0.25)`);
+        pGlow.addColorStop(0.5, `rgba(${G.r}, ${G.g}, ${G.b}, 0.06)`);
+        pGlow.addColorStop(1, 'transparent');
+        ctx.fillStyle = pGlow;
+        ctx.fillRect(px - 14, py - 14, 28, 28);
+
+        // Particle mid ring
         ctx.beginPath();
-        ctx.arc(px, py, 5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.08)`;
+        ctx.arc(px, py, 4, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.3)`;
         ctx.fill();
 
-        // Particle core
+        // Particle core (bright)
         ctx.beginPath();
-        ctx.arc(px, py, 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.5)`;
+        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.75)`;
         ctx.fill();
       }
 
       // Maintain particle count
-      while (particles.length < maxParticles * 0.6) {
+      while (particles.length < maxParticles * 0.8) {
         spawnParticle();
       }
 
@@ -470,30 +494,44 @@ export const DataFlow = ({
         const pulse = nodePulse[i];
 
         // Decay pulse
-        nodePulse[i] = Math.max(0, pulse - 0.015);
+        nodePulse[i] = Math.max(0, pulse - 0.012);
 
-        const baseAlpha = 0.08 + pulse * 0.25;
-        const baseSize = 3 * n.size;
-        const pulseSize = baseSize + pulse * 8;
+        const baseAlpha = 0.18 + pulse * 0.45;
+        const baseSize = 4.5 * n.size;
+        const pulseSize = baseSize + pulse * 14;
 
-        // Outer glow
-        const glow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, pulseSize * 4);
-        glow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${baseAlpha * 0.4})`);
+        // Wide outer glow
+        const glow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, pulseSize * 6);
+        glow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${baseAlpha * 0.35})`);
+        glow.addColorStop(0.4, `rgba(${G.r}, ${G.g}, ${G.b}, ${baseAlpha * 0.1})`);
         glow.addColorStop(1, 'transparent');
         ctx.fillStyle = glow;
-        ctx.fillRect(n.x - pulseSize * 4, n.y - pulseSize * 4, pulseSize * 8, pulseSize * 8);
+        ctx.fillRect(n.x - pulseSize * 6, n.y - pulseSize * 6, pulseSize * 12, pulseSize * 12);
+
+        // Outer ring
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, pulseSize * 1.5, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.04 + pulse * 0.08})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
 
         // Inner ring
         ctx.beginPath();
         ctx.arc(n.x, n.y, pulseSize, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.06 + pulse * 0.15})`;
-        ctx.lineWidth = 0.5;
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.12 + pulse * 0.25})`;
+        ctx.lineWidth = 0.8;
         ctx.stroke();
 
-        // Core dot
+        // Mid fill
         ctx.beginPath();
-        ctx.arc(n.x, n.y, baseSize * 0.6, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.3 + pulse * 0.4})`;
+        ctx.arc(n.x, n.y, baseSize, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.12 + pulse * 0.2})`;
+        ctx.fill();
+
+        // Core dot (bright)
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, baseSize * 0.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.55 + pulse * 0.4})`;
         ctx.fill();
       }
 
