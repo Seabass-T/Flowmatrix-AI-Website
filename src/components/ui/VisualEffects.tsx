@@ -998,6 +998,24 @@ export const TessellationMesh = ({
       canvas.height = h * dpr;
       ctx.scale(dpr, dpr);
       buildMesh();
+
+      // Seed initial glow so mesh is visible at the top on page load
+      for (let i = 0; i < vertices.length; i++) {
+        const v = vertices[i];
+        const yFrac = v.baseY / h;
+        if (yFrac < 0.25) {
+          // Top 25%: strong initial glow that fades with depth
+          vGlow[i] = (1 - yFrac / 0.25) * 0.7 + Math.random() * 0.15;
+        }
+      }
+
+      // Seed a few initial waves near the top
+      waves.length = 0;
+      waves.push(
+        { cx: w * 0.3, cy: h * 0.05, radius: 50, speed: 4, intensity: 0.9, maxRadius: 500 },
+        { cx: w * 0.7, cy: h * 0.08, radius: 30, speed: 5, intensity: 0.85, maxRadius: 450 },
+        { cx: w * 0.5, cy: h * 0.15, radius: 10, speed: 4.5, intensity: 0.8, maxRadius: 400 },
+      );
     };
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -1024,20 +1042,21 @@ export const TessellationMesh = ({
         mouseY = -1;
       }
 
-      // Spawn color waves (sweep top to bottom)
+      // Spawn color waves (radial expansion from random points)
       nextWave -= 1;
       if (nextWave <= 0) {
         waves.push({
-          cx: 0, cy: 0,       // unused for horizontal sweep
-          radius: -20,         // current Y position (starts above viewport)
-          speed: 3 + Math.random() * 4,
+          cx: Math.random() * w,
+          cy: Math.random() * h,
+          radius: 0,
+          speed: 4 + Math.random() * 5,
           intensity: 0.8 + Math.random() * 0.2,
-          maxRadius: h + 100,  // travels past bottom of canvas
+          maxRadius: 400 + Math.random() * 500,
         });
-        nextWave = 25 + Math.floor(Math.random() * 50);
+        nextWave = 20 + Math.floor(Math.random() * 40);
       }
 
-      // Update waves (radius = current Y position)
+      // Update waves
       for (let wv = waves.length - 1; wv >= 0; wv--) {
         waves[wv].radius += waves[wv].speed;
         if (waves[wv].radius > waves[wv].maxRadius) {
@@ -1069,16 +1088,17 @@ export const TessellationMesh = ({
         vGlow[i] = Math.max(0, vGlow[i] - 0.008);
       }
 
-      // Apply wave effects to vertex glow (horizontal sweep top-to-bottom)
+      // Apply wave effects to vertex glow (radial expansion)
       for (const wave of waves) {
-        const waveWidth = 80;
-        const waveY = wave.radius; // current Y position of the wavefront
-        const waveFade = 1 - Math.max(0, waveY) / wave.maxRadius;
-        if (waveFade < 0.02) continue;
+        const waveWidth = 70;
         for (let i = 0; i < vertices.length; i++) {
           const v = vertices[i];
-          const diff = Math.abs(v.y - waveY);
+          const dx = v.x - wave.cx;
+          const dy = v.y - wave.cy;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const diff = Math.abs(dist - wave.radius);
           if (diff < waveWidth) {
+            const waveFade = 1 - wave.radius / wave.maxRadius;
             const proximity = 1 - diff / waveWidth;
             vGlow[i] = Math.min(1, vGlow[i] + proximity * wave.intensity * waveFade * 0.35);
           }
@@ -1131,25 +1151,14 @@ export const TessellationMesh = ({
         ctx.fill();
       }
 
-      // Draw wave lines (horizontal sweep indicators)
+      // Draw wave rings (subtle)
       for (const wave of waves) {
-        const waveY = wave.radius;
-        const waveFade = 1 - Math.max(0, waveY) / wave.maxRadius;
-        if (waveFade < 0.05 || waveY < 0 || waveY > h) continue;
-
-        // Gradient line that fades at the edges
-        const lineGrad = ctx.createLinearGradient(0, waveY, w, waveY);
-        const lineAlpha = waveFade * wave.intensity * 0.10;
-        lineGrad.addColorStop(0, 'transparent');
-        lineGrad.addColorStop(0.1, `rgba(${G.r}, ${G.g}, ${G.b}, ${lineAlpha})`);
-        lineGrad.addColorStop(0.5, `rgba(${G.r}, ${G.g}, ${G.b}, ${lineAlpha * 1.5})`);
-        lineGrad.addColorStop(0.9, `rgba(${G.r}, ${G.g}, ${G.b}, ${lineAlpha})`);
-        lineGrad.addColorStop(1, 'transparent');
+        const waveFade = 1 - wave.radius / wave.maxRadius;
+        if (waveFade < 0.05) continue;
         ctx.beginPath();
-        ctx.moveTo(0, waveY);
-        ctx.lineTo(w, waveY);
-        ctx.strokeStyle = lineGrad;
-        ctx.lineWidth = 2;
+        ctx.arc(wave.cx, wave.cy, wave.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${waveFade * wave.intensity * 0.12})`;
+        ctx.lineWidth = 1.5;
         ctx.stroke();
       }
 
