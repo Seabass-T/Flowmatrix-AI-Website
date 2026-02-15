@@ -118,6 +118,8 @@ const ServiceDetail = () => {
   // Full-page radar centers along left/right margins - center dots stay clear of text
   // Rings and sweep lines still reach across behind text, but focal points are in margins
   const fullPageRadarCenters = [
+    // Top of page - centered above the title, first thing you see
+    { x: 0.5, y: 0.01, scale: 1.2, speed: 0.9, offset: 0.7 },
     // Hero area - far edges, large scale so rings reach across
     { x: 0.05, y: 0.06, scale: 1.3, speed: 1, offset: 0 },
     { x: 0.95, y: 0.10, scale: 1.1, speed: 0.8, offset: 2.1 },
