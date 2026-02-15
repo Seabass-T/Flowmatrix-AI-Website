@@ -962,8 +962,8 @@ export const TessellationMesh = ({
             x: bx, y: by,
             phaseX: Math.random() * Math.PI * 2,
             phaseY: Math.random() * Math.PI * 2,
-            ampX: 4 + Math.random() * 12,
-            ampY: 3 + Math.random() * 10,
+            ampX: 8 + Math.random() * 18,
+            ampY: 6 + Math.random() * 14,
             speedX: 0.3 + Math.random() * 0.6,
             speedY: 0.4 + Math.random() * 0.5,
           });
@@ -1013,7 +1013,7 @@ export const TessellationMesh = ({
 
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
-      time += 0.008;
+      time += 0.014;
 
       // Smooth mouse
       if (targetMouseX >= 0) {
@@ -1031,11 +1031,11 @@ export const TessellationMesh = ({
           cx: Math.random() * w,
           cy: Math.random() * h,
           radius: 0,
-          speed: 2 + Math.random() * 3,
-          intensity: 0.6 + Math.random() * 0.4,
-          maxRadius: 300 + Math.random() * 400,
+          speed: 4 + Math.random() * 5,
+          intensity: 0.8 + Math.random() * 0.2,
+          maxRadius: 400 + Math.random() * 500,
         });
-        nextWave = 50 + Math.floor(Math.random() * 80);
+        nextWave = 20 + Math.floor(Math.random() * 40);
       }
 
       // Update waves
@@ -1067,12 +1067,12 @@ export const TessellationMesh = ({
         }
 
         // Decay vertex glow
-        vGlow[i] = Math.max(0, vGlow[i] - 0.012);
+        vGlow[i] = Math.max(0, vGlow[i] - 0.008);
       }
 
       // Apply wave effects to vertex glow
       for (const wave of waves) {
-        const waveWidth = 40;
+        const waveWidth = 70;
         for (let i = 0; i < vertices.length; i++) {
           const v = vertices[i];
           const dx = v.x - wave.cx;
@@ -1082,7 +1082,7 @@ export const TessellationMesh = ({
           if (diff < waveWidth) {
             const waveFade = 1 - wave.radius / wave.maxRadius;
             const proximity = 1 - diff / waveWidth;
-            vGlow[i] = Math.min(1, vGlow[i] + proximity * wave.intensity * waveFade * 0.15);
+            vGlow[i] = Math.min(1, vGlow[i] + proximity * wave.intensity * waveFade * 0.35);
           }
         }
       }
@@ -1093,8 +1093,8 @@ export const TessellationMesh = ({
 
         // Triangle brightness based on vertex glow average
         const glow = (vGlow[a] + vGlow[b] + vGlow[c]) / 3;
-        const fillAlpha = 0.01 + glow * 0.08;
-        const strokeAlpha = 0.04 + glow * 0.14;
+        const fillAlpha = 0.025 + glow * 0.18;
+        const strokeAlpha = 0.07 + glow * 0.28;
 
         // Fill
         ctx.beginPath();
@@ -1107,7 +1107,7 @@ export const TessellationMesh = ({
 
         // Edges
         ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${strokeAlpha})`;
-        ctx.lineWidth = 0.5;
+        ctx.lineWidth = 0.7 + glow * 0.5;
         ctx.stroke();
       }
 
@@ -1115,19 +1115,21 @@ export const TessellationMesh = ({
       for (let i = 0; i < vertices.length; i++) {
         const v = vertices[i];
         const glow = vGlow[i];
-        if (glow < 0.05) continue;
+        if (glow < 0.03) continue;
 
-        // Vertex glow
-        const vg = ctx.createRadialGradient(v.x, v.y, 0, v.x, v.y, 8 + glow * 10);
-        vg.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${glow * 0.35})`);
+        // Vertex glow halo
+        const vg = ctx.createRadialGradient(v.x, v.y, 0, v.x, v.y, 10 + glow * 16);
+        vg.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${glow * 0.5})`);
+        vg.addColorStop(0.5, `rgba(${G.r}, ${G.g}, ${G.b}, ${glow * 0.12})`);
         vg.addColorStop(1, 'transparent');
         ctx.fillStyle = vg;
-        ctx.fillRect(v.x - 18, v.y - 18, 36, 36);
+        const haloR = 10 + glow * 16;
+        ctx.fillRect(v.x - haloR, v.y - haloR, haloR * 2, haloR * 2);
 
         // Vertex dot
         ctx.beginPath();
-        ctx.arc(v.x, v.y, 1.5 + glow * 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.2 + glow * 0.6})`;
+        ctx.arc(v.x, v.y, 1.8 + glow * 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.3 + glow * 0.65})`;
         ctx.fill();
       }
 
@@ -1137,8 +1139,8 @@ export const TessellationMesh = ({
         if (waveFade < 0.05) continue;
         ctx.beginPath();
         ctx.arc(wave.cx, wave.cy, wave.radius, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${waveFade * wave.intensity * 0.06})`;
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${waveFade * wave.intensity * 0.12})`;
+        ctx.lineWidth = 1.5;
         ctx.stroke();
       }
 
