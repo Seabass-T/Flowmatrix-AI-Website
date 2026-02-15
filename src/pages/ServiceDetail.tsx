@@ -115,20 +115,25 @@ const ServiceDetail = () => {
   const prevPhase = phaseIndex > 0 ? SERVICE_PHASES[phaseIndex - 1] : null;
   const isAssessment = actualSlug === 'assessment';
 
-  // Multiple radar scan points for assessment page - "scanning for inefficiencies"
-  const heroRadarCenters = [
-    { x: 0.55, y: 0.4, scale: 1.2, speed: 1, offset: 0 },
-    { x: 0.15, y: 0.65, scale: 0.6, speed: 0.7, offset: 2.1 },
-    { x: 0.85, y: 0.25, scale: 0.5, speed: 1.3, offset: 4.2 },
-  ];
-  const contentRadarCenters = [
-    { x: 0.8, y: 0.2, scale: 0.9, speed: 0.9, offset: 1.0 },
-    { x: 0.2, y: 0.5, scale: 0.7, speed: 1.1, offset: 3.5 },
-    { x: 0.65, y: 0.75, scale: 0.6, speed: 0.8, offset: 5.0 },
-  ];
-  const ctaRadarCenters = [
-    { x: 0.5, y: 0.45, scale: 1.0, speed: 1, offset: 0.5 },
-    { x: 0.15, y: 0.3, scale: 0.5, speed: 1.2, offset: 3.0 },
+  // Full-page radar centers scattered from hero through content - "scanning for inefficiencies"
+  const fullPageRadarCenters = [
+    // Hero area - primary large scan + flanking smaller ones
+    { x: 0.55, y: 0.08, scale: 1.4, speed: 1, offset: 0 },
+    { x: 0.12, y: 0.05, scale: 0.6, speed: 0.7, offset: 2.1 },
+    { x: 0.88, y: 0.12, scale: 0.55, speed: 1.3, offset: 4.2 },
+    // Problem statement area
+    { x: 0.82, y: 0.22, scale: 0.8, speed: 0.85, offset: 1.5 },
+    // Content section 01-02 area
+    { x: 0.15, y: 0.35, scale: 0.9, speed: 1.1, offset: 3.5 },
+    { x: 0.78, y: 0.42, scale: 0.65, speed: 0.75, offset: 5.8 },
+    // Content section 02-03 area
+    { x: 0.5, y: 0.55, scale: 1.0, speed: 0.9, offset: 1.0 },
+    { x: 0.9, y: 0.6, scale: 0.5, speed: 1.2, offset: 3.8 },
+    // Content section 03-04 area
+    { x: 0.2, y: 0.72, scale: 0.75, speed: 1.05, offset: 2.5 },
+    { x: 0.7, y: 0.8, scale: 0.6, speed: 0.8, offset: 5.0 },
+    // Bottom of content
+    { x: 0.4, y: 0.92, scale: 0.7, speed: 0.95, offset: 4.0 },
   ];
 
   return (
@@ -141,87 +146,157 @@ const ServiceDetail = () => {
       <div className="bg-black min-h-screen">
         <Navigation />
 
-        {/* Hero */}
-        <section ref={heroRef} className="relative pt-40 pb-20 px-6 overflow-hidden">
-          <Aurora className="opacity-40" />
-          {isAssessment ? (
-            <RadarSweep className="opacity-50" centers={heroRadarCenters} />
-          ) : (
-            <PerspectiveGrid className="opacity-30" />
-          )}
-          <TopologyLines className="opacity-50" />
-          <GlowOrb className="top-0 right-[-200px]" color="accent" size="lg" />
-          <DotGrid className="opacity-[0.02]" />
+        {/* Assessment: single continuous radar background spanning hero through content */}
+        {isAssessment ? (
+          <div className="relative overflow-hidden">
+            {/* One canvas spanning the entire hero-to-content region */}
+            <RadarSweep className="opacity-70" centers={fullPageRadarCenters} />
+            <Aurora className="opacity-40" />
+            <GlowOrb className="top-0 right-[-200px]" color="accent" size="lg" />
 
-          <div className="relative z-10 max-w-4xl mx-auto">
-            <Reveal isVisible={heroVisible} direction="up">
-              <Link
-                to="/#services"
-                className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 transition-colors text-sm mb-10 group"
-              >
-                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> All Services
-              </Link>
-            </Reveal>
-            <Reveal isVisible={heroVisible} delay={100} direction="up">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent/20 bg-accent/5 text-accent text-xs font-medium uppercase tracking-[0.2em] mb-6">
-                Phase {phase.phase}
-              </span>
-            </Reveal>
-            <Reveal isVisible={heroVisible} delay={200} direction="up">
-              <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-[0.95]">
-                {phase.title}
-              </h1>
-            </Reveal>
-            <Reveal isVisible={heroVisible} delay={350} direction="up">
-              <p className="mt-8 text-xl md:text-2xl text-white/60 max-w-2xl leading-relaxed">
-                {phase.description}
-              </p>
-            </Reveal>
-          </div>
-        </section>
-
-        {/* Problem statement */}
-        <section className="relative py-20 px-6 overflow-hidden">
-          {isAssessment && <RadarSweep className="opacity-30" centers={[
-            { x: 0.85, y: 0.5, scale: 0.8, speed: 0.9, offset: 1.5 },
-          ]} />}
-          <div className="relative z-10 max-w-4xl mx-auto">
-            <Reveal isVisible={heroVisible} delay={500} direction="up">
-              <div className="relative pl-8 border-l-2 border-accent/40">
-                <div className="absolute -left-[5px] top-0 w-2 h-2 rounded-full bg-accent" />
-                <p className="text-2xl md:text-3xl lg:text-4xl text-white/80 leading-[1.3] font-light">
-                  {content.problem}
-                </p>
+            {/* Hero */}
+            <section ref={heroRef} className="relative pt-40 pb-20 px-6">
+              <div className="relative z-10 max-w-4xl mx-auto">
+                <Reveal isVisible={heroVisible} direction="up">
+                  <Link
+                    to="/#services"
+                    className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 transition-colors text-sm mb-10 group"
+                  >
+                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> All Services
+                  </Link>
+                </Reveal>
+                <Reveal isVisible={heroVisible} delay={100} direction="up">
+                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent/20 bg-accent/5 text-accent text-xs font-medium uppercase tracking-[0.2em] mb-6">
+                    Phase {phase.phase}
+                  </span>
+                </Reveal>
+                <Reveal isVisible={heroVisible} delay={200} direction="up">
+                  <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-[0.95]">
+                    {phase.title}
+                  </h1>
+                </Reveal>
+                <Reveal isVisible={heroVisible} delay={350} direction="up">
+                  <p className="mt-8 text-xl md:text-2xl text-white/60 max-w-2xl leading-relaxed">
+                    {phase.description}
+                  </p>
+                </Reveal>
               </div>
-            </Reveal>
-          </div>
-        </section>
+            </section>
 
-        {/* Content sections */}
-        <section ref={contentRef} className="relative py-12 px-6 overflow-hidden">
-          {isAssessment && <RadarSweep className="opacity-35" centers={contentRadarCenters} />}
-          <div className="relative z-10 max-w-4xl mx-auto">
-            <div className="space-y-24">
-              {content.sections.map((section, index) => (
-                <Reveal key={index} isVisible={contentVisible} delay={index * 150} direction="up">
-                  <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 md:gap-12">
-                    <div className="text-accent/40 font-mono text-sm pt-2">
-                      {String(index + 1).padStart(2, '0')}
-                    </div>
-                    <div>
-                      <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4 tracking-tight">
-                        {section.heading}
-                      </h2>
-                      <p className="text-lg text-white/60 leading-relaxed">
-                        {section.body}
-                      </p>
-                    </div>
+            {/* Problem statement */}
+            <section className="relative py-20 px-6">
+              <div className="relative z-10 max-w-4xl mx-auto">
+                <Reveal isVisible={heroVisible} delay={500} direction="up">
+                  <div className="relative pl-8 border-l-2 border-accent/40">
+                    <div className="absolute -left-[5px] top-0 w-2 h-2 rounded-full bg-accent" />
+                    <p className="text-2xl md:text-3xl lg:text-4xl text-white/80 leading-[1.3] font-light">
+                      {content.problem}
+                    </p>
                   </div>
                 </Reveal>
-              ))}
-            </div>
+              </div>
+            </section>
+
+            {/* Content sections */}
+            <section ref={contentRef} className="relative py-12 px-6">
+              <div className="relative z-10 max-w-4xl mx-auto">
+                <div className="space-y-24">
+                  {content.sections.map((section, index) => (
+                    <Reveal key={index} isVisible={contentVisible} delay={index * 150} direction="up">
+                      <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 md:gap-12">
+                        <div className="text-accent/40 font-mono text-sm pt-2">
+                          {String(index + 1).padStart(2, '0')}
+                        </div>
+                        <div>
+                          <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4 tracking-tight">
+                            {section.heading}
+                          </h2>
+                          <p className="text-lg text-white/60 leading-relaxed">
+                            {section.body}
+                          </p>
+                        </div>
+                      </div>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            </section>
           </div>
-        </section>
+        ) : (
+          <>
+            {/* Non-assessment: original per-section layout */}
+            <section ref={heroRef} className="relative pt-40 pb-20 px-6 overflow-hidden">
+              <Aurora className="opacity-40" />
+              <PerspectiveGrid className="opacity-30" />
+              <TopologyLines className="opacity-50" />
+              <GlowOrb className="top-0 right-[-200px]" color="accent" size="lg" />
+              <DotGrid className="opacity-[0.02]" />
+
+              <div className="relative z-10 max-w-4xl mx-auto">
+                <Reveal isVisible={heroVisible} direction="up">
+                  <Link
+                    to="/#services"
+                    className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 transition-colors text-sm mb-10 group"
+                  >
+                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> All Services
+                  </Link>
+                </Reveal>
+                <Reveal isVisible={heroVisible} delay={100} direction="up">
+                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent/20 bg-accent/5 text-accent text-xs font-medium uppercase tracking-[0.2em] mb-6">
+                    Phase {phase.phase}
+                  </span>
+                </Reveal>
+                <Reveal isVisible={heroVisible} delay={200} direction="up">
+                  <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-[0.95]">
+                    {phase.title}
+                  </h1>
+                </Reveal>
+                <Reveal isVisible={heroVisible} delay={350} direction="up">
+                  <p className="mt-8 text-xl md:text-2xl text-white/60 max-w-2xl leading-relaxed">
+                    {phase.description}
+                  </p>
+                </Reveal>
+              </div>
+            </section>
+
+            <section className="py-20 px-6">
+              <div className="max-w-4xl mx-auto">
+                <Reveal isVisible={heroVisible} delay={500} direction="up">
+                  <div className="relative pl-8 border-l-2 border-accent/40">
+                    <div className="absolute -left-[5px] top-0 w-2 h-2 rounded-full bg-accent" />
+                    <p className="text-2xl md:text-3xl lg:text-4xl text-white/80 leading-[1.3] font-light">
+                      {content.problem}
+                    </p>
+                  </div>
+                </Reveal>
+              </div>
+            </section>
+
+            <section ref={contentRef} className="py-12 px-6">
+              <div className="max-w-4xl mx-auto">
+                <div className="space-y-24">
+                  {content.sections.map((section, index) => (
+                    <Reveal key={index} isVisible={contentVisible} delay={index * 150} direction="up">
+                      <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 md:gap-12">
+                        <div className="text-accent/40 font-mono text-sm pt-2">
+                          {String(index + 1).padStart(2, '0')}
+                        </div>
+                        <div>
+                          <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4 tracking-tight">
+                            {section.heading}
+                          </h2>
+                          <p className="text-lg text-white/60 leading-relaxed">
+                            {section.body}
+                          </p>
+                        </div>
+                      </div>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </>
+        )}
 
         <LineSeparator className="mx-6" />
 
@@ -257,11 +332,7 @@ const ServiceDetail = () => {
         {/* CTA */}
         <section className="py-20 px-6 relative overflow-hidden">
           <Aurora className="opacity-30" />
-          {isAssessment ? (
-            <RadarSweep className="opacity-35" centers={ctaRadarCenters} />
-          ) : (
-            <PerspectiveGrid className="opacity-25" />
-          )}
+          <PerspectiveGrid className="opacity-25" />
           <GlowOrb className="top-[-100px] left-1/2 -translate-x-1/2" color="accent" size="lg" />
           <div className="relative z-10 max-w-3xl mx-auto text-center">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">

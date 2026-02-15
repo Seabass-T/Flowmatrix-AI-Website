@@ -329,18 +329,18 @@ export const RadarSweep = ({
       const cy = h * (center.y + (mouseY - 0.5) * parallax);
       const baseRadius = Math.min(w, h) * 0.35;
       const maxRadius = baseRadius * scale;
-      const staticRings = 5;
+      const staticRings = 6;
 
       // Crosshair lines
-      ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.035)`;
+      ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.06)`;
       ctx.lineWidth = 0.5;
       ctx.beginPath();
-      ctx.moveTo(cx - maxRadius * 1.1, cy);
-      ctx.lineTo(cx + maxRadius * 1.1, cy);
+      ctx.moveTo(cx - maxRadius * 1.15, cy);
+      ctx.lineTo(cx + maxRadius * 1.15, cy);
       ctx.stroke();
       ctx.beginPath();
-      ctx.moveTo(cx, cy - maxRadius * 1.1);
-      ctx.lineTo(cx, cy + maxRadius * 1.1);
+      ctx.moveTo(cx, cy - maxRadius * 1.15);
+      ctx.lineTo(cx, cy + maxRadius * 1.15);
       ctx.stroke();
 
       // Static concentric rings
@@ -348,35 +348,35 @@ export const RadarSweep = ({
         const radius = (i / staticRings) * maxRadius;
         ctx.beginPath();
         ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.04)`;
-        ctx.lineWidth = 0.5;
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.07)`;
+        ctx.lineWidth = 0.6;
         ctx.stroke();
       }
 
       // Pulsing rings
-      const pulseCount = 2;
+      const pulseCount = 3;
       for (let i = 0; i < pulseCount; i++) {
         const progress = ((time * 0.35 * speed + i / pulseCount) % 1);
         const radius = progress * maxRadius;
-        const alpha = (1 - progress) * 0.10;
+        const alpha = (1 - progress) * 0.18;
         ctx.beginPath();
         ctx.arc(cx, cy, radius, 0, Math.PI * 2);
         ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha})`;
-        ctx.lineWidth = 1.2 * (1 - progress) + 0.4;
+        ctx.lineWidth = 1.5 * (1 - progress) + 0.5;
         ctx.stroke();
       }
 
       // Sweep
       const sweepAngle = time * 1.8 * speed + offset;
-      const trailAngle = Math.PI * 0.35;
-      const trailSegments = 20;
+      const trailAngle = Math.PI * 0.4;
+      const trailSegments = 25;
 
       for (let i = 0; i < trailSegments; i++) {
         const t = i / trailSegments;
         const angle = sweepAngle - t * trailAngle;
-        const segEndX = cx + Math.cos(angle) * maxRadius * 1.05;
-        const segEndY = cy + Math.sin(angle) * maxRadius * 1.05;
-        const alpha = Math.pow(1 - t, 3) * 0.04;
+        const segEndX = cx + Math.cos(angle) * maxRadius * 1.08;
+        const segEndY = cy + Math.sin(angle) * maxRadius * 1.08;
+        const alpha = Math.pow(1 - t, 2.5) * 0.07;
         ctx.beginPath();
         ctx.moveTo(cx, cy);
         ctx.lineTo(segEndX, segEndY);
@@ -386,26 +386,28 @@ export const RadarSweep = ({
       }
 
       // Main sweep line
-      const sweepEndX = cx + Math.cos(sweepAngle) * maxRadius * 1.05;
-      const sweepEndY = cy + Math.sin(sweepAngle) * maxRadius * 1.05;
+      const sweepEndX = cx + Math.cos(sweepAngle) * maxRadius * 1.08;
+      const sweepEndY = cy + Math.sin(sweepAngle) * maxRadius * 1.08;
 
       const grad = ctx.createLinearGradient(cx, cy, sweepEndX, sweepEndY);
-      grad.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, 0.35)`);
-      grad.addColorStop(0.6, `rgba(${G.r}, ${G.g}, ${G.b}, 0.12)`);
-      grad.addColorStop(1, `rgba(${G.r}, ${G.g}, ${G.b}, 0.02)`);
+      grad.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, 0.5)`);
+      grad.addColorStop(0.5, `rgba(${G.r}, ${G.g}, ${G.b}, 0.2)`);
+      grad.addColorStop(1, `rgba(${G.r}, ${G.g}, ${G.b}, 0.04)`);
 
+      // Glow pass
       ctx.beginPath();
       ctx.moveTo(cx, cy);
       ctx.lineTo(sweepEndX, sweepEndY);
-      ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.05)`;
-      ctx.lineWidth = 5;
+      ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.08)`;
+      ctx.lineWidth = 6;
       ctx.stroke();
 
+      // Sharp pass
       ctx.beginPath();
       ctx.moveTo(cx, cy);
       ctx.lineTo(sweepEndX, sweepEndY);
       ctx.strokeStyle = grad;
-      ctx.lineWidth = 1.2;
+      ctx.lineWidth = 1.5;
       ctx.stroke();
 
       // Detection blips
@@ -413,16 +415,24 @@ export const RadarSweep = ({
         const detRadius = (det.ring / staticRings) * maxRadius;
         const angleDiff = ((sweepAngle - det.angle) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
 
-        if (angleDiff < Math.PI * 0.7) {
-          const blipAlpha = Math.max(0, (1 - angleDiff / (Math.PI * 0.7))) * 0.4;
+        if (angleDiff < Math.PI * 0.8) {
+          const blipAlpha = Math.max(0, (1 - angleDiff / (Math.PI * 0.8))) * 0.55;
           const dx = cx + Math.cos(det.angle) * detRadius;
           const dy = cy + Math.sin(det.angle) * detRadius;
 
+          // Outer glow
           ctx.beginPath();
-          ctx.arc(dx, dy, det.size * 3, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${blipAlpha * 0.12})`;
+          ctx.arc(dx, dy, det.size * 4, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${blipAlpha * 0.1})`;
           ctx.fill();
 
+          // Inner glow
+          ctx.beginPath();
+          ctx.arc(dx, dy, det.size * 2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${blipAlpha * 0.2})`;
+          ctx.fill();
+
+          // Core dot
           ctx.beginPath();
           ctx.arc(dx, dy, det.size, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${blipAlpha})`;
@@ -431,16 +441,16 @@ export const RadarSweep = ({
       }
 
       // Center glow
-      const centerGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxRadius * 0.1);
-      centerGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, 0.12)`);
+      const centerGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxRadius * 0.15);
+      centerGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, 0.2)`);
       centerGlow.addColorStop(1, 'transparent');
       ctx.fillStyle = centerGlow;
-      ctx.fillRect(cx - maxRadius * 0.1, cy - maxRadius * 0.1, maxRadius * 0.2, maxRadius * 0.2);
+      ctx.fillRect(cx - maxRadius * 0.15, cy - maxRadius * 0.15, maxRadius * 0.3, maxRadius * 0.3);
 
       // Center dot
       ctx.beginPath();
-      ctx.arc(cx, cy, 2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.45)`;
+      ctx.arc(cx, cy, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.6)`;
       ctx.fill();
     };
 
