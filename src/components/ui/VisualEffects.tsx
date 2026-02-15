@@ -246,7 +246,7 @@ export const TopologyLines = ({ className }: { className?: string }) => {
     draw();
 
     window.addEventListener('resize', onResize);
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
     return () => {
       cancelAnimationFrame(animationId);
@@ -380,39 +380,38 @@ export const DataFlow = ({
         nodePos[i].size = n.size ?? 1;
       }
 
-      // Draw connections (batch by line width to reduce state changes)
+      // Draw connections (batch by line width, cache alpha per connection)
       const maxDist = connectionDist * Math.max(w, h);
-      // Glow pass
-      ctx.lineWidth = 6;
-      for (const [i, j] of connections) {
+      // Pre-compute alpha for each connection (avoids 3x Math.sqrt)
+      const connAlphas = new Float32Array(connections.length);
+      for (let ci = 0; ci < connections.length; ci++) {
+        const [i, j] = connections[ci];
         const a = nodePos[i], b = nodePos[j];
         const dx = a.x - b.x, dy = a.y - b.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const alpha = Math.max(0, (1 - dist / maxDist)) * 0.14;
-        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.35})`;
+        connAlphas[ci] = Math.max(0, (1 - Math.sqrt(dx * dx + dy * dy) / maxDist)) * 0.14;
+      }
+      // Glow pass
+      ctx.lineWidth = 6;
+      for (let ci = 0; ci < connections.length; ci++) {
+        const [i, j] = connections[ci];
+        ctx.beginPath(); ctx.moveTo(nodePos[i].x, nodePos[i].y); ctx.lineTo(nodePos[j].x, nodePos[j].y);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${connAlphas[ci] * 0.35})`;
         ctx.stroke();
       }
       // Mid pass
       ctx.lineWidth = 2.5;
-      for (const [i, j] of connections) {
-        const a = nodePos[i], b = nodePos[j];
-        const dx = a.x - b.x, dy = a.y - b.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const alpha = Math.max(0, (1 - dist / maxDist)) * 0.14;
-        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.6})`;
+      for (let ci = 0; ci < connections.length; ci++) {
+        const [i, j] = connections[ci];
+        ctx.beginPath(); ctx.moveTo(nodePos[i].x, nodePos[i].y); ctx.lineTo(nodePos[j].x, nodePos[j].y);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${connAlphas[ci] * 0.6})`;
         ctx.stroke();
       }
       // Sharp pass
       ctx.lineWidth = 0.8;
-      for (const [i, j] of connections) {
-        const a = nodePos[i], b = nodePos[j];
-        const dx = a.x - b.x, dy = a.y - b.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const alpha = Math.max(0, (1 - dist / maxDist)) * 0.14;
-        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha})`;
+      for (let ci = 0; ci < connections.length; ci++) {
+        const [i, j] = connections[ci];
+        ctx.beginPath(); ctx.moveTo(nodePos[i].x, nodePos[i].y); ctx.lineTo(nodePos[j].x, nodePos[j].y);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${connAlphas[ci]})`;
         ctx.stroke();
       }
 
@@ -475,7 +474,9 @@ export const DataFlow = ({
         ctx.fill();
       }
 
-      while (particles.length < maxParticles * 0.8) spawnParticle();
+      // Cap spawns per frame to avoid burst overhead
+      const targetCount = maxParticles * 0.8;
+      for (let sp = 0; sp < 3 && particles.length < targetCount; sp++) spawnParticle();
 
       // Draw nodes
       for (let i = 0; i < nodePos.length; i++) {
@@ -539,7 +540,7 @@ export const DataFlow = ({
     draw();
 
     window.addEventListener('resize', onResize);
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
     return () => {
       cancelAnimationFrame(animationId);
@@ -691,6 +692,9 @@ export const NeuralPulse = ({
     let nextCascade = 0;
     const driftPhase = neurons.map(() => Math.random() * Math.PI * 2);
 
+    // Track pending timeouts for cleanup
+    const pendingTimeouts: number[] = [];
+
     // Pre-allocate neuron position array
     const nPos: { x: number; y: number; size: number }[] = neurons.map(() => ({ x: 0, y: 0, size: 1 }));
 
@@ -731,7 +735,9 @@ export const NeuralPulse = ({
               points: buildLightningPath(from.x, from.y, to.x, to.y),
             });
             // Delayed cascade fire for target neuron
-            setTimeout(() => {
+            const tid = window.setTimeout(() => {
+              const idx = pendingTimeouts.indexOf(tid);
+              if (idx !== -1) pendingTimeouts.splice(idx, 1);
               const targetPos = nPos[toIdx];
               if (targetPos) {
                 fireNeuron(toIdx, targetPos.x, targetPos.y, 0.35 + Math.random() * 0.2);
@@ -754,7 +760,8 @@ export const NeuralPulse = ({
                   }
                 }
               }
-            }, 200 + Math.random() * 150);
+            }, 200 + Math.random() * 150) as unknown as number;
+            pendingTimeouts.push(tid);
           }
         }
 
@@ -888,12 +895,14 @@ export const NeuralPulse = ({
     draw();
 
     window.addEventListener('resize', onResize);
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
     return () => {
       cancelAnimationFrame(animationId);
       cancelAnimationFrame(resizeFrame);
       observer.disconnect();
+      for (const tid of pendingTimeouts) clearTimeout(tid);
+      pendingTimeouts.length = 0;
       window.removeEventListener('resize', onResize);
       window.removeEventListener('mousemove', handleMouseMove);
     };
@@ -1102,17 +1111,25 @@ export const TessellationMesh = ({
       // Apply wave effects to vertex glow (radial expansion)
       for (const wave of waves) {
         const waveWidth = 70;
+        const waveFade = 1 - wave.radius / wave.maxRadius;
+        if (waveFade < 0.01) continue; // Skip nearly-dead waves early
+        const waveIntFade = wave.intensity * waveFade * 0.26;
+        // Pre-compute bounds for early rejection (square bounding box around wave ring)
+        const outerR = wave.radius + waveWidth;
+        const innerR = Math.max(0, wave.radius - waveWidth);
+        const outerRSq = outerR * outerR;
+        const innerRSq = innerR * innerR;
         for (let i = 0; i < vertices.length; i++) {
           const v = vertices[i];
           const dx = v.x - wave.cx;
           const dy = v.y - wave.cy;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const distSq = dx * dx + dy * dy;
+          // Fast squared-distance rejection before sqrt
+          if (distSq > outerRSq || distSq < innerRSq) continue;
+          const dist = Math.sqrt(distSq);
           const diff = Math.abs(dist - wave.radius);
-          if (diff < waveWidth) {
-            const waveFade = 1 - wave.radius / wave.maxRadius;
-            const proximity = 1 - diff / waveWidth;
-            vGlow[i] = Math.min(1, vGlow[i] + proximity * wave.intensity * waveFade * 0.26);
-          }
+          const proximity = 1 - diff / waveWidth;
+          vGlow[i] = Math.min(1, vGlow[i] + proximity * waveIntFade);
         }
       }
 
@@ -1140,20 +1157,31 @@ export const TessellationMesh = ({
         ctx.stroke();
       }
 
-      // Draw vertex dots (only bright ones)
+      // Draw vertex dots (only bright ones, concentric circles instead of radialGradient)
       for (let i = 0; i < vertices.length; i++) {
         const v = vertices[i];
         const glow = vGlow[i];
         if (glow < 0.03) continue;
 
-        // Vertex glow halo
-        const vg = ctx.createRadialGradient(v.x, v.y, 0, v.x, v.y, 10 + glow * 16);
-        vg.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${glow * 0.38})`);
-        vg.addColorStop(0.5, `rgba(${G.r}, ${G.g}, ${G.b}, ${glow * 0.09})`);
-        vg.addColorStop(1, 'transparent');
-        ctx.fillStyle = vg;
         const haloR = 10 + glow * 16;
-        ctx.fillRect(v.x - haloR, v.y - haloR, haloR * 2, haloR * 2);
+
+        // Outer halo (replaces gradient outer stop)
+        ctx.beginPath();
+        ctx.arc(v.x, v.y, haloR, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${glow * 0.04})`;
+        ctx.fill();
+
+        // Mid halo (replaces gradient 0.5 stop)
+        ctx.beginPath();
+        ctx.arc(v.x, v.y, haloR * 0.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${glow * 0.12})`;
+        ctx.fill();
+
+        // Inner glow (replaces gradient center)
+        ctx.beginPath();
+        ctx.arc(v.x, v.y, haloR * 0.2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${glow * 0.32})`;
+        ctx.fill();
 
         // Vertex dot
         ctx.beginPath();
@@ -1191,7 +1219,7 @@ export const TessellationMesh = ({
     draw();
 
     window.addEventListener('resize', onResize);
-    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mousemove', handleMouseMove, { passive: true });
     canvas.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
@@ -1328,7 +1356,7 @@ export const RadarSweep = ({
       // Sweep
       const sweepAngle = time * 1.8 * speed + offset;
       const trailAngle = Math.PI * 0.4;
-      const trailSegments = 25;
+      const trailSegments = 15;
 
       for (let i = 0; i < trailSegments; i++) {
         const t = i / trailSegments;
@@ -1443,7 +1471,7 @@ export const RadarSweep = ({
     draw();
 
     window.addEventListener('resize', onResize);
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
     return () => {
       cancelAnimationFrame(animationId);
@@ -1480,6 +1508,10 @@ export const PerspectiveGrid = ({ className }: { className?: string }) => {
     let targetMouseX = 0.5, targetMouseY = 0.5;
     let mouseX = 0.5, mouseY = 0.5;
 
+    // Cached horizon gradient (rebuilt on resize)
+    let cachedHorizonGrad: CanvasGradient | null = null;
+    let cachedVpY = 0;
+
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio, 2);
       w = canvas.clientWidth;
@@ -1487,6 +1519,14 @@ export const PerspectiveGrid = ({ className }: { className?: string }) => {
       canvas.width = w * dpr;
       canvas.height = h * dpr;
       ctx.scale(dpr, dpr);
+      // Pre-build horizon gradient
+      cachedVpY = h * 0.40;
+      cachedHorizonGrad = ctx.createLinearGradient(0, cachedVpY, w, cachedVpY);
+      cachedHorizonGrad.addColorStop(0, 'transparent');
+      cachedHorizonGrad.addColorStop(0.15, `rgba(${G.r}, ${G.g}, ${G.b}, 0.06)`);
+      cachedHorizonGrad.addColorStop(0.5, `rgba(${G.r}, ${G.g}, ${G.b}, 0.2)`);
+      cachedHorizonGrad.addColorStop(0.85, `rgba(${G.r}, ${G.g}, ${G.b}, 0.06)`);
+      cachedHorizonGrad.addColorStop(1, 'transparent');
     };
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -1590,19 +1630,15 @@ export const PerspectiveGrid = ({ className }: { className?: string }) => {
         ctx.stroke();
       }
 
-      // --- Horizon line ---
-      ctx.beginPath();
-      const hlGrad = ctx.createLinearGradient(0, vpY, w, vpY);
-      hlGrad.addColorStop(0, 'transparent');
-      hlGrad.addColorStop(0.15, `rgba(${G.r}, ${G.g}, ${G.b}, 0.06)`);
-      hlGrad.addColorStop(0.5, `rgba(${G.r}, ${G.g}, ${G.b}, 0.2)`);
-      hlGrad.addColorStop(0.85, `rgba(${G.r}, ${G.g}, ${G.b}, 0.06)`);
-      hlGrad.addColorStop(1, 'transparent');
-      ctx.strokeStyle = hlGrad;
-      ctx.lineWidth = 1;
-      ctx.moveTo(0, vpY);
-      ctx.lineTo(w, vpY);
-      ctx.stroke();
+      // --- Horizon line (uses cached gradient) ---
+      if (cachedHorizonGrad) {
+        ctx.beginPath();
+        ctx.strokeStyle = cachedHorizonGrad;
+        ctx.lineWidth = 1;
+        ctx.moveTo(0, vpY);
+        ctx.lineTo(w, vpY);
+        ctx.stroke();
+      }
 
       animationId = requestAnimationFrame(draw);
     };
@@ -1622,7 +1658,7 @@ export const PerspectiveGrid = ({ className }: { className?: string }) => {
     draw();
 
     window.addEventListener('resize', onResize);
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
     return () => {
       cancelAnimationFrame(animationId);
