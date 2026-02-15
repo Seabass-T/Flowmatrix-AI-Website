@@ -999,22 +999,12 @@ export const TessellationMesh = ({
       ctx.scale(dpr, dpr);
       buildMesh();
 
-      // Seed initial glow so mesh is visible at the top on page load
-      for (let i = 0; i < vertices.length; i++) {
-        const v = vertices[i];
-        const yFrac = v.baseY / h;
-        if (yFrac < 0.25) {
-          // Top 25%: strong initial glow that fades with depth
-          vGlow[i] = (1 - yFrac / 0.25) * 0.7 + Math.random() * 0.15;
-        }
-      }
-
-      // Seed a few initial waves near the top
+      // Seed a couple of small organic waves near the top so mesh
+      // isn't invisible on page load (subtle, not uniform)
       waves.length = 0;
       waves.push(
-        { cx: w * 0.3, cy: h * 0.05, radius: 50, speed: 4, intensity: 0.9, maxRadius: 500 },
-        { cx: w * 0.7, cy: h * 0.08, radius: 30, speed: 5, intensity: 0.85, maxRadius: 450 },
-        { cx: w * 0.5, cy: h * 0.15, radius: 10, speed: 4.5, intensity: 0.8, maxRadius: 400 },
+        { cx: w * (0.2 + Math.random() * 0.25), cy: h * 0.06, radius: 20, speed: 3, intensity: 0.5, maxRadius: 250 },
+        { cx: w * (0.55 + Math.random() * 0.25), cy: h * 0.1, radius: 10, speed: 3.5, intensity: 0.45, maxRadius: 200 },
       );
     };
 
@@ -1100,7 +1090,7 @@ export const TessellationMesh = ({
           if (diff < waveWidth) {
             const waveFade = 1 - wave.radius / wave.maxRadius;
             const proximity = 1 - diff / waveWidth;
-            vGlow[i] = Math.min(1, vGlow[i] + proximity * wave.intensity * waveFade * 0.35);
+            vGlow[i] = Math.min(1, vGlow[i] + proximity * wave.intensity * waveFade * 0.26);
           }
         }
       }
@@ -1111,8 +1101,8 @@ export const TessellationMesh = ({
 
         // Triangle brightness based on vertex glow average
         const glow = (vGlow[a] + vGlow[b] + vGlow[c]) / 3;
-        const fillAlpha = 0.025 + glow * 0.18;
-        const strokeAlpha = 0.07 + glow * 0.28;
+        const fillAlpha = 0.02 + glow * 0.13;
+        const strokeAlpha = 0.055 + glow * 0.21;
 
         // Fill
         ctx.beginPath();
@@ -1137,8 +1127,8 @@ export const TessellationMesh = ({
 
         // Vertex glow halo
         const vg = ctx.createRadialGradient(v.x, v.y, 0, v.x, v.y, 10 + glow * 16);
-        vg.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${glow * 0.5})`);
-        vg.addColorStop(0.5, `rgba(${G.r}, ${G.g}, ${G.b}, ${glow * 0.12})`);
+        vg.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${glow * 0.38})`);
+        vg.addColorStop(0.5, `rgba(${G.r}, ${G.g}, ${G.b}, ${glow * 0.09})`);
         vg.addColorStop(1, 'transparent');
         ctx.fillStyle = vg;
         const haloR = 10 + glow * 16;
@@ -1157,7 +1147,7 @@ export const TessellationMesh = ({
         if (waveFade < 0.05) continue;
         ctx.beginPath();
         ctx.arc(wave.cx, wave.cy, wave.radius, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${waveFade * wave.intensity * 0.12})`;
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${waveFade * wave.intensity * 0.09})`;
         ctx.lineWidth = 1.5;
         ctx.stroke();
       }
