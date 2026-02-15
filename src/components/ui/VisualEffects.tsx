@@ -84,15 +84,15 @@ export const Reveal = ({
   className?: string;
 }) => {
   const transforms = {
-    up: 'translate3d(0, 40px, 0)',
-    left: 'translate3d(-40px, 0, 0)',
-    right: 'translate3d(40px, 0, 0)',
-    scale: 'scale(0.95)',
+    up: 'translate3d(0, 24px, 0)',
+    left: 'translate3d(-24px, 0, 0)',
+    right: 'translate3d(24px, 0, 0)',
+    scale: 'scale(0.97)',
   };
 
   return (
     <div
-      className={cn('transition-all duration-700 ease-out', className)}
+      className={cn('transition-all duration-500 ease-out', className)}
       style={{
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'translate3d(0, 0, 0) scale(1)' : transforms[direction],
@@ -152,10 +152,14 @@ export const TopologyLines = ({ className }: { className?: string }) => {
     let time = 0;
     let mouseX = 0.5;
     let mouseY = 0.5;
+    let cachedWidth = 0;
+    let cachedHeight = 0;
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio, 2);
       const rect = canvas.getBoundingClientRect();
+      cachedWidth = rect.width;
+      cachedHeight = rect.height;
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
       ctx.scale(dpr, dpr);
@@ -164,9 +168,8 @@ export const TopologyLines = ({ className }: { className?: string }) => {
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseX = (e.clientX - rect.left) / rect.width;
-      mouseY = (e.clientY - rect.top) / rect.height;
+      mouseX = (e.clientX - canvas.offsetLeft) / cachedWidth;
+      mouseY = (e.clientY - canvas.offsetTop) / cachedHeight;
     };
 
     const drawLine = (
@@ -178,8 +181,8 @@ export const TopologyLines = ({ className }: { className?: string }) => {
       isGold: boolean,
       width: number
     ) => {
-      const w = canvas.getBoundingClientRect().width;
-      const h = canvas.getBoundingClientRect().height;
+      const w = cachedWidth;
+      const h = cachedHeight;
       const y = yBase * h;
 
       ctx.beginPath();
@@ -210,9 +213,7 @@ export const TopologyLines = ({ className }: { className?: string }) => {
     };
 
     const draw = () => {
-      const w = canvas.getBoundingClientRect().width;
-      const h = canvas.getBoundingClientRect().height;
-      ctx.clearRect(0, 0, w, h);
+      ctx.clearRect(0, 0, cachedWidth, cachedHeight);
 
       time += 0.003;
 
@@ -253,3 +254,11 @@ export const TopologyLines = ({ className }: { className?: string }) => {
     />
   );
 };
+
+// 3D Perspective grid background
+export const PerspectiveGrid = ({ className }: { className?: string }) => (
+  <div className={cn('absolute inset-0 overflow-hidden pointer-events-none', className)}>
+    <div className="absolute inset-x-0 bottom-0 h-[70%] perspective-grid" />
+    <div className="absolute inset-x-0 bottom-0 h-[70%] perspective-grid-secondary" />
+  </div>
+);

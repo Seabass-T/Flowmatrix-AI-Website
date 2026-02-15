@@ -51,7 +51,7 @@ const Navigation = () => {
       <nav
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-          scrolled ? 'bg-black/95 backdrop-blur border-b border-white/10' : 'bg-transparent'
+          scrolled ? 'bg-black/90 backdrop-blur-xl border-b border-white/10' : 'bg-transparent'
         )}
       >
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -60,7 +60,7 @@ const Navigation = () => {
             <img
               src="/flowmatrix-logo.webp"
               alt="FlowMatrix AI"
-              className="h-14 md:h-16 w-auto"
+              className="h-8 md:h-10 w-auto"
             />
           </Link>
 
@@ -70,7 +70,7 @@ const Navigation = () => {
               <button
                 key={item.href}
                 onClick={() => handleNavClick(item.href)}
-                className="text-white/60 hover:text-white transition-colors font-medium text-sm"
+                className="text-white/70 hover:text-white transition-colors font-medium text-sm"
               >
                 {item.label}
               </button>
@@ -80,7 +80,7 @@ const Navigation = () => {
           {/* Desktop CTA */}
           <button
             onClick={() => handleNavClick('/#start')}
-            className="hidden md:block px-5 py-2 border border-white/20 text-white text-sm font-medium rounded-lg hover:bg-white/10 transition-colors"
+            className="hidden md:block px-5 py-2 bg-white text-black text-sm font-medium rounded-lg hover:bg-white/90 transition-colors"
           >
             Get Started
           </button>

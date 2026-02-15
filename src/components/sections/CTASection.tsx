@@ -19,7 +19,7 @@ const CTASection = () => {
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight">
               {COPY.cta.headline}
             </h2>
-            <p className="mt-4 text-xl text-white/40 leading-relaxed max-w-lg mx-auto">
+            <p className="mt-4 text-xl text-white/50 leading-relaxed max-w-lg mx-auto">
               {COPY.cta.subheadline}
             </p>
           </div>
@@ -33,7 +33,7 @@ const CTASection = () => {
 
         {/* Trust signals under form */}
         <Reveal isVisible={isVisible} delay={400} direction="up">
-          <div className="mt-8 flex items-center justify-center gap-8 text-xs text-white/25">
+          <div className="mt-8 flex items-center justify-center gap-8 text-xs text-white/45">
             <span className="flex items-center gap-1.5">
               <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none"><path d="M8 1l2.47 4.97L16 6.87l-4 3.89.94 5.49L8 13.77l-4.94 2.48.94-5.49-4-3.89 5.53-.9L8 1z" fill="currentColor" /></svg>
               No obligations

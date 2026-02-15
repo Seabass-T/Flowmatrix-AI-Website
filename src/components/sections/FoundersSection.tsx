@@ -1,7 +1,7 @@
 import { Linkedin, Mail } from 'lucide-react';
 import { COPY } from '@/lib/constants';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Reveal, LineSeparator, GlowOrb } from '@/components/ui/VisualEffects';
+import { Reveal, LineSeparator } from '@/components/ui/VisualEffects';
 
 const FoundersSection = () => {
   const { ref, isVisible } = useScrollReveal();
@@ -9,7 +9,6 @@ const FoundersSection = () => {
   return (
     <section id="team" className="relative py-32 md:py-44 px-6 bg-black overflow-hidden">
       <LineSeparator className="absolute top-0 left-6 right-6" />
-      <GlowOrb className="bottom-[-200px] left-1/3" color="white" size="md" />
 
       <div ref={ref} className="relative z-10 max-w-5xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
@@ -20,7 +19,7 @@ const FoundersSection = () => {
               <h2 className="mt-4 text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[0.95]">
                 {COPY.founders.headline}
               </h2>
-              <p className="mt-6 text-xl text-white/40 leading-relaxed">
+              <p className="mt-6 text-xl text-white/55 leading-relaxed">
                 {COPY.founders.intro}
               </p>
             </Reveal>
@@ -34,7 +33,7 @@ const FoundersSection = () => {
                   {/* Photo with hover effect */}
                   {founder.image && (
                     <div className="relative flex-shrink-0">
-                      <div className="w-20 h-20 rounded-xl overflow-hidden ring-1 ring-white/10 group-hover:ring-accent/30 transition-all duration-500">
+                      <div className="w-24 h-24 rounded-xl overflow-hidden ring-1 ring-white/10 group-hover:ring-accent/30 transition-all duration-500">
                         <img
                           src={founder.image}
                           alt={founder.name}

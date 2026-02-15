@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { COPY } from '@/lib/constants';
-import { GlowOrb, Aurora, TopologyLines } from '@/components/ui/VisualEffects';
+import { GlowOrb, Aurora, TopologyLines, PerspectiveGrid } from '@/components/ui/VisualEffects';
 
 const HeroSection = () => {
   const [loaded, setLoaded] = useState(false);
@@ -42,6 +42,9 @@ const HeroSection = () => {
       {/* Aurora ambient gradient layer */}
       <Aurora />
 
+      {/* 3D perspective grid */}
+      <PerspectiveGrid />
+
       {/* Topology flowing lines */}
       <TopologyLines className="opacity-80" />
 
@@ -67,12 +70,10 @@ const HeroSection = () => {
 
         {/* Headline */}
         <h1
-          className="mt-8 text-7xl md:text-8xl lg:text-[8rem] xl:text-[9rem] font-bold text-white leading-[0.9] tracking-[-0.03em]"
+          className="mt-8 text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white leading-[0.9] tracking-[-0.04em]"
           style={{
             opacity: loaded ? 1 : 0,
-            transform: loaded
-              ? 'translateY(0) translate3d(var(--parallax-x, 0), var(--parallax-y, 0), 0)'
-              : 'translateY(40px)',
+            transform: loaded ? 'translateY(0)' : 'translateY(40px)',
             transition: 'opacity 1s ease-out 0.2s, transform 1s ease-out 0.2s',
           }}
         >
@@ -83,7 +84,7 @@ const HeroSection = () => {
 
         {/* Subheadline */}
         <p
-          className="mt-8 text-xl md:text-2xl text-white/50 max-w-xl mx-auto leading-relaxed"
+          className="mt-8 text-xl md:text-2xl text-white/60 max-w-xl mx-auto leading-relaxed"
           style={{
             opacity: loaded ? 1 : 0,
             transform: loaded ? 'translateY(0)' : 'translateY(30px)',
@@ -103,7 +104,7 @@ const HeroSection = () => {
         >
           <button
             onClick={() => scrollToSection('start')}
-            className="group mt-12 relative px-8 py-4 bg-white text-black font-medium text-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,168,75,0.15)]"
+            className="group mt-12 relative px-8 py-4 bg-white text-black font-semibold text-lg rounded-lg overflow-hidden transition-all duration-300 shadow-[0_0_20px_rgba(212,168,75,0.15)] hover:shadow-[0_0_40px_rgba(212,168,75,0.3)] hover:scale-[1.02]"
           >
             <span className="relative z-10">{COPY.hero.cta}</span>
             <div className="absolute inset-0 bg-gradient-to-r from-accent/20 via-transparent to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

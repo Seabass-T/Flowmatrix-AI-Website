@@ -45,7 +45,7 @@ const FAQSection = () => {
                     {faq.question}
                   </span>
                 </AccordionTrigger>
-                <AccordionContent className="text-white/50 pb-7 pl-10 leading-relaxed text-base">
+                <AccordionContent className="text-white/60 pb-7 pl-10 leading-relaxed text-base">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>

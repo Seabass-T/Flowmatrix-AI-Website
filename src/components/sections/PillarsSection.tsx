@@ -47,7 +47,7 @@ const PillarsSection = () => {
             <h2 className="mt-4 text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight">
               {COPY.services.headline}
             </h2>
-            <p className="mt-4 text-xl text-white/40 max-w-xl mx-auto">
+            <p className="mt-4 text-xl text-white/50 max-w-xl mx-auto">
               {COPY.services.subheadline}
             </p>
           </div>
@@ -58,10 +58,10 @@ const PillarsSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {SERVICE_PHASES.map((phase, index) => (
-            <Reveal key={phase.id} isVisible={isVisible} delay={200 + index * 120} direction={index % 2 === 0 ? 'left' : 'right'}>
+            <Reveal key={phase.id} isVisible={isVisible} delay={200 + index * 120} direction="up">
               <Link
                 to={phase.href}
-                className="card-glow group block relative rounded-xl p-8 md:p-10 bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-500"
+                className="card-glow group block relative rounded-xl p-8 md:p-10 bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] transition-all duration-500"
               >
                 {/* Phase number badge */}
                 <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-black border border-accent/30 flex items-center justify-center text-accent text-xs font-bold">
@@ -69,7 +69,7 @@ const PillarsSection = () => {
                 </div>
 
                 {/* Icon */}
-                <div className="text-white/30 group-hover:text-accent/70 transition-colors duration-500 mb-6">
+                <div className="text-white/40 group-hover:text-accent/70 transition-colors duration-500 mb-6">
                   {PHASE_ICONS[index]}
                 </div>
 
@@ -79,10 +79,10 @@ const PillarsSection = () => {
                 <h3 className="mt-2 text-2xl md:text-3xl font-semibold text-white group-hover:text-white transition-colors">
                   {phase.title}
                 </h3>
-                <p className="mt-1 text-base text-white/40 italic">
+                <p className="mt-1 text-base text-white/50 italic">
                   {phase.tagline}
                 </p>
-                <p className="mt-4 text-white/50 leading-relaxed text-[15px]">
+                <p className="mt-4 text-white/55 leading-relaxed text-[15px]">
                   {phase.description}
                 </p>
 

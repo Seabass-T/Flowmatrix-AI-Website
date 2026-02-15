@@ -1,6 +1,6 @@
 import { CLIENT_LOGOS, COPY } from '@/lib/constants';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Reveal, GlowOrb, LineSeparator } from '@/components/ui/VisualEffects';
+import { Reveal, LineSeparator } from '@/components/ui/VisualEffects';
 
 const ProofSection = () => {
   const { ref, isVisible } = useScrollReveal();
@@ -11,7 +11,6 @@ const ProofSection = () => {
   return (
     <section id="proof" className="relative py-32 md:py-44 px-6 bg-black overflow-hidden">
       <LineSeparator className="absolute top-0 left-6 right-6" />
-      <GlowOrb className="top-1/2 right-[-200px] -translate-y-1/2" color="accent" size="lg" />
 
       <div ref={ref} className="relative z-10 max-w-5xl mx-auto">
         <Reveal isVisible={isVisible} direction="up">
@@ -42,7 +41,7 @@ const ProofSection = () => {
                 <div className="text-white font-medium text-lg">
                   {COPY.proof.attribution.name}
                 </div>
-                <div className="text-white/40 text-sm mt-0.5">
+                <div className="text-white/50 text-sm mt-0.5">
                   {COPY.proof.attribution.title}, {COPY.proof.attribution.company}
                 </div>
               </div>
@@ -54,8 +53,8 @@ const ProofSection = () => {
       {/* Logo Marquee - full width */}
       <Reveal isVisible={isVisible} delay={500} direction="up">
         <div className="mt-24 relative">
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-black to-transparent z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-black to-transparent z-10" />
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black via-black/80 to-transparent z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black via-black/80 to-transparent z-10" />
 
           <div className="overflow-hidden">
             <div className="flex items-center gap-16 animate-marquee">

@@ -30,12 +30,12 @@ const StakesSection = () => {
               </h2>
             </Reveal>
             <Reveal isVisible={isVisible} delay={200} direction="up">
-              <p className="mt-8 text-lg md:text-xl text-white/50 leading-relaxed max-w-lg">
+              <p className="mt-8 text-lg md:text-xl text-white/60 leading-relaxed max-w-lg">
                 {COPY.stakes.body}
               </p>
             </Reveal>
             <Reveal isVisible={isVisible} delay={400} direction="up">
-              <p className="mt-6 text-lg text-white/40 leading-relaxed max-w-lg">
+              <p className="mt-6 text-lg text-white/50 leading-relaxed max-w-lg">
                 You don't have a team to build custom AI systems. You don't have months to experiment. You have a business to run today. That's precisely why we exist.
               </p>
             </Reveal>
@@ -75,7 +75,7 @@ const StatCard = ({
         {count}
         <span className="text-accent">{suffix}</span>
       </div>
-      <div className="mt-2 text-base text-white/40">
+      <div className="mt-2 text-base text-white/50">
         {label}
       </div>
     </div>

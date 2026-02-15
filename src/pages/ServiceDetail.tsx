@@ -135,7 +135,7 @@ const ServiceDetail = () => {
             <Reveal isVisible={heroVisible} direction="up">
               <Link
                 to="/#services"
-                className="inline-flex items-center gap-2 text-white/30 hover:text-white/60 transition-colors text-sm mb-10 group"
+                className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 transition-colors text-sm mb-10 group"
               >
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> All Services
               </Link>
@@ -151,7 +151,7 @@ const ServiceDetail = () => {
               </h1>
             </Reveal>
             <Reveal isVisible={heroVisible} delay={350} direction="up">
-              <p className="mt-8 text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed">
+              <p className="mt-8 text-xl md:text-2xl text-white/60 max-w-2xl leading-relaxed">
                 {phase.description}
               </p>
             </Reveal>
@@ -186,7 +186,7 @@ const ServiceDetail = () => {
                       <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4 tracking-tight">
                         {section.heading}
                       </h2>
-                      <p className="text-lg text-white/50 leading-relaxed">
+                      <p className="text-lg text-white/60 leading-relaxed">
                         {section.body}
                       </p>
                     </div>
@@ -235,7 +235,7 @@ const ServiceDetail = () => {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
               Start with a conversation.
             </h2>
-            <p className="text-lg text-white/40 mb-10">
+            <p className="text-lg text-white/50 mb-10">
               Tell us what you are working on. We will tell you honestly whether we can help.
             </p>
             <div className="card-glow rounded-2xl p-6 md:p-8 bg-white/[0.02]">
