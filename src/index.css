@@ -152,36 +152,24 @@ iframe[data-tally-src] {
 }
 .perspective-grid {
   background-image:
-    linear-gradient(rgba(212, 168, 75, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212, 168, 75, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(212, 168, 75, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 168, 75, 0.1) 1px, transparent 1px);
   background-size: 50px 50px;
-  transform: perspective(400px) rotateX(45deg);
+  transform: perspective(400px) rotateX(50deg);
   transform-origin: center bottom;
-  mask-image:
-    linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 85%),
-    linear-gradient(to right, transparent 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, transparent 100%);
-  -webkit-mask-image:
-    linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 85%),
-    linear-gradient(to right, transparent 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, transparent 100%);
-  mask-composite: intersect;
-  -webkit-mask-composite: source-in;
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 100%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 40%, transparent 70%);
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 100%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 40%, transparent 70%);
   animation: gridScroll 3s linear infinite;
 }
 .perspective-grid-secondary {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
   background-size: 100px 100px;
-  transform: perspective(400px) rotateX(45deg);
+  transform: perspective(400px) rotateX(50deg);
   transform-origin: center bottom;
-  mask-image:
-    linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 75%),
-    linear-gradient(to right, transparent 5%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, transparent 95%);
-  -webkit-mask-image:
-    linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 75%),
-    linear-gradient(to right, transparent 5%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, transparent 95%);
-  mask-composite: intersect;
-  -webkit-mask-composite: source-in;
+  -webkit-mask-image: radial-gradient(ellipse 90% 65% at 50% 100%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 45%, transparent 65%);
+  mask-image: radial-gradient(ellipse 90% 65% at 50% 100%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 45%, transparent 65%);
   animation: gridScroll 6s linear infinite;
 }
 

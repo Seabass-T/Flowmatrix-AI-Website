@@ -109,29 +109,29 @@ export const Aurora = ({ className }: { className?: string }) => (
   <div className={cn('absolute inset-0 overflow-hidden pointer-events-none', className)}>
     {/* Primary gold wash - large, slow drift */}
     <div
-      className="absolute w-[800px] h-[800px] rounded-full blur-[160px] animate-aurora-1"
+      className="absolute w-[900px] h-[900px] rounded-full blur-[160px] animate-aurora-1"
       style={{
-        background: 'radial-gradient(circle, hsla(43, 59%, 55%, 0.07) 0%, transparent 70%)',
-        top: '-20%',
-        right: '-10%',
+        background: 'radial-gradient(circle, hsla(43, 59%, 55%, 0.12) 0%, transparent 70%)',
+        top: '-25%',
+        right: '-15%',
       }}
     />
     {/* Secondary cool blue-white wash */}
     <div
-      className="absolute w-[600px] h-[600px] rounded-full blur-[140px] animate-aurora-2"
+      className="absolute w-[700px] h-[700px] rounded-full blur-[140px] animate-aurora-2"
       style={{
-        background: 'radial-gradient(circle, hsla(220, 40%, 70%, 0.04) 0%, transparent 70%)',
-        bottom: '-10%',
-        left: '-5%',
+        background: 'radial-gradient(circle, hsla(220, 40%, 70%, 0.06) 0%, transparent 70%)',
+        bottom: '-15%',
+        left: '-10%',
       }}
     />
-    {/* Tertiary warm accent - smaller, offset */}
+    {/* Tertiary warm accent - mid section */}
     <div
-      className="absolute w-[500px] h-[500px] rounded-full blur-[120px] animate-aurora-3"
+      className="absolute w-[600px] h-[600px] rounded-full blur-[120px] animate-aurora-3"
       style={{
-        background: 'radial-gradient(circle, hsla(43, 59%, 55%, 0.04) 0%, transparent 60%)',
-        top: '40%',
-        left: '30%',
+        background: 'radial-gradient(circle, hsla(43, 59%, 55%, 0.07) 0%, transparent 60%)',
+        top: '30%',
+        left: '25%',
       }}
     />
   </div>
@@ -258,24 +258,24 @@ export const TopologyLines = ({ className }: { className?: string }) => {
 // 3D Perspective grid background with vanishing point convergence
 export const PerspectiveGrid = ({ className }: { className?: string }) => (
   <div className={cn('absolute inset-0 overflow-hidden pointer-events-none', className)}>
-    {/* Vanishing point glow - warm gold origin */}
+    {/* Vanishing point glow - warm gold bloom at convergence */}
     <div
-      className="absolute left-1/2 -translate-x-1/2 w-[600px] h-[300px] blur-[100px]"
+      className="absolute left-1/2 -translate-x-1/2 w-[800px] h-[400px] blur-[120px]"
       style={{
-        bottom: '-5%',
-        background: 'radial-gradient(ellipse, hsla(43, 59%, 55%, 0.08) 0%, transparent 70%)',
+        bottom: '-10%',
+        background: 'radial-gradient(ellipse, hsla(43, 59%, 55%, 0.15) 0%, hsla(43, 59%, 55%, 0.05) 40%, transparent 70%)',
       }}
     />
-    {/* Primary grid - gold tinted, tighter spacing */}
-    <div className="absolute inset-x-0 bottom-0 h-[80%] perspective-grid" />
+    {/* Primary grid - gold tinted */}
+    <div className="absolute inset-x-0 bottom-0 h-[85%] perspective-grid" />
     {/* Secondary grid - white, wider spacing for depth layering */}
-    <div className="absolute inset-x-0 bottom-0 h-[80%] perspective-grid-secondary" />
-    {/* Horizon line */}
+    <div className="absolute inset-x-0 bottom-0 h-[85%] perspective-grid-secondary" />
+    {/* Horizon line - subtle gold accent */}
     <div
       className="absolute left-0 right-0 h-px"
       style={{
-        bottom: '55%',
-        background: 'linear-gradient(90deg, transparent 10%, rgba(212, 168, 75, 0.1) 30%, rgba(212, 168, 75, 0.15) 50%, rgba(212, 168, 75, 0.1) 70%, transparent 90%)',
+        bottom: '50%',
+        background: 'linear-gradient(90deg, transparent 5%, rgba(212, 168, 75, 0.12) 25%, rgba(212, 168, 75, 0.2) 50%, rgba(212, 168, 75, 0.12) 75%, transparent 95%)',
       }}
     />
   </div>

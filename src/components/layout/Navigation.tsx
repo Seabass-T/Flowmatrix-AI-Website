@@ -60,7 +60,7 @@ const Navigation = () => {
             <img
               src="/flowmatrix-logo.webp"
               alt="FlowMatrix AI"
-              className="h-8 md:h-10 w-auto"
+              className="h-10 md:h-12 w-auto"
             />
           </Link>
 
