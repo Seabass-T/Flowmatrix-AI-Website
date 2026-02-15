@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Footer from "@/components/layout/Footer";
+import { GrainOverlay } from "@/components/ui/VisualEffects";
 
 // Eager load only the homepage for fastest FCP
 import Index from "./pages/Index";
@@ -43,6 +44,7 @@ const App = () => (
           v7_relativeSplatPath: true,
         }}
       >
+        <GrainOverlay />
         <div className="min-h-screen flex flex-col">
           <div className="flex-1">
             <Suspense fallback={<PageLoader />}>

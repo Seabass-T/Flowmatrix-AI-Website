@@ -1,60 +1,87 @@
 import { Linkedin, Mail } from 'lucide-react';
 import { COPY } from '@/lib/constants';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { Reveal, LineSeparator, GlowOrb } from '@/components/ui/VisualEffects';
 
 const FoundersSection = () => {
+  const { ref, isVisible } = useScrollReveal();
+
   return (
-    <section id="team" className="py-32 md:py-40 px-6 bg-black">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight">
-          {COPY.founders.headline}
-        </h2>
-        <p className="text-xl text-white/60 mb-20 max-w-xl">
-          {COPY.founders.intro}
-        </p>
+    <section id="team" className="relative py-32 md:py-44 px-6 bg-black overflow-hidden">
+      <LineSeparator className="absolute top-0 left-6 right-6" />
+      <GlowOrb className="bottom-[-200px] left-1/3" color="white" size="md" />
 
-        {/* Asymmetric 2-column layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-20">
-          {COPY.founders.team.map((founder) => (
-            <div key={founder.name} className="flex flex-col">
-              {/* Photo */}
-              {founder.image && (
-                <div className="w-28 h-28 rounded-full overflow-hidden mb-6 grayscale hover:grayscale-0 transition-all duration-500">
-                  <img
-                    src={founder.image}
-                    alt={founder.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              )}
-
-              <h3 className="text-2xl font-semibold text-white">
-                {founder.name}
-              </h3>
-              <p className="text-accent text-sm uppercase tracking-widest mt-1 mb-6">
-                {founder.title}
+      <div ref={ref} className="relative z-10 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+          {/* Left: headline stays fixed-ish while scrolling */}
+          <div>
+            <Reveal isVisible={isVisible} direction="up">
+              <span className="text-accent text-xs font-medium uppercase tracking-[0.3em]">The team</span>
+              <h2 className="mt-4 text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[0.95]">
+                {COPY.founders.headline}
+              </h2>
+              <p className="mt-6 text-xl text-white/40 leading-relaxed">
+                {COPY.founders.intro}
               </p>
+            </Reveal>
+          </div>
 
-              {/* Contact links */}
-              <div className="flex gap-3">
-                <a
-                  href={founder.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 border border-white/10 rounded-lg text-white/50 hover:text-white hover:border-white/30 transition-all"
-                  aria-label={`${founder.name} LinkedIn`}
-                >
-                  <Linkedin className="w-4 h-4" />
-                </a>
-                <a
-                  href={`mailto:${founder.email}`}
-                  className="p-2 border border-white/10 rounded-lg text-white/50 hover:text-white hover:border-white/30 transition-all"
-                  aria-label={`Email ${founder.name}`}
-                >
-                  <Mail className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-          ))}
+          {/* Right: founder cards */}
+          <div className="space-y-12">
+            {COPY.founders.team.map((founder, index) => (
+              <Reveal key={founder.name} isVisible={isVisible} delay={200 + index * 200} direction="right">
+                <div className="group flex items-start gap-6">
+                  {/* Photo with hover effect */}
+                  {founder.image && (
+                    <div className="relative flex-shrink-0">
+                      <div className="w-20 h-20 rounded-xl overflow-hidden ring-1 ring-white/10 group-hover:ring-accent/30 transition-all duration-500">
+                        <img
+                          src={founder.image}
+                          alt={founder.name}
+                          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                        />
+                      </div>
+                      {/* Status dot */}
+                      <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-black flex items-center justify-center">
+                        <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-xl font-semibold text-white">
+                      {founder.name}
+                    </h3>
+                    <p className="text-accent text-sm mt-0.5">
+                      {founder.title}
+                    </p>
+
+                    {/* Contact row */}
+                    <div className="flex gap-2 mt-4">
+                      <a
+                        href={founder.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/50 hover:text-white text-xs transition-all duration-300"
+                        aria-label={`${founder.name} LinkedIn`}
+                      >
+                        <Linkedin className="w-3.5 h-3.5" />
+                        LinkedIn
+                      </a>
+                      <a
+                        href={`mailto:${founder.email}`}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/50 hover:text-white text-xs transition-all duration-300"
+                        aria-label={`Email ${founder.name}`}
+                      >
+                        <Mail className="w-3.5 h-3.5" />
+                        Email
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>

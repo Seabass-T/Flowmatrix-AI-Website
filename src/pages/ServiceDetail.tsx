@@ -4,6 +4,8 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Navigation from '@/components/layout/Navigation';
 import { SERVICE_PHASES, TALLY_FORM_ID } from '@/lib/constants';
 import { TallyForm } from '@/components/shared/TallyForm';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { Reveal, GlowOrb, LineSeparator, DotGrid } from '@/components/ui/VisualEffects';
 
 const SERVICE_CONTENT: Record<string, {
   problem: string;
@@ -97,12 +99,18 @@ const SERVICE_CONTENT: Record<string, {
 
 const ServiceDetail = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { ref: heroRef, isVisible: heroVisible } = useScrollReveal();
+  const { ref: contentRef, isVisible: contentVisible } = useScrollReveal();
 
-  const phaseIndex = SERVICE_PHASES.findIndex((p) => p.id === slug);
+  // Determine route from pathname since we use individual routes
+  const path = window.location.pathname.replace('/', '');
+  const actualSlug = slug || path;
+
+  const phaseIndex = SERVICE_PHASES.findIndex((p) => p.id === actualSlug);
   if (phaseIndex === -1) return null;
 
   const phase = SERVICE_PHASES[phaseIndex];
-  const content = SERVICE_CONTENT[slug!];
+  const content = SERVICE_CONTENT[actualSlug];
   const nextPhase = SERVICE_PHASES[phaseIndex + 1];
   const prevPhase = phaseIndex > 0 ? SERVICE_PHASES[phaseIndex - 1] : null;
 
@@ -117,63 +125,88 @@ const ServiceDetail = () => {
         <Navigation />
 
         {/* Hero */}
-        <section className="pt-40 pb-20 px-6">
-          <div className="max-w-4xl mx-auto">
-            <Link
-              to="/#services"
-              className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 transition-colors text-sm mb-8"
-            >
-              <ArrowLeft className="w-4 h-4" /> All Services
-            </Link>
-            <span className="block text-accent text-sm font-medium uppercase tracking-widest mb-4">
-              Phase {phase.phase}
-            </span>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-tight">
-              {phase.title}
-            </h1>
-            <p className="mt-6 text-xl md:text-2xl text-white/60 max-w-2xl leading-relaxed">
-              {phase.description}
-            </p>
+        <section ref={heroRef} className="relative pt-40 pb-20 px-6 overflow-hidden">
+          <GlowOrb className="top-0 right-[-200px]" color="accent" size="lg" />
+          <DotGrid className="opacity-[0.02]" />
+
+          <div className="relative z-10 max-w-4xl mx-auto">
+            <Reveal isVisible={heroVisible} direction="up">
+              <Link
+                to="/#services"
+                className="inline-flex items-center gap-2 text-white/30 hover:text-white/60 transition-colors text-sm mb-10 group"
+              >
+                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> All Services
+              </Link>
+            </Reveal>
+            <Reveal isVisible={heroVisible} delay={100} direction="up">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent/20 bg-accent/5 text-accent text-xs font-medium uppercase tracking-[0.2em] mb-6">
+                Phase {phase.phase}
+              </span>
+            </Reveal>
+            <Reveal isVisible={heroVisible} delay={200} direction="up">
+              <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-[0.95]">
+                {phase.title}
+              </h1>
+            </Reveal>
+            <Reveal isVisible={heroVisible} delay={350} direction="up">
+              <p className="mt-8 text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed">
+                {phase.description}
+              </p>
+            </Reveal>
           </div>
         </section>
 
-        {/* Problem */}
+        {/* Problem statement */}
         <section className="py-20 px-6">
           <div className="max-w-4xl mx-auto">
-            <div className="border-l-2 border-accent pl-8">
-              <p className="text-2xl md:text-3xl text-white/80 leading-relaxed font-light">
-                {content.problem}
-              </p>
-            </div>
+            <Reveal isVisible={heroVisible} delay={500} direction="up">
+              <div className="relative pl-8 border-l-2 border-accent/40">
+                <div className="absolute -left-[5px] top-0 w-2 h-2 rounded-full bg-accent" />
+                <p className="text-2xl md:text-3xl lg:text-4xl text-white/80 leading-[1.3] font-light">
+                  {content.problem}
+                </p>
+              </div>
+            </Reveal>
           </div>
         </section>
 
         {/* Content sections */}
-        <section className="py-12 px-6">
-          <div className="max-w-4xl mx-auto space-y-20">
-            {content.sections.map((section, index) => (
-              <div key={index}>
-                <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4 tracking-tight">
-                  {section.heading}
-                </h2>
-                <p className="text-lg text-white/60 leading-relaxed">
-                  {section.body}
-                </p>
-              </div>
-            ))}
+        <section ref={contentRef} className="py-12 px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="space-y-24">
+              {content.sections.map((section, index) => (
+                <Reveal key={index} isVisible={contentVisible} delay={index * 150} direction="up">
+                  <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 md:gap-12">
+                    <div className="text-white/20 font-mono text-sm pt-2">
+                      {String(index + 1).padStart(2, '0')}
+                    </div>
+                    <div>
+                      <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4 tracking-tight">
+                        {section.heading}
+                      </h2>
+                      <p className="text-lg text-white/50 leading-relaxed">
+                        {section.body}
+                      </p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Next phase link */}
+        <LineSeparator className="mx-6" />
+
+        {/* Navigation to other phases */}
         <section className="py-20 px-6">
           <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-4">
             {prevPhase && (
               <Link
                 to={prevPhase.href}
-                className="flex-1 border border-white/10 rounded-lg p-6 hover:border-white/25 transition-colors group"
+                className="card-glow flex-1 rounded-xl p-6 bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-300 group"
               >
-                <span className="text-xs text-white/40 uppercase tracking-widest">Previous</span>
-                <span className="block text-lg text-white mt-1 group-hover:text-white/80">
+                <span className="text-[10px] text-white/30 uppercase tracking-[0.2em]">Previous</span>
+                <span className="block text-lg text-white mt-2 group-hover:text-white/80">
                   Phase {prevPhase.phase}: {prevPhase.title}
                 </span>
               </Link>
@@ -181,11 +214,12 @@ const ServiceDetail = () => {
             {nextPhase && (
               <Link
                 to={nextPhase.href}
-                className="flex-1 border border-white/10 rounded-lg p-6 hover:border-white/25 transition-colors group text-right"
+                className="card-glow flex-1 rounded-xl p-6 bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-300 group text-right"
               >
-                <span className="text-xs text-white/40 uppercase tracking-widest">Next</span>
-                <span className="flex items-center justify-end gap-2 text-lg text-white mt-1 group-hover:text-white/80">
-                  Phase {nextPhase.phase}: {nextPhase.title} <ArrowRight className="w-4 h-4" />
+                <span className="text-[10px] text-white/30 uppercase tracking-[0.2em]">Next</span>
+                <span className="flex items-center justify-end gap-2 text-lg text-white mt-2 group-hover:text-white/80">
+                  Phase {nextPhase.phase}: {nextPhase.title}
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
               </Link>
             )}
@@ -193,15 +227,16 @@ const ServiceDetail = () => {
         </section>
 
         {/* CTA */}
-        <section className="py-20 px-6 border-t border-white/10">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
+        <section className="py-20 px-6 relative overflow-hidden">
+          <GlowOrb className="top-[-100px] left-1/2 -translate-x-1/2" color="accent" size="lg" />
+          <div className="relative z-10 max-w-3xl mx-auto text-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
               Start with a conversation.
             </h2>
-            <p className="text-lg text-white/60 mb-10">
+            <p className="text-lg text-white/40 mb-10">
               Tell us what you are working on. We will tell you honestly whether we can help.
             </p>
-            <div className="border border-white/10 rounded-xl p-6 md:p-8 bg-white/[0.02]">
+            <div className="card-glow rounded-2xl p-6 md:p-8 bg-white/[0.02]">
               <TallyForm formId={TALLY_FORM_ID} className="mx-auto" />
             </div>
           </div>
