@@ -612,7 +612,7 @@ export const NeuralPulse = ({
     };
 
     // Build axon connections (neurons within range) - used only for cascade propagation
-    const axonDist = 0.45;
+    const axonDist = 0.55;
     const axons: [number, number][] = [];
     for (let i = 0; i < neurons.length; i++) {
       for (let j = i + 1; j < neurons.length; j++) {
@@ -637,16 +637,6 @@ export const NeuralPulse = ({
       intensity: number;
     }
     const ripples: Ripple[] = [];
-
-    // Spark particles - scatter from firing neurons
-    interface Spark {
-      x: number; y: number;
-      vx: number; vy: number;
-      life: number;
-      maxLife: number;
-      size: number;
-    }
-    const sparks: Spark[] = [];
 
     // Electric flash connections - appear briefly when pulse propagates
     interface Flash {
@@ -679,34 +669,19 @@ export const NeuralPulse = ({
       return points;
     };
 
-    // Fire a neuron: creates ripples, sparks, and cascading flashes
+    // Fire a neuron: creates ripples and cascading flashes
     const fireNeuron = (neuronIdx: number, screenX: number, screenY: number, intensity = 1) => {
       neuronFire[neuronIdx] = intensity;
 
-      // Spawn ripple rings (2-3 per fire)
+      // Spawn ripple rings (2-3 per fire, larger reach)
       const rippleCount = intensity > 0.5 ? 3 : 2;
       for (let r = 0; r < rippleCount; r++) {
         ripples.push({
           x: screenX, y: screenY,
           radius: 3 + r * 4,
-          maxRadius: 60 + intensity * 80 + r * 30,
-          speed: 1.5 + r * 0.5 + Math.random() * 0.5,
-          intensity: intensity * (1 - r * 0.2),
-        });
-      }
-
-      // Spawn spark burst (5-10 sparks)
-      const sparkCount = Math.floor(5 + intensity * 5);
-      for (let s = 0; s < sparkCount; s++) {
-        const angle = Math.random() * Math.PI * 2;
-        const speed = 1 + Math.random() * 3;
-        sparks.push({
-          x: screenX, y: screenY,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          life: 1,
-          maxLife: 30 + Math.random() * 30,
-          size: 1 + Math.random() * 2,
+          maxRadius: 80 + intensity * 120 + r * 40,
+          speed: 1.2 + r * 0.4 + Math.random() * 0.5,
+          intensity: intensity * (1 - r * 0.15),
         });
       }
     };
@@ -850,35 +825,6 @@ export const NeuralPulse = ({
         ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.8})`;
         ctx.lineWidth = 1;
         ctx.stroke();
-      }
-
-      // --- Draw sparks ---
-      for (let s = sparks.length - 1; s >= 0; s--) {
-        const spark = sparks[s];
-        spark.x += spark.vx;
-        spark.y += spark.vy;
-        spark.vx *= 0.97; // friction
-        spark.vy *= 0.97;
-        spark.life -= 1 / spark.maxLife;
-
-        if (spark.life <= 0) {
-          sparks.splice(s, 1);
-          continue;
-        }
-
-        const alpha = spark.life * 0.7;
-
-        // Spark glow
-        ctx.beginPath();
-        ctx.arc(spark.x, spark.y, spark.size + 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.2})`;
-        ctx.fill();
-
-        // Spark core
-        ctx.beginPath();
-        ctx.arc(spark.x, spark.y, spark.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha})`;
-        ctx.fill();
       }
 
       // --- Draw neurons (minimal when idle, dramatic on fire) ---

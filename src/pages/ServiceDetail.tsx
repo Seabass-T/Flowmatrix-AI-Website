@@ -334,33 +334,48 @@ const ServiceDetail = () => {
             <NeuralPulse
               className="opacity-80"
               neurons={[
-                // Top: entry points representing data inputs
-                { x: 0.06, y: 0.02, size: 0.7 },
-                { x: 0.5, y: 0.01, size: 0.9 },
-                { x: 0.94, y: 0.03, size: 0.7 },
-                // Hero area: processing layer
-                { x: 0.04, y: 0.09, size: 0.85 },
+                // Top: wide entry layer
+                { x: 0.06, y: 0.01, size: 0.7 },
+                { x: 0.35, y: 0.02, size: 0.6 },
+                { x: 0.65, y: 0.02, size: 0.6 },
+                { x: 0.94, y: 0.01, size: 0.7 },
+                // Hero: spread across with mid-field relay nodes
+                { x: 0.04, y: 0.08, size: 0.85 },
+                { x: 0.25, y: 0.10, size: 0.55 },
+                { x: 0.75, y: 0.09, size: 0.55 },
                 { x: 0.95, y: 0.11, size: 0.8 },
-                { x: 0.08, y: 0.17, size: 0.65 },
-                { x: 0.92, y: 0.15, size: 0.7 },
-                // Problem statement: decision nodes
-                { x: 0.05, y: 0.25, size: 0.75 },
-                { x: 0.93, y: 0.27, size: 0.8 },
-                // Content: deep processing network zigzag
-                { x: 0.06, y: 0.35, size: 0.7 },
-                { x: 0.94, y: 0.33, size: 0.75 },
-                { x: 0.04, y: 0.44, size: 0.65 },
+                { x: 0.15, y: 0.17, size: 0.6 },
+                { x: 0.85, y: 0.16, size: 0.6 },
+                // Problem area: bridging nodes
+                { x: 0.05, y: 0.24, size: 0.75 },
+                { x: 0.40, y: 0.22, size: 0.5 },
+                { x: 0.60, y: 0.23, size: 0.5 },
+                { x: 0.93, y: 0.25, size: 0.8 },
+                // Content: dense network with relay points
+                { x: 0.06, y: 0.33, size: 0.7 },
+                { x: 0.30, y: 0.35, size: 0.5 },
+                { x: 0.70, y: 0.34, size: 0.5 },
+                { x: 0.94, y: 0.36, size: 0.75 },
+                { x: 0.04, y: 0.43, size: 0.65 },
+                { x: 0.20, y: 0.45, size: 0.5 },
+                { x: 0.80, y: 0.44, size: 0.5 },
                 { x: 0.96, y: 0.46, size: 0.7 },
-                { x: 0.07, y: 0.54, size: 0.8 },
+                { x: 0.07, y: 0.54, size: 0.7 },
+                { x: 0.35, y: 0.55, size: 0.45 },
+                { x: 0.65, y: 0.53, size: 0.45 },
                 { x: 0.93, y: 0.56, size: 0.65 },
                 { x: 0.05, y: 0.64, size: 0.7 },
-                { x: 0.95, y: 0.66, size: 0.75 },
-                { x: 0.06, y: 0.74, size: 0.6 },
+                { x: 0.25, y: 0.66, size: 0.5 },
+                { x: 0.75, y: 0.65, size: 0.5 },
+                { x: 0.95, y: 0.67, size: 0.75 },
+                { x: 0.06, y: 0.75, size: 0.6 },
                 { x: 0.94, y: 0.76, size: 0.7 },
-                // Bottom: output layer
-                { x: 0.07, y: 0.86, size: 0.7 },
+                // Bottom: converging output
+                { x: 0.07, y: 0.85, size: 0.65 },
+                { x: 0.30, y: 0.87, size: 0.5 },
+                { x: 0.70, y: 0.86, size: 0.5 },
                 { x: 0.93, y: 0.88, size: 0.65 },
-                { x: 0.5, y: 0.95, size: 0.85 },
+                { x: 0.5, y: 0.95, size: 0.8 },
               ]}
             />
             <Aurora className="opacity-35" />
