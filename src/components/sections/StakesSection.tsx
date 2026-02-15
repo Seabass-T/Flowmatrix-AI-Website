@@ -1,6 +1,6 @@
 import { COPY } from '@/lib/constants';
 import { useScrollReveal, useCountUp } from '@/hooks/useScrollReveal';
-import { Reveal, GlowOrb, LineSeparator, Aurora } from '@/components/ui/VisualEffects';
+import { Reveal, GlowOrb, LineSeparator, Aurora, TopologyLines, PerspectiveGrid } from '@/components/ui/VisualEffects';
 
 const StakesSection = () => {
   const { ref, isVisible } = useScrollReveal();
@@ -13,7 +13,9 @@ const StakesSection = () => {
 
   return (
     <section id="stakes" className="relative py-32 md:py-44 px-6 bg-black overflow-hidden">
-      <Aurora className="opacity-50" />
+      <Aurora className="opacity-60" />
+      <PerspectiveGrid className="opacity-30" />
+      <TopologyLines className="opacity-30" />
       <GlowOrb className="top-0 left-1/2 -translate-x-1/2 -translate-y-1/2" color="accent" size="lg" />
 
       <LineSeparator className="absolute top-0 left-6 right-6" />

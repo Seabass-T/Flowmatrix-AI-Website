@@ -255,6 +255,208 @@ export const TopologyLines = ({ className }: { className?: string }) => {
   );
 };
 
+// Radar sweep - concentric rings with rotating scan line and detection blips
+export const RadarSweep = ({ className }: { className?: string }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationId: number;
+    let time = 0;
+    let w = 0, h = 0;
+    let targetMouseX = 0.5, targetMouseY = 0.5;
+    let mouseX = 0.5, mouseY = 0.5;
+
+    const G = { r: 212, g: 168, b: 75 };
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio, 2);
+      w = canvas.clientWidth;
+      h = canvas.clientHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.scale(dpr, dpr);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      targetMouseX = e.clientX / window.innerWidth;
+      targetMouseY = e.clientY / window.innerHeight;
+    };
+
+    // Fixed detection points on the radar
+    const detections = [
+      { angle: 0.8, ring: 2, size: 3 },
+      { angle: 2.1, ring: 4, size: 2.5 },
+      { angle: 3.5, ring: 3, size: 3.5 },
+      { angle: 4.8, ring: 1, size: 2 },
+      { angle: 5.5, ring: 5, size: 2.5 },
+      { angle: 1.4, ring: 3, size: 2 },
+      { angle: 0.3, ring: 5, size: 2 },
+      { angle: 3.9, ring: 2, size: 3 },
+    ];
+
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+      time += 0.004;
+
+      // Smooth mouse lerp
+      mouseX += (targetMouseX - mouseX) * 0.03;
+      mouseY += (targetMouseY - mouseY) * 0.03;
+
+      // Center with subtle mouse parallax
+      const cx = w * (0.5 + (mouseX - 0.5) * 0.04);
+      const cy = h * (0.42 + (mouseY - 0.5) * 0.04);
+      const maxRadius = Math.min(w, h) * 0.55;
+      const staticRings = 6;
+
+      // Crosshair lines
+      ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.04)`;
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(cx - maxRadius * 1.1, cy);
+      ctx.lineTo(cx + maxRadius * 1.1, cy);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - maxRadius * 1.1);
+      ctx.lineTo(cx, cy + maxRadius * 1.1);
+      ctx.stroke();
+
+      // Static concentric rings
+      for (let i = 1; i <= staticRings; i++) {
+        const radius = (i / staticRings) * maxRadius;
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.045)`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+
+      // Pulsing rings expanding outward
+      const pulseCount = 3;
+      for (let i = 0; i < pulseCount; i++) {
+        const progress = ((time * 0.4 + i / pulseCount) % 1);
+        const radius = progress * maxRadius;
+        const alpha = (1 - progress) * 0.12;
+
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha})`;
+        ctx.lineWidth = 1.5 * (1 - progress) + 0.5;
+        ctx.stroke();
+      }
+
+      // Sweep angle
+      const sweepAngle = time * 1.8;
+
+      // Sweep trail (cone of fading lines behind the sweep)
+      const trailAngle = Math.PI * 0.35;
+      const trailSegments = 25;
+      for (let i = 0; i < trailSegments; i++) {
+        const t = i / trailSegments;
+        const angle = sweepAngle - t * trailAngle;
+        const segEndX = cx + Math.cos(angle) * maxRadius * 1.05;
+        const segEndY = cy + Math.sin(angle) * maxRadius * 1.05;
+        const alpha = Math.pow(1 - t, 3) * 0.05;
+
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(segEndX, segEndY);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // Main sweep line with gradient
+      const sweepEndX = cx + Math.cos(sweepAngle) * maxRadius * 1.05;
+      const sweepEndY = cy + Math.sin(sweepAngle) * maxRadius * 1.05;
+
+      const grad = ctx.createLinearGradient(cx, cy, sweepEndX, sweepEndY);
+      grad.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, 0.4)`);
+      grad.addColorStop(0.6, `rgba(${G.r}, ${G.g}, ${G.b}, 0.15)`);
+      grad.addColorStop(1, `rgba(${G.r}, ${G.g}, ${G.b}, 0.03)`);
+
+      // Glow pass
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(sweepEndX, sweepEndY);
+      ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.06)`;
+      ctx.lineWidth = 6;
+      ctx.stroke();
+
+      // Sharp pass
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(sweepEndX, sweepEndY);
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Detection blips that light up when the sweep passes
+      for (const det of detections) {
+        const detRadius = (det.ring / staticRings) * maxRadius;
+        const angleDiff = ((sweepAngle - det.angle) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+
+        if (angleDiff < Math.PI * 0.7) {
+          const blipAlpha = Math.max(0, (1 - angleDiff / (Math.PI * 0.7))) * 0.45;
+          const dx = cx + Math.cos(det.angle) * detRadius;
+          const dy = cy + Math.sin(det.angle) * detRadius;
+
+          // Glow
+          ctx.beginPath();
+          ctx.arc(dx, dy, det.size * 3, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${blipAlpha * 0.15})`;
+          ctx.fill();
+
+          // Dot
+          ctx.beginPath();
+          ctx.arc(dx, dy, det.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${blipAlpha})`;
+          ctx.fill();
+        }
+      }
+
+      // Center glow
+      const centerGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxRadius * 0.12);
+      centerGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, 0.15)`);
+      centerGlow.addColorStop(1, 'transparent');
+      ctx.fillStyle = centerGlow;
+      ctx.fillRect(0, 0, w, h);
+
+      // Center dot
+      ctx.beginPath();
+      ctx.arc(cx, cy, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.5)`;
+      ctx.fill();
+
+      animationId = requestAnimationFrame(draw);
+    };
+
+    resize();
+    draw();
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className={cn('absolute inset-0 pointer-events-none', className)}
+      style={{ width: '100%', height: '100%' }}
+    />
+  );
+};
+
 // 3D Perspective grid - canvas-based with true perspective projection
 export const PerspectiveGrid = ({ className }: { className?: string }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);

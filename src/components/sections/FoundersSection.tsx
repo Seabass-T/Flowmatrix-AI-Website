@@ -1,13 +1,15 @@
 import { Linkedin, Mail } from 'lucide-react';
 import { COPY } from '@/lib/constants';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Reveal, LineSeparator } from '@/components/ui/VisualEffects';
+import { Reveal, LineSeparator, Aurora, TopologyLines } from '@/components/ui/VisualEffects';
 
 const FoundersSection = () => {
   const { ref, isVisible } = useScrollReveal();
 
   return (
     <section id="team" className="relative py-32 md:py-44 px-6 bg-black overflow-hidden">
+      <Aurora className="opacity-30" />
+      <TopologyLines className="opacity-20" />
       <LineSeparator className="absolute top-0 left-6 right-6" />
 
       <div ref={ref} className="relative z-10 max-w-5xl mx-auto">

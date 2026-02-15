@@ -6,13 +6,15 @@ import {
 } from '@/components/ui/accordion';
 import { COPY } from '@/lib/constants';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Reveal, LineSeparator } from '@/components/ui/VisualEffects';
+import { Reveal, LineSeparator, Aurora, DotGrid } from '@/components/ui/VisualEffects';
 
 const FAQSection = () => {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section id="faq" className="relative py-32 md:py-44 px-6 bg-black">
+    <section id="faq" className="relative py-32 md:py-44 px-6 bg-black overflow-hidden">
+      <Aurora className="opacity-25" />
+      <DotGrid className="opacity-[0.03]" />
       <LineSeparator className="absolute top-0 left-6 right-6" />
 
       <div ref={ref} className="max-w-3xl mx-auto">

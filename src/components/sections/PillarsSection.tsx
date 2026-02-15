@@ -1,9 +1,9 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { SERVICE_PHASES, COPY } from '@/lib/constants';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Reveal, LineSeparator, DotGrid } from '@/components/ui/VisualEffects';
+import { Reveal, LineSeparator, DotGrid, Aurora, TopologyLines } from '@/components/ui/VisualEffects';
 
 const PHASE_ICONS = [
   // Assessment - magnifying glass / scan
@@ -37,6 +37,8 @@ const PillarsSection = () => {
 
   return (
     <section ref={sectionRef} id="services" className="relative py-32 md:py-44 px-6 bg-black spotlight overflow-hidden">
+      <Aurora className="opacity-40" />
+      <TopologyLines className="opacity-20" />
       <LineSeparator className="absolute top-0 left-6 right-6" />
       <DotGrid />
 
@@ -65,9 +67,8 @@ const PillarsSection = () => {
                   {phase.phase}
                 </div>
 
-                <Link
-                  to={phase.href}
-                  className="card-glow group block relative rounded-xl p-8 md:p-10 bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] transition-all duration-500"
+                <TiltCard
+                  href={phase.href}
                 >
                   {/* Icon */}
                   <div className="text-white/40 group-hover:text-accent/70 transition-colors duration-500 mb-6">
@@ -91,13 +92,72 @@ const PillarsSection = () => {
                     Explore phase
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
                   </div>
-                </Link>
+                </TiltCard>
               </div>
             </Reveal>
           ))}
         </div>
       </div>
     </section>
+  );
+};
+
+// 3D tilt card with glare effect
+const TiltCard = ({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) => {
+  const cardRef = useRef<HTMLAnchorElement>(null);
+  const [style, setStyle] = useState<React.CSSProperties>({});
+  const [glareStyle, setGlareStyle] = useState<React.CSSProperties>({ opacity: 0 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    const rotateX = (y - 0.5) * -10;
+    const rotateY = (x - 0.5) * 10;
+
+    setStyle({
+      transform: `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`,
+      transition: 'transform 0.1s ease-out',
+    });
+    setGlareStyle({
+      opacity: 0.15,
+      background: `radial-gradient(circle at ${x * 100}% ${y * 100}%, rgba(212, 168, 75, 0.3), transparent 60%)`,
+      transition: 'opacity 0.2s ease-out',
+    });
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setStyle({
+      transform: 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)',
+      transition: 'transform 0.4s ease-out',
+    });
+    setGlareStyle({ opacity: 0, transition: 'opacity 0.4s ease-out' });
+  }, []);
+
+  return (
+    <Link
+      ref={cardRef}
+      to={href}
+      className="card-glow group block relative rounded-xl p-8 md:p-10 bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12]"
+      style={style}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Glare overlay */}
+      <div
+        className="absolute inset-0 rounded-xl pointer-events-none"
+        style={glareStyle}
+      />
+      {children}
+    </Link>
   );
 };
 

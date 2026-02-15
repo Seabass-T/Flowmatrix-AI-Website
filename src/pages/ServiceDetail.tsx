@@ -5,7 +5,7 @@ import Navigation from '@/components/layout/Navigation';
 import { SERVICE_PHASES, TALLY_FORM_ID } from '@/lib/constants';
 import { TallyForm } from '@/components/shared/TallyForm';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Reveal, GlowOrb, LineSeparator, DotGrid, Aurora, TopologyLines } from '@/components/ui/VisualEffects';
+import { Reveal, GlowOrb, LineSeparator, DotGrid, Aurora, TopologyLines, PerspectiveGrid, RadarSweep } from '@/components/ui/VisualEffects';
 
 const SERVICE_CONTENT: Record<string, {
   problem: string;
@@ -127,6 +127,11 @@ const ServiceDetail = () => {
         {/* Hero */}
         <section ref={heroRef} className="relative pt-40 pb-20 px-6 overflow-hidden">
           <Aurora className="opacity-40" />
+          {actualSlug === 'assessment' ? (
+            <RadarSweep className="opacity-50" />
+          ) : (
+            <PerspectiveGrid className="opacity-30" />
+          )}
           <TopologyLines className="opacity-50" />
           <GlowOrb className="top-0 right-[-200px]" color="accent" size="lg" />
           <DotGrid className="opacity-[0.02]" />
@@ -230,6 +235,12 @@ const ServiceDetail = () => {
 
         {/* CTA */}
         <section className="py-20 px-6 relative overflow-hidden">
+          <Aurora className="opacity-30" />
+          {actualSlug === 'assessment' ? (
+            <RadarSweep className="opacity-35" />
+          ) : (
+            <PerspectiveGrid className="opacity-25" />
+          )}
           <GlowOrb className="top-[-100px] left-1/2 -translate-x-1/2" color="accent" size="lg" />
           <div className="relative z-10 max-w-3xl mx-auto text-center">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">

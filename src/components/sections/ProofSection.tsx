@@ -1,6 +1,6 @@
 import { CLIENT_LOGOS, COPY } from '@/lib/constants';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Reveal, LineSeparator } from '@/components/ui/VisualEffects';
+import { Reveal, LineSeparator, Aurora, GlowOrb } from '@/components/ui/VisualEffects';
 
 const ProofSection = () => {
   const { ref, isVisible } = useScrollReveal();
@@ -10,6 +10,8 @@ const ProofSection = () => {
 
   return (
     <section id="proof" className="relative py-32 md:py-44 px-6 bg-black overflow-hidden">
+      <Aurora className="opacity-30" />
+      <GlowOrb className="top-[-100px] right-[-100px]" color="accent" size="lg" />
       <LineSeparator className="absolute top-0 left-6 right-6" />
 
       <div ref={ref} className="relative z-10 max-w-5xl mx-auto">
