@@ -113,6 +113,23 @@ const ServiceDetail = () => {
   const content = SERVICE_CONTENT[actualSlug];
   const nextPhase = SERVICE_PHASES[phaseIndex + 1];
   const prevPhase = phaseIndex > 0 ? SERVICE_PHASES[phaseIndex - 1] : null;
+  const isAssessment = actualSlug === 'assessment';
+
+  // Multiple radar scan points for assessment page - "scanning for inefficiencies"
+  const heroRadarCenters = [
+    { x: 0.55, y: 0.4, scale: 1.2, speed: 1, offset: 0 },
+    { x: 0.15, y: 0.65, scale: 0.6, speed: 0.7, offset: 2.1 },
+    { x: 0.85, y: 0.25, scale: 0.5, speed: 1.3, offset: 4.2 },
+  ];
+  const contentRadarCenters = [
+    { x: 0.8, y: 0.2, scale: 0.9, speed: 0.9, offset: 1.0 },
+    { x: 0.2, y: 0.5, scale: 0.7, speed: 1.1, offset: 3.5 },
+    { x: 0.65, y: 0.75, scale: 0.6, speed: 0.8, offset: 5.0 },
+  ];
+  const ctaRadarCenters = [
+    { x: 0.5, y: 0.45, scale: 1.0, speed: 1, offset: 0.5 },
+    { x: 0.15, y: 0.3, scale: 0.5, speed: 1.2, offset: 3.0 },
+  ];
 
   return (
     <>
@@ -127,8 +144,8 @@ const ServiceDetail = () => {
         {/* Hero */}
         <section ref={heroRef} className="relative pt-40 pb-20 px-6 overflow-hidden">
           <Aurora className="opacity-40" />
-          {actualSlug === 'assessment' ? (
-            <RadarSweep className="opacity-50" />
+          {isAssessment ? (
+            <RadarSweep className="opacity-50" centers={heroRadarCenters} />
           ) : (
             <PerspectiveGrid className="opacity-30" />
           )}
@@ -164,8 +181,11 @@ const ServiceDetail = () => {
         </section>
 
         {/* Problem statement */}
-        <section className="py-20 px-6">
-          <div className="max-w-4xl mx-auto">
+        <section className="relative py-20 px-6 overflow-hidden">
+          {isAssessment && <RadarSweep className="opacity-30" centers={[
+            { x: 0.85, y: 0.5, scale: 0.8, speed: 0.9, offset: 1.5 },
+          ]} />}
+          <div className="relative z-10 max-w-4xl mx-auto">
             <Reveal isVisible={heroVisible} delay={500} direction="up">
               <div className="relative pl-8 border-l-2 border-accent/40">
                 <div className="absolute -left-[5px] top-0 w-2 h-2 rounded-full bg-accent" />
@@ -178,13 +198,14 @@ const ServiceDetail = () => {
         </section>
 
         {/* Content sections */}
-        <section ref={contentRef} className="py-12 px-6">
-          <div className="max-w-4xl mx-auto">
+        <section ref={contentRef} className="relative py-12 px-6 overflow-hidden">
+          {isAssessment && <RadarSweep className="opacity-35" centers={contentRadarCenters} />}
+          <div className="relative z-10 max-w-4xl mx-auto">
             <div className="space-y-24">
               {content.sections.map((section, index) => (
                 <Reveal key={index} isVisible={contentVisible} delay={index * 150} direction="up">
                   <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 md:gap-12">
-                    <div className="text-white/20 font-mono text-sm pt-2">
+                    <div className="text-accent/40 font-mono text-sm pt-2">
                       {String(index + 1).padStart(2, '0')}
                     </div>
                     <div>
@@ -236,8 +257,8 @@ const ServiceDetail = () => {
         {/* CTA */}
         <section className="py-20 px-6 relative overflow-hidden">
           <Aurora className="opacity-30" />
-          {actualSlug === 'assessment' ? (
-            <RadarSweep className="opacity-35" />
+          {isAssessment ? (
+            <RadarSweep className="opacity-35" centers={ctaRadarCenters} />
           ) : (
             <PerspectiveGrid className="opacity-25" />
           )}

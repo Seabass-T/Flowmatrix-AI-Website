@@ -256,7 +256,24 @@ export const TopologyLines = ({ className }: { className?: string }) => {
 };
 
 // Radar sweep - concentric rings with rotating scan line and detection blips
-export const RadarSweep = ({ className }: { className?: string }) => {
+// Supports multiple scan centers for a "scanning across the page" effect
+type RadarCenter = {
+  x: number;       // 0-1 fraction of canvas width
+  y: number;       // 0-1 fraction of canvas height
+  scale?: number;  // radius multiplier (default 1)
+  speed?: number;  // rotation speed multiplier (default 1)
+  offset?: number; // initial angle offset in radians
+};
+
+const DEFAULT_CENTERS: RadarCenter[] = [{ x: 0.5, y: 0.42, scale: 1, speed: 1, offset: 0 }];
+
+export const RadarSweep = ({
+  className,
+  centers = DEFAULT_CENTERS,
+}: {
+  className?: string;
+  centers?: RadarCenter[];
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -287,34 +304,35 @@ export const RadarSweep = ({ className }: { className?: string }) => {
       targetMouseY = e.clientY / window.innerHeight;
     };
 
-    // Fixed detection points on the radar
-    const detections = [
-      { angle: 0.8, ring: 2, size: 3 },
-      { angle: 2.1, ring: 4, size: 2.5 },
-      { angle: 3.5, ring: 3, size: 3.5 },
-      { angle: 4.8, ring: 1, size: 2 },
-      { angle: 5.5, ring: 5, size: 2.5 },
-      { angle: 1.4, ring: 3, size: 2 },
-      { angle: 0.3, ring: 5, size: 2 },
-      { angle: 3.9, ring: 2, size: 3 },
-    ];
+    // Per-center detection blip sets (seeded by center position)
+    const centerBlips = centers.map((c) => {
+      const seed = (c.x * 7 + c.y * 13 + (c.offset || 0)) * 1000;
+      const blips = [];
+      for (let i = 0; i < 6; i++) {
+        const pseudoRand = ((seed + i * 137.5) % 1000) / 1000;
+        blips.push({
+          angle: pseudoRand * Math.PI * 2,
+          ring: 1 + Math.floor(((seed + i * 73) % 5)),
+          size: 2 + ((seed + i * 41) % 2),
+        });
+      }
+      return blips;
+    });
 
-    const draw = () => {
-      ctx.clearRect(0, 0, w, h);
-      time += 0.004;
+    const drawRadar = (center: RadarCenter, blips: { angle: number; ring: number; size: number }[]) => {
+      const scale = center.scale ?? 1;
+      const speed = center.speed ?? 1;
+      const offset = center.offset ?? 0;
+      const parallax = 0.03 * scale;
 
-      // Smooth mouse lerp
-      mouseX += (targetMouseX - mouseX) * 0.03;
-      mouseY += (targetMouseY - mouseY) * 0.03;
-
-      // Center with subtle mouse parallax
-      const cx = w * (0.5 + (mouseX - 0.5) * 0.04);
-      const cy = h * (0.42 + (mouseY - 0.5) * 0.04);
-      const maxRadius = Math.min(w, h) * 0.55;
-      const staticRings = 6;
+      const cx = w * (center.x + (mouseX - 0.5) * parallax);
+      const cy = h * (center.y + (mouseY - 0.5) * parallax);
+      const baseRadius = Math.min(w, h) * 0.35;
+      const maxRadius = baseRadius * scale;
+      const staticRings = 5;
 
       // Crosshair lines
-      ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.04)`;
+      ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.035)`;
       ctx.lineWidth = 0.5;
       ctx.beginPath();
       ctx.moveTo(cx - maxRadius * 1.1, cy);
@@ -330,38 +348,35 @@ export const RadarSweep = ({ className }: { className?: string }) => {
         const radius = (i / staticRings) * maxRadius;
         ctx.beginPath();
         ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.045)`;
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.04)`;
         ctx.lineWidth = 0.5;
         ctx.stroke();
       }
 
-      // Pulsing rings expanding outward
-      const pulseCount = 3;
+      // Pulsing rings
+      const pulseCount = 2;
       for (let i = 0; i < pulseCount; i++) {
-        const progress = ((time * 0.4 + i / pulseCount) % 1);
+        const progress = ((time * 0.35 * speed + i / pulseCount) % 1);
         const radius = progress * maxRadius;
-        const alpha = (1 - progress) * 0.12;
-
+        const alpha = (1 - progress) * 0.10;
         ctx.beginPath();
         ctx.arc(cx, cy, radius, 0, Math.PI * 2);
         ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha})`;
-        ctx.lineWidth = 1.5 * (1 - progress) + 0.5;
+        ctx.lineWidth = 1.2 * (1 - progress) + 0.4;
         ctx.stroke();
       }
 
-      // Sweep angle
-      const sweepAngle = time * 1.8;
-
-      // Sweep trail (cone of fading lines behind the sweep)
+      // Sweep
+      const sweepAngle = time * 1.8 * speed + offset;
       const trailAngle = Math.PI * 0.35;
-      const trailSegments = 25;
+      const trailSegments = 20;
+
       for (let i = 0; i < trailSegments; i++) {
         const t = i / trailSegments;
         const angle = sweepAngle - t * trailAngle;
         const segEndX = cx + Math.cos(angle) * maxRadius * 1.05;
         const segEndY = cy + Math.sin(angle) * maxRadius * 1.05;
-        const alpha = Math.pow(1 - t, 3) * 0.05;
-
+        const alpha = Math.pow(1 - t, 3) * 0.04;
         ctx.beginPath();
         ctx.moveTo(cx, cy);
         ctx.lineTo(segEndX, segEndY);
@@ -370,48 +385,44 @@ export const RadarSweep = ({ className }: { className?: string }) => {
         ctx.stroke();
       }
 
-      // Main sweep line with gradient
+      // Main sweep line
       const sweepEndX = cx + Math.cos(sweepAngle) * maxRadius * 1.05;
       const sweepEndY = cy + Math.sin(sweepAngle) * maxRadius * 1.05;
 
       const grad = ctx.createLinearGradient(cx, cy, sweepEndX, sweepEndY);
-      grad.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, 0.4)`);
-      grad.addColorStop(0.6, `rgba(${G.r}, ${G.g}, ${G.b}, 0.15)`);
-      grad.addColorStop(1, `rgba(${G.r}, ${G.g}, ${G.b}, 0.03)`);
+      grad.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, 0.35)`);
+      grad.addColorStop(0.6, `rgba(${G.r}, ${G.g}, ${G.b}, 0.12)`);
+      grad.addColorStop(1, `rgba(${G.r}, ${G.g}, ${G.b}, 0.02)`);
 
-      // Glow pass
       ctx.beginPath();
       ctx.moveTo(cx, cy);
       ctx.lineTo(sweepEndX, sweepEndY);
-      ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.06)`;
-      ctx.lineWidth = 6;
+      ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.05)`;
+      ctx.lineWidth = 5;
       ctx.stroke();
 
-      // Sharp pass
       ctx.beginPath();
       ctx.moveTo(cx, cy);
       ctx.lineTo(sweepEndX, sweepEndY);
       ctx.strokeStyle = grad;
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = 1.2;
       ctx.stroke();
 
-      // Detection blips that light up when the sweep passes
-      for (const det of detections) {
+      // Detection blips
+      for (const det of blips) {
         const detRadius = (det.ring / staticRings) * maxRadius;
         const angleDiff = ((sweepAngle - det.angle) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
 
         if (angleDiff < Math.PI * 0.7) {
-          const blipAlpha = Math.max(0, (1 - angleDiff / (Math.PI * 0.7))) * 0.45;
+          const blipAlpha = Math.max(0, (1 - angleDiff / (Math.PI * 0.7))) * 0.4;
           const dx = cx + Math.cos(det.angle) * detRadius;
           const dy = cy + Math.sin(det.angle) * detRadius;
 
-          // Glow
           ctx.beginPath();
           ctx.arc(dx, dy, det.size * 3, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${blipAlpha * 0.15})`;
+          ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${blipAlpha * 0.12})`;
           ctx.fill();
 
-          // Dot
           ctx.beginPath();
           ctx.arc(dx, dy, det.size, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${blipAlpha})`;
@@ -420,17 +431,30 @@ export const RadarSweep = ({ className }: { className?: string }) => {
       }
 
       // Center glow
-      const centerGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxRadius * 0.12);
-      centerGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, 0.15)`);
+      const centerGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxRadius * 0.1);
+      centerGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, 0.12)`);
       centerGlow.addColorStop(1, 'transparent');
       ctx.fillStyle = centerGlow;
-      ctx.fillRect(0, 0, w, h);
+      ctx.fillRect(cx - maxRadius * 0.1, cy - maxRadius * 0.1, maxRadius * 0.2, maxRadius * 0.2);
 
       // Center dot
       ctx.beginPath();
-      ctx.arc(cx, cy, 2.5, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.5)`;
+      ctx.arc(cx, cy, 2, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.45)`;
       ctx.fill();
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+      time += 0.004;
+
+      mouseX += (targetMouseX - mouseX) * 0.03;
+      mouseY += (targetMouseY - mouseY) * 0.03;
+
+      // Draw each radar center
+      centers.forEach((center, i) => {
+        drawRadar(center, centerBlips[i]);
+      });
 
       animationId = requestAnimationFrame(draw);
     };
@@ -446,7 +470,7 @@ export const RadarSweep = ({ className }: { className?: string }) => {
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, []);
+  }, [centers]);
 
   return (
     <canvas
