@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { MagneticButton } from '@/components/ui/MagneticButton';
+import { Menu, X } from 'lucide-react';
 import { NAV_ITEMS } from '@/lib/constants';
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('');
+  const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -18,94 +18,105 @@ const Navigation = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Intersection Observer for active section highlighting
+  // Close mobile menu on route change
   useEffect(() => {
-    const sections = NAV_ITEMS.map((item) => item.sectionId);
+    setMobileOpen(false);
+  }, [location.pathname]);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      {
-        threshold: 0.3,
-        rootMargin: '-100px 0px -50% 0px'
+  // Prevent scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileOpen]);
+
+  const handleNavClick = (href: string) => {
+    setMobileOpen(false);
+    if (href.startsWith('/#')) {
+      const sectionId = href.replace('/#', '');
+      if (location.pathname !== '/') {
+        navigate('/');
+        setTimeout(() => {
+          document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      } else {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
       }
-    );
-
-    sections.forEach((id) => {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  const scrollToSection = (id: string) => {
-    // If not on homepage, navigate to homepage first
-    if (location.pathname !== '/') {
-      navigate('/');
-      // Wait for navigation to complete, then scroll
-      setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
     } else {
-      // Already on homepage, just scroll
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      navigate(href);
     }
   };
 
   return (
-    <nav
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        scrolled ? 'bg-black/95 backdrop-blur border-b border-border' : 'bg-transparent'
-      )}
-    >
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <button
-          onClick={() => scrollToSection('hero')}
-          className="flex items-center group"
-        >
-          <img
-            src="/flowmatrix-logo.webp"
-            alt="FlowMatrix AI"
-            className="h-16 md:h-20 w-auto"
-          />
-        </button>
+    <>
+      <nav
+        className={cn(
+          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+          scrolled ? 'bg-black/95 backdrop-blur border-b border-white/10' : 'bg-transparent'
+        )}
+      >
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="flex items-center">
+            <img
+              src="/flowmatrix-logo.webp"
+              alt="FlowMatrix AI"
+              className="h-14 md:h-16 w-auto"
+            />
+          </Link>
 
-        {/* Nav Links (hidden on mobile) */}
-        <div className="hidden md:flex items-center gap-8">
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8">
+            {NAV_ITEMS.map((item) => (
+              <button
+                key={item.href}
+                onClick={() => handleNavClick(item.href)}
+                className="text-white/60 hover:text-white transition-colors font-medium text-sm"
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Desktop CTA */}
+          <button
+            onClick={() => handleNavClick('/#start')}
+            className="hidden md:block px-5 py-2 border border-white/20 text-white text-sm font-medium rounded-lg hover:bg-white/10 transition-colors"
+          >
+            Get Started
+          </button>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="md:hidden p-2 text-white"
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+          >
+            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile menu overlay */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-40 bg-black/98 flex flex-col items-center justify-center gap-8">
           {NAV_ITEMS.map((item) => (
             <button
-              key={item.sectionId}
-              onClick={() => scrollToSection(item.sectionId)}
-              className={cn(
-                "transition-colors font-medium",
-                activeSection === item.sectionId
-                  ? "text-white"
-                  : "text-white/70 hover:text-white"
-              )}
+              key={item.href}
+              onClick={() => handleNavClick(item.href)}
+              className="text-2xl text-white/80 hover:text-white transition-colors font-medium"
             >
               {item.label}
             </button>
           ))}
+          <button
+            onClick={() => handleNavClick('/#start')}
+            className="mt-4 px-8 py-3 bg-white text-black font-medium rounded-lg hover:bg-white/90 transition-colors"
+          >
+            Get Started
+          </button>
         </div>
-
-        {/* CTA */}
-        <MagneticButton
-          variant="outline"
-          size="sm"
-          onClick={() => scrollToSection('start')}
-        >
-          Get Started
-        </MagneticButton>
-      </div>
-    </nav>
+      )}
+    </>
   );
 };
 

@@ -20,6 +20,9 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const TemplatesLandingPage = lazy(() => import("./pages/templates").then(m => ({ default: m.TemplatesLandingPage })));
 const TemplateDetailPage = lazy(() => import("./pages/templates").then(m => ({ default: m.TemplateDetailPage })));
 
+// Lazy load service detail pages
+const ServiceDetail = lazy(() => import("./pages/ServiceDetail"));
+
 // Loading fallback component - black background for new design
 const PageLoader = () => (
   <div className="min-h-screen bg-black flex items-center justify-center">
@@ -29,26 +32,9 @@ const PageLoader = () => (
 
 const queryClient = new QueryClient();
 
-// WebSite + SearchAction JSON-LD
-const websiteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "url": "https://www.flowmatrixai.com",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://www.flowmatrixai.com/search?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-};
-
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Helmet>
-        <script type="application/ld+json">
-          {JSON.stringify(websiteSchema)}
-        </script>
-      </Helmet>
       <Toaster />
       <Sonner />
       <BrowserRouter
@@ -64,6 +50,10 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/free" element={<TemplatesLandingPage />} />
                 <Route path="/free/:slug" element={<TemplateDetailPage />} />
+                <Route path="/assessment" element={<ServiceDetail />} />
+                <Route path="/database-mobilization" element={<ServiceDetail />} />
+                <Route path="/ai-implementation" element={<ServiceDetail />} />
+                <Route path="/personalized-software" element={<ServiceDetail />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="*" element={<NotFound />} />

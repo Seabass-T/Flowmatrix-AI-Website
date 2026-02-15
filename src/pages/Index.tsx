@@ -26,25 +26,12 @@ const Index = () => {
         <Navigation />
 
         <main>
-          {/* Hero Section - Full viewport */}
           <HeroSection />
-
-          {/* Stakes Section - Adapt or become irrelevant */}
           <StakesSection />
-
-          {/* Pillars Section - Discover, Build, Scale */}
           <PillarsSection />
-
-          {/* Proof Section - Real outcomes */}
           <ProofSection />
-
-          {/* Founders Section - Team intro */}
           <FoundersSection />
-
-          {/* FAQ Section - Common questions */}
           <FAQSection />
-
-          {/* Final CTA Section - The question isn't if, it's when */}
           <CTASection />
         </main>
       </div>
