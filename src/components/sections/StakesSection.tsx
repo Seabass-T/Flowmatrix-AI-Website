@@ -1,29 +1,35 @@
-import { VideoBackground } from '@/components/ui/VideoBackground';
 import { COPY } from '@/lib/constants';
 
 const StakesSection = () => {
+  const stats = [COPY.stakes.stat1, COPY.stakes.stat2, COPY.stakes.stat3];
+
   return (
     <section id="stakes" className="py-32 md:py-40 px-6 bg-black">
-      <div className="max-w-4xl mx-auto">
-        <p className="text-sm text-accent uppercase tracking-widest text-center mb-4">
-          {COPY.stakes.preheadline}
-        </p>
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white text-center mb-16">
-          {COPY.stakes.headline}
-        </h2>
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          {/* Left: Statement */}
+          <div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight">
+              {COPY.stakes.headline}
+            </h2>
+            <p className="mt-8 text-xl text-white/70 leading-relaxed">
+              {COPY.stakes.body}
+            </p>
+          </div>
 
-        <div className="text-xl md:text-2xl text-white/80 leading-relaxed space-y-8 text-center">
-          {COPY.stakes.body.map((paragraph, index) => (
-            <p key={index} className="mb-8">{paragraph}</p>
-          ))}
-        </div>
-
-        <div className="mt-16 flex justify-center">
-          <VideoBackground
-            src="/videos/stakes-transfer.mp4"
-            className="w-full max-w-lg rounded-lg"
-            loop
-          />
+          {/* Right: Stats */}
+          <div className="space-y-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="border-l-2 border-accent pl-6">
+                <div className="text-4xl md:text-5xl font-bold text-white">
+                  {stat.value}
+                </div>
+                <div className="mt-1 text-lg text-white/60">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

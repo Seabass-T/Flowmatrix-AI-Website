@@ -1,6 +1,3 @@
-import { ChevronDown } from 'lucide-react';
-import { VideoBackground } from '@/components/ui/VideoBackground';
-import { MagneticButton } from '@/components/ui/MagneticButton';
 import { COPY } from '@/lib/constants';
 
 const HeroSection = () => {
@@ -9,40 +6,20 @@ const HeroSection = () => {
   };
 
   return (
-    <section id="hero" className="relative h-screen w-full overflow-hidden bg-black">
-      {/* Video Background */}
-      <VideoBackground
-        src="/videos/hero-awakening.mp4"
-        fallback="/images/hero-fallback.jpg"
-        className="absolute inset-0 w-full h-full object-cover opacity-80"
-        loading="eager"
-      />
-
-      {/* Gradient Overlay (subtle, for text readability) */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
-
-      {/* Watermark Cover - Bottom Right (desktop only) */}
-      <div className="hidden md:block absolute bottom-0 right-0 w-32 h-20 bg-black z-20" />
-
-      {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
-        <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-tight tracking-tight animate-fade-in">
+    <section id="hero" className="relative min-h-screen w-full bg-black flex items-center justify-center px-6">
+      <div className="max-w-4xl mx-auto text-center">
+        <h1 className="text-7xl md:text-8xl lg:text-[7rem] font-bold text-white leading-[0.95] tracking-[-0.02em]">
           {COPY.hero.headline}
         </h1>
-        <p className="mt-6 text-xl md:text-2xl text-white/80 max-w-2xl animate-slide-up">
+        <p className="mt-8 text-xl md:text-2xl text-white/70 max-w-2xl mx-auto leading-relaxed">
           {COPY.hero.subheadline}
         </p>
-        <MagneticButton
-          className="mt-10 animate-scale-in"
+        <button
           onClick={() => scrollToSection('start')}
+          className="mt-12 px-8 py-4 bg-white text-black font-medium text-lg rounded-lg hover:bg-white/90 transition-colors"
         >
           {COPY.hero.cta}
-        </MagneticButton>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <ChevronDown className="w-8 h-8 text-white/50" />
+        </button>
       </div>
     </section>
   );
