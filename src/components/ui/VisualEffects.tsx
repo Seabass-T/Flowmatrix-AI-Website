@@ -889,6 +889,434 @@ export const NeuralPulse = ({
   );
 };
 
+// Blueprint Draw - self-drawing wireframe lines with dimension markers
+// Simulates software being designed in real time with architectural precision
+type BlueprintZone = {
+  x: number;  // 0-1 fraction, center of zone
+  y: number;  // 0-1 fraction
+  w: number;  // 0-1 fraction, zone width
+  h: number;  // 0-1 fraction, zone height
+};
+
+const DEFAULT_ZONES: BlueprintZone[] = [
+  { x: 0.5, y: 0.5, w: 0.3, h: 0.2 },
+];
+
+export const BlueprintDraw = ({
+  className,
+  zones = DEFAULT_ZONES,
+}: {
+  className?: string;
+  zones?: BlueprintZone[];
+}) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationId: number;
+    let time = 0;
+    let w = 0, h = 0;
+
+    const G = { r: 212, g: 168, b: 75 };
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio, 2);
+      w = canvas.clientWidth;
+      h = canvas.clientHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.scale(dpr, dpr);
+    };
+
+    // A stroke that draws itself from point A to point B
+    interface Stroke {
+      x1: number; y1: number;
+      x2: number; y2: number;
+      progress: number;   // 0 = not started, 0-1 = drawing, 1 = complete
+      drawSpeed: number;
+      holdTime: number;    // frames to hold after drawing
+      fadeAlpha: number;   // 1 = full, fades to 0
+      fading: boolean;
+      hasDimension: boolean;
+    }
+
+    // Corner bracket at intersections
+    interface Corner {
+      x: number; y: number;
+      alpha: number;
+      fading: boolean;
+      holdTime: number;
+    }
+
+    // Dimension label
+    interface DimLabel {
+      x: number; y: number;
+      text: string;
+      alpha: number;
+      fading: boolean;
+      holdTime: number;
+      vertical: boolean;
+    }
+
+    // Grid snap dot pulse
+    interface SnapPulse {
+      x: number; y: number;
+      radius: number;
+      maxRadius: number;
+      alpha: number;
+    }
+
+    const strokes: Stroke[] = [];
+    const corners: Corner[] = [];
+    const dimLabels: DimLabel[] = [];
+    const snapPulses: SnapPulse[] = [];
+
+    // Measurement-style text options
+    const measurements = ['240px', '320px', '16rem', '1fr', '48px', '64px', '128px', '2fr', '24rem', '80px', 'auto', '1:1', '3:4', '100%', '12col'];
+
+    // Generate a blueprint wireframe in a zone
+    const spawnWireframe = (zone: BlueprintZone) => {
+      const zx = zone.x * w;
+      const zy = zone.y * h;
+      const zw = zone.w * w;
+      const zh = zone.h * h;
+      const left = zx - zw / 2;
+      const top = zy - zh / 2;
+
+      // Outer rectangle (4 strokes)
+      const baseDelay = 0;
+      const outerPoints = [
+        { x: left, y: top },
+        { x: left + zw, y: top },
+        { x: left + zw, y: top + zh },
+        { x: left, y: top + zh },
+      ];
+
+      for (let i = 0; i < 4; i++) {
+        const a = outerPoints[i];
+        const b = outerPoints[(i + 1) % 4];
+        strokes.push({
+          x1: a.x, y1: a.y, x2: b.x, y2: b.y,
+          progress: -baseDelay - i * 0.15,
+          drawSpeed: 0.012 + Math.random() * 0.008,
+          holdTime: 120 + Math.random() * 60,
+          fadeAlpha: 1, fading: false,
+          hasDimension: i < 2,
+        });
+      }
+
+      // Corner brackets at all 4 corners
+      for (const pt of outerPoints) {
+        corners.push({
+          x: pt.x, y: pt.y,
+          alpha: 0, fading: false,
+          holdTime: 140 + Math.random() * 40,
+        });
+      }
+
+      // Internal division lines (1-3 random subdivisions)
+      const divCount = 1 + Math.floor(Math.random() * 3);
+      for (let d = 0; d < divCount; d++) {
+        const isVertical = Math.random() > 0.5;
+        if (isVertical) {
+          const xOff = 0.2 + Math.random() * 0.6;
+          const sx = left + zw * xOff;
+          strokes.push({
+            x1: sx, y1: top, x2: sx, y2: top + zh,
+            progress: -0.6 - d * 0.2,
+            drawSpeed: 0.015 + Math.random() * 0.01,
+            holdTime: 100 + Math.random() * 60,
+            fadeAlpha: 1, fading: false,
+            hasDimension: false,
+          });
+        } else {
+          const yOff = 0.2 + Math.random() * 0.6;
+          const sy = top + zh * yOff;
+          strokes.push({
+            x1: left, y1: sy, x2: left + zw, y2: sy,
+            progress: -0.6 - d * 0.2,
+            drawSpeed: 0.015 + Math.random() * 0.01,
+            holdTime: 100 + Math.random() * 60,
+            fadeAlpha: 1, fading: false,
+            hasDimension: false,
+          });
+        }
+      }
+
+      // Dimension labels
+      // Top edge
+      dimLabels.push({
+        x: left + zw / 2, y: top - 14,
+        text: measurements[Math.floor(Math.random() * measurements.length)],
+        alpha: 0, fading: false, holdTime: 130, vertical: false,
+      });
+      // Left edge
+      dimLabels.push({
+        x: left - 14, y: top + zh / 2,
+        text: measurements[Math.floor(Math.random() * measurements.length)],
+        alpha: 0, fading: false, holdTime: 130, vertical: true,
+      });
+
+      // Snap pulse at a random corner
+      const snapPt = outerPoints[Math.floor(Math.random() * 4)];
+      snapPulses.push({
+        x: snapPt.x, y: snapPt.y,
+        radius: 2, maxRadius: 30,
+        alpha: 0.6,
+      });
+    };
+
+    // Schedule wireframe spawns staggered across zones
+    let nextSpawn = 0;
+    let currentZone = 0;
+
+    // Subtle background grid dots
+    const gridSpacing = 40;
+
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+      time += 1;
+
+      // Spawn wireframes in zones
+      nextSpawn -= 1;
+      if (nextSpawn <= 0 && zones.length > 0) {
+        spawnWireframe(zones[currentZone % zones.length]);
+        currentZone++;
+        nextSpawn = 80 + Math.floor(Math.random() * 100);
+      }
+
+      // --- Background grid dots ---
+      for (let gx = gridSpacing; gx < w; gx += gridSpacing) {
+        for (let gy = gridSpacing; gy < h; gy += gridSpacing) {
+          ctx.beginPath();
+          ctx.arc(gx, gy, 0.8, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.04)`;
+          ctx.fill();
+        }
+      }
+
+      // --- Draw strokes ---
+      for (let s = strokes.length - 1; s >= 0; s--) {
+        const stroke = strokes[s];
+
+        if (stroke.progress < 0) {
+          stroke.progress += stroke.drawSpeed;
+          continue;
+        }
+
+        if (!stroke.fading && stroke.progress < 1) {
+          stroke.progress = Math.min(1, stroke.progress + stroke.drawSpeed);
+        } else if (!stroke.fading && stroke.progress >= 1) {
+          stroke.holdTime -= 1;
+          if (stroke.holdTime <= 0) stroke.fading = true;
+        }
+
+        if (stroke.fading) {
+          stroke.fadeAlpha -= 0.008;
+          if (stroke.fadeAlpha <= 0) { strokes.splice(s, 1); continue; }
+        }
+
+        const p = Math.max(0, Math.min(1, stroke.progress));
+        const ex = stroke.x1 + (stroke.x2 - stroke.x1) * p;
+        const ey = stroke.y1 + (stroke.y2 - stroke.y1) * p;
+        const alpha = stroke.fadeAlpha;
+
+        // Glow pass
+        ctx.beginPath();
+        ctx.moveTo(stroke.x1, stroke.y1);
+        ctx.lineTo(ex, ey);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.08})`;
+        ctx.lineWidth = 6;
+        ctx.stroke();
+
+        // Core line
+        ctx.beginPath();
+        ctx.moveTo(stroke.x1, stroke.y1);
+        ctx.lineTo(ex, ey);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.3})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Drawing tip glow (bright point at the leading edge while drawing)
+        if (p > 0 && p < 1) {
+          const tipGlow = ctx.createRadialGradient(ex, ey, 0, ex, ey, 10);
+          tipGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, 0.5)`);
+          tipGlow.addColorStop(0.4, `rgba(${G.r}, ${G.g}, ${G.b}, 0.1)`);
+          tipGlow.addColorStop(1, 'transparent');
+          ctx.fillStyle = tipGlow;
+          ctx.fillRect(ex - 10, ey - 10, 20, 20);
+        }
+
+        // Dimension arrows along completed strokes
+        if (stroke.hasDimension && p >= 1 && alpha > 0.3) {
+          const mx = (stroke.x1 + stroke.x2) / 2;
+          const my = (stroke.y1 + stroke.y2) / 2;
+          const isHorizontal = Math.abs(stroke.y2 - stroke.y1) < Math.abs(stroke.x2 - stroke.x1);
+          const dimAlpha = alpha * 0.2;
+
+          // Dimension line offset
+          const off = isHorizontal ? -12 : 12;
+          const dx1 = isHorizontal ? stroke.x1 : stroke.x1 + off;
+          const dy1 = isHorizontal ? stroke.y1 + off : stroke.y1;
+          const dx2 = isHorizontal ? stroke.x2 : stroke.x2 + off;
+          const dy2 = isHorizontal ? stroke.y2 + off : stroke.y2;
+
+          // Extension lines
+          ctx.beginPath();
+          ctx.moveTo(stroke.x1, stroke.y1);
+          ctx.lineTo(dx1, dy1);
+          ctx.moveTo(stroke.x2, stroke.y2);
+          ctx.lineTo(dx2, dy2);
+          ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${dimAlpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+
+          // Dimension line with arrows
+          ctx.beginPath();
+          ctx.moveTo(dx1, dy1);
+          ctx.lineTo(dx2, dy2);
+          ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${dimAlpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+
+          // Arrow tips
+          const arrowSize = 4;
+          const angle = Math.atan2(dy2 - dy1, dx2 - dx1);
+          for (const [px, py, dir] of [[dx1, dy1, 1], [dx2, dy2, -1]] as [number, number, number][]) {
+            ctx.beginPath();
+            ctx.moveTo(px, py);
+            ctx.lineTo(px + Math.cos(angle + 0.4) * arrowSize * dir, py + Math.sin(angle + 0.4) * arrowSize * dir);
+            ctx.moveTo(px, py);
+            ctx.lineTo(px + Math.cos(angle - 0.4) * arrowSize * dir, py + Math.sin(angle - 0.4) * arrowSize * dir);
+            ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${dimAlpha})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+
+          // Midpoint marker
+          const mmx = isHorizontal ? mx : mx + off;
+          const mmy = isHorizontal ? my + off : my;
+          ctx.beginPath();
+          ctx.arc(mmx, mmy, 1.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${dimAlpha * 1.5})`;
+          ctx.fill();
+        }
+      }
+
+      // --- Draw corners ---
+      for (let c = corners.length - 1; c >= 0; c--) {
+        const corner = corners[c];
+
+        // Fade in
+        if (!corner.fading && corner.alpha < 0.35) {
+          corner.alpha = Math.min(0.35, corner.alpha + 0.008);
+        } else if (!corner.fading) {
+          corner.holdTime -= 1;
+          if (corner.holdTime <= 0) corner.fading = true;
+        }
+
+        if (corner.fading) {
+          corner.alpha -= 0.006;
+          if (corner.alpha <= 0) { corners.splice(c, 1); continue; }
+        }
+
+        const size = 8;
+        const a = corner.alpha;
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${a})`;
+        ctx.lineWidth = 1;
+
+        // Top-left bracket shape (rotated based on position)
+        ctx.beginPath();
+        ctx.moveTo(corner.x - size, corner.y);
+        ctx.lineTo(corner.x, corner.y);
+        ctx.lineTo(corner.x, corner.y - size);
+        ctx.stroke();
+
+        // Crosshair dot
+        ctx.beginPath();
+        ctx.arc(corner.x, corner.y, 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${a * 1.5})`;
+        ctx.fill();
+      }
+
+      // --- Draw dimension labels ---
+      for (let d = dimLabels.length - 1; d >= 0; d--) {
+        const label = dimLabels[d];
+
+        if (!label.fading && label.alpha < 0.3) {
+          label.alpha = Math.min(0.3, label.alpha + 0.006);
+        } else if (!label.fading) {
+          label.holdTime -= 1;
+          if (label.holdTime <= 0) label.fading = true;
+        }
+
+        if (label.fading) {
+          label.alpha -= 0.005;
+          if (label.alpha <= 0) { dimLabels.splice(d, 1); continue; }
+        }
+
+        ctx.save();
+        ctx.translate(label.x, label.y);
+        if (label.vertical) ctx.rotate(-Math.PI / 2);
+        ctx.font = '9px ui-monospace, monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${label.alpha})`;
+        ctx.fillText(label.text, 0, 0);
+        ctx.restore();
+      }
+
+      // --- Draw snap pulses ---
+      for (let p = snapPulses.length - 1; p >= 0; p--) {
+        const pulse = snapPulses[p];
+        pulse.radius += 0.5;
+        pulse.alpha -= 0.008;
+
+        if (pulse.alpha <= 0 || pulse.radius >= pulse.maxRadius) {
+          snapPulses.splice(p, 1);
+          continue;
+        }
+
+        ctx.beginPath();
+        ctx.arc(pulse.x, pulse.y, pulse.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${pulse.alpha * 0.4})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Inner dot
+        ctx.beginPath();
+        ctx.arc(pulse.x, pulse.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${pulse.alpha})`;
+        ctx.fill();
+      }
+
+      animationId = requestAnimationFrame(draw);
+    };
+
+    resize();
+    draw();
+
+    window.addEventListener('resize', resize);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', resize);
+    };
+  }, [zones]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className={cn('absolute inset-0 pointer-events-none', className)}
+      style={{ width: '100%', height: '100%' }}
+    />
+  );
+};
+
 // Radar sweep - concentric rings with rotating scan line and detection blips
 // Supports multiple scan centers for a "scanning across the page" effect
 type RadarCenter = {
