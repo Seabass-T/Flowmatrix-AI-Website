@@ -255,6 +255,273 @@ export const TopologyLines = ({ className }: { className?: string }) => {
   );
 };
 
+// Data flow particles - nodes connected by paths with particles flowing between them
+type FlowNode = {
+  x: number;  // 0-1 fraction of canvas width
+  y: number;  // 0-1 fraction of canvas height
+  size?: number; // node radius multiplier (default 1)
+};
+
+const DEFAULT_FLOW_NODES: FlowNode[] = [
+  { x: 0.5, y: 0.5, size: 1 },
+  { x: 0.2, y: 0.3, size: 0.8 },
+  { x: 0.8, y: 0.7, size: 0.8 },
+];
+
+export const DataFlow = ({
+  className,
+  nodes = DEFAULT_FLOW_NODES,
+}: {
+  className?: string;
+  nodes?: FlowNode[];
+}) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationId: number;
+    let time = 0;
+    let w = 0, h = 0;
+    let targetMouseX = 0.5, targetMouseY = 0.5;
+    let mouseX = 0.5, mouseY = 0.5;
+
+    const G = { r: 212, g: 168, b: 75 };
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio, 2);
+      w = canvas.clientWidth;
+      h = canvas.clientHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.scale(dpr, dpr);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      targetMouseX = e.clientX / window.innerWidth;
+      targetMouseY = e.clientY / window.innerHeight;
+    };
+
+    // Build connection pairs (nodes within distance threshold)
+    const connectionDist = 0.35;
+    const connections: [number, number][] = [];
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < connectionDist) {
+          connections.push([i, j]);
+        }
+      }
+    }
+
+    // Particle system
+    interface Particle {
+      fromIdx: number;
+      toIdx: number;
+      progress: number;
+      speed: number;
+      ctrlOffX: number;
+      ctrlOffY: number;
+    }
+
+    const maxParticles = Math.min(connections.length * 2, 25);
+    const particles: Particle[] = [];
+
+    const spawnParticle = () => {
+      if (connections.length === 0) return;
+      const connIdx = Math.floor(Math.random() * connections.length);
+      const [a, b] = connections[connIdx];
+      const reversed = Math.random() > 0.5;
+      const fromIdx = reversed ? b : a;
+      const toIdx = reversed ? a : b;
+
+      // Random perpendicular offset for bezier control point
+      const perpScale = (Math.random() - 0.5) * 0.15;
+      const dx = nodes[toIdx].x - nodes[fromIdx].x;
+      const dy = nodes[toIdx].y - nodes[fromIdx].y;
+
+      particles.push({
+        fromIdx,
+        toIdx,
+        progress: 0,
+        speed: 0.003 + Math.random() * 0.004,
+        ctrlOffX: -dy * perpScale,
+        ctrlOffY: dx * perpScale,
+      });
+    };
+
+    // Seed initial particles
+    for (let i = 0; i < Math.min(maxParticles, 12); i++) {
+      spawnParticle();
+      particles[particles.length - 1].progress = Math.random();
+    }
+
+    // Node pulse state
+    const nodePulse = new Float32Array(nodes.length);
+
+    // Node drift offsets (gentle floating)
+    const nodeDriftPhase = nodes.map(() => Math.random() * Math.PI * 2);
+
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+      time += 0.004;
+
+      mouseX += (targetMouseX - mouseX) * 0.03;
+      mouseY += (targetMouseY - mouseY) * 0.03;
+
+      // Calculate node screen positions with drift
+      const nodePos = nodes.map((n, i) => ({
+        x: w * (n.x + Math.sin(time * 0.5 + nodeDriftPhase[i]) * 0.008 + (mouseX - 0.5) * 0.02),
+        y: h * (n.y + Math.cos(time * 0.7 + nodeDriftPhase[i] * 1.3) * 0.005 + (mouseY - 0.5) * 0.02),
+        size: n.size ?? 1,
+      }));
+
+      // Draw connections
+      for (const [i, j] of connections) {
+        const a = nodePos[i];
+        const b = nodePos[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const maxDist = connectionDist * Math.max(w, h);
+        const alpha = Math.max(0, (1 - dist / maxDist)) * 0.06;
+
+        // Glow pass
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.5})`;
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Sharp pass
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+
+      // Update and draw particles
+      for (let p = particles.length - 1; p >= 0; p--) {
+        const particle = particles[p];
+        particle.progress += particle.speed;
+
+        if (particle.progress >= 1) {
+          // Pulse target node
+          nodePulse[particle.toIdx] = 1;
+          // Remove and respawn
+          particles.splice(p, 1);
+          if (particles.length < maxParticles) spawnParticle();
+          continue;
+        }
+
+        const from = nodePos[particle.fromIdx];
+        const to = nodePos[particle.toIdx];
+        const midX = (from.x + to.x) / 2 + particle.ctrlOffX * w;
+        const midY = (from.y + to.y) / 2 + particle.ctrlOffY * h;
+
+        const t = particle.progress;
+        const invT = 1 - t;
+        const px = invT * invT * from.x + 2 * invT * t * midX + t * t * to.x;
+        const py = invT * invT * from.y + 2 * invT * t * midY + t * t * to.y;
+
+        // Trail (3 positions behind)
+        for (let trail = 3; trail >= 1; trail--) {
+          const tt = Math.max(0, t - trail * 0.03);
+          const invTT = 1 - tt;
+          const tx = invTT * invTT * from.x + 2 * invTT * tt * midX + tt * tt * to.x;
+          const ty = invTT * invTT * from.y + 2 * invTT * tt * midY + tt * tt * to.y;
+          const trailAlpha = (1 - trail / 4) * 0.2;
+
+          ctx.beginPath();
+          ctx.arc(tx, ty, 1.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${trailAlpha})`;
+          ctx.fill();
+        }
+
+        // Particle glow
+        ctx.beginPath();
+        ctx.arc(px, py, 5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.08)`;
+        ctx.fill();
+
+        // Particle core
+        ctx.beginPath();
+        ctx.arc(px, py, 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, 0.5)`;
+        ctx.fill();
+      }
+
+      // Maintain particle count
+      while (particles.length < maxParticles * 0.6) {
+        spawnParticle();
+      }
+
+      // Draw nodes
+      for (let i = 0; i < nodePos.length; i++) {
+        const n = nodePos[i];
+        const pulse = nodePulse[i];
+
+        // Decay pulse
+        nodePulse[i] = Math.max(0, pulse - 0.015);
+
+        const baseAlpha = 0.08 + pulse * 0.25;
+        const baseSize = 3 * n.size;
+        const pulseSize = baseSize + pulse * 8;
+
+        // Outer glow
+        const glow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, pulseSize * 4);
+        glow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${baseAlpha * 0.4})`);
+        glow.addColorStop(1, 'transparent');
+        ctx.fillStyle = glow;
+        ctx.fillRect(n.x - pulseSize * 4, n.y - pulseSize * 4, pulseSize * 8, pulseSize * 8);
+
+        // Inner ring
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, pulseSize, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.06 + pulse * 0.15})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+
+        // Core dot
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, baseSize * 0.6, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.3 + pulse * 0.4})`;
+        ctx.fill();
+      }
+
+      animationId = requestAnimationFrame(draw);
+    };
+
+    resize();
+    draw();
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [nodes]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className={cn('absolute inset-0 pointer-events-none', className)}
+      style={{ width: '100%', height: '100%' }}
+    />
+  );
+};
+
 // Radar sweep - concentric rings with rotating scan line and detection blips
 // Supports multiple scan centers for a "scanning across the page" effect
 type RadarCenter = {
