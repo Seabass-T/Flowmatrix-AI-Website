@@ -674,15 +674,15 @@ export const NeuralPulse = ({
     const fireNeuron = (neuronIdx: number, screenX: number, screenY: number, intensity = 1) => {
       neuronFire[neuronIdx] = intensity;
 
-      // Spawn ripple rings (2-3 per fire, larger reach)
-      const rippleCount = intensity > 0.5 ? 3 : 2;
+      // Spawn ripple rings (1-2 per fire, smaller reach)
+      const rippleCount = intensity > 0.5 ? 2 : 1;
       for (let r = 0; r < rippleCount; r++) {
         ripples.push({
           x: screenX, y: screenY,
           radius: 3 + r * 4,
-          maxRadius: 80 + intensity * 120 + r * 40,
-          speed: 1.2 + r * 0.4 + Math.random() * 0.5,
-          intensity: intensity * (1 - r * 0.15),
+          maxRadius: 50 + intensity * 60 + r * 25,
+          speed: 0.8 + r * 0.3 + Math.random() * 0.4,
+          intensity: intensity * 0.5 * (1 - r * 0.2),
         });
       }
     };
@@ -710,13 +710,13 @@ export const NeuralPulse = ({
         nPos[i].size = n.size ?? 1;
       }
 
-      // Trigger random cascades
+      // Trigger random cascades (less frequent, lower intensity)
       nextCascade -= 1;
       if (nextCascade <= 0) {
         const startIdx = Math.floor(Math.random() * neurons.length);
-        fireNeuron(startIdx, nPos[startIdx].x, nPos[startIdx].y, 0.8 + Math.random() * 0.2);
+        fireNeuron(startIdx, nPos[startIdx].x, nPos[startIdx].y, 0.35 + Math.random() * 0.15);
 
-        // Create flash connections to nearby neurons (cascade with delay via flash life)
+        // Create flash connections to nearby neurons
         for (const [i, j] of axons) {
           if (i === startIdx || j === startIdx) {
             const fromIdx = i === startIdx ? i : j;
@@ -727,15 +727,15 @@ export const NeuralPulse = ({
               fromX: from.x, fromY: from.y,
               toX: to.x, toY: to.y,
               life: 1,
-              intensity: 0.7 + Math.random() * 0.3,
+              intensity: 0.3 + Math.random() * 0.15,
               points: buildLightningPath(from.x, from.y, to.x, to.y),
             });
             // Delayed cascade fire for target neuron
             setTimeout(() => {
               const targetPos = nPos[toIdx];
               if (targetPos) {
-                fireNeuron(toIdx, targetPos.x, targetPos.y, 0.5 + Math.random() * 0.3);
-                // Second-hop cascade
+                fireNeuron(toIdx, targetPos.x, targetPos.y, 0.2 + Math.random() * 0.15);
+                // Second-hop cascade (reduced intensity)
                 for (const [ii, jj] of axons) {
                   if ((ii === toIdx || jj === toIdx) && ii !== fromIdx && jj !== fromIdx) {
                     const nextFrom = nPos[ii === toIdx ? ii : jj];
@@ -745,11 +745,11 @@ export const NeuralPulse = ({
                         fromX: nextFrom.x, fromY: nextFrom.y,
                         toX: nextTo.x, toY: nextTo.y,
                         life: 1,
-                        intensity: 0.4 + Math.random() * 0.2,
+                        intensity: 0.15 + Math.random() * 0.1,
                         points: buildLightningPath(nextFrom.x, nextFrom.y, nextTo.x, nextTo.y),
                       });
                       const hopTarget = ii === toIdx ? jj : ii;
-                      fireNeuron(hopTarget, nextTo.x, nextTo.y, 0.3 + Math.random() * 0.2);
+                      fireNeuron(hopTarget, nextTo.x, nextTo.y, 0.12 + Math.random() * 0.1);
                     }
                   }
                 }
@@ -758,7 +758,7 @@ export const NeuralPulse = ({
           }
         }
 
-        nextCascade = 30 + Math.floor(Math.random() * 60);
+        nextCascade = 70 + Math.floor(Math.random() * 100);
       }
 
       // --- Draw ripple rings ---
@@ -772,20 +772,20 @@ export const NeuralPulse = ({
           continue;
         }
 
-        const alpha = ripple.intensity * (1 - progress) * 0.5;
+        const alpha = ripple.intensity * (1 - progress) * 0.25;
 
         // Outer glow ring
         ctx.beginPath();
         ctx.arc(ripple.x, ripple.y, ripple.radius, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.3})`;
-        ctx.lineWidth = 4 + (1 - progress) * 4;
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.25})`;
+        ctx.lineWidth = 3 + (1 - progress) * 3;
         ctx.stroke();
 
         // Core ring
         ctx.beginPath();
         ctx.arc(ripple.x, ripple.y, ripple.radius, 0, Math.PI * 2);
         ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha})`;
-        ctx.lineWidth = 1 + (1 - progress) * 1.5;
+        ctx.lineWidth = 0.8 + (1 - progress) * 1;
         ctx.stroke();
       }
 
@@ -808,8 +808,8 @@ export const NeuralPulse = ({
         for (let p = 1; p < pts.length; p++) {
           ctx.lineTo(pts[p].x, pts[p].y);
         }
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.15})`;
-        ctx.lineWidth = 8;
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.06})`;
+        ctx.lineWidth = 5;
         ctx.stroke();
 
         // Mid glow
@@ -818,8 +818,8 @@ export const NeuralPulse = ({
         for (let p = 1; p < pts.length; p++) {
           ctx.lineTo(pts[p].x, pts[p].y);
         }
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.4})`;
-        ctx.lineWidth = 3;
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.18})`;
+        ctx.lineWidth = 2;
         ctx.stroke();
 
         // Sharp core
@@ -828,8 +828,8 @@ export const NeuralPulse = ({
         for (let p = 1; p < pts.length; p++) {
           ctx.lineTo(pts[p].x, pts[p].y);
         }
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.8})`;
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.35})`;
+        ctx.lineWidth = 0.8;
         ctx.stroke();
       }
 
@@ -844,29 +844,29 @@ export const NeuralPulse = ({
 
         const baseSize = 3 * n.size;
 
-        // Fire bloom (only when actively firing - skip expensive gradient when idle)
+        // Fire bloom (only when actively firing)
         if (fire > 0.05) {
-          const bloomR = baseSize + fire * 25;
+          const bloomR = baseSize + fire * 15;
           const bloom = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, bloomR);
-          bloom.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${fire * 0.45})`);
-          bloom.addColorStop(0.3, `rgba(${G.r}, ${G.g}, ${G.b}, ${fire * 0.12})`);
+          bloom.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${fire * 0.2})`);
+          bloom.addColorStop(0.3, `rgba(${G.r}, ${G.g}, ${G.b}, ${fire * 0.05})`);
           bloom.addColorStop(1, 'transparent');
           ctx.fillStyle = bloom;
           ctx.fillRect(n.x - bloomR, n.y - bloomR, bloomR * 2, bloomR * 2);
 
-          // Ambient glow only when firing (skip gradient for idle neurons)
-          const ambAlpha = 0.04 + ambient * 0.03 + fire * 0.15;
-          const ambGlow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, baseSize * 4);
+          // Ambient glow only when firing
+          const ambAlpha = 0.02 + ambient * 0.015 + fire * 0.06;
+          const ambGlow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, baseSize * 3);
           ambGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${ambAlpha})`);
           ambGlow.addColorStop(1, 'transparent');
           ctx.fillStyle = ambGlow;
-          ctx.fillRect(n.x - baseSize * 4, n.y - baseSize * 4, baseSize * 8, baseSize * 8);
+          ctx.fillRect(n.x - baseSize * 3, n.y - baseSize * 3, baseSize * 6, baseSize * 6);
         }
 
-        // Core dot (small and dim when idle, bright on fire)
+        // Core dot (small and dim when idle)
         ctx.beginPath();
-        ctx.arc(n.x, n.y, baseSize * (0.4 + fire * 0.6), 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.2 + fire * 0.7 + ambient * 0.05})`;
+        ctx.arc(n.x, n.y, baseSize * (0.35 + fire * 0.4), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.08 + fire * 0.3 + ambient * 0.02})`;
         ctx.fill();
       }
 
