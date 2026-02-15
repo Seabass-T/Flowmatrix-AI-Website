@@ -5,7 +5,7 @@ import Navigation from '@/components/layout/Navigation';
 import { SERVICE_PHASES, TALLY_FORM_ID } from '@/lib/constants';
 import { TallyForm } from '@/components/shared/TallyForm';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Reveal, GlowOrb, LineSeparator, DotGrid, Aurora, TopologyLines, PerspectiveGrid, RadarSweep, DataFlow } from '@/components/ui/VisualEffects';
+import { Reveal, GlowOrb, LineSeparator, DotGrid, Aurora, TopologyLines, PerspectiveGrid, RadarSweep, DataFlow, NeuralPulse } from '@/components/ui/VisualEffects';
 
 const SERVICE_CONTENT: Record<string, {
   problem: string;
@@ -115,6 +115,7 @@ const ServiceDetail = () => {
   const prevPhase = phaseIndex > 0 ? SERVICE_PHASES[phaseIndex - 1] : null;
   const isAssessment = actualSlug === 'assessment';
   const isDbMobilization = actualSlug === 'database-mobilization';
+  const isAiImpl = actualSlug === 'ai-implementation';
 
   // Full-page radar centers along left/right margins - center dots stay clear of text
   // Rings and sweep lines still reach across behind text, but focal points are in margins
@@ -254,6 +255,112 @@ const ServiceDetail = () => {
                 { x: 0.08, y: 0.85, size: 0.7 },
                 { x: 0.93, y: 0.88, size: 0.75 },
                 { x: 0.5, y: 0.95, size: 0.9 },
+              ]}
+            />
+            <Aurora className="opacity-35" />
+            <GlowOrb className="top-0 right-[-200px]" color="accent" size="lg" />
+
+            {/* Hero */}
+            <section ref={heroRef} className="relative pt-40 pb-20 px-6">
+              <div className="relative z-10 max-w-4xl mx-auto">
+                <Reveal isVisible={heroVisible} direction="up">
+                  <Link
+                    to="/#services"
+                    className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 transition-colors text-sm mb-10 group"
+                  >
+                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> All Services
+                  </Link>
+                </Reveal>
+                <Reveal isVisible={heroVisible} delay={100} direction="up">
+                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent/20 bg-accent/5 text-accent text-xs font-medium uppercase tracking-[0.2em] mb-6">
+                    Phase {phase.phase}
+                  </span>
+                </Reveal>
+                <Reveal isVisible={heroVisible} delay={200} direction="up">
+                  <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-[0.95]">
+                    {phase.title}
+                  </h1>
+                </Reveal>
+                <Reveal isVisible={heroVisible} delay={350} direction="up">
+                  <p className="mt-8 text-xl md:text-2xl text-white/60 max-w-2xl leading-relaxed">
+                    {phase.description}
+                  </p>
+                </Reveal>
+              </div>
+            </section>
+
+            {/* Problem statement */}
+            <section className="relative py-20 px-6">
+              <div className="relative z-10 max-w-4xl mx-auto">
+                <Reveal isVisible={heroVisible} delay={500} direction="up">
+                  <div className="relative pl-8 border-l-2 border-accent/40">
+                    <div className="absolute -left-[5px] top-0 w-2 h-2 rounded-full bg-accent" />
+                    <p className="text-2xl md:text-3xl lg:text-4xl text-white/80 leading-[1.3] font-light">
+                      {content.problem}
+                    </p>
+                  </div>
+                </Reveal>
+              </div>
+            </section>
+
+            {/* Content sections */}
+            <section ref={contentRef} className="relative py-12 px-6">
+              <div className="relative z-10 max-w-4xl mx-auto">
+                <div className="space-y-24">
+                  {content.sections.map((section, index) => (
+                    <Reveal key={index} isVisible={contentVisible} delay={index * 150} direction="up">
+                      <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 md:gap-12">
+                        <div className="text-accent/40 font-mono text-sm pt-2">
+                          {String(index + 1).padStart(2, '0')}
+                        </div>
+                        <div>
+                          <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4 tracking-tight">
+                            {section.heading}
+                          </h2>
+                          <p className="text-lg text-white/60 leading-relaxed">
+                            {section.body}
+                          </p>
+                        </div>
+                      </div>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </div>
+        ) : isAiImpl ? (
+          <div className="relative overflow-hidden">
+            {/* Continuous neural pulse network spanning hero through content */}
+            <NeuralPulse
+              className="opacity-80"
+              neurons={[
+                // Top: entry points representing data inputs
+                { x: 0.06, y: 0.02, size: 0.7 },
+                { x: 0.5, y: 0.01, size: 0.9 },
+                { x: 0.94, y: 0.03, size: 0.7 },
+                // Hero area: processing layer
+                { x: 0.04, y: 0.09, size: 0.85 },
+                { x: 0.95, y: 0.11, size: 0.8 },
+                { x: 0.08, y: 0.17, size: 0.65 },
+                { x: 0.92, y: 0.15, size: 0.7 },
+                // Problem statement: decision nodes
+                { x: 0.05, y: 0.25, size: 0.75 },
+                { x: 0.93, y: 0.27, size: 0.8 },
+                // Content: deep processing network zigzag
+                { x: 0.06, y: 0.35, size: 0.7 },
+                { x: 0.94, y: 0.33, size: 0.75 },
+                { x: 0.04, y: 0.44, size: 0.65 },
+                { x: 0.96, y: 0.46, size: 0.7 },
+                { x: 0.07, y: 0.54, size: 0.8 },
+                { x: 0.93, y: 0.56, size: 0.65 },
+                { x: 0.05, y: 0.64, size: 0.7 },
+                { x: 0.95, y: 0.66, size: 0.75 },
+                { x: 0.06, y: 0.74, size: 0.6 },
+                { x: 0.94, y: 0.76, size: 0.7 },
+                // Bottom: output layer
+                { x: 0.07, y: 0.86, size: 0.7 },
+                { x: 0.93, y: 0.88, size: 0.65 },
+                { x: 0.5, y: 0.95, size: 0.85 },
               ]}
             />
             <Aurora className="opacity-35" />

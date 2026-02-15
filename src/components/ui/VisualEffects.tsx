@@ -560,6 +560,311 @@ export const DataFlow = ({
   );
 };
 
+// Neural pulse network - interconnected neurons that fire cascading pulses
+// Simulates AI processing chains propagating through a network
+type NeuronNode = {
+  x: number;  // 0-1 fraction
+  y: number;  // 0-1 fraction
+  size?: number; // radius multiplier (default 1)
+};
+
+const DEFAULT_NEURONS: NeuronNode[] = [
+  { x: 0.5, y: 0.5, size: 1 },
+  { x: 0.3, y: 0.3, size: 0.8 },
+  { x: 0.7, y: 0.7, size: 0.8 },
+];
+
+export const NeuralPulse = ({
+  className,
+  neurons = DEFAULT_NEURONS,
+}: {
+  className?: string;
+  neurons?: NeuronNode[];
+}) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationId: number;
+    let time = 0;
+    let w = 0, h = 0;
+    let targetMouseX = 0.5, targetMouseY = 0.5;
+    let mouseX = 0.5, mouseY = 0.5;
+
+    const G = { r: 212, g: 168, b: 75 };
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio, 2);
+      w = canvas.clientWidth;
+      h = canvas.clientHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.scale(dpr, dpr);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      targetMouseX = e.clientX / window.innerWidth;
+      targetMouseY = e.clientY / window.innerHeight;
+    };
+
+    // Build axon connections (neurons within range)
+    const axonDist = 0.45;
+    const axons: [number, number][] = [];
+    for (let i = 0; i < neurons.length; i++) {
+      for (let j = i + 1; j < neurons.length; j++) {
+        const dx = neurons[i].x - neurons[j].x;
+        const dy = neurons[i].y - neurons[j].y;
+        if (Math.sqrt(dx * dx + dy * dy) < axonDist) {
+          axons.push([i, j]);
+        }
+      }
+    }
+
+    // Neuron fire state: 0 = resting, 1 = just fired, decays over time
+    const neuronFire = new Float32Array(neurons.length);
+    // Ambient pulse (gentle breathing)
+    const neuronPhase = neurons.map(() => Math.random() * Math.PI * 2);
+
+    // Axon pulses: travel along an axon from one neuron to another
+    interface AxonPulse {
+      axonIdx: number;
+      fromIdx: number;
+      toIdx: number;
+      progress: number; // 0-1
+      speed: number;
+      intensity: number;
+    }
+
+    const axonPulses: AxonPulse[] = [];
+    const maxPulses = Math.min(axons.length * 3, 50);
+
+    // Fire a neuron: creates outgoing pulses on all connected axons
+    const fireNeuron = (neuronIdx: number, intensity = 1) => {
+      neuronFire[neuronIdx] = intensity;
+      // Send pulses along all connected axons
+      for (let a = 0; a < axons.length; a++) {
+        const [i, j] = axons[a];
+        if (i === neuronIdx || j === neuronIdx) {
+          if (axonPulses.length < maxPulses) {
+            axonPulses.push({
+              axonIdx: a,
+              fromIdx: i === neuronIdx ? i : j,
+              toIdx: i === neuronIdx ? j : i,
+              progress: 0,
+              speed: 0.008 + Math.random() * 0.006,
+              intensity: intensity * (0.6 + Math.random() * 0.4),
+            });
+          }
+        }
+      }
+    };
+
+    // Random cascade timer
+    let nextCascade = 0;
+
+    // Drift offsets
+    const driftPhase = neurons.map(() => Math.random() * Math.PI * 2);
+
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+      time += 0.005;
+
+      mouseX += (targetMouseX - mouseX) * 0.03;
+      mouseY += (targetMouseY - mouseY) * 0.03;
+
+      // Trigger random cascades
+      nextCascade -= 1;
+      if (nextCascade <= 0) {
+        // Fire a random neuron to start a cascade
+        const startIdx = Math.floor(Math.random() * neurons.length);
+        fireNeuron(startIdx, 0.8 + Math.random() * 0.2);
+        nextCascade = 40 + Math.floor(Math.random() * 80); // every ~0.7-2 seconds at 60fps
+      }
+
+      // Calculate neuron screen positions
+      const nPos = neurons.map((n, i) => ({
+        x: w * (n.x + Math.sin(time * 0.4 + driftPhase[i]) * 0.006 + (mouseX - 0.5) * 0.015),
+        y: h * (n.y + Math.cos(time * 0.6 + driftPhase[i] * 1.3) * 0.004 + (mouseY - 0.5) * 0.015),
+        size: n.size ?? 1,
+      }));
+
+      // Draw axon connections (base lines)
+      for (const [i, j] of axons) {
+        const a = nPos[i];
+        const b = nPos[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const maxD = axonDist * Math.max(w, h);
+        const fade = Math.max(0, 1 - dist / maxD);
+        // Brighten if either neuron is firing
+        const fireBoost = Math.max(neuronFire[i], neuronFire[j]);
+        const alpha = fade * (0.06 + fireBoost * 0.12);
+
+        // Glow
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.4})`;
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        // Core line
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha})`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+
+      // Update and draw axon pulses
+      for (let p = axonPulses.length - 1; p >= 0; p--) {
+        const pulse = axonPulses[p];
+        pulse.progress += pulse.speed;
+
+        if (pulse.progress >= 1) {
+          // Cascade: fire the target neuron (with reduced intensity)
+          if (pulse.intensity > 0.25) {
+            fireNeuron(pulse.toIdx, pulse.intensity * 0.65);
+          } else {
+            neuronFire[pulse.toIdx] = Math.max(neuronFire[pulse.toIdx], pulse.intensity);
+          }
+          axonPulses.splice(p, 1);
+          continue;
+        }
+
+        const from = nPos[pulse.fromIdx];
+        const to = nPos[pulse.toIdx];
+        const t = pulse.progress;
+        const px = from.x + (to.x - from.x) * t;
+        const py = from.y + (to.y - from.y) * t;
+
+        // Pulse trail
+        for (let trail = 4; trail >= 1; trail--) {
+          const tt = Math.max(0, t - trail * 0.04);
+          const tx = from.x + (to.x - from.x) * tt;
+          const ty = from.y + (to.y - from.y) * tt;
+          const tAlpha = pulse.intensity * (1 - trail / 5) * 0.35;
+
+          ctx.beginPath();
+          ctx.arc(tx, ty, 2 * (1 - trail / 5), 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${tAlpha})`;
+          ctx.fill();
+        }
+
+        // Pulse glow
+        const pGlow = ctx.createRadialGradient(px, py, 0, px, py, 12);
+        pGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${pulse.intensity * 0.35})`);
+        pGlow.addColorStop(0.5, `rgba(${G.r}, ${G.g}, ${G.b}, ${pulse.intensity * 0.08})`);
+        pGlow.addColorStop(1, 'transparent');
+        ctx.fillStyle = pGlow;
+        ctx.fillRect(px - 12, py - 12, 24, 24);
+
+        // Pulse core
+        ctx.beginPath();
+        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${pulse.intensity * 0.8})`;
+        ctx.fill();
+
+        // Bright leading edge along axon (illuminates the line segment behind the pulse)
+        const segStart = Math.max(0, t - 0.15);
+        const sx = from.x + (to.x - from.x) * segStart;
+        const sy = from.y + (to.y - from.y) * segStart;
+        ctx.beginPath();
+        ctx.moveTo(sx, sy);
+        ctx.lineTo(px, py);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${pulse.intensity * 0.25})`;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      // Draw neurons
+      for (let i = 0; i < nPos.length; i++) {
+        const n = nPos[i];
+        const fire = neuronFire[i];
+        const ambient = Math.sin(time * 1.2 + neuronPhase[i]) * 0.5 + 0.5; // 0-1 breathing
+
+        // Decay fire
+        neuronFire[i] = Math.max(0, fire - 0.018);
+
+        const baseSize = 4 * n.size;
+        const fireSize = baseSize + fire * 18;
+        const alpha = 0.15 + fire * 0.5 + ambient * 0.05;
+
+        // Outer bloom (only on fire)
+        if (fire > 0.1) {
+          const bloom = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, fireSize * 5);
+          bloom.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${fire * 0.25})`);
+          bloom.addColorStop(0.3, `rgba(${G.r}, ${G.g}, ${G.b}, ${fire * 0.06})`);
+          bloom.addColorStop(1, 'transparent');
+          ctx.fillStyle = bloom;
+          ctx.fillRect(n.x - fireSize * 5, n.y - fireSize * 5, fireSize * 10, fireSize * 10);
+        }
+
+        // Ambient glow (always present)
+        const ambGlow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, baseSize * 5);
+        ambGlow.addColorStop(0, `rgba(${G.r}, ${G.g}, ${G.b}, ${0.08 + ambient * 0.04})`);
+        ambGlow.addColorStop(1, 'transparent');
+        ctx.fillStyle = ambGlow;
+        ctx.fillRect(n.x - baseSize * 5, n.y - baseSize * 5, baseSize * 10, baseSize * 10);
+
+        // Outer ring
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, fireSize * 1.3, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.04 + fire * 0.1})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+
+        // Inner ring
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, fireSize, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.1 + fire * 0.2})`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+
+        // Core fill
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, baseSize, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${alpha * 0.5})`;
+        ctx.fill();
+
+        // Core dot
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, baseSize * 0.45, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${0.5 + fire * 0.45})`;
+        ctx.fill();
+      }
+
+      animationId = requestAnimationFrame(draw);
+    };
+
+    resize();
+    draw();
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [neurons]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className={cn('absolute inset-0 pointer-events-none', className)}
+      style={{ width: '100%', height: '100%' }}
+    />
+  );
+};
+
 // Radar sweep - concentric rings with rotating scan line and detection blips
 // Supports multiple scan centers for a "scanning across the page" effect
 type RadarCenter = {
