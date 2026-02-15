@@ -5,7 +5,7 @@ import Navigation from '@/components/layout/Navigation';
 import { SERVICE_PHASES, TALLY_FORM_ID } from '@/lib/constants';
 import { TallyForm } from '@/components/shared/TallyForm';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Reveal, GlowOrb, LineSeparator, DotGrid, Aurora, TopologyLines, PerspectiveGrid, RadarSweep, DataFlow, NeuralPulse, BlueprintDraw } from '@/components/ui/VisualEffects';
+import { Reveal, GlowOrb, LineSeparator, DotGrid, Aurora, TopologyLines, PerspectiveGrid, RadarSweep, DataFlow, NeuralPulse, TessellationMesh } from '@/components/ui/VisualEffects';
 
 const SERVICE_CONTENT: Record<string, {
   problem: string;
@@ -452,37 +452,9 @@ const ServiceDetail = () => {
           </div>
         ) : isPersonalizedSw ? (
           <div className="relative overflow-hidden">
-            {/* Continuous blueprint wireframe drawing across the page */}
-            <BlueprintDraw
-              className="opacity-90"
-              zones={[
-                // Hero area: large wireframes
-                { x: 0.12, y: 0.06, w: 0.18, h: 0.08 },
-                { x: 0.88, y: 0.08, w: 0.16, h: 0.10 },
-                { x: 0.50, y: 0.04, w: 0.22, h: 0.06 },
-                // Below hero: mid-sized layouts
-                { x: 0.08, y: 0.18, w: 0.14, h: 0.07 },
-                { x: 0.92, y: 0.16, w: 0.12, h: 0.09 },
-                // Problem area
-                { x: 0.10, y: 0.28, w: 0.16, h: 0.06 },
-                { x: 0.85, y: 0.26, w: 0.20, h: 0.08 },
-                // Content sections: scattered wireframes
-                { x: 0.06, y: 0.36, w: 0.14, h: 0.08 },
-                { x: 0.94, y: 0.38, w: 0.10, h: 0.06 },
-                { x: 0.12, y: 0.46, w: 0.12, h: 0.07 },
-                { x: 0.88, y: 0.48, w: 0.16, h: 0.05 },
-                { x: 0.08, y: 0.57, w: 0.18, h: 0.06 },
-                { x: 0.92, y: 0.55, w: 0.12, h: 0.08 },
-                { x: 0.10, y: 0.66, w: 0.14, h: 0.07 },
-                { x: 0.86, y: 0.68, w: 0.18, h: 0.06 },
-                // Bottom: final wireframes
-                { x: 0.06, y: 0.78, w: 0.16, h: 0.08 },
-                { x: 0.94, y: 0.76, w: 0.12, h: 0.07 },
-                { x: 0.12, y: 0.88, w: 0.14, h: 0.06 },
-                { x: 0.88, y: 0.90, w: 0.16, h: 0.05 },
-              ]}
-            />
-            <Aurora className="opacity-30" />
+            {/* Living tessellation mesh spanning the full page */}
+            <TessellationMesh className="opacity-90 z-0" cols={16} rows={50} />
+            <Aurora className="opacity-25" />
             <GlowOrb className="top-0 right-[-200px]" color="accent" size="lg" />
 
             {/* Hero */}
