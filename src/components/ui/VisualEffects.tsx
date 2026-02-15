@@ -716,63 +716,46 @@ export const NeuralPulse = ({
         const startIdx = Math.floor(Math.random() * neurons.length);
         fireNeuron(startIdx, nPos[startIdx].x, nPos[startIdx].y, 0.55 + Math.random() * 0.15);
 
-        // Pick 1-2 random connections from this neuron (not all of them)
-        const neighborAxons: { fromIdx: number; toIdx: number }[] = [];
+        // Create flash connections to nearby neurons
         for (const [i, j] of axons) {
           if (i === startIdx || j === startIdx) {
-            neighborAxons.push({
-              fromIdx: i === startIdx ? i : j,
-              toIdx: i === startIdx ? j : i,
+            const fromIdx = i === startIdx ? i : j;
+            const toIdx = i === startIdx ? j : i;
+            const from = nPos[fromIdx];
+            const to = nPos[toIdx];
+            flashes.push({
+              fromX: from.x, fromY: from.y,
+              toX: to.x, toY: to.y,
+              life: 1,
+              intensity: 0.45 + Math.random() * 0.2,
+              points: buildLightningPath(from.x, from.y, to.x, to.y),
             });
-          }
-        }
-        // Shuffle and pick 1-2
-        for (let s = neighborAxons.length - 1; s > 0; s--) {
-          const r = Math.floor(Math.random() * (s + 1));
-          [neighborAxons[s], neighborAxons[r]] = [neighborAxons[r], neighborAxons[s]];
-        }
-        const pickCount = Math.min(neighborAxons.length, 1 + Math.floor(Math.random() * 2));
-
-        for (let pick = 0; pick < pickCount; pick++) {
-          const { fromIdx, toIdx } = neighborAxons[pick];
-          const from = nPos[fromIdx];
-          const to = nPos[toIdx];
-          flashes.push({
-            fromX: from.x, fromY: from.y,
-            toX: to.x, toY: to.y,
-            life: 1,
-            intensity: 0.45 + Math.random() * 0.2,
-            points: buildLightningPath(from.x, from.y, to.x, to.y),
-          });
-          // Delayed cascade: pick only 1 second-hop connection
-          setTimeout(() => {
-            const targetPos = nPos[toIdx];
-            if (targetPos) {
-              fireNeuron(toIdx, targetPos.x, targetPos.y, 0.35 + Math.random() * 0.2);
-              // Find second-hop neighbors and pick just 1
-              const hopCandidates: { from: typeof nPos[0]; to: typeof nPos[0]; hopTarget: number }[] = [];
-              for (const [ii, jj] of axons) {
-                if ((ii === toIdx || jj === toIdx) && ii !== fromIdx && jj !== fromIdx) {
-                  const nf = nPos[ii === toIdx ? ii : jj];
-                  const nt = nPos[ii === toIdx ? jj : ii];
-                  if (nf && nt) {
-                    hopCandidates.push({ from: nf, to: nt, hopTarget: ii === toIdx ? jj : ii });
+            // Delayed cascade fire for target neuron
+            setTimeout(() => {
+              const targetPos = nPos[toIdx];
+              if (targetPos) {
+                fireNeuron(toIdx, targetPos.x, targetPos.y, 0.35 + Math.random() * 0.2);
+                // Second-hop cascade (reduced intensity)
+                for (const [ii, jj] of axons) {
+                  if ((ii === toIdx || jj === toIdx) && ii !== fromIdx && jj !== fromIdx) {
+                    const nextFrom = nPos[ii === toIdx ? ii : jj];
+                    const nextTo = nPos[ii === toIdx ? jj : ii];
+                    if (nextFrom && nextTo) {
+                      flashes.push({
+                        fromX: nextFrom.x, fromY: nextFrom.y,
+                        toX: nextTo.x, toY: nextTo.y,
+                        life: 1,
+                        intensity: 0.28 + Math.random() * 0.15,
+                        points: buildLightningPath(nextFrom.x, nextFrom.y, nextTo.x, nextTo.y),
+                      });
+                      const hopTarget = ii === toIdx ? jj : ii;
+                      fireNeuron(hopTarget, nextTo.x, nextTo.y, 0.2 + Math.random() * 0.15);
+                    }
                   }
                 }
               }
-              if (hopCandidates.length > 0) {
-                const hop = hopCandidates[Math.floor(Math.random() * hopCandidates.length)];
-                flashes.push({
-                  fromX: hop.from.x, fromY: hop.from.y,
-                  toX: hop.to.x, toY: hop.to.y,
-                  life: 1,
-                  intensity: 0.28 + Math.random() * 0.15,
-                  points: buildLightningPath(hop.from.x, hop.from.y, hop.to.x, hop.to.y),
-                });
-                fireNeuron(hop.hopTarget, hop.to.x, hop.to.y, 0.2 + Math.random() * 0.15);
-              }
-            }
-          }, 200 + Math.random() * 150);
+            }, 200 + Math.random() * 150);
+          }
         }
 
         nextCascade = 50 + Math.floor(Math.random() * 80);
