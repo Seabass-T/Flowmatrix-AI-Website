@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
 import { COPY } from '@/lib/constants';
 import { GlowOrb, Aurora, TopologyLines, PerspectiveGrid } from '@/components/ui/VisualEffects';
+import { usePerformanceMode } from '@/hooks/usePerformanceMode';
 
 const HeroSection = () => {
   const [loaded, setLoaded] = useState(false);
   const containerRef = useRef<HTMLElement>(null);
+  const { isMobile } = usePerformanceMode();
 
   useEffect(() => {
     // Staggered entrance
@@ -14,6 +16,7 @@ const HeroSection = () => {
 
   // Subtle parallax on mouse move
   useEffect(() => {
+    if (isMobile) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -27,7 +30,7 @@ const HeroSection = () => {
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [isMobile]);
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
