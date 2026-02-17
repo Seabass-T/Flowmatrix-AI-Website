@@ -7,6 +7,7 @@ import ProofSection from '@/components/sections/ProofSection';
 import FoundersSection from '@/components/sections/FoundersSection';
 import FAQSection from '@/components/sections/FAQSection';
 import CTASection from '@/components/sections/CTASection';
+import { LazySection } from '@/components/shared/LazySection';
 import { SEO } from '@/lib/constants';
 
 const Index = () => {
@@ -27,12 +28,24 @@ const Index = () => {
 
         <main>
           <HeroSection />
-          <StakesSection />
-          <PillarsSection />
-          <ProofSection />
-          <FoundersSection />
-          <FAQSection />
-          <CTASection />
+          <LazySection minHeight="80vh">
+            <StakesSection />
+          </LazySection>
+          <LazySection minHeight="100vh">
+            <PillarsSection />
+          </LazySection>
+          <LazySection minHeight="60vh">
+            <ProofSection />
+          </LazySection>
+          <LazySection minHeight="60vh">
+            <FoundersSection />
+          </LazySection>
+          <LazySection minHeight="50vh">
+            <FAQSection />
+          </LazySection>
+          <LazySection minHeight="50vh">
+            <CTASection />
+          </LazySection>
         </main>
       </div>
     </>
