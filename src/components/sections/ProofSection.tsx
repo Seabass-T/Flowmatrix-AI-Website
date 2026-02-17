@@ -66,6 +66,7 @@ const ProofSection = () => {
                   src={logo.src}
                   alt={logo.name}
                   className="h-8 md:h-10 w-auto grayscale opacity-30 hover:opacity-60 transition-opacity duration-300 object-contain flex-shrink-0"
+                  loading="lazy"
                 />
               ))}
             </div>
