@@ -76,14 +76,14 @@ export const COPY = {
       {
         name: 'Sebastian Tamburro',
         title: 'CEO',
-        image: '/sebastian-tamburro.png',
+        image: '/sebastian-tamburro.webp',
         linkedin: 'https://www.linkedin.com/in/sebastian-tamburro-694530287',
         email: 'st@flowmatrixai.com',
       },
       {
         name: 'Dom Joseph',
         title: 'COO',
-        image: '/dom-joseph.png',
+        image: '/dom-joseph.webp',
         linkedin: 'https://www.linkedin.com/in/dom-joseph1130/',
         email: 'dj@flowmatrixai.com',
       },
