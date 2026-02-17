@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
+import { usePerformanceMode } from '@/hooks/usePerformanceMode';
 
 // --- Performance utilities ---
 
@@ -100,10 +101,13 @@ export const Reveal = ({
 
   return (
     <div
-      className={cn('transition-all duration-500 ease-out', className)}
+      className={cn(className)}
       style={{
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'translate3d(0, 0, 0) scale(1)' : transforms[direction],
+        transitionProperty: 'opacity, transform',
+        transitionDuration: '500ms',
+        transitionTimingFunction: 'ease-out',
         transitionDelay: `${delay}ms`,
       }}
     >
@@ -113,41 +117,88 @@ export const Reveal = ({
 };
 
 // Aurora gradient background - slowly drifting color fields
-export const Aurora = ({ className }: { className?: string }) => (
-  <div className={cn('absolute inset-0 overflow-hidden pointer-events-none', className)}>
-    {/* Primary gold wash - large, slow drift */}
-    <div
-      className="absolute w-[900px] h-[900px] rounded-full blur-[160px] animate-aurora-1"
-      style={{
-        background: 'radial-gradient(circle, hsla(43, 59%, 55%, 0.12) 0%, transparent 70%)',
-        top: '-25%',
-        right: '-15%',
-      }}
-    />
-    {/* Secondary cool blue-white wash */}
-    <div
-      className="absolute w-[700px] h-[700px] rounded-full blur-[140px] animate-aurora-2"
-      style={{
-        background: 'radial-gradient(circle, hsla(220, 40%, 70%, 0.06) 0%, transparent 70%)',
-        bottom: '-15%',
-        left: '-10%',
-      }}
-    />
-    {/* Tertiary warm accent - mid section */}
-    <div
-      className="absolute w-[600px] h-[600px] rounded-full blur-[120px] animate-aurora-3"
-      style={{
-        background: 'radial-gradient(circle, hsla(43, 59%, 55%, 0.07) 0%, transparent 60%)',
-        top: '30%',
-        left: '25%',
-      }}
-    />
-  </div>
-);
+export const Aurora = ({ className }: { className?: string }) => {
+  const { mode } = usePerformanceMode();
+
+  // Static mode: single non-animated gradient
+  if (mode === 'static') {
+    return (
+      <div className={cn('absolute inset-0 overflow-hidden pointer-events-none', className)}>
+        <div
+          className="absolute w-[600px] h-[600px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, hsla(43, 59%, 55%, 0.08) 0%, transparent 70%)',
+            top: '10%',
+            right: '5%',
+            filter: 'blur(80px)',
+          }}
+        />
+      </div>
+    );
+  }
+
+  // Lite mode: single animated div with reduced blur
+  if (mode === 'lite') {
+    return (
+      <div className={cn('absolute inset-0 overflow-hidden pointer-events-none', className)}>
+        <div
+          className="absolute w-[700px] h-[700px] rounded-full blur-[60px] animate-aurora-1"
+          style={{
+            background: 'radial-gradient(circle, hsla(43, 59%, 55%, 0.10) 0%, transparent 70%)',
+            top: '-15%',
+            right: '-10%',
+          }}
+        />
+      </div>
+    );
+  }
+
+  // Full mode: original 3-div aurora (unchanged)
+  return (
+    <div className={cn('absolute inset-0 overflow-hidden pointer-events-none', className)}>
+      <div
+        className="absolute w-[900px] h-[900px] rounded-full blur-[160px] animate-aurora-1"
+        style={{
+          background: 'radial-gradient(circle, hsla(43, 59%, 55%, 0.12) 0%, transparent 70%)',
+          top: '-25%',
+          right: '-15%',
+        }}
+      />
+      <div
+        className="absolute w-[700px] h-[700px] rounded-full blur-[140px] animate-aurora-2"
+        style={{
+          background: 'radial-gradient(circle, hsla(220, 40%, 70%, 0.06) 0%, transparent 70%)',
+          bottom: '-15%',
+          left: '-10%',
+        }}
+      />
+      <div
+        className="absolute w-[600px] h-[600px] rounded-full blur-[120px] animate-aurora-3"
+        style={{
+          background: 'radial-gradient(circle, hsla(43, 59%, 55%, 0.07) 0%, transparent 60%)',
+          top: '30%',
+          left: '25%',
+        }}
+      />
+    </div>
+  );
+};
 
 // Topology lines - flowing SVG paths rendered on canvas
 export const TopologyLines = ({ className }: { className?: string }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { mode, isMobile } = usePerformanceMode();
+
+  if (mode === 'static') {
+    return (
+      <div
+        className={cn('absolute inset-0 pointer-events-none', className)}
+        style={{
+          background: 'linear-gradient(180deg, transparent 0%, hsla(43, 59%, 55%, 0.03) 50%, transparent 100%)',
+        }}
+      />
+    );
+  }
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -163,6 +214,10 @@ export const TopologyLines = ({ className }: { className?: string }) => {
     let mouseY = 0.5;
     let cachedWidth = 0;
     let cachedHeight = 0;
+    const stepSize = mode === 'lite' ? 8 : 4;
+    const targetFps = mode === 'lite' ? 30 : 0;
+    const targetInterval = targetFps > 0 ? 1000 / targetFps : 0;
+    let lastDrawTime = 0;
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio, 2);
@@ -200,7 +255,7 @@ export const TopologyLines = ({ className }: { className?: string }) => {
         : `rgba(255, 255, 255, ${opacity})`;
       ctx.lineWidth = width;
 
-      for (let x = 0; x <= w; x += 4) {
+      for (let x = 0; x <= w; x += stepSize) {
         const normalX = x / w;
         const wave = Math.sin(normalX * frequency + time * speed) * amplitude;
         const mouseDist = Math.abs(normalX - mouseX);
@@ -214,19 +269,34 @@ export const TopologyLines = ({ className }: { className?: string }) => {
       ctx.stroke();
     };
 
-    const draw = () => {
+    const draw = (timestamp: number) => {
       if (!visible) return;
+      if (targetInterval > 0 && timestamp - lastDrawTime < targetInterval) {
+        animationId = requestAnimationFrame(draw);
+        return;
+      }
+      lastDrawTime = timestamp;
+
       ctx.clearRect(0, 0, cachedWidth, cachedHeight);
       time += 0.003;
 
-      drawLine(0.20, 18, 3.0, 0.8, 0.04, false, 0.8);
-      drawLine(0.30, 22, 2.5, 0.6, 0.03, false, 0.6);
-      drawLine(0.45, 15, 3.5, 1.0, 0.035, false, 0.7);
-      drawLine(0.55, 20, 2.8, 0.7, 0.03, false, 0.5);
-      drawLine(0.65, 25, 2.2, 0.9, 0.04, false, 0.8);
-      drawLine(0.75, 18, 3.2, 0.5, 0.03, false, 0.6);
-      drawLine(0.85, 12, 4.0, 1.1, 0.025, false, 0.5);
-      drawLine(0.40, 20, 2.7, 0.65, 0.06, true, 1.0);
+      if (mode === 'lite') {
+        // Reduced: 4 white lines + 1 gold
+        drawLine(0.20, 18, 3.0, 0.8, 0.04, false, 0.8);
+        drawLine(0.45, 15, 3.5, 1.0, 0.035, false, 0.7);
+        drawLine(0.65, 25, 2.2, 0.9, 0.04, false, 0.8);
+        drawLine(0.85, 12, 4.0, 1.1, 0.025, false, 0.5);
+        drawLine(0.40, 20, 2.7, 0.65, 0.06, true, 1.0);
+      } else {
+        drawLine(0.20, 18, 3.0, 0.8, 0.04, false, 0.8);
+        drawLine(0.30, 22, 2.5, 0.6, 0.03, false, 0.6);
+        drawLine(0.45, 15, 3.5, 1.0, 0.035, false, 0.7);
+        drawLine(0.55, 20, 2.8, 0.7, 0.03, false, 0.5);
+        drawLine(0.65, 25, 2.2, 0.9, 0.04, false, 0.8);
+        drawLine(0.75, 18, 3.2, 0.5, 0.03, false, 0.6);
+        drawLine(0.85, 12, 4.0, 1.1, 0.025, false, 0.5);
+        drawLine(0.40, 20, 2.7, 0.65, 0.06, true, 1.0);
+      }
 
       animationId = requestAnimationFrame(draw);
     };
@@ -243,19 +313,23 @@ export const TopologyLines = ({ className }: { className?: string }) => {
     const onResize = () => { cancelAnimationFrame(resizeFrame); resizeFrame = requestAnimationFrame(resize); };
 
     resize();
-    draw();
+    animationId = requestAnimationFrame(draw);
 
     window.addEventListener('resize', onResize);
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    if (!isMobile) {
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    }
 
     return () => {
       cancelAnimationFrame(animationId);
       cancelAnimationFrame(resizeFrame);
       observer.disconnect();
       window.removeEventListener('resize', onResize);
-      window.removeEventListener('mousemove', handleMouseMove);
+      if (!isMobile) {
+        window.removeEventListener('mousemove', handleMouseMove);
+      }
     };
-  }, []);
+  }, [mode, isMobile]);
 
   return (
     <canvas
@@ -287,6 +361,18 @@ export const DataFlow = ({
   nodes?: FlowNode[];
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { mode, isMobile } = usePerformanceMode();
+
+  if (mode === 'static') {
+    return (
+      <div
+        className={cn('absolute inset-0 pointer-events-none', className)}
+        style={{
+          background: 'radial-gradient(ellipse at center, hsla(43, 59%, 55%, 0.04) 0%, transparent 70%)',
+        }}
+      />
+    );
+  }
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -302,6 +388,10 @@ export const DataFlow = ({
     let mouseX = 0.5, mouseY = 0.5;
 
     const G = { r: 212, g: 168, b: 75 };
+    const trailLength = mode === 'lite' ? 2 : 4;
+    const targetFps = mode === 'lite' ? 30 : 0;
+    const targetInterval = targetFps > 0 ? 1000 / targetFps : 0;
+    let lastDrawTime = 0;
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio, 2);
@@ -335,7 +425,7 @@ export const DataFlow = ({
       speed: number; ctrlOffX: number; ctrlOffY: number;
     }
 
-    const maxParticles = Math.min(connections.length * 3, 60);
+    const maxParticles = mode === 'lite' ? 20 : Math.min(connections.length * 3, 60);
     const particles: Particle[] = [];
 
     const spawnParticle = () => {
@@ -364,8 +454,17 @@ export const DataFlow = ({
     // Pre-allocate node position array
     const nodePos: { x: number; y: number; size: number }[] = nodes.map(() => ({ x: 0, y: 0, size: 1 }));
 
-    const draw = () => {
+    // Pre-allocate connection alpha array (reuse across frames)
+    const connAlphas = new Float32Array(connections.length);
+
+    const draw = (timestamp: number) => {
       if (!visible) return;
+      if (targetInterval > 0 && timestamp - lastDrawTime < targetInterval) {
+        animationId = requestAnimationFrame(draw);
+        return;
+      }
+      lastDrawTime = timestamp;
+
       ctx.clearRect(0, 0, w, h);
       time += 0.004;
 
@@ -383,30 +482,33 @@ export const DataFlow = ({
       // Draw connections (batch by line width, cache alpha per connection)
       const maxDist = connectionDist * Math.max(w, h);
       // Pre-compute alpha for each connection (avoids 3x Math.sqrt)
-      const connAlphas = new Float32Array(connections.length);
+      connAlphas.fill(0);
       for (let ci = 0; ci < connections.length; ci++) {
         const [i, j] = connections[ci];
         const a = nodePos[i], b = nodePos[j];
         const dx = a.x - b.x, dy = a.y - b.y;
         connAlphas[ci] = Math.max(0, (1 - Math.sqrt(dx * dx + dy * dy) / maxDist)) * 0.14;
       }
-      // Glow pass
-      ctx.lineWidth = 6;
-      for (let ci = 0; ci < connections.length; ci++) {
-        const [i, j] = connections[ci];
-        ctx.beginPath(); ctx.moveTo(nodePos[i].x, nodePos[i].y); ctx.lineTo(nodePos[j].x, nodePos[j].y);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${connAlphas[ci] * 0.35})`;
-        ctx.stroke();
+
+      if (mode !== 'lite') {
+        // Glow pass
+        ctx.lineWidth = 6;
+        for (let ci = 0; ci < connections.length; ci++) {
+          const [i, j] = connections[ci];
+          ctx.beginPath(); ctx.moveTo(nodePos[i].x, nodePos[i].y); ctx.lineTo(nodePos[j].x, nodePos[j].y);
+          ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${connAlphas[ci] * 0.35})`;
+          ctx.stroke();
+        }
+        // Mid pass
+        ctx.lineWidth = 2.5;
+        for (let ci = 0; ci < connections.length; ci++) {
+          const [i, j] = connections[ci];
+          ctx.beginPath(); ctx.moveTo(nodePos[i].x, nodePos[i].y); ctx.lineTo(nodePos[j].x, nodePos[j].y);
+          ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${connAlphas[ci] * 0.6})`;
+          ctx.stroke();
+        }
       }
-      // Mid pass
-      ctx.lineWidth = 2.5;
-      for (let ci = 0; ci < connections.length; ci++) {
-        const [i, j] = connections[ci];
-        ctx.beginPath(); ctx.moveTo(nodePos[i].x, nodePos[i].y); ctx.lineTo(nodePos[j].x, nodePos[j].y);
-        ctx.strokeStyle = `rgba(${G.r}, ${G.g}, ${G.b}, ${connAlphas[ci] * 0.6})`;
-        ctx.stroke();
-      }
-      // Sharp pass
+      // Sharp pass (always drawn)
       ctx.lineWidth = 0.8;
       for (let ci = 0; ci < connections.length; ci++) {
         const [i, j] = connections[ci];
@@ -437,8 +539,8 @@ export const DataFlow = ({
         const px = invT * invT * from.x + 2 * invT * t * midX + t * t * to.x;
         const py = invT * invT * from.y + 2 * invT * t * midY + t * t * to.y;
 
-        // Trail (reduced to 4 from 6 for perf)
-        for (let trail = 4; trail >= 1; trail--) {
+        // Trail
+        for (let trail = trailLength; trail >= 1; trail--) {
           const tt = Math.max(0, t - trail * 0.03);
           const invTT = 1 - tt;
           const tx = invTT * invTT * from.x + 2 * invTT * tt * midX + tt * tt * to.x;
@@ -537,19 +639,23 @@ export const DataFlow = ({
     const onResize = () => { cancelAnimationFrame(resizeFrame); resizeFrame = requestAnimationFrame(resize); };
 
     resize();
-    draw();
+    animationId = requestAnimationFrame(draw);
 
     window.addEventListener('resize', onResize);
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    if (!isMobile) {
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    }
 
     return () => {
       cancelAnimationFrame(animationId);
       cancelAnimationFrame(resizeFrame);
       observer.disconnect();
       window.removeEventListener('resize', onResize);
-      window.removeEventListener('mousemove', handleMouseMove);
+      if (!isMobile) {
+        window.removeEventListener('mousemove', handleMouseMove);
+      }
     };
-  }, [nodes]);
+  }, [nodes, mode, isMobile]);
 
   return (
     <canvas
@@ -582,6 +688,18 @@ export const NeuralPulse = ({
   neurons?: NeuronNode[];
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { mode, isMobile } = usePerformanceMode();
+
+  if (mode === 'static') {
+    return (
+      <div
+        className={cn('absolute inset-0 pointer-events-none', className)}
+        style={{
+          background: 'radial-gradient(ellipse at center, hsla(43, 59%, 55%, 0.04) 0%, transparent 70%)',
+        }}
+      />
+    );
+  }
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -597,6 +715,12 @@ export const NeuralPulse = ({
     let mouseX = 0.5, mouseY = 0.5;
 
     const G = { r: 212, g: 168, b: 75 };
+    const targetFps = mode === 'lite' ? 30 : 0;
+    const targetInterval = targetFps > 0 ? 1000 / targetFps : 0;
+    let lastDrawTime = 0;
+    const lightningSegments = mode === 'lite' ? 4 : 8;
+
+    const activeNeurons = mode === 'lite' ? neurons.slice(0, 12) : neurons;
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio, 2);
@@ -616,10 +740,10 @@ export const NeuralPulse = ({
     const axonDist = 0.55;
     const axonDistSq = axonDist * axonDist;
     const axons: [number, number][] = [];
-    for (let i = 0; i < neurons.length; i++) {
-      for (let j = i + 1; j < neurons.length; j++) {
-        const dx = neurons[i].x - neurons[j].x;
-        const dy = neurons[i].y - neurons[j].y;
+    for (let i = 0; i < activeNeurons.length; i++) {
+      for (let j = i + 1; j < activeNeurons.length; j++) {
+        const dx = activeNeurons[i].x - activeNeurons[j].x;
+        const dy = activeNeurons[i].y - activeNeurons[j].y;
         if (dx * dx + dy * dy < axonDistSq) {
           axons.push([i, j]);
         }
@@ -627,8 +751,8 @@ export const NeuralPulse = ({
     }
 
     // Neuron fire state
-    const neuronFire = new Float32Array(neurons.length);
-    const neuronPhase = neurons.map(() => Math.random() * Math.PI * 2);
+    const neuronFire = new Float32Array(activeNeurons.length);
+    const neuronPhase = activeNeurons.map(() => Math.random() * Math.PI * 2);
 
     // Expanding ripple rings - the signature visual of this effect
     interface Ripple {
@@ -652,7 +776,7 @@ export const NeuralPulse = ({
     const flashes: Flash[] = [];
 
     // Generate jagged lightning path between two points
-    const buildLightningPath = (x1: number, y1: number, x2: number, y2: number, segments = 8): { x: number; y: number }[] => {
+    const buildLightningPath = (x1: number, y1: number, x2: number, y2: number, segments = lightningSegments): { x: number; y: number }[] => {
       const points: { x: number; y: number }[] = [{ x: x1, y: y1 }];
       const dx = x2 - x1;
       const dy = y2 - y1;
@@ -690,16 +814,22 @@ export const NeuralPulse = ({
 
     // Random cascade timer
     let nextCascade = 0;
-    const driftPhase = neurons.map(() => Math.random() * Math.PI * 2);
+    const driftPhase = activeNeurons.map(() => Math.random() * Math.PI * 2);
 
     // Track pending timeouts for cleanup
     const pendingTimeouts: number[] = [];
 
     // Pre-allocate neuron position array
-    const nPos: { x: number; y: number; size: number }[] = neurons.map(() => ({ x: 0, y: 0, size: 1 }));
+    const nPos: { x: number; y: number; size: number }[] = activeNeurons.map(() => ({ x: 0, y: 0, size: 1 }));
 
-    const draw = () => {
+    const draw = (timestamp: number) => {
       if (!visible) return;
+      if (targetInterval > 0 && timestamp - lastDrawTime < targetInterval) {
+        animationId = requestAnimationFrame(draw);
+        return;
+      }
+      lastDrawTime = timestamp;
+
       ctx.clearRect(0, 0, w, h);
       time += 0.005;
 
@@ -707,8 +837,8 @@ export const NeuralPulse = ({
       mouseY += (targetMouseY - mouseY) * 0.03;
 
       // Update neuron screen positions (reuse array)
-      for (let i = 0; i < neurons.length; i++) {
-        const n = neurons[i];
+      for (let i = 0; i < activeNeurons.length; i++) {
+        const n = activeNeurons[i];
         nPos[i].x = w * (n.x + Math.sin(time * 0.4 + driftPhase[i]) * 0.006 + (mouseX - 0.5) * 0.015);
         nPos[i].y = h * (n.y + Math.cos(time * 0.6 + driftPhase[i] * 1.3) * 0.004 + (mouseY - 0.5) * 0.015);
         nPos[i].size = n.size ?? 1;
@@ -717,7 +847,7 @@ export const NeuralPulse = ({
       // Trigger random cascades (less frequent, lower intensity)
       nextCascade -= 1;
       if (nextCascade <= 0) {
-        const startIdx = Math.floor(Math.random() * neurons.length);
+        const startIdx = Math.floor(Math.random() * activeNeurons.length);
         fireNeuron(startIdx, nPos[startIdx].x, nPos[startIdx].y, 0.55 + Math.random() * 0.15);
 
         // Create flash connections to nearby neurons
@@ -765,7 +895,7 @@ export const NeuralPulse = ({
           }
         }
 
-        nextCascade = 50 + Math.floor(Math.random() * 80);
+        nextCascade = mode === 'lite' ? (150 + Math.floor(Math.random() * 100)) : (50 + Math.floor(Math.random() * 80));
       }
 
       // --- Draw ripple rings ---
@@ -892,10 +1022,12 @@ export const NeuralPulse = ({
     const onResize = () => { cancelAnimationFrame(resizeFrame); resizeFrame = requestAnimationFrame(resize); };
 
     resize();
-    draw();
+    animationId = requestAnimationFrame(draw);
 
     window.addEventListener('resize', onResize);
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    if (!isMobile) {
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    }
 
     return () => {
       cancelAnimationFrame(animationId);
@@ -904,9 +1036,11 @@ export const NeuralPulse = ({
       for (const tid of pendingTimeouts) clearTimeout(tid);
       pendingTimeouts.length = 0;
       window.removeEventListener('resize', onResize);
-      window.removeEventListener('mousemove', handleMouseMove);
+      if (!isMobile) {
+        window.removeEventListener('mousemove', handleMouseMove);
+      }
     };
-  }, [neurons]);
+  }, [neurons, mode, isMobile]);
 
   return (
     <canvas
@@ -929,6 +1063,18 @@ export const TessellationMesh = ({
   rows?: number;
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { mode, isMobile } = usePerformanceMode();
+
+  if (mode === 'static') {
+    return (
+      <div
+        className={cn('absolute inset-0 pointer-events-none', className)}
+        style={{
+          background: 'linear-gradient(180deg, transparent 0%, hsla(43, 59%, 55%, 0.03) 50%, transparent 100%)',
+        }}
+      />
+    );
+  }
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -944,6 +1090,11 @@ export const TessellationMesh = ({
     let mouseX = -1, mouseY = -1;
 
     const G = { r: 212, g: 168, b: 75 };
+    const activeCols = mode === 'lite' ? Math.min(cols, 6) : cols;
+    const activeRows = mode === 'lite' ? Math.min(rows, 15) : rows;
+    const targetFps = mode === 'lite' ? 30 : 0;
+    const targetInterval = targetFps > 0 ? 1000 / targetFps : 0;
+    let lastDrawTime = 0;
 
     // Vertex data
     interface Vertex {
@@ -976,12 +1127,12 @@ export const TessellationMesh = ({
       vertices = [];
       triangles = [];
 
-      const spacingX = w / (cols - 1);
-      const spacingY = h / (rows - 1);
+      const spacingX = w / (activeCols - 1);
+      const spacingY = h / (activeRows - 1);
 
       // Create grid vertices with jitter
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
+      for (let r = 0; r < activeRows; r++) {
+        for (let c = 0; c < activeCols; c++) {
           const isOddRow = r % 2 === 1;
           const bx = c * spacingX + (isOddRow ? spacingX * 0.5 : 0);
           const by = r * spacingY;
@@ -1000,18 +1151,18 @@ export const TessellationMesh = ({
       }
 
       // Build triangles from grid
-      for (let r = 0; r < rows - 1; r++) {
-        for (let c = 0; c < cols - 1; c++) {
-          const i = r * cols + c;
+      for (let r = 0; r < activeRows - 1; r++) {
+        for (let c = 0; c < activeCols - 1; c++) {
+          const i = r * activeCols + c;
           const isOddRow = r % 2 === 1;
 
           if (isOddRow) {
             // Odd row: offset triangulation
-            triangles.push([i, i + 1, i + cols]);
-            triangles.push([i + 1, i + cols + 1, i + cols]);
+            triangles.push([i, i + 1, i + activeCols]);
+            triangles.push([i + 1, i + activeCols + 1, i + activeCols]);
           } else {
-            triangles.push([i, i + 1, i + cols + 1]);
-            triangles.push([i, i + cols + 1, i + cols]);
+            triangles.push([i, i + 1, i + activeCols + 1]);
+            triangles.push([i, i + activeCols + 1, i + activeCols]);
           }
         }
       }
@@ -1048,8 +1199,14 @@ export const TessellationMesh = ({
       targetMouseY = -1;
     };
 
-    const draw = () => {
+    const draw = (timestamp: number) => {
       if (!visible) return;
+      if (targetInterval > 0 && timestamp - lastDrawTime < targetInterval) {
+        animationId = requestAnimationFrame(draw);
+        return;
+      }
+      lastDrawTime = timestamp;
+
       ctx.clearRect(0, 0, w, h);
       time += 0.014;
 
@@ -1073,7 +1230,7 @@ export const TessellationMesh = ({
           intensity: 0.8 + Math.random() * 0.2,
           maxRadius: 400 + Math.random() * 500,
         });
-        nextWave = 20 + Math.floor(Math.random() * 40);
+        nextWave = mode === 'lite' ? (60 + Math.floor(Math.random() * 40)) : (20 + Math.floor(Math.random() * 40));
       }
 
       // Update waves
@@ -1216,21 +1373,25 @@ export const TessellationMesh = ({
     const onResize = () => { cancelAnimationFrame(resizeFrame); resizeFrame = requestAnimationFrame(resize); };
 
     resize();
-    draw();
+    animationId = requestAnimationFrame(draw);
 
     window.addEventListener('resize', onResize);
-    canvas.addEventListener('mousemove', handleMouseMove, { passive: true });
-    canvas.addEventListener('mouseleave', handleMouseLeave);
+    if (!isMobile) {
+      canvas.addEventListener('mousemove', handleMouseMove, { passive: true });
+      canvas.addEventListener('mouseleave', handleMouseLeave);
+    }
 
     return () => {
       cancelAnimationFrame(animationId);
       cancelAnimationFrame(resizeFrame);
       observer.disconnect();
       window.removeEventListener('resize', onResize);
-      canvas.removeEventListener('mousemove', handleMouseMove);
-      canvas.removeEventListener('mouseleave', handleMouseLeave);
+      if (!isMobile) {
+        canvas.removeEventListener('mousemove', handleMouseMove);
+        canvas.removeEventListener('mouseleave', handleMouseLeave);
+      }
     };
-  }, [cols, rows]);
+  }, [cols, rows, mode, isMobile]);
 
   return (
     <canvas
@@ -1261,6 +1422,18 @@ export const RadarSweep = ({
   centers?: RadarCenter[];
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { mode, isMobile } = usePerformanceMode();
+
+  if (mode === 'static') {
+    return (
+      <div
+        className={cn('absolute inset-0 pointer-events-none', className)}
+        style={{
+          background: 'radial-gradient(circle at 50% 42%, hsla(43, 59%, 55%, 0.04) 0%, transparent 50%)',
+        }}
+      />
+    );
+  }
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -1276,6 +1449,12 @@ export const RadarSweep = ({
     let mouseX = 0.5, mouseY = 0.5;
 
     const G = { r: 212, g: 168, b: 75 };
+    const targetFps = mode === 'lite' ? 30 : 0;
+    const targetInterval = targetFps > 0 ? 1000 / targetFps : 0;
+    let lastDrawTime = 0;
+
+    const activeCenters = mode === 'lite' ? centers.slice(0, 4) : centers;
+    const maxBlips = mode === 'lite' ? 3 : 6;
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio, 2);
@@ -1292,10 +1471,10 @@ export const RadarSweep = ({
     };
 
     // Per-center detection blip sets (seeded by center position)
-    const centerBlips = centers.map((c) => {
+    const centerBlips = activeCenters.map((c) => {
       const seed = (c.x * 7 + c.y * 13 + (c.offset || 0)) * 1000;
       const blips = [];
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < maxBlips; i++) {
         const pseudoRand = ((seed + i * 137.5) % 1000) / 1000;
         blips.push({
           angle: pseudoRand * Math.PI * 2,
@@ -1441,16 +1620,22 @@ export const RadarSweep = ({
       ctx.fill();
     };
 
-    const draw = () => {
+    const draw = (timestamp: number) => {
       if (!visible) return;
+      if (targetInterval > 0 && timestamp - lastDrawTime < targetInterval) {
+        animationId = requestAnimationFrame(draw);
+        return;
+      }
+      lastDrawTime = timestamp;
+
       ctx.clearRect(0, 0, w, h);
       time += 0.004;
 
       mouseX += (targetMouseX - mouseX) * 0.03;
       mouseY += (targetMouseY - mouseY) * 0.03;
 
-      for (let i = 0; i < centers.length; i++) {
-        drawRadar(centers[i], centerBlips[i]);
+      for (let i = 0; i < activeCenters.length; i++) {
+        drawRadar(activeCenters[i], centerBlips[i]);
       }
 
       animationId = requestAnimationFrame(draw);
@@ -1468,19 +1653,23 @@ export const RadarSweep = ({
     const onResize = () => { cancelAnimationFrame(resizeFrame); resizeFrame = requestAnimationFrame(resize); };
 
     resize();
-    draw();
+    animationId = requestAnimationFrame(draw);
 
     window.addEventListener('resize', onResize);
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    if (!isMobile) {
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    }
 
     return () => {
       cancelAnimationFrame(animationId);
       cancelAnimationFrame(resizeFrame);
       observer.disconnect();
       window.removeEventListener('resize', onResize);
-      window.removeEventListener('mousemove', handleMouseMove);
+      if (!isMobile) {
+        window.removeEventListener('mousemove', handleMouseMove);
+      }
     };
-  }, [centers]);
+  }, [centers, mode, isMobile]);
 
   return (
     <canvas
@@ -1494,6 +1683,18 @@ export const RadarSweep = ({
 // 3D Perspective grid - canvas-based with true perspective projection
 export const PerspectiveGrid = ({ className }: { className?: string }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { mode, isMobile } = usePerformanceMode();
+
+  if (mode === 'static') {
+    return (
+      <div
+        className={cn('absolute inset-0 pointer-events-none', className)}
+        style={{
+          background: 'linear-gradient(to bottom, transparent 0%, hsla(43, 59%, 55%, 0.02) 60%, hsla(43, 59%, 55%, 0.05) 100%)',
+        }}
+      />
+    );
+  }
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -1508,9 +1709,17 @@ export const PerspectiveGrid = ({ className }: { className?: string }) => {
     let targetMouseX = 0.5, targetMouseY = 0.5;
     let mouseX = 0.5, mouseY = 0.5;
 
+    const hLineCount = mode === 'lite' ? 12 : 30;
+    const vLineCount = mode === 'lite' ? 10 : 24;
+    const targetFps = mode === 'lite' ? 30 : 0;
+    const targetInterval = targetFps > 0 ? 1000 / targetFps : 0;
+    let lastDrawTime = 0;
+
     // Cached horizon gradient (rebuilt on resize)
     let cachedHorizonGrad: CanvasGradient | null = null;
     let cachedVpY = 0;
+
+    const G = { r: 212, g: 168, b: 75 };
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio, 2);
@@ -1534,10 +1743,14 @@ export const PerspectiveGrid = ({ className }: { className?: string }) => {
       targetMouseY = e.clientY / window.innerHeight;
     };
 
-    const G = { r: 212, g: 168, b: 75 };
-
-    const draw = () => {
+    const draw = (timestamp: number) => {
       if (!visible) return;
+      if (targetInterval > 0 && timestamp - lastDrawTime < targetInterval) {
+        animationId = requestAnimationFrame(draw);
+        return;
+      }
+      lastDrawTime = timestamp;
+
       ctx.clearRect(0, 0, w, h);
       time += 0.004;
 
@@ -1560,7 +1773,6 @@ export const PerspectiveGrid = ({ className }: { className?: string }) => {
       ctx.fillRect(0, 0, w, h);
 
       // --- Horizontal lines (floor receding into distance) ---
-      const hLineCount = 30;
       for (let i = 0; i < hLineCount; i++) {
         // Flowing animation: offset index by time
         const rawT = ((i + 0.5) / hLineCount + time * 0.4) % 1;
@@ -1603,7 +1815,6 @@ export const PerspectiveGrid = ({ className }: { className?: string }) => {
       }
 
       // --- Vertical lines (converging to vanishing point) ---
-      const vLineCount = 24;
       for (let i = 0; i < vLineCount; i++) {
         const t = i / (vLineCount - 1); // 0 to 1 across bottom
         const bottomX = w * (t * 1.5 - 0.25); // wider than viewport
@@ -1655,19 +1866,23 @@ export const PerspectiveGrid = ({ className }: { className?: string }) => {
     const onResize = () => { cancelAnimationFrame(resizeFrame); resizeFrame = requestAnimationFrame(resize); };
 
     resize();
-    draw();
+    animationId = requestAnimationFrame(draw);
 
     window.addEventListener('resize', onResize);
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    if (!isMobile) {
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    }
 
     return () => {
       cancelAnimationFrame(animationId);
       cancelAnimationFrame(resizeFrame);
       observer.disconnect();
       window.removeEventListener('resize', onResize);
-      window.removeEventListener('mousemove', handleMouseMove);
+      if (!isMobile) {
+        window.removeEventListener('mousemove', handleMouseMove);
+      }
     };
-  }, []);
+  }, [mode, isMobile]);
 
   return (
     <canvas
